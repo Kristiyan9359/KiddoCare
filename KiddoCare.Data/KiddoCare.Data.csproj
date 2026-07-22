@@ -7,6 +7,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\KiddoCare.Common\KiddoCare.Common.csproj" />
     <ProjectReference Include="..\KiddoCare.Data.Models\KiddoCare.Data.Models.csproj" />
   </ItemGroup>
 
