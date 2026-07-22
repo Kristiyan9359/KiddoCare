@@ -1,0 +1,39 @@
+﻿@model IEnumerable<KiddoCare.ViewModels.Groups.GroupIndexViewModel>
+
+@{
+    ViewData["Title"] = "Groups";
+}
+
+<h1>Groups</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create Group</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th class="text-end">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var group in Model)
+        {
+            <tr>
+                <td>@group.Name</td>
+                <td>@group.Description</td>
+                <td class="text-end">
+                    <a asp-action="Edit" asp-route-id="@group.Id" class="btn btn-sm btn-outline-primary">Edit</a>
+
+                    <form asp-action="Delete" asp-route-id="@group.Id" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                            Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
