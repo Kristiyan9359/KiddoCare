@@ -1,9 +1,17 @@
-﻿<Solution>
-  <Project Path="KiddoCare.Web/KiddoCare.Web.csproj" />
+<Solution>
+  <Folder Name="/Data/">
+    <Project Path="KiddoCare.Data.Models/KiddoCare.Data.Models.csproj" />
+    <Project Path="KiddoCare.Data/KiddoCare.Data.csproj" />
+  </Folder>
+  <Folder Name="/Service/">
+    <Project Path="KiddoCare.Services.Core/KiddoCare.Services.Core.csproj" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="KiddoCare.Tests/KiddoCare.Tests.csproj" />
+  </Folder>
+  <Folder Name="/WEB/">
+    <Project Path="KiddoCare.ViewModels/KiddoCare.ViewModels.csproj" />
+    <Project Path="KiddoCare.Web/KiddoCare.Web.csproj" />
+  </Folder>
   <Project Path="KiddoCare.Common/KiddoCare.Common.csproj" />
-  <Project Path="KiddoCare.Data.Models/KiddoCare.Data.Models.csproj" />
-  <Project Path="KiddoCare.Data/KiddoCare.Data.csproj" />
-  <Project Path="KiddoCare.ViewModels/KiddoCare.ViewModels.csproj" />
-  <Project Path="KiddoCare.Services.Core/KiddoCare.Services.Core.csproj" />
-  <Project Path="KiddoCare.Tests/KiddoCare.Tests.csproj" />
 </Solution>
