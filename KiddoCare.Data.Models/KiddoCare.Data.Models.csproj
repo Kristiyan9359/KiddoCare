@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\KiddoCare.Common\KiddoCare.Common.csproj" />
+  </ItemGroup>
+
 </Project>
