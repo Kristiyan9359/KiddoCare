@@ -16,4 +16,12 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.10" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\KiddoCare.Common\KiddoCare.Common.csproj" />
+    <ProjectReference Include="..\KiddoCare.Data\KiddoCare.Data.csproj" />
+    <ProjectReference Include="..\KiddoCare.Data.Models\KiddoCare.Data.Models.csproj" />
+    <ProjectReference Include="..\KiddoCare.Services.Core\KiddoCare.Services.Core.csproj" />
+    <ProjectReference Include="..\KiddoCare.ViewModels\KiddoCare.ViewModels.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\KiddoCare.Data\KiddoCare.Data.csproj" />
+    <ProjectReference Include="..\KiddoCare.Data.Models\KiddoCare.Data.Models.csproj" />
+    <ProjectReference Include="..\KiddoCare.ViewModels\KiddoCare.ViewModels.csproj" />
+    <ProjectReference Include="..\KiddoCare.Common\KiddoCare.Common.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

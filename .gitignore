@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+# Old locked project folder kept temporarily after restructuring
+/KiddoCare/
