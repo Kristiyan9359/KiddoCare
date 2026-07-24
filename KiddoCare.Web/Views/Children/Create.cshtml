@@ -1,0 +1,54 @@
+﻿@model KiddoCare.ViewModels.Children.ChildCreateViewModel
+
+@{
+    ViewData["Title"] = "Add Child";
+}
+
+<h1>Add Child</h1>
+
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label asp-for="FirstName" class="form-label"></label>
+        <input asp-for="FirstName" class="form-control" />
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="LastName" class="form-label"></label>
+        <input asp-for="LastName" class="form-control" />
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="DateOfBirth" class="form-label"></label>
+        <input asp-for="DateOfBirth" type="date" class="form-control" />
+        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="GroupId" class="form-label">Group</label>
+        <select asp-for="GroupId" asp-items="Model.Groups" class="form-select">
+            <option value="">Select group...</option>
+        </select>
+        <span asp-validation-for="GroupId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Allergies" class="form-label"></label>
+        <textarea asp-for="Allergies" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="Allergies" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="AdditionalNotes" class="form-label"></label>
+        <textarea asp-for="AdditionalNotes" class="form-control" rows="4"></textarea>
+        <span asp-validation-for="AdditionalNotes" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
