@@ -13,4 +13,6 @@ public class AttendanceDailyViewModel
     public IEnumerable<SelectListItem> Groups { get; set; } = new List<SelectListItem>();
 
     public List<AttendanceChildViewModel> Children { get; set; } = new();
+
+    public AttendanceSummaryViewModel Summary { get; set; } = new();
 }

@@ -25,6 +25,50 @@
     </div>
 </form>
 
+<div class="row g-3 mb-4">
+    <div class="col-md-2">
+        <div class="border rounded p-3">
+            <div class="fw-bold">Present</div>
+            <div class="fs-4">@Model.Summary.PresentCount</div>
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <div class="border rounded p-3">
+            <div class="fw-bold">Absent</div>
+            <div class="fs-4">@Model.Summary.AbsentCount</div>
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <div class="border rounded p-3">
+            <div class="fw-bold">Sick</div>
+            <div class="fs-4">@Model.Summary.SickCount</div>
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <div class="border rounded p-3">
+            <div class="fw-bold">Vacation</div>
+            <div class="fs-4">@Model.Summary.VacationCount</div>
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <div class="border rounded p-3">
+            <div class="fw-bold">Late</div>
+            <div class="fs-4">@Model.Summary.LateCount</div>
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <div class="border rounded p-3">
+            <div class="fw-bold">Total</div>
+            <div class="fs-4">@Model.Summary.TotalCount</div>
+        </div>
+    </div>
+</div>
+
 <form asp-action="Daily" method="post">
     <input asp-for="Date" type="hidden" />
     <input asp-for="GroupId" type="hidden" />

@@ -69,12 +69,23 @@ public class AttendanceService : IAttendanceService
             })
             .ToList();
 
+        var summary = new AttendanceSummaryViewModel
+        {
+            PresentCount = childViewModels.Count(c => c.Status == AttendanceStatus.Present),
+            AbsentCount = childViewModels.Count(c => c.Status == AttendanceStatus.Absent),
+            SickCount = childViewModels.Count(c => c.Status == AttendanceStatus.Sick),
+            VacationCount = childViewModels.Count(c => c.Status == AttendanceStatus.Vacation),
+            LateCount = childViewModels.Count(c => c.Status == AttendanceStatus.Late),
+            TotalCount = childViewModels.Count
+        };
+
         return new AttendanceDailyViewModel
         {
             Date = normalizedDate,
             GroupId = groupId,
             Groups = groups,
-            Children = childViewModels
+            Children = childViewModels,
+            Summary = summary
         };
     }
 
