@@ -1,0 +1,63 @@
+﻿@using KiddoCare.Data.Models.Enums
+@model KiddoCare.ViewModels.Attendance.AttendanceFilterViewModel
+
+@{
+    ViewData["Title"] = "Attendance History";
+}
+
+<h1>Attendance History</h1>
+
+<form asp-action="History" method="get" class="row g-3 mb-4">
+    <div class="col-md-3">
+        <label asp-for="FromDate" class="form-label">From</label>
+        <input asp-for="FromDate" type="date" class="form-control" />
+    </div>
+
+    <div class="col-md-3">
+        <label asp-for="ToDate" class="form-label">To</label>
+        <input asp-for="ToDate" type="date" class="form-control" />
+    </div>
+
+    <div class="col-md-3">
+        <label asp-for="GroupId" class="form-label">Group</label>
+        <select asp-for="GroupId" asp-items="Model.Groups" class="form-select">
+            <option value="">All groups</option>
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <label asp-for="Status" class="form-label">Status</label>
+        <select asp-for="Status" asp-items="Html.GetEnumSelectList<AttendanceStatus>()" class="form-select">
+            <option value="">All statuses</option>
+        </select>
+    </div>
+
+    <div class="col-md-12">
+        <button type="submit" class="btn btn-primary">Filter</button>
+        <a asp-action="History" class="btn btn-secondary">Clear</a>
+    </div>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Child</th>
+            <th>Group</th>
+            <th>Status</th>
+            <th>Note</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var record in Model.Records)
+        {
+            <tr>
+                <td>@record.Date.ToString("dd MMM yyyy")</td>
+                <td>@record.ChildName</td>
+                <td>@record.GroupName</td>
+                <td>@record.Status</td>
+                <td>@record.Note</td>
+            </tr>
+        }
+    </tbody>
+</table>
