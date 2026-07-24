@@ -22,6 +22,8 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IGroupService, GroupService>();
 
+builder.Services.AddScoped<IChildService, ChildService>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
