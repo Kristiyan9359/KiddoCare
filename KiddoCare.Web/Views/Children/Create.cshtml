@@ -29,7 +29,11 @@
 
     <div class="mb-3">
         <label asp-for="DateOfBirth" class="form-label"></label>
-        <input asp-for="DateOfBirth" type="date" class="form-control" />
+        <input asp-for="DateOfBirth"
+               type="date"
+               class="form-control"
+               min="@DateTime.Today.AddYears(-7).ToString("yyyy-MM-dd")"
+               max="@DateTime.Today.ToString("yyyy-MM-dd")" />
         <span asp-validation-for="DateOfBirth" class="text-danger"></span>
     </div>
 

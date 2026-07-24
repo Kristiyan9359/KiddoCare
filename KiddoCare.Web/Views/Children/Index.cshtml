@@ -17,6 +17,7 @@
             <th>Date of Birth</th>
             <th>Gender</th>
             <th>Group</th>
+            <th>Photo</th>
             <th class="text-end">Actions</th>
         </tr>
     </thead>
@@ -29,9 +30,9 @@
                 <td>@child.Gender</td>
                 <td>@child.GroupName</td>
                 <td>
-                    @if (!string.IsNullOrEmpty(child.PhotoUrl))
+                    @if (!string.IsNullOrWhiteSpace(child.PhotoUrl))
                     {
-                        <img src="@child.PhotoUrl" alt="Child Photo" class="img-thumbnail" style="max-width: 100px; max-height: 100px;" />
+                        <img src="@child.PhotoUrl" alt="@child.FullName" style="width: 48px; height: 48px; object-fit: cover; border-radius: 50%;" />
                     }
                 </td>
                 <td class="text-end">

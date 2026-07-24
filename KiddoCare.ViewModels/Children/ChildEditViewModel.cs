@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 using static KiddoCare.Common.ValidationConstants;
+using KiddoCare.Common.ValidationAttributes;
 
 namespace KiddoCare.ViewModels.Children;
 
@@ -21,6 +22,7 @@ public class ChildEditViewModel
     public Gender Gender { get; set; }
 
     [Required]
+    [ChildBirthDate]
     public DateTime DateOfBirth { get; set; }
 
     [MaxLength(ChildAllergiesMaxLength)]
