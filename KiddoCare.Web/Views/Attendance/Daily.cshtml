@@ -37,31 +37,25 @@
                 <th>Note</th>
             </tr>
         </thead>
-        <tbody>
-            @{
-                var children = Model.Children.ToList();
-            }
 
-            @for (var i = 0; i < children.Count; i++)
+        <tbody>
+
+            @for (var i = 0; i < Model.Children.Count; i++)
             {
                 <tr>
                     <td>
-                        @children[i].FullName
-                        <input type="hidden" name="Children[@i].ChildId" value="@children[i].ChildId" />
-                        <input type="hidden" name="Children[@i].FullName" value="@children[i].FullName" />
+                        @Model.Children[i].FullName
+                        <input asp-for="Children[i].ChildId" type="hidden" />
+                        <input asp-for="Children[i].FullName" type="hidden" />
                     </td>
                     <td>
-                        <select name="Children[@i].Status" class="form-select">
-                            @foreach (var status in Enum.GetValues<AttendanceStatus>())
-                            {
-                                <option value="@status" selected="@(children[i].Status == status)">
-                                    @status
-                                </option>
-                            }
+                        <select asp-for="Children[i].Status"
+                                asp-items="Html.GetEnumSelectList<AttendanceStatus>()"
+                                class="form-select">
                         </select>
                     </td>
                     <td>
-                        <input name="Children[@i].Note" value="@children[i].Note" class="form-control" />
+                        <input asp-for="Children[i].Note" class="form-control" />
                     </td>
                 </tr>
             }

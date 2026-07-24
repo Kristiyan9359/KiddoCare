@@ -1,4 +1,7 @@
-﻿namespace KiddoCare.ViewModels.Attendance;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.AspNetCore.Mvc.Rendering;
+
+namespace KiddoCare.ViewModels.Attendance;
 
 public class AttendanceDailyViewModel
 {
@@ -6,9 +9,8 @@ public class AttendanceDailyViewModel
 
     public int? GroupId { get; set; }
 
-    public IEnumerable<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem> Groups { get; set; }
-        = new List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>();
+    [ValidateNever]
+    public IEnumerable<SelectListItem> Groups { get; set; } = new List<SelectListItem>();
 
-    public IEnumerable<AttendanceChildViewModel> Children { get; set; }
-        = new List<AttendanceChildViewModel>();
+    public List<AttendanceChildViewModel> Children { get; set; } = new();
 }

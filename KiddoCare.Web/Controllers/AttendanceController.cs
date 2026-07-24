@@ -29,7 +29,7 @@ public class AttendanceController : Controller
     [HttpPost]
     public async Task<IActionResult> Daily(AttendanceDailyViewModel model)
     {
-        if (!ModelState.IsValid)
+        if (model.Children.Count == 0)
         {
             model = await attendanceService.GetDailyAttendanceAsync(model.Date, model.GroupId);
             return View(model);
