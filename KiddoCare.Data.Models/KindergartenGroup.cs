@@ -18,4 +18,6 @@ public class KindergartenGroup
     public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
 
     public bool IsDeleted { get; set; }
+
+    public ICollection<Child> Children { get; set; } = new HashSet<Child>();
 }
