@@ -41,4 +41,6 @@ public class Child
     public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
 
     public bool IsDeleted { get; set; }
+
+    public ICollection<AttendanceRecord> AttendanceRecords { get; set; } = new HashSet<AttendanceRecord>();
 }

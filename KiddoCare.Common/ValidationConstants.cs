@@ -12,4 +12,7 @@ public static class ValidationConstants
     public const int ChildAllergiesMaxLength = 500;
     public const int ChildAdditionalNotesMaxLength = 1000;
     public const int ChildPhotoUrlMaxLength = 2048;
+
+    //Attendance
+    public const int AttendanceNoteMaxLength = 500;
 }
