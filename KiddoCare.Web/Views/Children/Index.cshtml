@@ -1,4 +1,5 @@
-﻿@model IEnumerable<KiddoCare.ViewModels.Children.ChildIndexViewModel>
+﻿@using static KiddoCare.Common.RoleConstants
+@model IEnumerable<KiddoCare.ViewModels.Children.ChildIndexViewModel>
 
 @{
     ViewData["Title"] = "Children";
@@ -6,9 +7,12 @@
 
 <h1>Children</h1>
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">Add Child</a>
-</p>
+@if (User.IsInRole(Admin))
+{
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Add Child</a>
+    </p>
+}
 
 <table class="table table-striped">
     <thead>
@@ -38,13 +42,16 @@
                 <td class="text-end">
                     <a asp-action="Details" asp-route-id="@child.Id" class="btn btn-sm btn-outline-secondary">Details</a>
 
-                    <a asp-action="Edit" asp-route-id="@child.Id" class="btn btn-sm btn-outline-primary">Edit</a>
+                    @if (User.IsInRole(Admin))
+                    {
+                        <a asp-action="Edit" asp-route-id="@child.Id" class="btn btn-sm btn-outline-primary">Edit</a>
 
-                    <form asp-action="Delete" asp-route-id="@child.Id" method="post" class="d-inline">
-                        <button type="submit" class="btn btn-sm btn-outline-danger">
-                            Delete
-                        </button>
-                    </form>
+                        <form asp-action="Delete" asp-route-id="@child.Id" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                Delete
+                            </button>
+                        </form>
+                    }
                 </td>
             </tr>
         }

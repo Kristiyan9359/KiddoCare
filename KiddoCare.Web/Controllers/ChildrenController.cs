@@ -6,7 +6,7 @@ using static KiddoCare.Common.RoleConstants;
 
 namespace KiddoCare.Web.Controllers;
 
-[Authorize(Roles = Admin)]
+[Authorize]
 public class ChildrenController : Controller
 {
     private readonly IChildService childService;
@@ -24,6 +24,7 @@ public class ChildrenController : Controller
         return View(children);
     }
 
+    [Authorize(Roles = Admin)]
     [HttpGet]
     public async Task<IActionResult> Create()
     {
@@ -32,6 +33,7 @@ public class ChildrenController : Controller
         return View(model);
     }
 
+    [Authorize(Roles = Admin)]
     [HttpPost]
     public async Task<IActionResult> Create(ChildCreateViewModel model)
     {
@@ -46,6 +48,7 @@ public class ChildrenController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    [Authorize(Roles = Admin)]
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
     {
@@ -59,6 +62,7 @@ public class ChildrenController : Controller
         return View(model);
     }
 
+    [Authorize(Roles = Admin)]
     [HttpPost]
     public async Task<IActionResult> Edit(ChildEditViewModel model)
     {
@@ -88,6 +92,7 @@ public class ChildrenController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    [Authorize(Roles = Admin)]
     [HttpPost]
     public async Task<IActionResult> Delete(int id)
     {
