@@ -137,4 +137,22 @@ public class ChildService : IChildService
             })
             .ToListAsync();
     }
+
+    public async Task<ChildDetailsViewModel?> GetDetailsAsync(int id)
+    {
+        return await context.Children
+            .Where(c => c.Id == id && !c.IsDeleted)
+            .Select(c => new ChildDetailsViewModel
+            {
+                Id = c.Id,
+                FullName = c.FirstName + " " + c.LastName,
+                DateOfBirth = c.DateOfBirth,
+                Gender = c.Gender,
+                GroupName = c.Group.Name,
+                Allergies = c.Allergies,
+                AdditionalNotes = c.AdditionalNotes,
+                PhotoUrl = c.PhotoUrl
+            })
+            .FirstOrDefaultAsync();
+    }
 }

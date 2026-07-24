@@ -21,7 +21,7 @@ public class ChildCreateViewModel
 
     [Required]
     [ChildBirthDate]
-    public DateTime DateOfBirth { get; set; } = DateTime.Today;
+    public DateTime DateOfBirth { get; set; } = DateTime.Today.AddYears(-6);
 
     [MaxLength(ChildAllergiesMaxLength)]
     public string? Allergies { get; set; }

@@ -36,6 +36,8 @@
                     }
                 </td>
                 <td class="text-end">
+                    <a asp-action="Details" asp-route-id="@child.Id" class="btn btn-sm btn-outline-secondary">Details</a>
+
                     <a asp-action="Edit" asp-route-id="@child.Id" class="btn btn-sm btn-outline-primary">Edit</a>
 
                     <form asp-action="Delete" asp-route-id="@child.Id" method="post" class="d-inline">

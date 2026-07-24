@@ -1,0 +1,41 @@
+﻿@model KiddoCare.ViewModels.Children.ChildDetailsViewModel
+
+@{
+    ViewData["Title"] = "Child Details";
+}
+
+<h1>@Model.FullName</h1>
+
+<div class="row">
+    <div class="col-md-3">
+        @if (!string.IsNullOrWhiteSpace(Model.PhotoUrl))
+        {
+            <img src="@Model.PhotoUrl" alt="@Model.FullName" class="img-fluid rounded" />
+        }
+    </div>
+
+    <div class="col-md-9">
+        <dl class="row">
+            <dt class="col-sm-3">Date of Birth</dt>
+            <dd class="col-sm-9">@Model.DateOfBirth.ToString("dd MMM yyyy")</dd>
+
+            <dt class="col-sm-3">Gender</dt>
+            <dd class="col-sm-9">@Model.Gender</dd>
+
+            <dt class="col-sm-3">Group</dt>
+            <dd class="col-sm-9">@Model.GroupName</dd>
+
+            <dt class="col-sm-3">Allergies</dt>
+            <dd class="col-sm-9">
+                @(string.IsNullOrWhiteSpace(Model.Allergies) ? "None" : Model.Allergies)
+            </dd>
+
+            <dt class="col-sm-3">Additional Notes</dt>
+            <dd class="col-sm-9">
+                @(string.IsNullOrWhiteSpace(Model.AdditionalNotes) ? "None" : Model.AdditionalNotes)
+            </dd>
+        </dl>
+
+        <a asp-action="Index" class="btn btn-secondary">Back</a>
+    </div>
+</div>
