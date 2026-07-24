@@ -1,0 +1,72 @@
+﻿@using KiddoCare.Data.Models.Enums
+@model KiddoCare.ViewModels.Attendance.AttendanceDailyViewModel
+
+@{
+    ViewData["Title"] = "Daily Attendance";
+}
+
+<h1>Daily Attendance</h1>
+
+<form asp-action="Daily" method="get" class="row g-3 mb-4">
+    <div class="col-md-4">
+        <label asp-for="Date" class="form-label"></label>
+        <input asp-for="Date" type="date" class="form-control" />
+    </div>
+
+    <div class="col-md-4">
+        <label asp-for="GroupId" class="form-label">Group</label>
+        <select asp-for="GroupId" asp-items="Model.Groups" class="form-select">
+            <option value="">All groups</option>
+        </select>
+    </div>
+
+    <div class="col-md-4 d-flex align-items-end">
+        <button type="submit" class="btn btn-primary">Load</button>
+    </div>
+</form>
+
+<form asp-action="Daily" method="post">
+    <input asp-for="Date" type="hidden" />
+    <input asp-for="GroupId" type="hidden" />
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Child</th>
+                <th>Status</th>
+                <th>Note</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                var children = Model.Children.ToList();
+            }
+
+            @for (var i = 0; i < children.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @children[i].FullName
+                        <input type="hidden" name="Children[@i].ChildId" value="@children[i].ChildId" />
+                        <input type="hidden" name="Children[@i].FullName" value="@children[i].FullName" />
+                    </td>
+                    <td>
+                        <select name="Children[@i].Status" class="form-select">
+                            @foreach (var status in Enum.GetValues<AttendanceStatus>())
+                            {
+                                <option value="@status" selected="@(children[i].Status == status)">
+                                    @status
+                                </option>
+                            }
+                        </select>
+                    </td>
+                    <td>
+                        <input name="Children[@i].Note" value="@children[i].Note" class="form-control" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-success">Save Attendance</button>
+</form>
