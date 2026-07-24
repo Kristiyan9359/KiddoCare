@@ -28,6 +28,12 @@
                 <td>@child.DateOfBirth.ToString("dd MMM yyyy")</td>
                 <td>@child.Gender</td>
                 <td>@child.GroupName</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(child.PhotoUrl))
+                    {
+                        <img src="@child.PhotoUrl" alt="Child Photo" class="img-thumbnail" style="max-width: 100px; max-height: 100px;" />
+                    }
+                </td>
                 <td class="text-end">
                     <a asp-action="Edit" asp-route-id="@child.Id" class="btn btn-sm btn-outline-primary">Edit</a>
 

@@ -34,6 +34,8 @@ public class Child
     [ForeignKey(nameof(Group))]
     public int GroupId { get; set; }
 
+    [MaxLength(ChildPhotoUrlMaxLength)]
+    public string? PhotoUrl { get; set; }
     public KindergartenGroup Group { get; set; } = null!;
 
     public DateTime CreatedOn { get; set; } = DateTime.UtcNow;

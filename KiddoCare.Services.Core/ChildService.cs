@@ -28,7 +28,8 @@ public class ChildService : IChildService
                 FullName = c.FirstName + " " + c.LastName,
                 DateOfBirth = c.DateOfBirth,
                 Gender = c.Gender,
-                GroupName = c.Group.Name
+                GroupName = c.Group.Name,
+                PhotoUrl = c.PhotoUrl
             })
             .ToListAsync();
     }
@@ -54,7 +55,8 @@ public class ChildService : IChildService
                 DateOfBirth = c.DateOfBirth,
                 Allergies = c.Allergies,
                 AdditionalNotes = c.AdditionalNotes,
-                GroupId = c.GroupId
+                GroupId = c.GroupId,
+                PhotoUrl = c.PhotoUrl
             })
             .FirstOrDefaultAsync();
 
@@ -78,7 +80,8 @@ public class ChildService : IChildService
             DateOfBirth = model.DateOfBirth,
             Allergies = model.Allergies,
             AdditionalNotes = model.AdditionalNotes,
-            GroupId = model.GroupId
+            GroupId = model.GroupId,
+            PhotoUrl = model.PhotoUrl
         };
 
         await context.Children.AddAsync(child);
@@ -102,6 +105,7 @@ public class ChildService : IChildService
         child.Allergies = model.Allergies;
         child.AdditionalNotes = model.AdditionalNotes;
         child.GroupId = model.GroupId;
+        child.PhotoUrl = model.PhotoUrl;
 
         await context.SaveChangesAsync();
     }

@@ -55,6 +55,12 @@
         <span asp-validation-for="AdditionalNotes" class="text-danger"></span>
     </div>
 
+    <div class="mb-3">
+        <label asp-for="PhotoUrl" class="form-label"></label>
+        <input asp-for="PhotoUrl" class="form-control" />
+        <span asp-validation-for="PhotoUrl" class="text-danger"></span>
+    </div>
+
     <button type="submit" class="btn btn-primary">Save</button>
     <a asp-action="Index" class="btn btn-secondary">Cancel</a>
 </form>

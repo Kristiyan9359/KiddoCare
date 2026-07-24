@@ -30,5 +30,8 @@ public class ChildCreateViewModel
     [Required]
     public int GroupId { get; set; }
 
+    [MaxLength(ChildPhotoUrlMaxLength)]
+    public string? PhotoUrl { get; set; }
+
     public IEnumerable<SelectListItem> Groups { get; set; } = new List<SelectListItem>();
 }

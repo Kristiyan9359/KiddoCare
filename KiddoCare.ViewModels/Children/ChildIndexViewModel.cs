@@ -13,4 +13,6 @@ public class ChildIndexViewModel
     public Gender Gender { get; set; }
 
     public string GroupName { get; set; } = null!;
+
+    public string? PhotoUrl { get; set; }
 }
