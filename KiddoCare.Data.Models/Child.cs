@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using static KiddoCare.Common.ValidationConstants;
+using KiddoCare.Data.Models.Enums;
 
 namespace KiddoCare.Data.Models;
 
@@ -16,6 +17,9 @@ public class Child
     [Required]
     [MaxLength(ChildLastNameMaxLength)]
     public string LastName { get; set; } = null!;
+
+    [Required]
+    public Gender Gender { get; set; }
 
     [Required]
     public DateTime DateOfBirth { get; set; }

@@ -15,6 +15,7 @@
         <tr>
             <th>Full Name</th>
             <th>Date of Birth</th>
+            <th>Gender</th>
             <th>Group</th>
             <th class="text-end">Actions</th>
         </tr>
@@ -25,6 +26,7 @@
             <tr>
                 <td>@child.FullName</td>
                 <td>@child.DateOfBirth.ToString("dd MMM yyyy")</td>
+                <td>@child.Gender</td>
                 <td>@child.GroupName</td>
                 <td class="text-end">
                     <a asp-action="Edit" asp-route-id="@child.Id" class="btn btn-sm btn-outline-primary">Edit</a>

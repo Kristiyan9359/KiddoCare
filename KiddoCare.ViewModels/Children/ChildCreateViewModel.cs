@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using KiddoCare.Data.Models.Enums;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 using static KiddoCare.Common.ValidationConstants;
 
@@ -13,6 +14,9 @@ public class ChildCreateViewModel
     [Required]
     [MaxLength(ChildLastNameMaxLength)]
     public string LastName { get; set; } = null!;
+
+    [Required]
+    public Gender Gender { get; set; }
 
     [Required]
     public DateTime DateOfBirth { get; set; }

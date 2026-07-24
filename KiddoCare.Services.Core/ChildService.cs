@@ -27,6 +27,7 @@ public class ChildService : IChildService
                 Id = c.Id,
                 FullName = c.FirstName + " " + c.LastName,
                 DateOfBirth = c.DateOfBirth,
+                Gender = c.Gender,
                 GroupName = c.Group.Name
             })
             .ToListAsync();
@@ -49,6 +50,7 @@ public class ChildService : IChildService
                 Id = c.Id,
                 FirstName = c.FirstName,
                 LastName = c.LastName,
+                Gender = c.Gender,
                 DateOfBirth = c.DateOfBirth,
                 Allergies = c.Allergies,
                 AdditionalNotes = c.AdditionalNotes,
@@ -72,6 +74,7 @@ public class ChildService : IChildService
         {
             FirstName = model.FirstName,
             LastName = model.LastName,
+            Gender = model.Gender,
             DateOfBirth = model.DateOfBirth,
             Allergies = model.Allergies,
             AdditionalNotes = model.AdditionalNotes,
@@ -94,6 +97,7 @@ public class ChildService : IChildService
 
         child.FirstName = model.FirstName;
         child.LastName = model.LastName;
+        child.Gender = model.Gender;
         child.DateOfBirth = model.DateOfBirth;
         child.Allergies = model.Allergies;
         child.AdditionalNotes = model.AdditionalNotes;

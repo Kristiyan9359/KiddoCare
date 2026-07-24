@@ -22,6 +22,14 @@
     </div>
 
     <div class="mb-3">
+        <label asp-for="Gender" class="form-label"></label>
+        <select asp-for="Gender" asp-items="Html.GetEnumSelectList<KiddoCare.Data.Models.Enums.Gender>()" class="form-select">
+            <option value="">Select gender...</option>
+        </select>
+        <span asp-validation-for="Gender" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
         <label asp-for="DateOfBirth" class="form-label"></label>
         <input asp-for="DateOfBirth" type="date" class="form-control" />
         <span asp-validation-for="DateOfBirth" class="text-danger"></span>
