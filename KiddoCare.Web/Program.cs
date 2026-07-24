@@ -24,6 +24,8 @@ builder.Services.AddScoped<IGroupService, GroupService>();
 
 builder.Services.AddScoped<IChildService, ChildService>();
 
+builder.Services.AddScoped<IAttendanceService, AttendanceService>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
