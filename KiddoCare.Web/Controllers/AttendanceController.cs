@@ -43,4 +43,12 @@ public class AttendanceController : Controller
             groupId = model.GroupId
         });
     }
+
+    [HttpGet]
+    public async Task<IActionResult> History(AttendanceFilterViewModel filter)
+    {
+        var model = await attendanceService.GetHistoryAsync(filter);
+
+        return View(model);
+    }
 }

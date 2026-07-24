@@ -121,4 +121,61 @@ public class AttendanceService : IAttendanceService
 
         await context.SaveChangesAsync();
     }
+
+    public async Task<AttendanceFilterViewModel> GetHistoryAsync(AttendanceFilterViewModel filter)
+    {
+        var groups = await context.KindergartenGroups
+            .Where(g => !g.IsDeleted)
+            .OrderBy(g => g.Name)
+            .Select(g => new SelectListItem
+            {
+                Value = g.Id.ToString(),
+                Text = g.Name
+            })
+            .ToListAsync();
+
+        var query = context.AttendanceRecords
+            .Include(a => a.Child)
+            .ThenInclude(c => c.Group)
+            .AsQueryable();
+
+        if (filter.FromDate.HasValue)
+        {
+            query = query.Where(a => a.Date >= filter.FromDate.Value.Date);
+        }
+
+        if (filter.ToDate.HasValue)
+        {
+            query = query.Where(a => a.Date <= filter.ToDate.Value.Date);
+        }
+
+        if (filter.GroupId.HasValue)
+        {
+            query = query.Where(a => a.Child.GroupId == filter.GroupId.Value);
+        }
+
+        if (filter.Status.HasValue)
+        {
+            query = query.Where(a => a.Status == filter.Status.Value);
+        }
+
+        var records = await query
+            .OrderByDescending(a => a.Date)
+            .ThenBy(a => a.Child.FirstName)
+            .ThenBy(a => a.Child.LastName)
+            .Select(a => new AttendanceRecordViewModel
+            {
+                Date = a.Date,
+                ChildName = a.Child.FirstName + " " + a.Child.LastName,
+                GroupName = a.Child.Group.Name,
+                Status = a.Status,
+                Note = a.Note
+            })
+            .ToListAsync();
+
+        filter.Groups = groups;
+        filter.Records = records;
+
+        return filter;
+    }
 }
