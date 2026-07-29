@@ -76,16 +76,39 @@ public class GroupsController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    [HttpPost]
+    [HttpGet]
     public async Task<IActionResult> Delete(int id)
+    {
+        var model = await groupService.GetForDeleteAsync(id);
+
+        if (model == null)
+        {
+            return NotFound();
+        }
+
+        return View(model);
+    }
+
+    [HttpPost]
+    [ActionName("Delete")]
+    public async Task<IActionResult> DeleteConfirmed(int id)
     {
         try
         {
             await groupService.DeleteAsync(id);
         }
-        catch (InvalidOperationException)
+        catch (InvalidOperationException ex)
         {
-            return NotFound();
+            ModelState.AddModelError(string.Empty, ex.Message);
+
+            var model = await groupService.GetForDeleteAsync(id);
+
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            return View(model);
         }
 
         return RedirectToAction(nameof(Index));

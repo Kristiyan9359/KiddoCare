@@ -73,6 +73,7 @@ public class GroupService : IGroupService
     public async Task DeleteAsync(int id)
     {
         var group = await context.KindergartenGroups
+            .Include(g => g.Children)
             .FirstOrDefaultAsync(g => g.Id == id && !g.IsDeleted);
 
         if (group == null)
@@ -80,8 +81,26 @@ public class GroupService : IGroupService
             throw new InvalidOperationException("Group not found.");
         }
 
+        if (group.Children.Any(c => !c.IsDeleted))
+        {
+            throw new InvalidOperationException("Cannot delete a group that has active children.");
+        }
+
         group.IsDeleted = true;
 
         await context.SaveChangesAsync();
+    }
+
+    public async Task<GroupDeleteViewModel?> GetForDeleteAsync(int id)
+    {
+        return await context.KindergartenGroups
+            .Where(g => g.Id == id && !g.IsDeleted)
+            .Select(g => new GroupDeleteViewModel
+            {
+                Id = g.Id,
+                Name = g.Name,
+                ChildrenCount = g.Children.Count(c => !c.IsDeleted)
+            })
+            .FirstOrDefaultAsync();
     }
 }

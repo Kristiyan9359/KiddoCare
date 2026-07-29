@@ -27,11 +27,7 @@
                 <td class="text-end">
                     <a asp-action="Edit" asp-route-id="@group.Id" class="btn btn-sm btn-outline-primary">Edit</a>
 
-                    <form asp-action="Delete" asp-route-id="@group.Id" method="post" class="d-inline">
-                        <button type="submit" class="btn btn-sm btn-outline-danger">
-                            Delete
-                        </button>
-                    </form>
+                    <a asp-action="Delete" asp-route-id="@group.Id" class="btn btn-sm btn-outline-danger">Delete</a>
                 </td>
             </tr>
         }
