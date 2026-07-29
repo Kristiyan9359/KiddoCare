@@ -48,4 +48,6 @@ public class Child
     public bool IsDeleted { get; set; }
 
     public ICollection<AttendanceRecord> AttendanceRecords { get; set; } = new HashSet<AttendanceRecord>();
+
+    public ICollection<DailyReport> DailyReports { get; set; } = new HashSet<DailyReport>();
 }

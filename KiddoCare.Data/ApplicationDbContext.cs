@@ -19,4 +19,6 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public virtual DbSet<TeacherProfile> TeacherProfiles { get; set; } = null!;
 
     public virtual DbSet<Announcement> Announcements { get; set; } = null!;
+
+    public virtual DbSet<DailyReport> DailyReports { get; set; } = null!;
 }

@@ -32,4 +32,10 @@ public static class ValidationConstants
     //Announcements
     public const int AnnouncementTitleMaxLength = 120;
     public const int AnnouncementContentMaxLength = 2000;
+
+    //Daily Reports
+    public const int DailyReportMealsMaxLength = 300;
+    public const int DailyReportSleepMaxLength = 300;
+    public const int DailyReportActivitiesMaxLength = 1000;
+    public const int DailyReportTeacherNoteMaxLength = 1000;
 }
