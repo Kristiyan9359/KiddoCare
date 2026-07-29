@@ -7,4 +7,6 @@ public interface IDashboardService
     Task<DashboardViewModel> GetDashboardAsync();
 
     Task<ParentDashboardViewModel> GetParentDashboardAsync(string userId);
+
+    Task<TeacherDashboardViewModel?> GetTeacherDashboardAsync(string userId);
 }

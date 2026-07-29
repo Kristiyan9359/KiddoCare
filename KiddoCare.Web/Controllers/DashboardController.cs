@@ -27,6 +27,18 @@ public class DashboardController : Controller
             return View("Parent", parentModel);
         }
 
+        if (User.IsInRole(Teacher))
+        {
+            var teacherModel = await dashboardService.GetTeacherDashboardAsync(userId);
+
+            if (teacherModel == null)
+            {
+                return Forbid();
+            }
+
+            return View("Teacher", teacherModel);
+        }
+
         var model = await dashboardService.GetDashboardAsync();
 
         return View(model);
