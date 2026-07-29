@@ -23,5 +23,7 @@ public class ParentProfile
     [MaxLength(ParentPhoneNumberMaxLength)]
     public string? PhoneNumber { get; set; }
 
+    public bool IsDeleted { get; set; }
+
     public ICollection<Child> Children { get; set; } = new HashSet<Child>();
 }
