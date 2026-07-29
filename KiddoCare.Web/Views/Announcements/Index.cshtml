@@ -1,0 +1,71 @@
+﻿@model IEnumerable<KiddoCare.ViewModels.Announcements.AnnouncementIndexViewModel>
+
+@{
+    ViewData["Title"] = "Announcements";
+    bool canCreate = User.IsInRole("Admin") || User.IsInRole("Teacher");
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Announcements</h1>
+
+    @if (canCreate)
+    {
+        <a asp-action="Create" class="btn btn-primary">Create Announcement</a>
+    }
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        No announcements found.
+    </div>
+}
+else
+{
+    <div class="list-group">
+        @foreach (var announcement in Model)
+        {
+            <div class="list-group-item">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <h5 class="mb-1">@announcement.Title</h5>
+                        <p class="mb-1">@announcement.ContentPreview</p>
+
+                        <small class="text-muted">
+                            Group: @announcement.GroupName |
+                            Published: @announcement.PublishedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")
+                        </small>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <a asp-action="Details"
+                           asp-route-id="@announcement.Id"
+                           class="btn btn-sm btn-outline-secondary">
+                            Details
+                        </a>
+
+                        @if (announcement.CanManage)
+                        {
+                            <a asp-action="Edit"
+                               asp-route-id="@announcement.Id"
+                               class="btn btn-sm btn-outline-primary">
+                                Edit
+                            </a>
+
+                            <form asp-action="Delete"
+                                  asp-route-id="@announcement.Id"
+                                  method="post"
+                                  class="d-inline">
+                                <button type="submit"
+                                        class="btn btn-sm btn-outline-danger"
+                                        onclick="return confirm('Are you sure you want to delete this announcement?');">
+                                    Delete
+                                </button>
+                            </form>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

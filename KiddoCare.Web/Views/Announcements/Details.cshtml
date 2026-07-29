@@ -1,0 +1,27 @@
+﻿@model KiddoCare.ViewModels.Announcements.AnnouncementDetailsViewModel
+
+@{
+    ViewData["Title"] = "Announcement Details";
+}
+
+<h1>@Model.Title</h1>
+
+<div class="mb-3">
+    <strong>Group:</strong> @Model.GroupName
+</div>
+
+<div class="mb-3">
+    <strong>Published:</strong>
+    @Model.PublishedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")
+</div>
+
+<div class="mb-3">
+    <strong>Visibility:</strong>
+    @(Model.IsPublic ? "Visible to parents" : "Staff only")
+</div>
+
+<hr />
+
+<p style="white-space: pre-line">@Model.Content</p>
+
+<a asp-action="Index" class="btn btn-secondary">Back</a>
