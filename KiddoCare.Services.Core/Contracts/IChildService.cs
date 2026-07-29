@@ -4,7 +4,7 @@ namespace KiddoCare.Services.Core.Contracts;
 
 public interface IChildService
 {
-    Task<IEnumerable<ChildIndexViewModel>> GetAllAsync(string userId, bool isAdminOrTeacher);
+    Task<IEnumerable<ChildIndexViewModel>> GetAllAsync(string userId, bool isAdmin, bool isTeacher);
 
     Task<ChildCreateViewModel> GetCreateModelAsync();
 
@@ -20,5 +20,5 @@ public interface IChildService
 
     Task<ChildDeleteViewModel?> GetForDeleteAsync(int id);
 
-    Task<bool> CanAccessChildAsync(int childId, string userId, bool isAdminOrTeacher);
+    Task<bool> CanAccessChildAsync(int childId, string userId, bool isAdmin, bool isTeacher);
 }

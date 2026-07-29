@@ -21,9 +21,10 @@ public class ChildrenController : Controller
     public async Task<IActionResult> Index()
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-        var isAdminOrTeacher = User.IsInRole(Admin) || User.IsInRole(Teacher);
+        var isAdmin = User.IsInRole(Admin);
+        var isTeacher = User.IsInRole(Teacher);
 
-        var children = await childService.GetAllAsync(userId, isAdminOrTeacher);
+        var children = await childService.GetAllAsync(userId, isAdmin, isTeacher);
 
         return View(children);
     }
@@ -132,9 +133,10 @@ public class ChildrenController : Controller
     public async Task<IActionResult> Details(int id)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-        var isAdminOrTeacher = User.IsInRole(Admin) || User.IsInRole(Teacher);
+        var isAdmin = User.IsInRole(Admin);
+        var isTeacher = User.IsInRole(Teacher);
 
-        var canAccess = await childService.CanAccessChildAsync(id, userId, isAdminOrTeacher);
+        var canAccess = await childService.CanAccessChildAsync(id, userId, isAdmin, isTeacher);
 
         if (!canAccess)
         {

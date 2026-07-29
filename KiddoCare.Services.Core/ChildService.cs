@@ -16,13 +16,27 @@ public class ChildService : IChildService
         this.context = context;
     }
 
-    public async Task<IEnumerable<ChildIndexViewModel>> GetAllAsync(string userId, bool isAdminOrTeacher)
+    public async Task<IEnumerable<ChildIndexViewModel>> GetAllAsync(string userId, bool isAdmin, bool isTeacher)
     {
         var query = context.Children
-             .Where(c => !c.IsDeleted)
-             .AsQueryable();
+            .Where(c => !c.IsDeleted)
+            .AsQueryable();
 
-        if (!isAdminOrTeacher)
+        if (isTeacher && !isAdmin)
+        {
+            var teacherGroupId = await context.TeacherProfiles
+                .Where(t => !t.IsDeleted && t.UserId == userId)
+                .Select(t => (int?)t.GroupId)
+                .FirstOrDefaultAsync();
+
+            if (teacherGroupId == null)
+            {
+                return new List<ChildIndexViewModel>();
+            }
+
+            query = query.Where(c => c.GroupId == teacherGroupId.Value);
+        }
+        else if (!isAdmin)
         {
             query = query.Where(c => c.Parent != null && c.Parent.UserId == userId);
         }
@@ -36,8 +50,8 @@ public class ChildService : IChildService
                 FullName = c.FirstName + " " + c.LastName,
                 DateOfBirth = c.DateOfBirth,
                 Gender = c.Gender,
-                GroupName = c.Group.Name,
-                PhotoUrl = c.PhotoUrl
+                PhotoUrl = c.PhotoUrl,
+                GroupName = c.Group.Name
             })
             .ToListAsync();
     }
@@ -200,12 +214,31 @@ public class ChildService : IChildService
             .FirstOrDefaultAsync();
     }
 
-    public async Task<bool> CanAccessChildAsync(int childId, string userId, bool isAdminOrTeacher)
+    public async Task<bool> CanAccessChildAsync(int childId, string userId, bool isAdmin, bool isTeacher)
     {
-        if (isAdminOrTeacher)
+        if (isAdmin)
         {
             return await context.Children
                 .AnyAsync(c => c.Id == childId && !c.IsDeleted);
+        }
+
+        if (isTeacher)
+        {
+            var teacherGroupId = await context.TeacherProfiles
+                .Where(t => !t.IsDeleted && t.UserId == userId)
+                .Select(t => (int?)t.GroupId)
+                .FirstOrDefaultAsync();
+
+            if (teacherGroupId == null)
+            {
+                return false;
+            }
+
+            return await context.Children
+                .AnyAsync(c =>
+                    c.Id == childId &&
+                    !c.IsDeleted &&
+                    c.GroupId == teacherGroupId.Value);
         }
 
         return await context.Children
