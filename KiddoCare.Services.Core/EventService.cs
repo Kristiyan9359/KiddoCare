@@ -16,10 +16,29 @@ public class EventService : IEventService
         this.context = context;
     }
 
-    public async Task<IEnumerable<EventIndexViewModel>> GetAllAsync()
+    public async Task<IEnumerable<EventIndexViewModel>> GetAllAsync(string userId, bool isAdminOrTeacher)
     {
-        return await context.Events
-            .Where(e => !e.IsDeleted)
+        var query = context.Events
+         .Where(e => !e.IsDeleted)
+         .AsQueryable();
+
+        if (!isAdminOrTeacher)
+        {
+            var parentGroupIds = await context.Children
+                .Where(c =>
+                    !c.IsDeleted &&
+                    c.Parent != null &&
+                    c.Parent.UserId == userId)
+                .Select(c => c.GroupId)
+                .Distinct()
+                .ToListAsync();
+
+            query = query.Where(e =>
+                e.IsPublic &&
+                (e.GroupId == null || parentGroupIds.Contains(e.GroupId.Value)));
+        }
+
+        return await query
             .OrderBy(e => e.StartDateTime)
             .Select(e => new EventIndexViewModel
             {
@@ -50,6 +69,31 @@ public class EventService : IEventService
                 IsPublic = e.IsPublic
             })
             .FirstOrDefaultAsync();
+    }
+
+    public async Task<bool> CanAccessEventAsync(int eventId, string userId, bool isAdminOrTeacher)
+    {
+        if (isAdminOrTeacher)
+        {
+            return await context.Events
+                .AnyAsync(e => e.Id == eventId && !e.IsDeleted);
+        }
+
+        var parentGroupIds = await context.Children
+            .Where(c =>
+                !c.IsDeleted &&
+                c.Parent != null &&
+                c.Parent.UserId == userId)
+            .Select(c => c.GroupId)
+            .Distinct()
+            .ToListAsync();
+
+        return await context.Events
+            .AnyAsync(e =>
+                e.Id == eventId &&
+                !e.IsDeleted &&
+                e.IsPublic &&
+                (e.GroupId == null || parentGroupIds.Contains(e.GroupId.Value)));
     }
 
     public async Task<EventCreateViewModel> GetCreateModelAsync()

@@ -2,6 +2,7 @@
 using KiddoCare.ViewModels.Events;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using static KiddoCare.Common.RoleConstants;
 
 namespace KiddoCare.Web.Controllers;
@@ -19,7 +20,10 @@ public class EventsController : Controller
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-        var events = await eventService.GetAllAsync();
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        var isAdminOrTeacher = User.IsInRole(Admin) || User.IsInRole(Teacher);
+
+        var events = await eventService.GetAllAsync(userId, isAdminOrTeacher);
 
         return View(events);
     }
@@ -27,6 +31,16 @@ public class EventsController : Controller
     [HttpGet]
     public async Task<IActionResult> Details(int id)
     {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        var isAdminOrTeacher = User.IsInRole(Admin) || User.IsInRole(Teacher);
+
+        var canAccess = await eventService.CanAccessEventAsync(id, userId, isAdminOrTeacher);
+
+        if (!canAccess)
+        {
+            return Forbid();
+        }
+
         var model = await eventService.GetDetailsAsync(id);
 
         if (model == null)

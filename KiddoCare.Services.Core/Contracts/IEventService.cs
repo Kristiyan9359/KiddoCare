@@ -4,9 +4,11 @@ namespace KiddoCare.Services.Core.Contracts;
 
 public interface IEventService
 {
-    Task<IEnumerable<EventIndexViewModel>> GetAllAsync();
+    Task<IEnumerable<EventIndexViewModel>> GetAllAsync(string userId, bool isAdminOrTeacher);
 
     Task<EventDetailsViewModel?> GetDetailsAsync(int id);
+
+    Task<bool> CanAccessEventAsync(int eventId, string userId, bool isAdminOrTeacher);
 
     Task<EventCreateViewModel> GetCreateModelAsync();
 
