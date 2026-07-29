@@ -15,4 +15,6 @@ public class EventIndexViewModel
     public string? Location { get; set; }
 
     public string GroupName { get; set; } = "All groups";
+
+    public bool CanManage { get; set; }
 }

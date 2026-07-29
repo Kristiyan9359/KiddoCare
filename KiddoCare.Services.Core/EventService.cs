@@ -16,13 +16,31 @@ public class EventService : IEventService
         this.context = context;
     }
 
-    public async Task<IEnumerable<EventIndexViewModel>> GetAllAsync(string userId, bool isAdminOrTeacher)
+    public async Task<IEnumerable<EventIndexViewModel>> GetAllAsync(
+     string userId,
+     bool isAdmin,
+     bool isTeacher)
     {
         var query = context.Events
-         .Where(e => !e.IsDeleted)
-         .AsQueryable();
+            .Where(e => !e.IsDeleted)
+            .AsQueryable();
 
-        if (!isAdminOrTeacher)
+        int? teacherGroupId = null;
+
+        if (isTeacher && !isAdmin)
+        {
+            teacherGroupId = await GetTeacherGroupIdAsync(userId);
+
+            if (teacherGroupId == null)
+            {
+                return new List<EventIndexViewModel>();
+            }
+
+            query = query.Where(e =>
+                e.GroupId == null ||
+                e.GroupId == teacherGroupId.Value);
+        }
+        else if (!isAdmin)
         {
             var parentGroupIds = await context.Children
                 .Where(c =>
@@ -47,7 +65,8 @@ public class EventService : IEventService
                 StartDateTime = e.StartDateTime,
                 Type = e.Type,
                 Location = e.Location,
-                GroupName = e.Group == null ? "All groups" : e.Group.Name
+                GroupName = e.Group == null ? "All groups" : e.Group.Name,
+                CanManage = isAdmin || (teacherGroupId.HasValue && e.GroupId == teacherGroupId.Value)
             })
             .ToListAsync();
     }

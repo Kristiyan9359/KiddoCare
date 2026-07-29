@@ -37,7 +37,7 @@
                 <td class="text-end">
                     <a asp-action="Details" asp-route-id="@eventItem.Id" class="btn btn-sm btn-outline-secondary">Details</a>
 
-                    @if (User.IsInRole(Admin) || User.IsInRole(Teacher))
+                    @if (eventItem.CanManage)
                     {
                         <a asp-action="Edit" asp-route-id="@eventItem.Id" class="btn btn-sm btn-outline-primary">Edit</a>
 

@@ -25,7 +25,7 @@ public class EventsController : Controller
         var isTeacher = User.IsInRole(Teacher);
         var isAdminOrTeacher = isAdmin || isTeacher;
 
-        var events = await eventService.GetAllAsync(userId, isAdminOrTeacher);
+        var events = await eventService.GetAllAsync(userId, isAdmin, isTeacher);
 
         return View(events);
     }
