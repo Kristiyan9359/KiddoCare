@@ -36,6 +36,8 @@ builder.Services.AddScoped<ITeacherService, TeacherService>();
 
 builder.Services.AddScoped<IAnnouncementService, AnnouncementService>();
 
+builder.Services.AddScoped<IDailyReportService, DailyReportService>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
