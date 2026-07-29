@@ -28,4 +28,8 @@ public static class ValidationConstants
     //Teachers
     public const int TeacherFullNameMaxLength = 100;
     public const int TeacherPhoneNumberMaxLength = 30;
+
+    //Announcements
+    public const int AnnouncementTitleMaxLength = 120;
+    public const int AnnouncementContentMaxLength = 2000;
 }
