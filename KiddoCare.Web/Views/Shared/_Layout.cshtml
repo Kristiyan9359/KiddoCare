@@ -48,6 +48,9 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="Parents" asp-action="Index">Parents</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Teachers" asp-action="Index">Teachers</a>
+                            </li>
                         }
                         @if (User.IsInRole(Admin) || User.IsInRole(Teacher))
                         {
