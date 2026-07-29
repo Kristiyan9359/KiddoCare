@@ -30,6 +30,8 @@ builder.Services.AddScoped<IEventService, EventService>();
 
 builder.Services.AddScoped<IDashboardService, DashboardService>();
 
+builder.Services.AddScoped<IParentService, ParentService>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
