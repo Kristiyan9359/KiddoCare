@@ -21,7 +21,9 @@ public class EventsController : Controller
     public async Task<IActionResult> Index()
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-        var isAdminOrTeacher = User.IsInRole(Admin) || User.IsInRole(Teacher);
+        var isAdmin = User.IsInRole(Admin);
+        var isTeacher = User.IsInRole(Teacher);
+        var isAdminOrTeacher = isAdmin || isTeacher;
 
         var events = await eventService.GetAllAsync(userId, isAdminOrTeacher);
 
@@ -32,7 +34,9 @@ public class EventsController : Controller
     public async Task<IActionResult> Details(int id)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-        var isAdminOrTeacher = User.IsInRole(Admin) || User.IsInRole(Teacher);
+        var isAdmin = User.IsInRole(Admin);
+        var isTeacher = User.IsInRole(Teacher);
+        var isAdminOrTeacher = isAdmin || isTeacher;
 
         var canAccess = await eventService.CanAccessEventAsync(id, userId, isAdminOrTeacher);
 
@@ -55,7 +59,11 @@ public class EventsController : Controller
     [HttpGet]
     public async Task<IActionResult> Create()
     {
-        var model = await eventService.GetCreateModelAsync();
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        var isAdmin = User.IsInRole(Admin);
+        var isTeacher = User.IsInRole(Teacher);
+
+        var model = await eventService.GetCreateModelAsync(userId, isAdmin, isTeacher);
 
         return View(model);
     }
@@ -64,13 +72,31 @@ public class EventsController : Controller
     [HttpPost]
     public async Task<IActionResult> Create(EventCreateViewModel model)
     {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        var isAdmin = User.IsInRole(Admin);
+        var isTeacher = User.IsInRole(Teacher);
+
         if (!ModelState.IsValid)
         {
-            model.Groups = (await eventService.GetCreateModelAsync()).Groups;
+            var createModel = await eventService.GetCreateModelAsync(userId, isAdmin, isTeacher);
+            model.Groups = createModel.Groups;
+
             return View(model);
         }
 
-        await eventService.CreateAsync(model);
+        try
+        {
+            await eventService.CreateAsync(model, userId, isAdmin, isTeacher);
+        }
+        catch (InvalidOperationException ex)
+        {
+            ModelState.AddModelError(string.Empty, ex.Message);
+
+            var createModel = await eventService.GetCreateModelAsync(userId, isAdmin, isTeacher);
+            model.Groups = createModel.Groups;
+
+            return View(model);
+        }
 
         return RedirectToAction(nameof(Index));
     }
@@ -79,7 +105,11 @@ public class EventsController : Controller
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
     {
-        var model = await eventService.GetForEditAsync(id);
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        var isAdmin = User.IsInRole(Admin);
+        var isTeacher = User.IsInRole(Teacher);
+
+        var model = await eventService.GetForEditAsync(id, userId, isAdmin, isTeacher);
 
         if (model == null)
         {
@@ -93,9 +123,13 @@ public class EventsController : Controller
     [HttpPost]
     public async Task<IActionResult> Edit(EventEditViewModel model)
     {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        var isAdmin = User.IsInRole(Admin);
+        var isTeacher = User.IsInRole(Teacher);
+
         if (!ModelState.IsValid)
         {
-            var editModel = await eventService.GetForEditAsync(model.Id);
+            var editModel = await eventService.GetForEditAsync(model.Id, userId, isAdmin, isTeacher);
 
             if (editModel == null)
             {
@@ -103,12 +137,13 @@ public class EventsController : Controller
             }
 
             model.Groups = editModel.Groups;
+
             return View(model);
         }
 
         try
         {
-            await eventService.EditAsync(model);
+            await eventService.EditAsync(model, userId, isAdmin, isTeacher);
         }
         catch (InvalidOperationException)
         {
@@ -122,9 +157,13 @@ public class EventsController : Controller
     [HttpPost]
     public async Task<IActionResult> Delete(int id)
     {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        var isAdmin = User.IsInRole(Admin);
+        var isTeacher = User.IsInRole(Teacher);
+
         try
         {
-            await eventService.DeleteAsync(id);
+            await eventService.DeleteAsync(id, userId, isAdmin, isTeacher);
         }
         catch (InvalidOperationException)
         {

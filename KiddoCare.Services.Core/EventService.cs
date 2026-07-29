@@ -96,17 +96,17 @@ public class EventService : IEventService
                 (e.GroupId == null || parentGroupIds.Contains(e.GroupId.Value)));
     }
 
-    public async Task<EventCreateViewModel> GetCreateModelAsync()
+    public async Task<EventCreateViewModel> GetCreateModelAsync(string userId, bool isAdmin, bool isTeacher)
     {
         return new EventCreateViewModel
         {
-            Groups = await GetGroupSelectListAsync()
+            Groups = await GetGroupSelectListAsync(userId, isAdmin, isTeacher)
         };
     }
 
-    public async Task<EventEditViewModel?> GetForEditAsync(int id)
+    public async Task<EventEditViewModel?> GetForEditAsync(int id, string userId, bool isAdmin, bool isTeacher)
     {
-        var model = await context.Events
+        var eventEntity = await context.Events
             .Where(e => e.Id == id && !e.IsDeleted)
             .Select(e => new EventEditViewModel
             {
@@ -122,18 +122,41 @@ public class EventService : IEventService
             })
             .FirstOrDefaultAsync();
 
-        if (model == null)
+        if (eventEntity == null)
         {
             return null;
         }
 
-        model.Groups = await GetGroupSelectListAsync();
+        if (isTeacher && !isAdmin)
+        {
+            var teacherGroupId = await GetTeacherGroupIdAsync(userId);
 
-        return model;
+            if (teacherGroupId == null || eventEntity.GroupId != teacherGroupId.Value)
+            {
+                return null;
+            }
+        }
+
+        eventEntity.Groups = await GetGroupSelectListAsync(userId, isAdmin, isTeacher);
+
+        return eventEntity;
     }
 
-    public async Task CreateAsync(EventCreateViewModel model)
+    public async Task CreateAsync(EventCreateViewModel model, string userId, bool isAdmin, bool isTeacher)
     {
+        if (isTeacher && !isAdmin)
+        {
+            var teacherGroupId = await GetTeacherGroupIdAsync(userId);
+
+            if (teacherGroupId == null)
+            {
+                throw new InvalidOperationException("Teacher group not found.");
+            }
+
+            model.GroupId = teacherGroupId.Value;
+            model.IsPublic = true;
+        }
+
         var eventEntity = new Event
         {
             Title = model.Title,
@@ -150,7 +173,7 @@ public class EventService : IEventService
         await context.SaveChangesAsync();
     }
 
-    public async Task EditAsync(EventEditViewModel model)
+    public async Task EditAsync(EventEditViewModel model, string userId, bool isAdmin, bool isTeacher)
     {
         var eventEntity = await context.Events
             .FirstOrDefaultAsync(e => e.Id == model.Id && !e.IsDeleted);
@@ -158,6 +181,19 @@ public class EventService : IEventService
         if (eventEntity == null)
         {
             throw new InvalidOperationException("Event not found.");
+        }
+
+        if (isTeacher && !isAdmin)
+        {
+            var teacherGroupId = await GetTeacherGroupIdAsync(userId);
+
+            if (teacherGroupId == null || eventEntity.GroupId != teacherGroupId.Value)
+            {
+                throw new InvalidOperationException("Event not found.");
+            }
+
+            model.GroupId = teacherGroupId.Value;
+            model.IsPublic = true;
         }
 
         eventEntity.Title = model.Title;
@@ -172,7 +208,7 @@ public class EventService : IEventService
         await context.SaveChangesAsync();
     }
 
-    public async Task DeleteAsync(int id)
+    public async Task DeleteAsync(int id, string userId, bool isAdmin, bool isTeacher)
     {
         var eventEntity = await context.Events
             .FirstOrDefaultAsync(e => e.Id == id && !e.IsDeleted);
@@ -182,15 +218,43 @@ public class EventService : IEventService
             throw new InvalidOperationException("Event not found.");
         }
 
+        if (isTeacher && !isAdmin)
+        {
+            var teacherGroupId = await GetTeacherGroupIdAsync(userId);
+
+            if (teacherGroupId == null || eventEntity.GroupId != teacherGroupId.Value)
+            {
+                throw new InvalidOperationException("Event not found.");
+            }
+        }
+
         eventEntity.IsDeleted = true;
 
         await context.SaveChangesAsync();
     }
 
-    private async Task<IEnumerable<SelectListItem>> GetGroupSelectListAsync()
+    private async Task<IEnumerable<SelectListItem>> GetGroupSelectListAsync(
+        string userId,
+        bool isAdmin,
+        bool isTeacher)
     {
-        return await context.KindergartenGroups
+        var query = context.KindergartenGroups
             .Where(g => !g.IsDeleted)
+            .AsQueryable();
+
+        if (isTeacher && !isAdmin)
+        {
+            var teacherGroupId = await GetTeacherGroupIdAsync(userId);
+
+            if (teacherGroupId == null)
+            {
+                return new List<SelectListItem>();
+            }
+
+            query = query.Where(g => g.Id == teacherGroupId.Value);
+        }
+
+        return await query
             .OrderBy(g => g.Name)
             .Select(g => new SelectListItem
             {
@@ -198,5 +262,13 @@ public class EventService : IEventService
                 Text = g.Name
             })
             .ToListAsync();
+    }
+
+    private async Task<int?> GetTeacherGroupIdAsync(string userId)
+    {
+        return await context.TeacherProfiles
+            .Where(t => !t.IsDeleted && t.UserId == userId)
+            .Select(t => (int?)t.GroupId)
+            .FirstOrDefaultAsync();
     }
 }

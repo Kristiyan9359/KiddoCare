@@ -10,13 +10,13 @@ public interface IEventService
 
     Task<bool> CanAccessEventAsync(int eventId, string userId, bool isAdminOrTeacher);
 
-    Task<EventCreateViewModel> GetCreateModelAsync();
+    Task<EventCreateViewModel> GetCreateModelAsync(string userId, bool isAdmin, bool isTeacher);
 
-    Task<EventEditViewModel?> GetForEditAsync(int id);
+    Task CreateAsync(EventCreateViewModel model, string userId, bool isAdmin, bool isTeacher);
 
-    Task CreateAsync(EventCreateViewModel model);
+    Task<EventEditViewModel?> GetForEditAsync(int id, string userId, bool isAdmin, bool isTeacher);
 
-    Task EditAsync(EventEditViewModel model);
+    Task EditAsync(EventEditViewModel model, string userId, bool isAdmin, bool isTeacher);
 
-    Task DeleteAsync(int id);
+    Task DeleteAsync(int id, string userId, bool isAdmin, bool isTeacher);
 }
