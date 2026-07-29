@@ -25,16 +25,18 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
 
-                        <a class="nav-link text-dark"
-                           asp-controller="DailyReports"
-                           asp-action="Index">
-                            Daily Reports
-                        </a>
-
                         @if (User.Identity?.IsAuthenticated == true)
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark"
+                                   asp-controller="DailyReports"
+                                   asp-action="Index">
+                                    Daily Reports
+                                </a>
                             </li>
 
                             <li class="nav-item">
@@ -45,9 +47,13 @@
                                 <a class="nav-link text-dark" asp-controller="Events" asp-action="Index">Events</a>
                             </li>
 
-                            <a class="nav-link text-dark" asp-controller="Announcements" asp-action="Index">
-                                Announcements
-                            </a>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark"
+                                   asp-controller="Announcements"
+                                   asp-action="Index">
+                                    Announcements
+                                </a>
+                            </li>
                         }
 
                         @if (User.IsInRole("Admin"))

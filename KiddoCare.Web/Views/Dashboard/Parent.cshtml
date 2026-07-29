@@ -30,7 +30,24 @@ else
                     <h5>@child.FullName</h5>
                     <p class="mb-1"><strong>Group:</strong> @child.GroupName</p>
                     <p class="mb-1"><strong>Date of Birth:</strong> @child.DateOfBirth.ToString("dd MMM yyyy")</p>
-                    <p class="mb-3"><strong>Gender:</strong> @child.Gender</p>
+                    <p class="mb-1"><strong>Gender:</strong> @child.Gender</p>
+
+                    @if (child.LastDailyReportDate.HasValue)
+                    {
+                        <p class="mb-1">
+                            <strong>Last report:</strong>
+                            @child.LastDailyReportDate.Value.ToString("dd MMM yyyy")
+                        </p>
+
+                        <p class="mb-3">
+                            <strong>Mood:</strong>
+                            @child.LastDailyReportMood
+                        </p>
+                    }
+                    else
+                    {
+                        <p class="mb-3 text-muted">No daily report yet.</p>
+                    }
 
                     <a asp-controller="Children"
                        asp-action="Details"

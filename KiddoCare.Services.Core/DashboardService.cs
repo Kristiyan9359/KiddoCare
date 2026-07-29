@@ -1,7 +1,6 @@
 ﻿using KiddoCare.Data;
 using KiddoCare.Data.Models.Enums;
 using KiddoCare.Services.Core.Contracts;
-using KiddoCare.ViewModels.Children;
 using KiddoCare.ViewModels.Dashboard;
 using KiddoCare.ViewModels.Events;
 using Microsoft.EntityFrameworkCore;
@@ -68,14 +67,24 @@ public class DashboardService : IDashboardService
                 c.Parent.UserId == userId)
             .OrderBy(c => c.FirstName)
             .ThenBy(c => c.LastName)
-            .Select(c => new ChildIndexViewModel
+            .Select(c => new ParentDashboardChildViewModel
             {
                 Id = c.Id,
                 FullName = c.FirstName + " " + c.LastName,
                 DateOfBirth = c.DateOfBirth,
                 Gender = c.Gender,
                 PhotoUrl = c.PhotoUrl,
-                GroupName = c.Group.Name
+                GroupName = c.Group.Name,
+                LastDailyReportDate = c.DailyReports
+                    .Where(r => !r.IsDeleted)
+                    .OrderByDescending(r => r.ReportDate)
+                    .Select(r => (DateTime?)r.ReportDate)
+                    .FirstOrDefault(),
+                LastDailyReportMood = c.DailyReports
+                    .Where(r => !r.IsDeleted)
+                    .OrderByDescending(r => r.ReportDate)
+                    .Select(r => (ChildMood?)r.Mood)
+                    .FirstOrDefault()
             })
             .ToListAsync();
 
