@@ -199,4 +199,20 @@ public class ChildService : IChildService
             })
             .FirstOrDefaultAsync();
     }
+
+    public async Task<bool> CanAccessChildAsync(int childId, string userId, bool isAdminOrTeacher)
+    {
+        if (isAdminOrTeacher)
+        {
+            return await context.Children
+                .AnyAsync(c => c.Id == childId && !c.IsDeleted);
+        }
+
+        return await context.Children
+            .AnyAsync(c =>
+                c.Id == childId &&
+                !c.IsDeleted &&
+                c.Parent != null &&
+                c.Parent.UserId == userId);
+    }
 }

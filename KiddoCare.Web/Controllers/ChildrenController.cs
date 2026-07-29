@@ -128,10 +128,19 @@ public class ChildrenController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    [Authorize]
     [HttpGet]
     public async Task<IActionResult> Details(int id)
     {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        var isAdminOrTeacher = User.IsInRole(Admin) || User.IsInRole(Teacher);
+
+        var canAccess = await childService.CanAccessChildAsync(id, userId, isAdminOrTeacher);
+
+        if (!canAccess)
+        {
+            return Forbid();
+        }
+
         var model = await childService.GetDetailsAsync(id);
 
         if (model == null)

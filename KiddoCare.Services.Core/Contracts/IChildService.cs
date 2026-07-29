@@ -19,4 +19,6 @@ public interface IChildService
     Task<ChildDetailsViewModel?> GetDetailsAsync(int id);
 
     Task<ChildDeleteViewModel?> GetForDeleteAsync(int id);
+
+    Task<bool> CanAccessChildAsync(int childId, string userId, bool isAdminOrTeacher);
 }
