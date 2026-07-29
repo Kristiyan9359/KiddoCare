@@ -22,4 +22,6 @@ public class KindergartenGroup
     public ICollection<Child> Children { get; set; } = new HashSet<Child>();
 
     public ICollection<Event> Events { get; set; } = new HashSet<Event>();
+
+    public ICollection<TeacherProfile> Teachers { get; set; } = new HashSet<TeacherProfile>();
 }

@@ -15,4 +15,6 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public virtual DbSet<Event> Events { get; set; } = null!;
 
     public virtual DbSet<ParentProfile> ParentProfiles { get; set; } = null!;
+
+    public virtual DbSet<TeacherProfile> TeacherProfiles { get; set; } = null!;
 }

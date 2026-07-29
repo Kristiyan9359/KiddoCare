@@ -24,4 +24,8 @@ public static class ValidationConstants
     //Parents
     public const int ParentFullNameMaxLength = 100;
     public const int ParentPhoneNumberMaxLength = 30;
+
+    //Teachers
+    public const int TeacherFullNameMaxLength = 100;
+    public const int TeacherPhoneNumberMaxLength = 30;
 }
