@@ -1,0 +1,34 @@
+﻿@model KiddoCare.ViewModels.Parents.ParentDetailsViewModel
+
+@{
+    ViewData["Title"] = "Parent Details";
+}
+
+<h1>@Model.FullName</h1>
+
+<dl class="row">
+    <dt class="col-sm-3">Email</dt>
+    <dd class="col-sm-9">@Model.Email</dd>
+
+    <dt class="col-sm-3">Phone</dt>
+    <dd class="col-sm-9">@(string.IsNullOrWhiteSpace(Model.PhoneNumber) ? "Not specified" : Model.PhoneNumber)</dd>
+
+    <dt class="col-sm-3">Children</dt>
+    <dd class="col-sm-9">
+        @if (!Model.ChildrenNames.Any())
+        {
+            <span>No linked children.</span>
+        }
+        else
+        {
+            <ul>
+                @foreach (var child in Model.ChildrenNames)
+                {
+                    <li>@child</li>
+                }
+            </ul>
+        }
+    </dd>
+</dl>
+
+<a asp-action="Index" class="btn btn-secondary">Back</a>

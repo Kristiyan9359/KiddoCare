@@ -1,0 +1,39 @@
+﻿@model IEnumerable<KiddoCare.ViewModels.Parents.ParentIndexViewModel>
+
+@{
+    ViewData["Title"] = "Parents";
+}
+
+<h1>Parents</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create Parent</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Children</th>
+            <th class="text-end">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var parent in Model)
+        {
+            <tr>
+                <td>@parent.FullName</td>
+                <td>@parent.Email</td>
+                <td>@parent.PhoneNumber</td>
+                <td>@parent.ChildrenCount</td>
+                <td class="text-end">
+                    <a asp-action="Details" asp-route-id="@parent.Id" class="btn btn-sm btn-outline-secondary">Details</a>
+                    <a asp-action="Edit" asp-route-id="@parent.Id" class="btn btn-sm btn-outline-primary">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@parent.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

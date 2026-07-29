@@ -45,6 +45,9 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="Groups" asp-action="Index">Groups</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Parents" asp-action="Index">Parents</a>
+                            </li>
                         }
                         @if (User.IsInRole(Admin) || User.IsInRole(Teacher))
                         {
