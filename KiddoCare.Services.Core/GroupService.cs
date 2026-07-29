@@ -70,6 +70,30 @@ public class GroupService : IGroupService
         await context.SaveChangesAsync();
     }
 
+    public async Task<GroupDetailsViewModel?> GetDetailsAsync(int id)
+    {
+        return await context.KindergartenGroups
+            .Where(g => g.Id == id && !g.IsDeleted)
+            .Select(g => new GroupDetailsViewModel
+            {
+                Id = g.Id,
+                Name = g.Name,
+                Description = g.Description,
+                Children = g.Children
+                    .Where(c => !c.IsDeleted)
+                    .OrderBy(c => c.FirstName)
+                    .ThenBy(c => c.LastName)
+                    .Select(c => new GroupChildViewModel
+                    {
+                        Id = c.Id,
+                        FullName = c.FirstName + " " + c.LastName,
+                        DateOfBirth = c.DateOfBirth
+                    })
+                    .ToList()
+            })
+            .FirstOrDefaultAsync();
+    }
+
     public async Task DeleteAsync(int id)
     {
         var group = await context.KindergartenGroups

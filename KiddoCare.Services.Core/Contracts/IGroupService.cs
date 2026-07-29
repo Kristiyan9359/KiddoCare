@@ -12,6 +12,8 @@ public interface IGroupService
 
     Task EditAsync(GroupEditViewModel model);
 
+    Task<GroupDetailsViewModel?> GetDetailsAsync(int id);
+
     Task DeleteAsync(int id);
 
     Task<GroupDeleteViewModel?> GetForDeleteAsync(int id);

@@ -1,0 +1,46 @@
+﻿@model KiddoCare.ViewModels.Groups.GroupDetailsViewModel
+
+@{
+    ViewData["Title"] = "Group Details";
+}
+
+<h1>@Model.Name</h1>
+
+<p>
+    @(string.IsNullOrWhiteSpace(Model.Description) ? "No description." : Model.Description)
+</p>
+
+<h2>Children</h2>
+
+@if (!Model.Children.Any())
+{
+    <p>No children in this group.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Full Name</th>
+                <th>Date of Birth</th>
+                <th class="text-end">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var child in Model.Children)
+            {
+                <tr>
+                    <td>@child.FullName</td>
+                    <td>@child.DateOfBirth.ToString("dd MMM yyyy")</td>
+                    <td class="text-end">
+                        <a asp-controller="Children" asp-action="Details" asp-route-id="@child.Id" class="btn btn-sm btn-outline-secondary">
+                            View Child
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<a asp-action="Index" class="btn btn-secondary">Back</a>

@@ -77,6 +77,19 @@ public class GroupsController : Controller
     }
 
     [HttpGet]
+    public async Task<IActionResult> Details(int id)
+    {
+        var model = await groupService.GetDetailsAsync(id);
+
+        if (model == null)
+        {
+            return NotFound();
+        }
+
+        return View(model);
+    }
+
+    [HttpGet]
     public async Task<IActionResult> Delete(int id)
     {
         var model = await groupService.GetForDeleteAsync(id);
