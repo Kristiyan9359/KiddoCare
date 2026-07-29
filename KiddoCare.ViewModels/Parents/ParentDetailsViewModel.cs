@@ -10,5 +10,5 @@ public class ParentDetailsViewModel
 
     public string? PhoneNumber { get; set; }
 
-    public IEnumerable<string> ChildrenNames { get; set; } = new List<string>();
+    public IEnumerable<ParentChildViewModel> Children { get; set; } = new List<ParentChildViewModel>();
 }

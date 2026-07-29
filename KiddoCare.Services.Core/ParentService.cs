@@ -49,10 +49,14 @@ public class ParentService : IParentService
                 FullName = p.FullName,
                 Email = p.User.Email!,
                 PhoneNumber = p.PhoneNumber,
-                ChildrenNames = p.Children
-                    .Where(c => !c.IsDeleted)
-                    .Select(c => c.FirstName + " " + c.LastName)
-                    .ToList()
+                Children = p.Children
+                  .Where(c => !c.IsDeleted)
+                  .Select(c => new ParentChildViewModel
+                  {
+                      Id = c.Id,
+                      FullName = c.FirstName + " " + c.LastName
+                  })
+                  .ToList()
             })
             .FirstOrDefaultAsync();
     }

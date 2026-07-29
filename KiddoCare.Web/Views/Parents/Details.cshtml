@@ -15,18 +15,36 @@
 
     <dt class="col-sm-3">Children</dt>
     <dd class="col-sm-9">
-        @if (!Model.ChildrenNames.Any())
+        @if (!Model.Children.Any())
         {
             <span>No linked children.</span>
         }
         else
         {
-            <ul>
-                @foreach (var child in Model.ChildrenNames)
-                {
-                    <li>@child</li>
-                }
-            </ul>
+            <table class="table table-sm table-striped">
+                <thead>
+                    <tr>
+                        <th>Child</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var child in Model.Children)
+                    {
+                        <tr>
+                            <td>@child.FullName</td>
+                            <td class="text-end">
+                                <a asp-controller="Children"
+                                   asp-action="Details"
+                                   asp-route-id="@child.Id"
+                                   class="btn btn-sm btn-outline-secondary">
+                                    View Child
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         }
     </dd>
 </dl>
