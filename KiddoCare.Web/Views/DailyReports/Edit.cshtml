@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Edit Daily Report";
+
     var maxReportDate = DateTime.Today.ToString("yyyy-MM-dd");
     var moodOptions = Html.GetEnumSelectList<ChildMood>()
         .Where(m => m.Value != "0");
@@ -16,19 +17,28 @@
 
 <form asp-action="Edit" method="post">
     <input asp-for="Id" type="hidden" />
+    <input asp-for="ChildFullName" type="hidden" />
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <input asp-for="ReportDate"
-           type="date"
-           max="@maxReportDate"
-           class="form-control" />
+    <div class="mb-3">
+        <label asp-for="ReportDate" class="form-label"></label>
+        <input asp-for="ReportDate"
+               type="date"
+               max="@maxReportDate"
+               class="form-control" />
+        <span asp-validation-for="ReportDate" class="text-danger"></span>
+    </div>
 
-    <select asp-for="Mood"
-            asp-items="moodOptions"
-            class="form-select">
-        <option value="0">Select mood</option>
-    </select>
+    <div class="mb-3">
+        <label asp-for="Mood" class="form-label"></label>
+        <select asp-for="Mood"
+                asp-items="moodOptions"
+                class="form-select">
+            <option value="0">Select mood</option>
+        </select>
+        <span asp-validation-for="Mood" class="text-danger"></span>
+    </div>
 
     <div class="mb-3">
         <label asp-for="Meals" class="form-label"></label>

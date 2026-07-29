@@ -17,10 +17,7 @@ public class DailyReportService : IDailyReportService
         this.context = context;
     }
 
-    public async Task<IEnumerable<DailyReportIndexViewModel>> GetAllAsync(
-        string userId,
-        bool isAdmin,
-        bool isTeacher)
+    public async Task<IEnumerable<DailyReportIndexViewModel>> GetAllAsync(string userId, bool isAdmin, bool isTeacher)
     {
         var query = this.context.DailyReports
             .Where(r => !r.IsDeleted && !r.Child.IsDeleted)
@@ -58,19 +55,12 @@ public class DailyReportService : IDailyReportService
                 ChildFullName = r.Child.FirstName + " " + r.Child.LastName,
                 ReportDate = r.ReportDate,
                 Mood = r.Mood,
-                CanManage = isAdmin ||
-                    (isTeacher &&
-                     teacherGroupId.HasValue &&
-                     r.Child.GroupId == teacherGroupId.Value)
+                CanManage = isAdmin || (isTeacher && r.CreatedByUserId == userId)
             })
             .ToListAsync();
     }
 
-    public async Task<bool> CanAccessAsync(
-        int dailyReportId,
-        string userId,
-        bool isAdmin,
-        bool isTeacher)
+    public async Task<bool> CanAccessAsync(int dailyReportId, string userId, bool isAdmin, bool isTeacher)
     {
         if (isAdmin)
         {
@@ -99,11 +89,7 @@ public class DailyReportService : IDailyReportService
             r.Child.Parent.UserId == userId);
     }
 
-    public async Task<DailyReportDetailsViewModel?> GetDetailsAsync(
-        int id,
-        string userId,
-        bool isAdmin,
-        bool isTeacher)
+    public async Task<DailyReportDetailsViewModel?> GetDetailsAsync(int id, string userId, bool isAdmin, bool isTeacher)
     {
         DailyReportDetailsViewModel? model = await this.context.DailyReports
             .Where(r => r.Id == id && !r.IsDeleted)
@@ -132,10 +118,7 @@ public class DailyReportService : IDailyReportService
         return model;
     }
 
-    public async Task<DailyReportCreateViewModel> GetCreateModelAsync(
-        string userId,
-        bool isAdmin,
-        bool isTeacher)
+    public async Task<DailyReportCreateViewModel> GetCreateModelAsync(string userId, bool isAdmin, bool isTeacher)
     {
         return new DailyReportCreateViewModel
         {
@@ -143,11 +126,7 @@ public class DailyReportService : IDailyReportService
         };
     }
 
-    public async Task CreateAsync(
-        DailyReportCreateViewModel model,
-        string userId,
-        bool isAdmin,
-        bool isTeacher)
+    public async Task CreateAsync(DailyReportCreateViewModel model, string userId, bool isAdmin, bool isTeacher)
     {
         if (!model.ChildId.HasValue)
         {
@@ -194,18 +173,15 @@ public class DailyReportService : IDailyReportService
             Meals = model.Meals,
             Sleep = model.Sleep,
             Activities = model.Activities,
-            TeacherNote = model.TeacherNote
+            TeacherNote = model.TeacherNote,
+            CreatedByUserId = userId
         };
 
         await this.context.DailyReports.AddAsync(dailyReport);
         await this.context.SaveChangesAsync();
     }
 
-    public async Task<DailyReportEditViewModel?> GetForEditAsync(
-        int id,
-        string userId,
-        bool isAdmin,
-        bool isTeacher)
+    public async Task<DailyReportEditViewModel?> GetForEditAsync(int id, string userId, bool isAdmin, bool isTeacher)
     {
         bool canManage = await this.CanManageAsync(id, userId, isAdmin, isTeacher);
 
@@ -230,11 +206,7 @@ public class DailyReportService : IDailyReportService
             .FirstOrDefaultAsync();
     }
 
-    public async Task EditAsync(
-        DailyReportEditViewModel model,
-        string userId,
-        bool isAdmin,
-        bool isTeacher)
+    public async Task EditAsync(DailyReportEditViewModel model, string userId, bool isAdmin, bool isTeacher)
     {
         if (model.Mood == ChildMood.Unknown)
         {
@@ -283,11 +255,7 @@ public class DailyReportService : IDailyReportService
         await this.context.SaveChangesAsync();
     }
 
-    public async Task<DailyReportDeleteViewModel?> GetForDeleteAsync(
-        int id,
-        string userId,
-        bool isAdmin,
-        bool isTeacher)
+    public async Task<DailyReportDeleteViewModel?> GetForDeleteAsync(int id, string userId, bool isAdmin, bool isTeacher)
     {
         bool canManage = await this.CanManageAsync(id, userId, isAdmin, isTeacher);
 
@@ -314,11 +282,7 @@ public class DailyReportService : IDailyReportService
         };
     }
 
-    public async Task DeleteAsync(
-        int id,
-        string userId,
-        bool isAdmin,
-        bool isTeacher)
+    public async Task DeleteAsync(int id, string userId, bool isAdmin, bool isTeacher)
     {
         bool canManage = await this.CanManageAsync(id, userId, isAdmin, isTeacher);
 
@@ -340,11 +304,7 @@ public class DailyReportService : IDailyReportService
         await this.context.SaveChangesAsync();
     }
 
-    private async Task<bool> CanManageAsync(
-        int dailyReportId,
-        string userId,
-        bool isAdmin,
-        bool isTeacher)
+    private async Task<bool> CanManageAsync(int dailyReportId, string userId, bool isAdmin, bool isTeacher)
     {
         if (isAdmin)
         {
@@ -357,20 +317,13 @@ public class DailyReportService : IDailyReportService
             return false;
         }
 
-        int? teacherGroupId = await this.GetTeacherGroupIdAsync(userId);
-
-        return teacherGroupId.HasValue &&
-               await this.context.DailyReports.AnyAsync(r =>
-                   r.Id == dailyReportId &&
-                   !r.IsDeleted &&
-                   r.Child.GroupId == teacherGroupId.Value);
+        return await this.context.DailyReports.AnyAsync(r =>
+            r.Id == dailyReportId &&
+            !r.IsDeleted &&
+            r.CreatedByUserId == userId);
     }
 
-    private async Task<bool> CanManageChildAsync(
-        int childId,
-        string userId,
-        bool isAdmin,
-        bool isTeacher)
+    private async Task<bool> CanManageChildAsync(int childId, string userId, bool isAdmin, bool isTeacher)
     {
         if (isAdmin)
         {
@@ -392,10 +345,7 @@ public class DailyReportService : IDailyReportService
                    c.GroupId == teacherGroupId.Value);
     }
 
-    private async Task<IEnumerable<SelectListItem>> GetChildrenSelectListAsync(
-        string userId,
-        bool isAdmin,
-        bool isTeacher)
+    private async Task<IEnumerable<SelectListItem>> GetChildrenSelectListAsync(string userId, bool isAdmin, bool isTeacher)
     {
         var query = this.context.Children
             .Where(c => !c.IsDeleted)

@@ -127,6 +127,15 @@ public class DailyReportsController : Controller
 
         if (!ModelState.IsValid)
         {
+            var editModel = await dailyReportService.GetForEditAsync(model.Id, userId, isAdmin, isTeacher);
+
+            if (editModel == null)
+            {
+                return NotFound();
+            }
+
+            model.ChildFullName = editModel.ChildFullName;
+
             return View(model);
         }
 
@@ -137,6 +146,15 @@ public class DailyReportsController : Controller
         catch (InvalidOperationException ex)
         {
             ModelState.AddModelError(string.Empty, ex.Message);
+
+            var editModel = await dailyReportService.GetForEditAsync(model.Id, userId, isAdmin, isTeacher);
+
+            if (editModel == null)
+            {
+                return NotFound();
+            }
+
+            model.ChildFullName = editModel.ChildFullName;
 
             return View(model);
         }

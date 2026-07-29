@@ -16,10 +16,7 @@ public class AnnouncementService : IAnnouncementService
         this.context = context;
     }
 
-    public async Task<IEnumerable<AnnouncementIndexViewModel>> GetAllAsync(
-        string userId,
-        bool isAdmin,
-        bool isTeacher)
+    public async Task<IEnumerable<AnnouncementIndexViewModel>> GetAllAsync(string userId, bool isAdmin, bool isTeacher)
     {
         var query = context.Announcements
             .Where(a => !a.IsDeleted)
@@ -81,11 +78,7 @@ public class AnnouncementService : IAnnouncementService
             .FirstOrDefaultAsync();
     }
 
-    public async Task<bool> CanAccessAnnouncementAsync(
-        int announcementId,
-        string userId,
-        bool isAdmin,
-        bool isTeacher)
+    public async Task<bool> CanAccessAnnouncementAsync(int announcementId, string userId, bool isAdmin, bool isTeacher)
     {
         if (isAdmin)
         {
@@ -119,10 +112,7 @@ public class AnnouncementService : IAnnouncementService
                 (a.GroupId == null || parentGroupIds.Contains(a.GroupId.Value)));
     }
 
-    public async Task<AnnouncementCreateViewModel> GetCreateModelAsync(
-        string userId,
-        bool isAdmin,
-        bool isTeacher)
+    public async Task<AnnouncementCreateViewModel> GetCreateModelAsync(string userId, bool isAdmin, bool isTeacher)
     {
         return new AnnouncementCreateViewModel
         {
@@ -130,11 +120,7 @@ public class AnnouncementService : IAnnouncementService
         };
     }
 
-    public async Task CreateAsync(
-        AnnouncementCreateViewModel model,
-        string userId,
-        bool isAdmin,
-        bool isTeacher)
+    public async Task CreateAsync(AnnouncementCreateViewModel model, string userId, bool isAdmin, bool isTeacher)
     {
         if (isTeacher && !isAdmin)
         {
@@ -161,11 +147,7 @@ public class AnnouncementService : IAnnouncementService
         await context.SaveChangesAsync();
     }
 
-    public async Task<AnnouncementEditViewModel?> GetForEditAsync(
-        int id,
-        string userId,
-        bool isAdmin,
-        bool isTeacher)
+    public async Task<AnnouncementEditViewModel?> GetForEditAsync(int id, string userId, bool isAdmin, bool isTeacher)
     {
         var announcement = await context.Announcements
             .Where(a => a.Id == id && !a.IsDeleted)
@@ -199,11 +181,7 @@ public class AnnouncementService : IAnnouncementService
         return announcement;
     }
 
-    public async Task EditAsync(
-        AnnouncementEditViewModel model,
-        string userId,
-        bool isAdmin,
-        bool isTeacher)
+    public async Task EditAsync(AnnouncementEditViewModel model, string userId, bool isAdmin, bool isTeacher)
     {
         var announcement = await context.Announcements
             .FirstOrDefaultAsync(a => a.Id == model.Id && !a.IsDeleted);
@@ -234,11 +212,7 @@ public class AnnouncementService : IAnnouncementService
         await context.SaveChangesAsync();
     }
 
-    public async Task DeleteAsync(
-        int id,
-        string userId,
-        bool isAdmin,
-        bool isTeacher)
+    public async Task DeleteAsync(int id, string userId, bool isAdmin, bool isTeacher)
     {
         var announcement = await context.Announcements
             .FirstOrDefaultAsync(a => a.Id == id && !a.IsDeleted);
@@ -283,10 +257,7 @@ public class AnnouncementService : IAnnouncementService
             .ToListAsync();
     }
 
-    private async Task<IEnumerable<SelectListItem>> GetGroupSelectListAsync(
-        string userId,
-        bool isAdmin,
-        bool isTeacher)
+    private async Task<IEnumerable<SelectListItem>> GetGroupSelectListAsync(string userId, bool isAdmin, bool isTeacher)
     {
         var query = context.KindergartenGroups
             .Where(g => !g.IsDeleted)

@@ -35,4 +35,7 @@ public class DailyReport
     public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
 
     public bool IsDeleted { get; set; }
+
+    [Required]
+    public string CreatedByUserId { get; set; } = null!;
 }
