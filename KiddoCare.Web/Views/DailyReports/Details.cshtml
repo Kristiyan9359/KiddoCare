@@ -1,0 +1,60 @@
+﻿@model KiddoCare.ViewModels.DailyReports.DailyReportDetailsViewModel
+
+@{
+    ViewData["Title"] = "Daily Report Details";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Daily Report</h1>
+
+    @if (Model.CanManage)
+    {
+        <div>
+            <a asp-action="Edit"
+               asp-route-id="@Model.Id"
+               class="btn btn-outline-primary">
+                Edit
+            </a>
+
+            <a asp-action="Delete"
+               asp-route-id="@Model.Id"
+               class="btn btn-outline-danger">
+                Delete
+            </a>
+        </div>
+    }
+</div>
+
+<dl class="row">
+    <dt class="col-sm-3">Child</dt>
+    <dd class="col-sm-9">@Model.ChildFullName</dd>
+
+    <dt class="col-sm-3">Report Date</dt>
+    <dd class="col-sm-9">@Model.ReportDate.ToString("dd MMM yyyy")</dd>
+
+    <dt class="col-sm-3">Mood</dt>
+    <dd class="col-sm-9">@Model.Mood</dd>
+
+    <dt class="col-sm-3">Meals</dt>
+    <dd class="col-sm-9">@(Model.Meals ?? "No information provided.")</dd>
+
+    <dt class="col-sm-3">Sleep</dt>
+    <dd class="col-sm-9">@(Model.Sleep ?? "No information provided.")</dd>
+
+    <dt class="col-sm-3">Activities</dt>
+    <dd class="col-sm-9" style="white-space: pre-line">
+        @(Model.Activities ?? "No information provided.")
+    </dd>
+
+    <dt class="col-sm-3">Teacher Note</dt>
+    <dd class="col-sm-9" style="white-space: pre-line">
+        @(Model.TeacherNote ?? "No additional note.")
+    </dd>
+
+    <dt class="col-sm-3">Created On</dt>
+    <dd class="col-sm-9">
+        @Model.CreatedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")
+    </dd>
+</dl>
+
+<a asp-action="Index" class="btn btn-secondary">Back</a>
