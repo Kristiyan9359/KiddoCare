@@ -16,10 +16,18 @@ public class ChildService : IChildService
         this.context = context;
     }
 
-    public async Task<IEnumerable<ChildIndexViewModel>> GetAllAsync()
+    public async Task<IEnumerable<ChildIndexViewModel>> GetAllAsync(string userId, bool isAdminOrTeacher)
     {
-        return await context.Children
-            .Where(c => !c.IsDeleted)
+        var query = context.Children
+             .Where(c => !c.IsDeleted)
+             .AsQueryable();
+
+        if (!isAdminOrTeacher)
+        {
+            query = query.Where(c => c.Parent != null && c.Parent.UserId == userId);
+        }
+
+        return await query
             .OrderBy(c => c.FirstName)
             .ThenBy(c => c.LastName)
             .Select(c => new ChildIndexViewModel

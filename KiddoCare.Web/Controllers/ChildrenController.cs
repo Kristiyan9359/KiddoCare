@@ -1,4 +1,5 @@
-﻿using KiddoCare.Services.Core.Contracts;
+﻿using System.Security.Claims;
+using KiddoCare.Services.Core.Contracts;
 using KiddoCare.ViewModels.Children;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +20,10 @@ public class ChildrenController : Controller
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-        var children = await childService.GetAllAsync();
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        var isAdminOrTeacher = User.IsInRole(Admin) || User.IsInRole(Teacher);
+
+        var children = await childService.GetAllAsync(userId, isAdminOrTeacher);
 
         return View(children);
     }
