@@ -32,6 +32,8 @@ builder.Services.AddScoped<IDashboardService, DashboardService>();
 
 builder.Services.AddScoped<IParentService, ParentService>();
 
+builder.Services.AddScoped<ITeacherService, TeacherService>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
