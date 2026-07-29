@@ -1,0 +1,84 @@
+﻿@model KiddoCare.ViewModels.Dashboard.ParentDashboardViewModel
+
+@{
+    ViewData["Title"] = "Parent Dashboard";
+}
+
+<h1>Parent Dashboard</h1>
+
+<h2>My Children</h2>
+
+@if (!Model.Children.Any())
+{
+    <p>No children linked to your profile yet.</p>
+}
+else
+{
+    <div class="row g-3 mb-4">
+        @foreach (var child in Model.Children)
+        {
+            <div class="col-md-4">
+                <div class="border rounded p-3 h-100">
+                    @if (!string.IsNullOrWhiteSpace(child.PhotoUrl))
+                    {
+                        <img src="@child.PhotoUrl"
+                             alt="@child.FullName"
+                             class="img-fluid rounded mb-3"
+                             style="height: 180px; width: 100%; object-fit: cover;" />
+                    }
+
+                    <h5>@child.FullName</h5>
+                    <p class="mb-1"><strong>Group:</strong> @child.GroupName</p>
+                    <p class="mb-1"><strong>Date of Birth:</strong> @child.DateOfBirth.ToString("dd MMM yyyy")</p>
+                    <p class="mb-3"><strong>Gender:</strong> @child.Gender</p>
+
+                    <a asp-controller="Children"
+                       asp-action="Details"
+                       asp-route-id="@child.Id"
+                       class="btn btn-sm btn-outline-secondary">
+                        View Child
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+<h2>Upcoming Events</h2>
+
+@if (!Model.UpcomingEvents.Any())
+{
+    <p>No upcoming events.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Location</th>
+                <th>Group</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var eventItem in Model.UpcomingEvents)
+            {
+                <tr>
+                    <td>
+                        <a asp-controller="Events"
+                           asp-action="Details"
+                           asp-route-id="@eventItem.Id">
+                            @eventItem.Title
+                        </a>
+                    </td>
+                    <td>@eventItem.StartDateTime.ToString("dd MMM yyyy HH:mm")</td>
+                    <td>@eventItem.Type</td>
+                    <td>@eventItem.Location</td>
+                    <td>@eventItem.GroupName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
