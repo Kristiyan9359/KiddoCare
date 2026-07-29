@@ -19,4 +19,10 @@ public class ChildDetailsViewModel
     public string? AdditionalNotes { get; set; }
 
     public string? PhotoUrl { get; set; }
+
+    public string? ParentName { get; set; }
+
+    public string? ParentEmail { get; set; }
+
+    public string? ParentPhoneNumber { get; set; }
 }

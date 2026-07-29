@@ -25,6 +25,20 @@
             <dt class="col-sm-3">Group</dt>
             <dd class="col-sm-9">@Model.GroupName</dd>
 
+            <dt class="col-sm-3">Parent</dt>
+            <dd class="col-sm-9">
+                @if (string.IsNullOrWhiteSpace(Model.ParentName))
+                {
+                    <span>No parent linked.</span>
+                }
+                else
+                {
+                    <div>@Model.ParentName</div>
+                    <div>@Model.ParentEmail</div>
+                    <div>@(string.IsNullOrWhiteSpace(Model.ParentPhoneNumber) ? "No phone number" : Model.ParentPhoneNumber)</div>
+                }
+            </dd>
+
             <dt class="col-sm-3">Allergies</dt>
             <dd class="col-sm-9">
                 @(string.IsNullOrWhiteSpace(Model.Allergies) ? "None" : Model.Allergies)

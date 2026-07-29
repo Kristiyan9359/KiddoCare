@@ -170,6 +170,9 @@ public class ChildService : IChildService
                 GroupName = c.Group.Name,
                 Allergies = c.Allergies,
                 AdditionalNotes = c.AdditionalNotes,
+                ParentName = c.Parent == null ? null : c.Parent.FullName,
+                ParentEmail = c.Parent == null ? null : c.Parent.User.Email,
+                ParentPhoneNumber = c.Parent == null ? null : c.Parent.PhoneNumber,
                 PhotoUrl = c.PhotoUrl
             })
             .FirstOrDefaultAsync();
