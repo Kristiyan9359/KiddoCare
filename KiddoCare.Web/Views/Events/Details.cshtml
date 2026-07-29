@@ -1,0 +1,32 @@
+﻿@model KiddoCare.ViewModels.Events.EventDetailsViewModel
+
+@{
+    ViewData["Title"] = "Event Details";
+}
+
+<h1>@Model.Title</h1>
+
+<dl class="row">
+    <dt class="col-sm-3">Description</dt>
+    <dd class="col-sm-9">@(string.IsNullOrWhiteSpace(Model.Description) ? "No description" : Model.Description)</dd>
+
+    <dt class="col-sm-3">Start</dt>
+    <dd class="col-sm-9">@Model.StartDateTime.ToString("dd MMM yyyy HH:mm")</dd>
+
+    <dt class="col-sm-3">End</dt>
+    <dd class="col-sm-9">@(Model.EndDateTime.HasValue ? Model.EndDateTime.Value.ToString("dd MMM yyyy HH:mm") : "Not specified")</dd>
+
+    <dt class="col-sm-3">Type</dt>
+    <dd class="col-sm-9">@Model.Type</dd>
+
+    <dt class="col-sm-3">Location</dt>
+    <dd class="col-sm-9">@(string.IsNullOrWhiteSpace(Model.Location) ? "Not specified" : Model.Location)</dd>
+
+    <dt class="col-sm-3">Group</dt>
+    <dd class="col-sm-9">@Model.GroupName</dd>
+
+    <dt class="col-sm-3">Public</dt>
+    <dd class="col-sm-9">@(Model.IsPublic ? "Yes" : "No")</dd>
+</dl>
+
+<a asp-action="Index" class="btn btn-secondary">Back</a>

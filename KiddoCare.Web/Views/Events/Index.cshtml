@@ -1,0 +1,54 @@
+﻿@using static KiddoCare.Common.RoleConstants
+@model IEnumerable<KiddoCare.ViewModels.Events.EventIndexViewModel>
+
+@{
+    ViewData["Title"] = "Events";
+}
+
+<h1>Events</h1>
+
+@if (User.IsInRole(Admin) || User.IsInRole(Teacher))
+{
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Create Event</a>
+    </p>
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Location</th>
+            <th>Group</th>
+            <th class="text-end">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var eventItem in Model)
+        {
+            <tr>
+                <td>@eventItem.Title</td>
+                <td>@eventItem.StartDateTime.ToString("dd MMM yyyy HH:mm")</td>
+                <td>@eventItem.Type</td>
+                <td>@eventItem.Location</td>
+                <td>@eventItem.GroupName</td>
+                <td class="text-end">
+                    <a asp-action="Details" asp-route-id="@eventItem.Id" class="btn btn-sm btn-outline-secondary">Details</a>
+
+                    @if (User.IsInRole(Admin) || User.IsInRole(Teacher))
+                    {
+                        <a asp-action="Edit" asp-route-id="@eventItem.Id" class="btn btn-sm btn-outline-primary">Edit</a>
+
+                        <form asp-action="Delete" asp-route-id="@eventItem.Id" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                Delete
+                            </button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
