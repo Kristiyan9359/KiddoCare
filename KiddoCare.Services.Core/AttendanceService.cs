@@ -17,12 +17,39 @@ public class AttendanceService : IAttendanceService
         this.context = context;
     }
 
-    public async Task<AttendanceDailyViewModel> GetDailyAttendanceAsync(DateTime date, int? groupId)
+    public async Task<AttendanceDailyViewModel> GetDailyAttendanceAsync(
+        DateTime date,
+        int? groupId,
+        string userId,
+        bool isAdmin,
+        bool isTeacher)
     {
         var normalizedDate = date.Date;
+        var effectiveGroupId = groupId;
 
-        var groups = await context.KindergartenGroups
+        if (isTeacher && !isAdmin)
+        {
+            effectiveGroupId = await GetTeacherGroupIdAsync(userId);
+
+            if (effectiveGroupId == null)
+            {
+                return new AttendanceDailyViewModel
+                {
+                    Date = normalizedDate
+                };
+            }
+        }
+
+        var groupsQuery = context.KindergartenGroups
             .Where(g => !g.IsDeleted)
+            .AsQueryable();
+
+        if (isTeacher && !isAdmin && effectiveGroupId.HasValue)
+        {
+            groupsQuery = groupsQuery.Where(g => g.Id == effectiveGroupId.Value);
+        }
+
+        var groups = await groupsQuery
             .OrderBy(g => g.Name)
             .Select(g => new SelectListItem
             {
@@ -35,9 +62,9 @@ public class AttendanceService : IAttendanceService
             .Where(c => !c.IsDeleted)
             .AsQueryable();
 
-        if (groupId.HasValue)
+        if (effectiveGroupId.HasValue)
         {
-            childrenQuery = childrenQuery.Where(c => c.GroupId == groupId.Value);
+            childrenQuery = childrenQuery.Where(c => c.GroupId == effectiveGroupId.Value);
         }
 
         var existingRecords = await context.AttendanceRecords
@@ -82,19 +109,48 @@ public class AttendanceService : IAttendanceService
         return new AttendanceDailyViewModel
         {
             Date = normalizedDate,
-            GroupId = groupId,
+            GroupId = effectiveGroupId,
             Groups = groups,
             Children = childViewModels,
             Summary = summary
         };
     }
 
-    public async Task SaveDailyAttendanceAsync(AttendanceDailyViewModel model)
+    public async Task SaveDailyAttendanceAsync(
+        AttendanceDailyViewModel model,
+        string userId,
+        bool isAdmin,
+        bool isTeacher)
     {
         var normalizedDate = model.Date.Date;
 
+        int? teacherGroupId = null;
+
+        if (isTeacher && !isAdmin)
+        {
+            teacherGroupId = await GetTeacherGroupIdAsync(userId);
+
+            if (teacherGroupId == null)
+            {
+                throw new InvalidOperationException("Teacher group not found.");
+            }
+        }
+
         foreach (var childModel in model.Children)
         {
+            var child = await context.Children
+                .FirstOrDefaultAsync(c => c.Id == childModel.ChildId && !c.IsDeleted);
+
+            if (child == null)
+            {
+                continue;
+            }
+
+            if (teacherGroupId.HasValue && child.GroupId != teacherGroupId.Value)
+            {
+                continue;
+            }
+
             var existingRecord = await context.AttendanceRecords
                 .FirstOrDefaultAsync(a =>
                     a.ChildId == childModel.ChildId &&
@@ -122,10 +178,37 @@ public class AttendanceService : IAttendanceService
         await context.SaveChangesAsync();
     }
 
-    public async Task<AttendanceFilterViewModel> GetHistoryAsync(AttendanceFilterViewModel filter)
+    public async Task<AttendanceFilterViewModel> GetHistoryAsync(
+        AttendanceFilterViewModel filter,
+        string userId,
+        bool isAdmin,
+        bool isTeacher)
     {
-        var groups = await context.KindergartenGroups
+        var effectiveGroupId = filter.GroupId;
+
+        if (isTeacher && !isAdmin)
+        {
+            effectiveGroupId = await GetTeacherGroupIdAsync(userId);
+
+            if (effectiveGroupId == null)
+            {
+                filter.Groups = new List<SelectListItem>();
+                filter.Records = new List<AttendanceRecordViewModel>();
+
+                return filter;
+            }
+        }
+
+        var groupsQuery = context.KindergartenGroups
             .Where(g => !g.IsDeleted)
+            .AsQueryable();
+
+        if (isTeacher && !isAdmin && effectiveGroupId.HasValue)
+        {
+            groupsQuery = groupsQuery.Where(g => g.Id == effectiveGroupId.Value);
+        }
+
+        var groups = await groupsQuery
             .OrderBy(g => g.Name)
             .Select(g => new SelectListItem
             {
@@ -149,9 +232,9 @@ public class AttendanceService : IAttendanceService
             query = query.Where(a => a.Date <= filter.ToDate.Value.Date);
         }
 
-        if (filter.GroupId.HasValue)
+        if (effectiveGroupId.HasValue)
         {
-            query = query.Where(a => a.Child.GroupId == filter.GroupId.Value);
+            query = query.Where(a => a.Child.GroupId == effectiveGroupId.Value);
         }
 
         if (filter.Status.HasValue)
@@ -173,9 +256,18 @@ public class AttendanceService : IAttendanceService
             })
             .ToListAsync();
 
+        filter.GroupId = effectiveGroupId;
         filter.Groups = groups;
         filter.Records = records;
 
         return filter;
+    }
+
+    private async Task<int?> GetTeacherGroupIdAsync(string userId)
+    {
+        return await context.TeacherProfiles
+            .Where(t => !t.IsDeleted && t.UserId == userId)
+            .Select(t => (int?)t.GroupId)
+            .FirstOrDefaultAsync();
     }
 }
