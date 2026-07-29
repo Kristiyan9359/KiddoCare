@@ -35,5 +35,9 @@ public class ChildCreateViewModel
     [MaxLength(ChildPhotoUrlMaxLength)]
     public string? PhotoUrl { get; set; }
 
+    public int? ParentId { get; set; }
+
+    public IEnumerable<SelectListItem> Parents { get; set; } = new List<SelectListItem>();
+
     public IEnumerable<SelectListItem> Groups { get; set; } = new List<SelectListItem>();
 }

@@ -39,8 +39,9 @@ public class ChildrenController : Controller
     {
         if (!ModelState.IsValid)
         {
-            model.Groups = (await childService.GetCreateModelAsync()).Groups;
-            return View(model);
+            var createModel = await childService.GetCreateModelAsync();
+            model.Groups = createModel.Groups;
+            model.Parents = createModel.Parents;
         }
 
         await childService.CreateAsync(model);

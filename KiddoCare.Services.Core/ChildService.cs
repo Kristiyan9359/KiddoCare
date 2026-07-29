@@ -38,7 +38,8 @@ public class ChildService : IChildService
     {
         return new ChildCreateViewModel
         {
-            Groups = await GetGroupSelectListAsync()
+            Groups = await GetGroupSelectListAsync(),
+            Parents = await GetParentSelectListAsync()
         };
     }
 
@@ -56,6 +57,7 @@ public class ChildService : IChildService
                 Allergies = c.Allergies,
                 AdditionalNotes = c.AdditionalNotes,
                 GroupId = c.GroupId,
+                ParentId = c.ParentId,
                 PhotoUrl = c.PhotoUrl
             })
             .FirstOrDefaultAsync();
@@ -66,6 +68,8 @@ public class ChildService : IChildService
         }
 
         child.Groups = await GetGroupSelectListAsync();
+
+        child.Parents = await GetParentSelectListAsync();
 
         return child;
     }
@@ -81,6 +85,7 @@ public class ChildService : IChildService
             Allergies = model.Allergies,
             AdditionalNotes = model.AdditionalNotes,
             GroupId = model.GroupId,
+            ParentId = model.ParentId,
             PhotoUrl = model.PhotoUrl
         };
 
@@ -105,9 +110,23 @@ public class ChildService : IChildService
         child.Allergies = model.Allergies;
         child.AdditionalNotes = model.AdditionalNotes;
         child.GroupId = model.GroupId;
+        child.ParentId = model.ParentId;
         child.PhotoUrl = model.PhotoUrl;
 
         await context.SaveChangesAsync();
+    }
+
+    private async Task<IEnumerable<SelectListItem>> GetParentSelectListAsync()
+    {
+        return await context.ParentProfiles
+            .Where(p => !p.IsDeleted)
+            .OrderBy(p => p.FullName)
+            .Select(p => new SelectListItem
+            {
+                Value = p.Id.ToString(),
+                Text = p.FullName + " (" + p.User.Email + ")"
+            })
+            .ToListAsync();
     }
 
     public async Task DeleteAsync(int id)

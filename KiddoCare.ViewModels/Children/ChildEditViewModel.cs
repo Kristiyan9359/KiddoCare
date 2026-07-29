@@ -38,4 +38,8 @@ public class ChildEditViewModel
     public string? PhotoUrl { get; set; }
 
     public IEnumerable<SelectListItem> Groups { get; set; } = new List<SelectListItem>();
+
+    public int? ParentId { get; set; }
+
+    public IEnumerable<SelectListItem> Parents { get; set; } = new List<SelectListItem>();
 }

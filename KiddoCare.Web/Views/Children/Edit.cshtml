@@ -48,6 +48,14 @@
     </div>
 
     <div class="mb-3">
+        <label asp-for="ParentId" class="form-label">Parent</label>
+        <select asp-for="ParentId" asp-items="Model.Parents" class="form-select">
+            <option value="">No parent linked</option>
+        </select>
+        <span asp-validation-for="ParentId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
         <label asp-for="Allergies" class="form-label"></label>
         <textarea asp-for="Allergies" class="form-control" rows="3"></textarea>
         <span asp-validation-for="Allergies" class="text-danger"></span>
