@@ -38,6 +38,11 @@ public class Child
     public string? PhotoUrl { get; set; }
     public KindergartenGroup Group { get; set; } = null!;
 
+    [ForeignKey(nameof(Parent))]
+    public int? ParentId { get; set; }
+
+    public ParentProfile? Parent { get; set; }
+
     public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
 
     public bool IsDeleted { get; set; }

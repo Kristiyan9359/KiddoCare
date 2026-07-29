@@ -20,4 +20,8 @@ public static class ValidationConstants
     public const int EventTitleMaxLength = 100;
     public const int EventDescriptionMaxLength = 1000;
     public const int EventLocationMaxLength = 200;
+
+    //Parents
+    public const int ParentFullNameMaxLength = 100;
+    public const int ParentPhoneNumberMaxLength = 30;
 }
