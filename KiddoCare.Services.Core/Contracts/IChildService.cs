@@ -17,4 +17,6 @@ public interface IChildService
     Task DeleteAsync(int id);
 
     Task<ChildDetailsViewModel?> GetDetailsAsync(int id);
+
+    Task<ChildDeleteViewModel?> GetForDeleteAsync(int id);
 }

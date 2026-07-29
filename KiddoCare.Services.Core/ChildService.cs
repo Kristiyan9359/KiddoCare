@@ -155,4 +155,18 @@ public class ChildService : IChildService
             })
             .FirstOrDefaultAsync();
     }
+
+    public async Task<ChildDeleteViewModel?> GetForDeleteAsync(int id)
+    {
+        return await context.Children
+            .Where(c => c.Id == id && !c.IsDeleted)
+            .Select(c => new ChildDeleteViewModel
+            {
+                Id = c.Id,
+                FullName = c.FirstName + " " + c.LastName,
+                GroupName = c.Group.Name,
+                DateOfBirth = c.DateOfBirth
+            })
+            .FirstOrDefaultAsync();
+    }
 }

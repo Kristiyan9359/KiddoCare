@@ -93,8 +93,23 @@ public class ChildrenController : Controller
     }
 
     [Authorize(Roles = Admin)]
-    [HttpPost]
+    [HttpGet]
     public async Task<IActionResult> Delete(int id)
+    {
+        var model = await childService.GetForDeleteAsync(id);
+
+        if (model == null)
+        {
+            return NotFound();
+        }
+
+        return View(model);
+    }
+
+    [Authorize(Roles = Admin)]
+    [HttpPost]
+    [ActionName("Delete")]
+    public async Task<IActionResult> DeleteConfirmed(int id)
     {
         try
         {
