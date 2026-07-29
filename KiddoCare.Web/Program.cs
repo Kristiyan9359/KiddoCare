@@ -26,6 +26,10 @@ builder.Services.AddScoped<IChildService, ChildService>();
 
 builder.Services.AddScoped<IAttendanceService, AttendanceService>();
 
+builder.Services.AddScoped<IEventService, EventService>();
+
+builder.Services.AddScoped<IDashboardService, DashboardService>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
