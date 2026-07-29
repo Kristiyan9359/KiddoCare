@@ -2,6 +2,7 @@
 
 using System.ComponentModel.DataAnnotations;
 using static KiddoCare.Common.ValidationConstants;
+using KiddoCare.Data.Models.Enums;
 
 public class DailyReport
 {
@@ -15,6 +16,9 @@ public class DailyReport
     public int ChildId { get; set; }
 
     public Child Child { get; set; } = null!;
+
+    [Required]
+    public ChildMood Mood { get; set; }
 
     [MaxLength(DailyReportMealsMaxLength)]
     public string? Meals { get; set; }
