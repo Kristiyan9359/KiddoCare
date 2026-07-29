@@ -20,4 +20,6 @@ public class KindergartenGroup
     public bool IsDeleted { get; set; }
 
     public ICollection<Child> Children { get; set; } = new HashSet<Child>();
+
+    public ICollection<Event> Events { get; set; } = new HashSet<Event>();
 }

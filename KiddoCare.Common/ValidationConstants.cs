@@ -15,4 +15,9 @@ public static class ValidationConstants
 
     //Attendance
     public const int AttendanceNoteMaxLength = 500;
+
+    //Event
+    public const int EventTitleMaxLength = 100;
+    public const int EventDescriptionMaxLength = 1000;
+    public const int EventLocationMaxLength = 200;
 }
