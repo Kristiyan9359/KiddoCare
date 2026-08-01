@@ -76,17 +76,27 @@
 
 <div class="row g-3 mb-4">
     <div class="col-md-6">
-        <div class="border rounded p-3">
-            <div class="fw-bold">Children With Medical Records</div>
-            <div class="fs-4">@Model.ChildrenWithMedicalRecordsCount</div>
-        </div>
+        <a asp-controller="Children"
+           asp-action="Index"
+           asp-route-medicalFilter="with-records"
+           class="text-decoration-none text-dark">
+            <div class="border rounded p-3 h-100">
+                <div class="fw-bold">Children With Medical Records</div>
+                <div class="fs-4">@Model.ChildrenWithMedicalRecordsCount</div>
+            </div>
+        </a>
     </div>
 
     <div class="col-md-6">
-        <div class="border rounded p-3">
-            <div class="fw-bold">Children With Allergies</div>
-            <div class="fs-4">@Model.ChildrenWithAllergiesCount</div>
-        </div>
+        <a asp-controller="Children"
+           asp-action="Index"
+           asp-route-medicalFilter="with-allergies"
+           class="text-decoration-none text-dark">
+            <div class="border rounded p-3 h-100">
+                <div class="fw-bold">Children With Allergies</div>
+                <div class="fs-4">@Model.ChildrenWithAllergiesCount</div>
+            </div>
+        </a>
     </div>
 </div>
 

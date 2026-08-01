@@ -16,7 +16,7 @@ public class ChildService : IChildService
         this.context = context;
     }
 
-    public async Task<IEnumerable<ChildIndexViewModel>> GetAllAsync(string userId, bool isAdmin, bool isTeacher)
+    public async Task<IEnumerable<ChildIndexViewModel>> GetAllAsync(string userId, bool isAdmin, bool isTeacher, string? medicalFilter)
     {
         var query = context.Children
             .Where(c => !c.IsDeleted)
@@ -41,6 +41,20 @@ public class ChildService : IChildService
             query = query.Where(c => c.Parent != null && c.Parent.UserId == userId);
         }
 
+        if (medicalFilter == "with-records")
+        {
+            query = query.Where(c =>
+                c.MedicalRecord != null &&
+                !c.MedicalRecord.IsDeleted);
+        }
+        else if (medicalFilter == "with-allergies")
+        {
+            query = query.Where(c =>
+                c.MedicalRecord != null &&
+                !c.MedicalRecord.IsDeleted &&
+                !string.IsNullOrWhiteSpace(c.MedicalRecord.Allergies));
+        }
+
         return await query
             .OrderBy(c => c.FirstName)
             .ThenBy(c => c.LastName)
@@ -51,7 +65,11 @@ public class ChildService : IChildService
                 DateOfBirth = c.DateOfBirth,
                 Gender = c.Gender,
                 PhotoUrl = c.PhotoUrl,
-                GroupName = c.Group.Name
+                GroupName = c.Group.Name,
+                HasMedicalRecord = c.MedicalRecord != null && !c.MedicalRecord.IsDeleted,
+                HasAllergies = c.MedicalRecord != null &&
+                !c.MedicalRecord.IsDeleted &&
+                !string.IsNullOrWhiteSpace(c.MedicalRecord.Allergies)
             })
             .ToListAsync();
     }

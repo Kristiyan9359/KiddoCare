@@ -15,4 +15,8 @@ public class ChildIndexViewModel
     public string GroupName { get; set; } = null!;
 
     public string? PhotoUrl { get; set; }
+
+    public bool HasMedicalRecord { get; set; }
+
+    public bool HasAllergies { get; set; }
 }

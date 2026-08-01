@@ -7,6 +7,27 @@
 
 <h1>Children</h1>
 
+@if (ViewBag.MedicalFilter == "with-records")
+{
+    <div class="alert alert-info d-flex justify-content-between align-items-center">
+        <span>Showing children with medical records.</span>
+
+        <a asp-action="Index" class="btn btn-sm btn-outline-secondary">
+            Clear filter
+        </a>
+    </div>
+}
+else if (ViewBag.MedicalFilter == "with-allergies")
+{
+    <div class="alert alert-info d-flex justify-content-between align-items-center">
+        <span>Showing children with allergies.</span>
+
+        <a asp-action="Index" class="btn btn-sm btn-outline-secondary">
+            Clear filter
+        </a>
+    </div>
+}
+
 @if (User.IsInRole(Admin))
 {
     <p>
@@ -21,6 +42,8 @@
             <th>Date of Birth</th>
             <th>Gender</th>
             <th>Group</th>
+            <th>Medical</th>
+            <th>Allergies</th>
             <th>Photo</th>
             <th class="text-end">Actions</th>
         </tr>
@@ -33,6 +56,8 @@
                 <td>@child.DateOfBirth.ToString("dd MMM yyyy")</td>
                 <td>@child.Gender</td>
                 <td>@child.GroupName</td>
+                <td>@(child.HasMedicalRecord ? "Yes" : "No")</td>
+                <td>@(child.HasAllergies ? "Yes" : "No")</td>
                 <td>
                     @if (!string.IsNullOrWhiteSpace(child.PhotoUrl))
                     {

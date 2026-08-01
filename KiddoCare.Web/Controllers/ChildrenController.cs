@@ -18,13 +18,15 @@ public class ChildrenController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string? medicalFilter)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
         var isAdmin = User.IsInRole(Admin);
         var isTeacher = User.IsInRole(Teacher);
 
-        var children = await childService.GetAllAsync(userId, isAdmin, isTeacher);
+        var children = await childService.GetAllAsync(userId, isAdmin, isTeacher, medicalFilter);
+
+        ViewBag.MedicalFilter = medicalFilter;
 
         return View(children);
     }
