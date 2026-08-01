@@ -8,6 +8,26 @@
 
 <h2>@Model.GroupName</h2>
 
+<div class="mb-4">
+    <a asp-controller="Attendance"
+       asp-action="Daily"
+       class="btn btn-primary me-2">
+        Manage Attendance
+    </a>
+
+    <a asp-controller="DailyReports"
+       asp-action="Create"
+       class="btn btn-outline-primary me-2">
+        Create Daily Report
+    </a>
+
+    <a asp-controller="Children"
+       asp-action="Index"
+       class="btn btn-outline-secondary">
+        View Children
+    </a>
+</div>
+
 <div class="row g-3 mb-4">
     <div class="col-md-3">
         <div class="border rounded p-3">
