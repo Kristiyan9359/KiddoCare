@@ -18,6 +18,10 @@ public class TeacherDashboardViewModel
 
     public int VacationTodayCount { get; set; }
 
+    public int ChildrenWithMedicalRecordsCount { get; set; }
+
+    public int ChildrenWithAllergiesCount { get; set; }
+
     public IEnumerable<EventIndexViewModel> UpcomingEvents { get; set; } = new List<EventIndexViewModel>();
 
     public IEnumerable<TeacherDashboardDailyReportViewModel> RecentDailyReports { get; set; } = new List<TeacherDashboardDailyReportViewModel>();

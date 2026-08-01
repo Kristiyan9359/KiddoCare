@@ -175,6 +175,21 @@ public class DashboardService : IDashboardService
         var childrenCount = await context.Children
             .CountAsync(c => !c.IsDeleted && c.GroupId == teacher.GroupId);
 
+        var childrenWithMedicalRecordsCount = await context.Children
+            .CountAsync(c =>
+                !c.IsDeleted &&
+                c.GroupId == teacher.GroupId &&
+                c.MedicalRecord != null &&
+                !c.MedicalRecord.IsDeleted);
+
+        var childrenWithAllergiesCount = await context.Children
+            .CountAsync(c =>
+                !c.IsDeleted &&
+                c.GroupId == teacher.GroupId &&
+                c.MedicalRecord != null &&
+                !c.MedicalRecord.IsDeleted &&
+                !string.IsNullOrWhiteSpace(c.MedicalRecord.Allergies));
+
         var todayAttendance = await context.AttendanceRecords
             .Where(a => a.Date == today && a.Child.GroupId == teacher.GroupId)
             .ToListAsync();
@@ -240,7 +255,9 @@ public class DashboardService : IDashboardService
             VacationTodayCount = todayAttendance.Count(a => a.Status == AttendanceStatus.Vacation),
             UpcomingEvents = upcomingEvents,
             RecentDailyReports = recentDailyReports,
-            RecentAnnouncements = recentAnnouncements
+            RecentAnnouncements = recentAnnouncements,
+            ChildrenWithMedicalRecordsCount = childrenWithMedicalRecordsCount,
+            ChildrenWithAllergiesCount = childrenWithAllergiesCount
         };
     }
 }
