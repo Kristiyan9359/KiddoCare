@@ -36,13 +36,18 @@ public class MedicalRecordsController : Controller
 
     [Authorize(Roles = Admin)]
     [HttpGet]
-    public async Task<IActionResult> Create()
+    public async Task<IActionResult> Create(int? childId)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
         var isAdmin = User.IsInRole(Admin);
         var isTeacher = User.IsInRole(Teacher);
 
         var model = await medicalRecordService.GetCreateModelAsync(userId, isAdmin, isTeacher);
+
+        if (childId.HasValue)
+        {
+            model.ChildId = childId.Value;
+        }
 
         return View(model);
     }
