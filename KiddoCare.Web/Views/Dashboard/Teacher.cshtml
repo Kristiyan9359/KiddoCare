@@ -74,6 +74,51 @@
     </div>
 </div>
 
+<h2>Recent Daily Reports</h2>
+
+@if (!Model.RecentDailyReports.Any())
+{
+    <p>No daily reports created yet.</p>
+}
+else
+{
+    <table class="table table-striped mb-4">
+        <thead>
+            <tr>
+                <th>Child</th>
+                <th>Date</th>
+                <th>Mood</th>
+                <th class="text-end">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var report in Model.RecentDailyReports)
+            {
+                <tr>
+                    <td>@report.ChildFullName</td>
+                    <td>@report.ReportDate.ToString("dd MMM yyyy")</td>
+                    <td>@report.Mood</td>
+                    <td class="text-end">
+                        <a asp-controller="DailyReports"
+                           asp-action="Details"
+                           asp-route-id="@report.Id"
+                           class="btn btn-sm btn-outline-secondary">
+                            Details
+                        </a>
+
+                        <a asp-controller="DailyReports"
+                           asp-action="Edit"
+                           asp-route-id="@report.Id"
+                           class="btn btn-sm btn-outline-primary">
+                            Edit
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
 <h2>Upcoming Events</h2>
 
 @if (!Model.UpcomingEvents.Any())

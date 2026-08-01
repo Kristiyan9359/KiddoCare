@@ -1,11 +1,12 @@
-﻿using KiddoCare.Data;
+﻿namespace KiddoCare.Services.Core;
+
+using KiddoCare.Data;
 using KiddoCare.Data.Models.Enums;
 using KiddoCare.Services.Core.Contracts;
 using KiddoCare.ViewModels.Dashboard;
 using KiddoCare.ViewModels.Events;
 using Microsoft.EntityFrameworkCore;
 
-namespace KiddoCare.Services.Core;
 
 public class DashboardService : IDashboardService
 {
@@ -166,16 +167,34 @@ public class DashboardService : IDashboardService
             })
             .ToListAsync();
 
+        var recentDailyReports = await context.DailyReports
+            .Where(r =>
+                !r.IsDeleted &&
+                r.CreatedByUserId == userId)
+            .OrderByDescending(r => r.ReportDate)
+            .ThenBy(r => r.Child.FirstName)
+            .ThenBy(r => r.Child.LastName)
+            .Take(5)
+            .Select(r => new TeacherDashboardDailyReportViewModel
+            {
+                Id = r.Id,
+                ChildFullName = r.Child.FirstName + " " + r.Child.LastName,
+                ReportDate = r.ReportDate,
+                Mood = r.Mood
+            })
+            .ToListAsync();
+
         return new TeacherDashboardViewModel
         {
             GroupName = teacher.GroupName,
             ChildrenCount = childrenCount,
-            PresentTodayCount = todayAttendance.Count(a => a.Status == KiddoCare.Data.Models.Enums.AttendanceStatus.Present),
-            AbsentTodayCount = todayAttendance.Count(a => a.Status == KiddoCare.Data.Models.Enums.AttendanceStatus.Absent),
-            SickTodayCount = todayAttendance.Count(a => a.Status == KiddoCare.Data.Models.Enums.AttendanceStatus.Sick),
-            LateTodayCount = todayAttendance.Count(a => a.Status == KiddoCare.Data.Models.Enums.AttendanceStatus.Late),
-            VacationTodayCount = todayAttendance.Count(a => a.Status == KiddoCare.Data.Models.Enums.AttendanceStatus.Vacation),
-            UpcomingEvents = upcomingEvents
+            PresentTodayCount = todayAttendance.Count(a => a.Status == AttendanceStatus.Present),
+            AbsentTodayCount = todayAttendance.Count(a => a.Status == AttendanceStatus.Absent),
+            SickTodayCount = todayAttendance.Count(a => a.Status == AttendanceStatus.Sick),
+            LateTodayCount = todayAttendance.Count(a => a.Status == AttendanceStatus.Late),
+            VacationTodayCount = todayAttendance.Count(a => a.Status == AttendanceStatus.Vacation),
+            UpcomingEvents = upcomingEvents,
+            RecentDailyReports = recentDailyReports
         };
     }
 }
