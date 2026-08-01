@@ -34,4 +34,6 @@ public class MedicalRecordEditViewModel
 
     [MaxLength(MedicalRecordNotesMaxLength)]
     public string? Notes { get; set; }
+
+    public int ChildId { get; set; }
 }

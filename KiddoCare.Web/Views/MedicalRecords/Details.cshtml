@@ -1,0 +1,62 @@
+﻿@model KiddoCare.ViewModels.MedicalRecords.MedicalRecordDetailsViewModel
+
+@{
+    ViewData["Title"] = "Medical Record";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Medical Record</h1>
+
+    @if (Model.CanManage)
+    {
+        <div>
+            <a asp-action="Edit"
+               asp-route-id="@Model.Id"
+               class="btn btn-outline-primary">
+                Edit
+            </a>
+
+            <a asp-action="Delete"
+               asp-route-id="@Model.Id"
+               class="btn btn-outline-danger">
+                Delete
+            </a>
+        </div>
+    }
+</div>
+
+<p>
+    <strong>Child:</strong> @Model.ChildFullName
+</p>
+
+<dl class="row">
+    <dt class="col-sm-3">Allergies</dt>
+    <dd class="col-sm-9">@(Model.Allergies ?? "No information provided.")</dd>
+
+    <dt class="col-sm-3">Chronic Conditions</dt>
+    <dd class="col-sm-9">@(Model.ChronicConditions ?? "No information provided.")</dd>
+
+    <dt class="col-sm-3">Doctor Name</dt>
+    <dd class="col-sm-9">@(Model.DoctorName ?? "No information provided.")</dd>
+
+    <dt class="col-sm-3">Doctor Phone</dt>
+    <dd class="col-sm-9">@(Model.DoctorPhone ?? "No information provided.")</dd>
+
+    <dt class="col-sm-3">Emergency Contact Name</dt>
+    <dd class="col-sm-9">@(Model.EmergencyContactName ?? "No information provided.")</dd>
+
+    <dt class="col-sm-3">Emergency Contact Phone</dt>
+    <dd class="col-sm-9">@(Model.EmergencyContactPhone ?? "No information provided.")</dd>
+
+    <dt class="col-sm-3">Notes</dt>
+    <dd class="col-sm-9" style="white-space: pre-line">
+        @(Model.Notes ?? "No additional notes.")
+    </dd>
+</dl>
+
+<a asp-controller="Children"
+   asp-action="Details"
+   asp-route-id="@Model.ChildId"
+   class="btn btn-secondary">
+    Back to Child
+</a>

@@ -115,7 +115,8 @@ public class MedicalRecordService : IMedicalRecordService
                 DoctorPhone = m.DoctorPhone,
                 EmergencyContactName = m.EmergencyContactName,
                 EmergencyContactPhone = m.EmergencyContactPhone,
-                Notes = m.Notes
+                Notes = m.Notes,
+                ChildId = m.ChildId
             })
             .FirstOrDefaultAsync();
     }

@@ -1,0 +1,68 @@
+﻿@model KiddoCare.ViewModels.MedicalRecords.MedicalRecordCreateViewModel
+
+@{
+    ViewData["Title"] = "Create Medical Record";
+}
+
+<h1>Create Medical Record</h1>
+
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="ChildId" class="form-label"></label>
+        <select asp-for="ChildId" asp-items="Model.Children" class="form-select">
+            <option value="">Select child</option>
+        </select>
+        <span asp-validation-for="ChildId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Allergies" class="form-label"></label>
+        <textarea asp-for="Allergies" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="Allergies" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ChronicConditions" class="form-label"></label>
+        <textarea asp-for="ChronicConditions" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="ChronicConditions" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="DoctorName" class="form-label"></label>
+        <input asp-for="DoctorName" class="form-control" />
+        <span asp-validation-for="DoctorName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="DoctorPhone" class="form-label"></label>
+        <input asp-for="DoctorPhone" class="form-control" />
+        <span asp-validation-for="DoctorPhone" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="EmergencyContactName" class="form-label"></label>
+        <input asp-for="EmergencyContactName" class="form-control" />
+        <span asp-validation-for="EmergencyContactName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="EmergencyContactPhone" class="form-label"></label>
+        <input asp-for="EmergencyContactPhone" class="form-control" />
+        <span asp-validation-for="EmergencyContactPhone" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Notes" class="form-label"></label>
+        <textarea asp-for="Notes" class="form-control" rows="4"></textarea>
+        <span asp-validation-for="Notes" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-controller="Children" asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

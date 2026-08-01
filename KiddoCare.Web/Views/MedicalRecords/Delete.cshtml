@@ -1,0 +1,19 @@
+﻿@model KiddoCare.ViewModels.MedicalRecords.MedicalRecordDeleteViewModel
+
+@{
+    ViewData["Title"] = "Delete Medical Record";
+}
+
+<h1>Delete Medical Record</h1>
+
+<div class="alert alert-warning">
+    Are you sure you want to delete the medical record for
+    <strong>@Model.ChildFullName</strong>?
+</div>
+
+<form asp-action="Delete" method="post">
+    <input asp-for="Id" type="hidden" />
+
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-controller="Children" asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
