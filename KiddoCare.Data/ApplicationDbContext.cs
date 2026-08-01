@@ -32,5 +32,10 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             .HasIndex(m => m.ChildId)
             .IsUnique()
             .HasFilter("[IsDeleted] = 0");
+
+        builder.Entity<DailyReport>()
+           .HasIndex(r => new { r.ChildId, r.ReportDate })
+           .IsUnique()
+           .HasFilter("[IsDeleted] = 0");
     }
 }
