@@ -23,4 +23,14 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public virtual DbSet<DailyReport> DailyReports { get; set; } = null!;
 
     public virtual DbSet<MedicalRecord> MedicalRecords { get; set; } = null!;
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+
+        builder.Entity<MedicalRecord>()
+            .HasIndex(m => m.ChildId)
+            .IsUnique()
+            .HasFilter("[IsDeleted] = 0");
+    }
 }
