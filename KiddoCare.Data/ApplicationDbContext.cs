@@ -21,4 +21,6 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public virtual DbSet<Announcement> Announcements { get; set; } = null!;
 
     public virtual DbSet<DailyReport> DailyReports { get; set; } = null!;
+
+    public virtual DbSet<MedicalRecord> MedicalRecords { get; set; } = null!;
 }

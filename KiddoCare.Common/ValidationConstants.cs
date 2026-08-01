@@ -38,4 +38,13 @@ public static class ValidationConstants
     public const int DailyReportSleepMaxLength = 300;
     public const int DailyReportActivitiesMaxLength = 1000;
     public const int DailyReportTeacherNoteMaxLength = 1000;
+
+    //Medical Records
+    public const int MedicalRecordAllergiesMaxLength = 1000;
+    public const int MedicalRecordChronicConditionsMaxLength = 1000;
+    public const int MedicalRecordDoctorNameMaxLength = 100;
+    public const int MedicalRecordDoctorPhoneMaxLength = 30;
+    public const int MedicalRecordEmergencyContactNameMaxLength = 100;
+    public const int MedicalRecordEmergencyContactPhoneMaxLength = 30;
+    public const int MedicalRecordNotesMaxLength = 1000;
 }
