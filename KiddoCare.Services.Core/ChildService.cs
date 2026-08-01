@@ -195,7 +195,8 @@ public class ChildService : IChildService
                 ParentName = c.Parent == null ? null : c.Parent.FullName,
                 ParentEmail = c.Parent == null ? null : c.Parent.User.Email,
                 ParentPhoneNumber = c.Parent == null ? null : c.Parent.PhoneNumber,
-                PhotoUrl = c.PhotoUrl
+                PhotoUrl = c.PhotoUrl,
+                HasMedicalRecord = c.MedicalRecord != null && !c.MedicalRecord.IsDeleted,
             })
             .FirstOrDefaultAsync();
     }

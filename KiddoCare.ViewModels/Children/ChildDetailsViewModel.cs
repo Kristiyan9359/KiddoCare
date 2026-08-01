@@ -25,4 +25,6 @@ public class ChildDetailsViewModel
     public string? ParentEmail { get; set; }
 
     public string? ParentPhoneNumber { get; set; }
+
+    public bool HasMedicalRecord { get; set; }
 }

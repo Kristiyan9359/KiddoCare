@@ -50,6 +50,24 @@
             </dd>
         </dl>
 
+        @if (Model.HasMedicalRecord)
+        {
+            <a asp-controller="MedicalRecords"
+               asp-action="Details"
+               asp-route-childId="@Model.Id"
+               class="btn btn-outline-info">
+                Medical Record
+            </a>
+        }
+        else if (User.IsInRole("Admin"))
+        {
+            <a asp-controller="MedicalRecords"
+               asp-action="Create"
+               class="btn btn-outline-info">
+                Add Medical Record
+            </a>
+        }
+
         <a asp-action="Index" class="btn btn-secondary">Back</a>
     </div>
 </div>
