@@ -46,6 +46,19 @@ public class DashboardService : IDashboardService
             })
             .ToListAsync();
 
+        var recentAnnouncements = await context.Announcements
+            .Where(a => !a.IsDeleted)
+            .OrderByDescending(a => a.PublishedOn)
+            .Take(5)
+            .Select(a => new DashboardAnnouncementViewModel
+            {
+                Id = a.Id,
+                Title = a.Title,
+                PublishedOn = a.PublishedOn,
+                GroupName = a.Group == null ? "All groups" : a.Group.Name
+            })
+            .ToListAsync();
+
         return new DashboardViewModel
         {
             GroupsCount = groupsCount,
@@ -55,7 +68,8 @@ public class DashboardService : IDashboardService
             SickTodayCount = todayAttendance.Count(a => a.Status == AttendanceStatus.Sick),
             LateTodayCount = todayAttendance.Count(a => a.Status == AttendanceStatus.Late),
             VacationTodayCount = todayAttendance.Count(a => a.Status == AttendanceStatus.Vacation),
-            UpcomingEvents = upcomingEvents
+            UpcomingEvents = upcomingEvents,
+            RecentAnnouncements = recentAnnouncements
         };
     }
 
@@ -117,10 +131,26 @@ public class DashboardService : IDashboardService
             })
             .ToListAsync();
 
+        var recentAnnouncements = await context.Announcements
+            .Where(a =>
+                !a.IsDeleted &&
+                (a.GroupId == null || groupIds.Contains(a.GroupId.Value)))
+            .OrderByDescending(a => a.PublishedOn)
+            .Take(5)
+            .Select(a => new DashboardAnnouncementViewModel
+            {
+                Id = a.Id,
+                Title = a.Title,
+                PublishedOn = a.PublishedOn,
+                GroupName = a.Group == null ? "All groups" : a.Group.Name
+            })
+            .ToListAsync();
+
         return new ParentDashboardViewModel
         {
             Children = children,
-            UpcomingEvents = upcomingEvents
+            UpcomingEvents = upcomingEvents,
+            RecentAnnouncements = recentAnnouncements
         };
     }
 
@@ -184,6 +214,21 @@ public class DashboardService : IDashboardService
             })
             .ToListAsync();
 
+        var recentAnnouncements = await context.Announcements
+            .Where(a =>
+                !a.IsDeleted &&
+                (a.GroupId == null || a.GroupId == teacher.GroupId))
+            .OrderByDescending(a => a.PublishedOn)
+            .Take(5)
+            .Select(a => new DashboardAnnouncementViewModel
+            {
+                Id = a.Id,
+                Title = a.Title,
+                PublishedOn = a.PublishedOn,
+                GroupName = a.Group == null ? "All groups" : a.Group.Name
+            })
+            .ToListAsync();
+
         return new TeacherDashboardViewModel
         {
             GroupName = teacher.GroupName,
@@ -194,7 +239,8 @@ public class DashboardService : IDashboardService
             LateTodayCount = todayAttendance.Count(a => a.Status == AttendanceStatus.Late),
             VacationTodayCount = todayAttendance.Count(a => a.Status == AttendanceStatus.Vacation),
             UpcomingEvents = upcomingEvents,
-            RecentDailyReports = recentDailyReports
+            RecentDailyReports = recentDailyReports,
+            RecentAnnouncements = recentAnnouncements
         };
     }
 }
