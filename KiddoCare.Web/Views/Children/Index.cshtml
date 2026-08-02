@@ -7,10 +7,10 @@
 
 <h1>Children</h1>
 
-@if (ViewBag.MedicalFilter == "with-records")
+@* @if (ViewBag.MedicalFilter == "with-records")
 {
     <div class="alert alert-info d-flex justify-content-between align-items-center">
-        <span>Showing children with medical records.</span>
+        <span>Children with medical records.</span>
 
         <a asp-action="Index" class="btn btn-sm btn-outline-secondary">
             Clear filter
@@ -20,13 +20,13 @@
 else if (ViewBag.MedicalFilter == "with-allergies")
 {
     <div class="alert alert-info d-flex justify-content-between align-items-center">
-        <span>Showing children with allergies.</span>
+        <span>Children with allergies.</span>
 
         <a asp-action="Index" class="btn btn-sm btn-outline-secondary">
             Clear filter
         </a>
     </div>
-}
+} *@
 
 @if (User.IsInRole(Admin))
 {
@@ -34,6 +34,25 @@ else if (ViewBag.MedicalFilter == "with-allergies")
         <a asp-action="Create" class="btn btn-primary">Add Child</a>
     </p>
 }
+
+<div class="mb-3">
+    <a asp-action="Index"
+       class="btn btn-sm @(ViewBag.MedicalFilter == null ? "btn-primary" : "btn-outline-primary")">
+        All children
+    </a>
+
+    <a asp-action="Index"
+       asp-route-medicalFilter="with-records"
+       class="btn btn-sm @(ViewBag.MedicalFilter == "with-records" ? "btn-primary" : "btn-outline-primary")">
+        With medical records
+    </a>
+
+    <a asp-action="Index"
+       asp-route-medicalFilter="with-allergies"
+       class="btn btn-sm @(ViewBag.MedicalFilter == "with-allergies" ? "btn-primary" : "btn-outline-primary")">
+        With allergies
+    </a>
+</div>
 
 <table class="table table-striped">
     <thead>
