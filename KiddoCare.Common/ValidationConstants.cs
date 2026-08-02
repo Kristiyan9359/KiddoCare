@@ -9,8 +9,6 @@ public static class ValidationConstants
     //Children
     public const int ChildFirstNameMaxLength = 50;
     public const int ChildLastNameMaxLength = 50;
-    public const int ChildAllergiesMaxLength = 500;
-    public const int ChildAdditionalNotesMaxLength = 1000;
     public const int ChildPhotoUrlMaxLength = 2048;
 
     //Attendance

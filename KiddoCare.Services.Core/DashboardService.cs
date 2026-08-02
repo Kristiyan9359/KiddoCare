@@ -179,16 +179,15 @@ public class DashboardService : IDashboardService
             .CountAsync(c =>
                 !c.IsDeleted &&
                 c.GroupId == teacher.GroupId &&
-                c.MedicalRecord != null &&
-                !c.MedicalRecord.IsDeleted);
+                c.MedicalRecords.Any(m => !m.IsDeleted));
 
         var childrenWithAllergiesCount = await context.Children
             .CountAsync(c =>
                 !c.IsDeleted &&
                 c.GroupId == teacher.GroupId &&
-                c.MedicalRecord != null &&
-                !c.MedicalRecord.IsDeleted &&
-                !string.IsNullOrWhiteSpace(c.MedicalRecord.Allergies));
+                c.MedicalRecords.Any(m =>
+                    !m.IsDeleted &&
+                    !string.IsNullOrWhiteSpace(m.Allergies)));
 
         var todayAttendance = await context.AttendanceRecords
             .Where(a => a.Date == today && a.Child.GroupId == teacher.GroupId)

@@ -44,15 +44,14 @@ public class ChildService : IChildService
         if (medicalFilter == "with-records")
         {
             query = query.Where(c =>
-                c.MedicalRecord != null &&
-                !c.MedicalRecord.IsDeleted);
+                c.MedicalRecords.Any(m => !m.IsDeleted));
         }
         else if (medicalFilter == "with-allergies")
         {
             query = query.Where(c =>
-                c.MedicalRecord != null &&
-                !c.MedicalRecord.IsDeleted &&
-                !string.IsNullOrWhiteSpace(c.MedicalRecord.Allergies));
+                c.MedicalRecords.Any(m =>
+                    !m.IsDeleted &&
+                    !string.IsNullOrWhiteSpace(m.Allergies)));
         }
 
         return await query
@@ -66,10 +65,10 @@ public class ChildService : IChildService
                 Gender = c.Gender,
                 PhotoUrl = c.PhotoUrl,
                 GroupName = c.Group.Name,
-                HasMedicalRecord = c.MedicalRecord != null && !c.MedicalRecord.IsDeleted,
-                HasAllergies = c.MedicalRecord != null &&
-                !c.MedicalRecord.IsDeleted &&
-                !string.IsNullOrWhiteSpace(c.MedicalRecord.Allergies)
+                HasMedicalRecord = c.MedicalRecords.Any(m => !m.IsDeleted),
+                HasAllergies = c.MedicalRecords.Any(m =>
+                    !m.IsDeleted &&
+                    !string.IsNullOrWhiteSpace(m.Allergies))
             })
             .ToListAsync();
     }
@@ -206,19 +205,23 @@ public class ChildService : IChildService
                 ParentEmail = c.Parent == null ? null : c.Parent.User.Email,
                 ParentPhoneNumber = c.Parent == null ? null : c.Parent.PhoneNumber,
                 PhotoUrl = c.PhotoUrl,
-                HasMedicalRecord = c.MedicalRecord != null && !c.MedicalRecord.IsDeleted,
-                MedicalAllergies = c.MedicalRecord == null || c.MedicalRecord.IsDeleted
-                 ? null
-                 : c.MedicalRecord.Allergies,
-                MedicalChronicConditions = c.MedicalRecord == null || c.MedicalRecord.IsDeleted
-                 ? null
-                 : c.MedicalRecord.ChronicConditions,
-                MedicalEmergencyContactName = c.MedicalRecord == null || c.MedicalRecord.IsDeleted
-                 ? null
-                 : c.MedicalRecord.EmergencyContactName,
-                MedicalEmergencyContactPhone = c.MedicalRecord == null || c.MedicalRecord.IsDeleted
-                 ? null
-                 : c.MedicalRecord.EmergencyContactPhone
+                HasMedicalRecord = c.MedicalRecords.Any(m => !m.IsDeleted),
+                MedicalAllergies = c.MedicalRecords
+                    .Where(m => !m.IsDeleted)
+                    .Select(m => m.Allergies)
+                    .FirstOrDefault(),
+                MedicalChronicConditions = c.MedicalRecords
+                    .Where(m => !m.IsDeleted)
+                    .Select(m => m.ChronicConditions)
+                    .FirstOrDefault(),
+                MedicalEmergencyContactName = c.MedicalRecords
+                    .Where(m => !m.IsDeleted)
+                    .Select(m => m.EmergencyContactName)
+                    .FirstOrDefault(),
+                MedicalEmergencyContactPhone = c.MedicalRecords
+                    .Where(m => !m.IsDeleted)
+                    .Select(m => m.EmergencyContactPhone)
+                    .FirstOrDefault()
             })
             .FirstOrDefaultAsync();
     }

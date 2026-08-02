@@ -125,7 +125,7 @@ public class MedicalRecordsController : Controller
             return NotFound();
         }
 
-        return RedirectToAction("Details", "MedicalRecords", new { childId = model.Id });
+        return RedirectToAction("Details", "MedicalRecords", new { childId = model.ChildId });
     }
 
     [Authorize(Roles = Admin)]

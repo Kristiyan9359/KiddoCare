@@ -219,7 +219,7 @@ public class MedicalRecordService : IMedicalRecordService
         return await context.Children
             .Where(c =>
                 !c.IsDeleted &&
-                (c.MedicalRecord == null || c.MedicalRecord.IsDeleted))
+                !c.MedicalRecords.Any(m => !m.IsDeleted))
             .OrderBy(c => c.FirstName)
             .ThenBy(c => c.LastName)
             .Select(c => new SelectListItem

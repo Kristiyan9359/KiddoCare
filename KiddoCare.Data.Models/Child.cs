@@ -35,13 +35,13 @@ public class Child
     [ForeignKey(nameof(Parent))]
     public int? ParentId { get; set; }
 
-    public MedicalRecord? MedicalRecord { get; set; }
-
     public ParentProfile? Parent { get; set; }
 
     public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
 
     public bool IsDeleted { get; set; }
+
+    public ICollection<MedicalRecord> MedicalRecords { get; set; } = new HashSet<MedicalRecord>();
 
     public ICollection<AttendanceRecord> AttendanceRecords { get; set; } = new HashSet<AttendanceRecord>();
 

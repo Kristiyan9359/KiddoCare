@@ -29,6 +29,11 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         base.OnModelCreating(builder);
 
         builder.Entity<MedicalRecord>()
+            .HasOne(m => m.Child)
+            .WithMany(c => c.MedicalRecords)
+            .HasForeignKey(m => m.ChildId);
+
+        builder.Entity<MedicalRecord>()
             .HasIndex(m => m.ChildId)
             .IsUnique()
             .HasFilter("[IsDeleted] = 0");
