@@ -94,8 +94,6 @@ public class ChildService : IChildService
                 LastName = c.LastName,
                 Gender = c.Gender,
                 DateOfBirth = c.DateOfBirth,
-                Allergies = c.Allergies,
-                AdditionalNotes = c.AdditionalNotes,
                 GroupId = c.GroupId,
                 ParentId = c.ParentId,
                 PhotoUrl = c.PhotoUrl
@@ -122,8 +120,6 @@ public class ChildService : IChildService
             LastName = model.LastName,
             Gender = model.Gender,
             DateOfBirth = model.DateOfBirth,
-            Allergies = model.Allergies,
-            AdditionalNotes = model.AdditionalNotes,
             GroupId = model.GroupId,
             ParentId = model.ParentId,
             PhotoUrl = model.PhotoUrl
@@ -147,8 +143,6 @@ public class ChildService : IChildService
         child.LastName = model.LastName;
         child.Gender = model.Gender;
         child.DateOfBirth = model.DateOfBirth;
-        child.Allergies = model.Allergies;
-        child.AdditionalNotes = model.AdditionalNotes;
         child.GroupId = model.GroupId;
         child.ParentId = model.ParentId;
         child.PhotoUrl = model.PhotoUrl;
@@ -208,13 +202,23 @@ public class ChildService : IChildService
                 DateOfBirth = c.DateOfBirth,
                 Gender = c.Gender,
                 GroupName = c.Group.Name,
-                Allergies = c.Allergies,
-                AdditionalNotes = c.AdditionalNotes,
                 ParentName = c.Parent == null ? null : c.Parent.FullName,
                 ParentEmail = c.Parent == null ? null : c.Parent.User.Email,
                 ParentPhoneNumber = c.Parent == null ? null : c.Parent.PhoneNumber,
                 PhotoUrl = c.PhotoUrl,
                 HasMedicalRecord = c.MedicalRecord != null && !c.MedicalRecord.IsDeleted,
+                MedicalAllergies = c.MedicalRecord == null || c.MedicalRecord.IsDeleted
+                 ? null
+                 : c.MedicalRecord.Allergies,
+                MedicalChronicConditions = c.MedicalRecord == null || c.MedicalRecord.IsDeleted
+                 ? null
+                 : c.MedicalRecord.ChronicConditions,
+                MedicalEmergencyContactName = c.MedicalRecord == null || c.MedicalRecord.IsDeleted
+                 ? null
+                 : c.MedicalRecord.EmergencyContactName,
+                MedicalEmergencyContactPhone = c.MedicalRecord == null || c.MedicalRecord.IsDeleted
+                 ? null
+                 : c.MedicalRecord.EmergencyContactPhone
             })
             .FirstOrDefaultAsync();
     }

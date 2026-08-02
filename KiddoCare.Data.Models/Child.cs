@@ -24,12 +24,6 @@ public class Child
     [Required]
     public DateTime DateOfBirth { get; set; }
 
-    [MaxLength(ChildAllergiesMaxLength)]
-    public string? Allergies { get; set; }
-
-    [MaxLength(ChildAdditionalNotesMaxLength)]
-    public string? AdditionalNotes { get; set; }
-
     [Required]
     [ForeignKey(nameof(Group))]
     public int GroupId { get; set; }

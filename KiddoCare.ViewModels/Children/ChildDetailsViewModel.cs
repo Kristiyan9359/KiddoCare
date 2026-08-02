@@ -14,10 +14,6 @@ public class ChildDetailsViewModel
 
     public string GroupName { get; set; } = null!;
 
-    public string? Allergies { get; set; }
-
-    public string? AdditionalNotes { get; set; }
-
     public string? PhotoUrl { get; set; }
 
     public string? ParentName { get; set; }
@@ -27,4 +23,12 @@ public class ChildDetailsViewModel
     public string? ParentPhoneNumber { get; set; }
 
     public bool HasMedicalRecord { get; set; }
+
+    public string? MedicalAllergies { get; set; }
+
+    public string? MedicalChronicConditions { get; set; }
+
+    public string? MedicalEmergencyContactName { get; set; }
+
+    public string? MedicalEmergencyContactPhone { get; set; }
 }

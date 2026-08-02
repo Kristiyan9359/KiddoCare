@@ -25,12 +25,6 @@ public class ChildEditViewModel
     [ChildBirthDate]
     public DateTime DateOfBirth { get; set; }
 
-    [MaxLength(ChildAllergiesMaxLength)]
-    public string? Allergies { get; set; }
-
-    [MaxLength(ChildAdditionalNotesMaxLength)]
-    public string? AdditionalNotes { get; set; }
-
     [Required]
     public int GroupId { get; set; }
 

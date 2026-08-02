@@ -38,35 +38,54 @@
                     <div>@(string.IsNullOrWhiteSpace(Model.ParentPhoneNumber) ? "No phone number" : Model.ParentPhoneNumber)</div>
                 }
             </dd>
-
-            <dt class="col-sm-3">Allergies</dt>
-            <dd class="col-sm-9">
-                @(string.IsNullOrWhiteSpace(Model.Allergies) ? "None" : Model.Allergies)
-            </dd>
-
-            <dt class="col-sm-3">Additional Notes</dt>
-            <dd class="col-sm-9">
-                @(string.IsNullOrWhiteSpace(Model.AdditionalNotes) ? "None" : Model.AdditionalNotes)
-            </dd>
         </dl>
+
+        <h2>Medical Summary</h2>
 
         @if (Model.HasMedicalRecord)
         {
+            <dl class="row">
+                <dt class="col-sm-3">Allergies</dt>
+                <dd class="col-sm-9">@(Model.MedicalAllergies ?? "No allergies recorded.")</dd>
+
+                <dt class="col-sm-3">Chronic Conditions</dt>
+                <dd class="col-sm-9">@(Model.MedicalChronicConditions ?? "No chronic conditions recorded.")</dd>
+
+                <dt class="col-sm-3">Emergency Contact</dt>
+                <dd class="col-sm-9">
+                    @if (!string.IsNullOrWhiteSpace(Model.MedicalEmergencyContactName) ||
+                        !string.IsNullOrWhiteSpace(Model.MedicalEmergencyContactPhone))
+                    {
+                        <span>@Model.MedicalEmergencyContactName</span>
+                        <span>@Model.MedicalEmergencyContactPhone</span>
+                    }
+                    else
+                    {
+                        <span>No emergency contact recorded.</span>
+                    }
+                </dd>
+            </dl>
+
             <a asp-controller="MedicalRecords"
                asp-action="Details"
                asp-route-childId="@Model.Id"
                class="btn btn-outline-info">
-                Medical Record
+                View Full Medical Record
             </a>
         }
-        else if (User.IsInRole("Admin"))
+        else
         {
-            <a asp-controller="MedicalRecords"
-               asp-action="Create"
-               asp-route-childId="@Model.Id"
-               class="btn btn-outline-info">
-                Add Medical Record
-            </a>
+            <p class="text-muted">No medical record added yet.</p>
+
+            @if (User.IsInRole("Admin"))
+            {
+                <a asp-controller="MedicalRecords"
+                   asp-action="Create"
+                   asp-route-childId="@Model.Id"
+                   class="btn btn-outline-info">
+                    Add Medical Record
+                </a>
+            }
         }
 
         <a asp-action="Index" class="btn btn-secondary">Back</a>
