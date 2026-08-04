@@ -57,7 +57,19 @@
             <div class="fs-4">@Model.VacationTodayCount</div>
         </div>
     </div>
+
+    <div class="col-md-6">
+        <a asp-controller="AbsenceRequests"
+           asp-action="Index"
+           class="text-decoration-none text-dark">
+            <div class="border rounded p-3 h-100">
+                <div class="fw-bold">Pending Absence Requests</div>
+                <div class="fs-4">@Model.PendingAbsenceRequestsCount</div>
+            </div>
+        </a>
+    </div>
 </div>
+
 
 <h2>Recent Announcements</h2>
 

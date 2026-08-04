@@ -18,6 +18,8 @@ public class DashboardViewModel
 
     public int VacationTodayCount { get; set; }
 
+    public int PendingAbsenceRequestsCount { get; set; }
+
     public IEnumerable<EventIndexViewModel> UpcomingEvents { get; set; } = new List<EventIndexViewModel>();
 
     public IEnumerable<DashboardAnnouncementViewModel> RecentAnnouncements { get; set; } = new List<DashboardAnnouncementViewModel>();

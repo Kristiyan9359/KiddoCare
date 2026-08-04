@@ -31,6 +31,9 @@ public class DashboardService : IDashboardService
             .Where(a => a.Date == today)
             .ToListAsync();
 
+        var pendingAbsenceRequestsCount = await context.AbsenceRequests
+            .CountAsync(a => !a.IsDeleted && a.Status == AbsenceRequestStatus.Pending);
+
         var upcomingEvents = await context.Events
             .Where(e => !e.IsDeleted && e.StartDateTime >= DateTime.Now)
             .OrderBy(e => e.StartDateTime)
@@ -69,7 +72,8 @@ public class DashboardService : IDashboardService
             LateTodayCount = todayAttendance.Count(a => a.Status == AttendanceStatus.Late),
             VacationTodayCount = todayAttendance.Count(a => a.Status == AttendanceStatus.Vacation),
             UpcomingEvents = upcomingEvents,
-            RecentAnnouncements = recentAnnouncements
+            RecentAnnouncements = recentAnnouncements,
+            PendingAbsenceRequestsCount = pendingAbsenceRequestsCount
         };
     }
 
@@ -170,6 +174,12 @@ public class DashboardService : IDashboardService
             return null;
         }
 
+        var pendingAbsenceRequestsCount = await context.AbsenceRequests
+            .CountAsync(a =>
+                !a.IsDeleted &&
+                a.Status == AbsenceRequestStatus.Pending &&
+                a.Child.GroupId == teacher.GroupId);
+
         var today = DateTime.Today;
 
         var childrenCount = await context.Children
@@ -256,7 +266,8 @@ public class DashboardService : IDashboardService
             RecentDailyReports = recentDailyReports,
             RecentAnnouncements = recentAnnouncements,
             ChildrenWithMedicalRecordsCount = childrenWithMedicalRecordsCount,
-            ChildrenWithAllergiesCount = childrenWithAllergiesCount
+            ChildrenWithAllergiesCount = childrenWithAllergiesCount,
+            PendingAbsenceRequestsCount = pendingAbsenceRequestsCount
         };
     }
 }
