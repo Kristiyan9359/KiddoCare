@@ -55,6 +55,13 @@ else
                        class="btn btn-sm btn-outline-secondary">
                         View Child
                     </a>
+
+                    <a asp-controller="ActivityFeed"
+                       asp-action="Child"
+                       asp-route-childId="@child.Id"
+                       class="btn btn-sm btn-outline-primary">
+                        Activity Feed
+                    </a>
                 </div>
             </div>
         }
