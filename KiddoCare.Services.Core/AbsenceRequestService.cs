@@ -192,6 +192,11 @@ public class AbsenceRequestService : IAbsenceRequestService
         absenceRequest.ReviewedByUserId = userId;
         absenceRequest.ReviewedOn = DateTime.UtcNow;
 
+        if (absenceRequest.Status == AbsenceRequestStatus.Approved)
+        {
+            await ApplyApprovedAbsenceToAttendanceAsync(absenceRequest);
+        }
+
         await context.SaveChangesAsync();
     }
 
@@ -296,6 +301,46 @@ public class AbsenceRequestService : IAbsenceRequestService
             .ToListAsync();
     }
 
+    private async Task ApplyApprovedAbsenceToAttendanceAsync(AbsenceRequest absenceRequest)
+    {
+        var status = absenceRequest.Reason switch
+        {
+            AbsenceReason.Sick => AttendanceStatus.Sick,
+            AbsenceReason.Vacation => AttendanceStatus.Vacation,
+            _ => AttendanceStatus.Absent
+        };
+
+        var currentDate = absenceRequest.StartDate.Date;
+        var endDate = absenceRequest.EndDate.Date;
+
+        while (currentDate <= endDate)
+        {
+            var attendanceRecord = await context.AttendanceRecords
+                .FirstOrDefaultAsync(a =>
+                    a.ChildId == absenceRequest.ChildId &&
+                    a.Date == currentDate);
+
+            if (attendanceRecord == null)
+            {
+                attendanceRecord = new AttendanceRecord
+                {
+                    ChildId = absenceRequest.ChildId,
+                    Date = currentDate,
+                    Status = status,
+                    Note = "Created from approved absence request."
+                };
+
+                await context.AttendanceRecords.AddAsync(attendanceRecord);
+            }
+            else
+            {
+                attendanceRecord.Status = status;
+                attendanceRecord.Note = "Updated from approved absence request.";
+            }
+
+            currentDate = currentDate.AddDays(1);
+        }
+    }
     private async Task<int?> GetTeacherGroupIdAsync(string userId)
     {
         return await context.TeacherProfiles
