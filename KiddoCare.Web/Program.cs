@@ -40,6 +40,8 @@ builder.Services.AddScoped<IDailyReportService, DailyReportService>();
 
 builder.Services.AddScoped<IMedicalRecordService, MedicalRecordService>();
 
+builder.Services.AddScoped<IActivityFeedService, ActivityFeedService>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
