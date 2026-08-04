@@ -45,4 +45,8 @@ public static class ValidationConstants
     public const int MedicalRecordEmergencyContactNameMaxLength = 100;
     public const int MedicalRecordEmergencyContactPhoneMaxLength = 30;
     public const int MedicalRecordNotesMaxLength = 1000;
+
+    //Absence Requests
+    public const int AbsenceRequestParentNoteMaxLength = 1000;
+    public const int AbsenceRequestReviewNoteMaxLength = 1000;
 }

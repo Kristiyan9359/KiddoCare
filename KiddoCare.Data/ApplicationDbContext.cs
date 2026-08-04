@@ -24,6 +24,8 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
     public virtual DbSet<MedicalRecord> MedicalRecords { get; set; } = null!;
 
+    public virtual DbSet<AbsenceRequest> AbsenceRequests { get; set; } = null!;
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

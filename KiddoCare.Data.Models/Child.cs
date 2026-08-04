@@ -46,4 +46,6 @@ public class Child
     public ICollection<AttendanceRecord> AttendanceRecords { get; set; } = new HashSet<AttendanceRecord>();
 
     public ICollection<DailyReport> DailyReports { get; set; } = new HashSet<DailyReport>();
+
+    public ICollection<AbsenceRequest> AbsenceRequests { get; set; } = new HashSet<AbsenceRequest>();
 }
