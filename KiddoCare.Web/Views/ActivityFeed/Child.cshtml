@@ -1,0 +1,74 @@
+﻿@model KiddoCare.ViewModels.ActivityFeed.ChildActivityFeedViewModel
+
+@{
+    ViewData["Title"] = "Activity Feed";
+}
+
+<h1>Activity Feed</h1>
+
+<p>
+    <strong>Child:</strong> @Model.ChildFullName
+</p>
+
+@if (!Model.Items.Any())
+{
+    <div class="alert alert-info">
+        No activity yet.
+    </div>
+}
+else
+{
+    <div class="list-group mb-3">
+        @foreach (var item in Model.Items)
+        {
+            <div class="list-group-item">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <div class="fw-bold">@item.Title</div>
+                        <div class="text-muted">@item.Type</div>
+
+                        @if (!string.IsNullOrWhiteSpace(item.Description))
+                        {
+                            <div>@item.Description</div>
+                        }
+                    </div>
+
+                    <div class="text-muted">
+                        @item.Date.ToString("dd MMM yyyy HH:mm")
+                    </div>
+                </div>
+
+                @if (!string.IsNullOrWhiteSpace(item.ActionController) &&
+                    !string.IsNullOrWhiteSpace(item.ActionName))
+                {
+                    <div class="mt-2">
+                        @if (item.RouteId.HasValue)
+                        {
+                            <a asp-controller="@item.ActionController"
+                               asp-action="@item.ActionName"
+                               asp-route-id="@item.RouteId.Value"
+                               class="btn btn-sm btn-outline-secondary">
+                                View
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-controller="@item.ActionController"
+                               asp-action="@item.ActionName"
+                               class="btn btn-sm btn-outline-secondary">
+                                View
+                            </a>
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </div>
+}
+
+<a asp-controller="Children"
+   asp-action="Details"
+   asp-route-id="@Model.ChildId"
+   class="btn btn-secondary">
+    Back to Child
+</a>

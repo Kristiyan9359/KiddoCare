@@ -88,6 +88,13 @@
             }
         }
 
+        <a asp-controller="ActivityFeed"
+           asp-action="Child"
+           asp-route-childId="@Model.Id"
+           class="btn btn-outline-primary">
+            Activity Feed
+        </a>
+
         <a asp-action="Index" class="btn btn-secondary">Back</a>
     </div>
 </div>
