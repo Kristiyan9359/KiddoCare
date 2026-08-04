@@ -76,6 +76,24 @@ public class ActivityFeedService : IActivityFeedService
 
         items.AddRange(dailyReportItems);
 
+        var absenceRequestItems = await context.AbsenceRequests
+          .Where(a => !a.IsDeleted && a.ChildId == childId)
+          .OrderByDescending(a => a.RequestedOn)
+          .Take(10)
+          .Select(a => new ActivityFeedItemViewModel
+          {
+              Date = a.RequestedOn,
+              Type = "Absence Request",
+              Title = "Absence request submitted",
+              Description = a.Reason + " - " + a.Status,
+              ActionController = "AbsenceRequests",
+              ActionName = "Details",
+              RouteId = a.Id
+          })
+          .ToListAsync();
+
+        items.AddRange(absenceRequestItems);
+
         var eventItems = await context.Events
             .Where(e =>
                 !e.IsDeleted &&
