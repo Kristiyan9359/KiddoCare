@@ -116,9 +116,21 @@ public class AbsenceRequestsController : Controller
         var isAdmin = User.IsInRole(Admin);
         var isTeacher = User.IsInRole(Teacher);
 
+        ModelState.Remove(nameof(AbsenceRequestReviewViewModel.ChildFullName));
+
         if (!ModelState.IsValid)
         {
-            return View(model);
+            var reviewModel = await absenceRequestService.GetForReviewAsync(model.Id, userId, isAdmin, isTeacher);
+
+            if (reviewModel == null)
+            {
+                return NotFound();
+            }
+
+            reviewModel.Status = model.Status;
+            reviewModel.ReviewNote = model.ReviewNote;
+
+            return View(reviewModel);
         }
 
         try
@@ -129,7 +141,17 @@ public class AbsenceRequestsController : Controller
         {
             ModelState.AddModelError(string.Empty, ex.Message);
 
-            return View(model);
+            var reviewModel = await absenceRequestService.GetForReviewAsync(model.Id, userId, isAdmin, isTeacher);
+
+            if (reviewModel == null)
+            {
+                return NotFound();
+            }
+
+            reviewModel.Status = model.Status;
+            reviewModel.ReviewNote = model.ReviewNote;
+
+            return View(reviewModel);
         }
 
         return RedirectToAction(nameof(Index));
