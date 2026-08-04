@@ -42,6 +42,8 @@ builder.Services.AddScoped<IMedicalRecordService, MedicalRecordService>();
 
 builder.Services.AddScoped<IActivityFeedService, ActivityFeedService>();
 
+builder.Services.AddScoped<IAbsenceRequestService, AbsenceRequestService>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
