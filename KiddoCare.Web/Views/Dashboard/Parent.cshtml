@@ -103,6 +103,58 @@ else
     </table>
 }
 
+<h2>Recent Absence Requests</h2>
+
+<p>
+    <a asp-controller="AbsenceRequests"
+       asp-action="Create"
+       class="btn btn-sm btn-outline-primary">
+        Create Absence Request
+    </a>
+</p>
+
+@if (!Model.RecentAbsenceRequests.Any())
+{
+    <p>No absence requests yet.</p>
+}
+else
+{
+    <table class="table table-striped mb-4">
+        <thead>
+            <tr>
+                <th>Child</th>
+                <th>Period</th>
+                <th>Reason</th>
+                <th>Status</th>
+                <th class="text-end">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var request in Model.RecentAbsenceRequests)
+            {
+                <tr>
+                    <td>@request.ChildFullName</td>
+                    <td>
+                        @request.StartDate.ToString("dd MMM yyyy")
+                        -
+                        @request.EndDate.ToString("dd MMM yyyy")
+                    </td>
+                    <td>@request.Reason</td>
+                    <td>@request.Status</td>
+                    <td class="text-end">
+                        <a asp-controller="AbsenceRequests"
+                           asp-action="Details"
+                           asp-route-id="@request.Id"
+                           class="btn btn-sm btn-outline-secondary">
+                            Details
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
 <h2>Upcoming Events</h2>
 
 @if (!Model.UpcomingEvents.Any())

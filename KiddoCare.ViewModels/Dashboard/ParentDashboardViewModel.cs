@@ -9,4 +9,6 @@ public class ParentDashboardViewModel
     public IEnumerable<EventIndexViewModel> UpcomingEvents { get; set; } = new List<EventIndexViewModel>();
 
     public IEnumerable<DashboardAnnouncementViewModel> RecentAnnouncements { get; set; } = new List<DashboardAnnouncementViewModel>();
+
+    public IEnumerable<ParentDashboardAbsenceRequestViewModel> RecentAbsenceRequests { get; set; } = new List<ParentDashboardAbsenceRequestViewModel>();
 }

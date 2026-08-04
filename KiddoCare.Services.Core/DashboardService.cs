@@ -150,11 +150,31 @@ public class DashboardService : IDashboardService
             })
             .ToListAsync();
 
+        var recentAbsenceRequests = await context.AbsenceRequests
+            .Where(a =>
+                !a.IsDeleted &&
+                a.Child.Parent != null &&
+                !a.Child.Parent.IsDeleted &&
+                a.Child.Parent.UserId == userId)
+            .OrderByDescending(a => a.RequestedOn)
+            .Take(5)
+            .Select(a => new ParentDashboardAbsenceRequestViewModel
+            {
+                Id = a.Id,
+                ChildFullName = a.Child.FirstName + " " + a.Child.LastName,
+                StartDate = a.StartDate,
+                EndDate = a.EndDate,
+                Reason = a.Reason,
+                Status = a.Status
+            })
+            .ToListAsync();
+
         return new ParentDashboardViewModel
         {
             Children = children,
             UpcomingEvents = upcomingEvents,
-            RecentAnnouncements = recentAnnouncements
+            RecentAnnouncements = recentAnnouncements,
+            RecentAbsenceRequests = recentAbsenceRequests
         };
     }
 
