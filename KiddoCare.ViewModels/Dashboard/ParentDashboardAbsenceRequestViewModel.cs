@@ -14,5 +14,5 @@ public class ParentDashboardAbsenceRequestViewModel
 
     public AbsenceReason Reason { get; set; }
 
-    public AbsenceRequestStatus Status { get; set; }
+    public RequestStatus Status { get; set; }
 }

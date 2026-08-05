@@ -95,15 +95,15 @@
                                 </td>
                                 <td>@request.Reason</td>
                                 <td>
-                                    @if (request.Status == AbsenceRequestStatus.Pending)
+                                    @if (request.Status == RequestStatus.Pending)
                                     {
                                         <span class="badge bg-warning text-dark">Pending</span>
                                     }
-                                    else if (request.Status == AbsenceRequestStatus.Approved)
+                                    else if (request.Status == RequestStatus.Approved)
                                     {
                                         <span class="badge bg-success">Approved</span>
                                     }
-                                    else if (request.Status == AbsenceRequestStatus.Rejected)
+                                    else if (request.Status == RequestStatus.Rejected)
                                     {
                                         <span class="badge bg-danger">Rejected</span>
                                     }

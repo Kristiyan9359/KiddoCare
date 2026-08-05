@@ -32,7 +32,7 @@ public class DashboardService : IDashboardService
             .ToListAsync();
 
         var pendingAbsenceRequestsCount = await context.AbsenceRequests
-            .CountAsync(a => !a.IsDeleted && a.Status == AbsenceRequestStatus.Pending);
+            .CountAsync(a => !a.IsDeleted && a.Status == RequestStatus.Pending);
 
         var upcomingEvents = await context.Events
             .Where(e => !e.IsDeleted && e.StartDateTime >= DateTime.Now)
@@ -197,7 +197,7 @@ public class DashboardService : IDashboardService
         var pendingAbsenceRequestsCount = await context.AbsenceRequests
             .CountAsync(a =>
                 !a.IsDeleted &&
-                a.Status == AbsenceRequestStatus.Pending &&
+                a.Status == RequestStatus.Pending &&
                 a.Child.GroupId == teacher.GroupId);
 
         var today = DateTime.Today;

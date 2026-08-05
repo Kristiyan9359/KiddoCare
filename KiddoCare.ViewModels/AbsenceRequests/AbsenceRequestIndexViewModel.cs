@@ -16,7 +16,7 @@ public class AbsenceRequestIndexViewModel
 
     public AbsenceReason Reason { get; set; }
 
-    public AbsenceRequestStatus Status { get; set; }
+    public RequestStatus Status { get; set; }
 
     public bool CanReview { get; set; }
 }

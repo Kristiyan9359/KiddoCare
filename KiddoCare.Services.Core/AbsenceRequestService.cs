@@ -46,15 +46,15 @@ public class AbsenceRequestService : IAbsenceRequestService
 
         if (statusFilter == "pending")
         {
-            query = query.Where(a => a.Status == AbsenceRequestStatus.Pending);
+            query = query.Where(a => a.Status == RequestStatus.Pending);
         }
         else if (statusFilter == "approved")
         {
-            query = query.Where(a => a.Status == AbsenceRequestStatus.Approved);
+            query = query.Where(a => a.Status == RequestStatus.Approved);
         }
         else if (statusFilter == "rejected")
         {
-            query = query.Where(a => a.Status == AbsenceRequestStatus.Rejected);
+            query = query.Where(a => a.Status == RequestStatus.Rejected);
         }
 
         return await query
@@ -68,7 +68,7 @@ public class AbsenceRequestService : IAbsenceRequestService
                 EndDate = a.EndDate,
                 Reason = a.Reason,
                 Status = a.Status,
-                CanReview = (isAdmin || isTeacher) && a.Status == AbsenceRequestStatus.Pending
+                CanReview = (isAdmin || isTeacher) && a.Status == RequestStatus.Pending
             })
             .ToListAsync();
     }
@@ -102,7 +102,7 @@ public class AbsenceRequestService : IAbsenceRequestService
                 RequestedOn = a.RequestedOn,
                 ReviewNote = a.ReviewNote,
                 ReviewedOn = a.ReviewedOn,
-                CanReview = (isAdmin || isTeacher) && a.Status == AbsenceRequestStatus.Pending
+                CanReview = (isAdmin || isTeacher) && a.Status == RequestStatus.Pending
             })
             .FirstOrDefaultAsync();
     }
@@ -142,7 +142,7 @@ public class AbsenceRequestService : IAbsenceRequestService
         var hasOverlappingRequest = await context.AbsenceRequests.AnyAsync(a =>
             !a.IsDeleted &&
             a.ChildId == model.ChildId.Value &&
-            a.Status != AbsenceRequestStatus.Rejected &&
+            a.Status != RequestStatus.Rejected &&
             a.StartDate <= model.EndDate.Date &&
             a.EndDate >= model.StartDate.Date);
 
@@ -207,7 +207,7 @@ public class AbsenceRequestService : IAbsenceRequestService
             throw new InvalidOperationException("Absence request not found.");
         }
 
-        if (absenceRequest.Status != AbsenceRequestStatus.Pending)
+        if (absenceRequest.Status != RequestStatus.Pending)
         {
             throw new InvalidOperationException("Only pending requests can be reviewed.");
         }
@@ -217,7 +217,7 @@ public class AbsenceRequestService : IAbsenceRequestService
         absenceRequest.ReviewedByUserId = userId;
         absenceRequest.ReviewedOn = DateTime.UtcNow;
 
-        if (absenceRequest.Status == AbsenceRequestStatus.Approved)
+        if (absenceRequest.Status == RequestStatus.Approved)
         {
             await ApplyApprovedAbsenceToAttendanceAsync(absenceRequest);
         }

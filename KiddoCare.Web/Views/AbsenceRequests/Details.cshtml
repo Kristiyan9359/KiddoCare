@@ -37,15 +37,15 @@
 
     <dt class="col-sm-3">Status</dt>
     <dd class="col-sm-9">
-        @if (Model.Status == AbsenceRequestStatus.Pending)
+        @if (Model.Status == RequestStatus.Pending)
         {
             <span class="badge bg-warning text-dark">Pending</span>
         }
-        else if (Model.Status == AbsenceRequestStatus.Approved)
+        else if (Model.Status == RequestStatus.Approved)
         {
             <span class="badge bg-success">Approved</span>
         }
-        else if (Model.Status == AbsenceRequestStatus.Rejected)
+        else if (Model.Status == RequestStatus.Rejected)
         {
             <span class="badge bg-danger">Rejected</span>
         }

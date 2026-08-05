@@ -20,7 +20,7 @@ public class AbsenceRequestDetailsViewModel
 
     public string? ParentNote { get; set; }
 
-    public AbsenceRequestStatus Status { get; set; }
+    public RequestStatus Status { get; set; }
 
     public string RequestedByEmail { get; set; } = null!;
 

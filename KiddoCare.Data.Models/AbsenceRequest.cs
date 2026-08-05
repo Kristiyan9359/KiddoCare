@@ -27,7 +27,7 @@ public class AbsenceRequest
     public string? ParentNote { get; set; }
 
     [Required]
-    public AbsenceRequestStatus Status { get; set; } = AbsenceRequestStatus.Pending;
+    public RequestStatus Status { get; set; } = RequestStatus.Pending;
 
     [Required]
     public string RequestedByUserId { get; set; } = null!;

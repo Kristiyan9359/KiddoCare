@@ -4,7 +4,7 @@
 @{
     ViewData["Title"] = "Review Absence Request";
 
-    var statusOptions = Html.GetEnumSelectList<AbsenceRequestStatus>()
+    var statusOptions = Html.GetEnumSelectList<RequestStatus>()
         .Where(s => s.Value != "0");
 }
 
@@ -32,11 +32,6 @@
 
 <form asp-action="Review" method="post">
     <input asp-for="Id" type="hidden" />
-    @* <input asp-for="ChildFullName" type="hidden" />
-    <input asp-for="StartDate" type="hidden" />
-    <input asp-for="EndDate" type="hidden" />
-    <input asp-for="Reason" type="hidden" />
-    <input asp-for="ParentNote" type="hidden" /> *@
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
