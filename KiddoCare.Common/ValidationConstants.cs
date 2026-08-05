@@ -49,4 +49,9 @@ public static class ValidationConstants
     //Absence Requests
     public const int AbsenceRequestParentNoteMaxLength = 1000;
     public const int AbsenceRequestReviewNoteMaxLength = 1000;
+
+    //Consent Requests
+    public const int ConsentRequestTitleMaxLength = 150;
+    public const int ConsentRequestDescriptionMaxLength = 1000;
+    public const int ConsentRequestParentNoteMaxLength = 1000;
 }

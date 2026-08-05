@@ -48,4 +48,6 @@ public class Child
     public ICollection<DailyReport> DailyReports { get; set; } = new HashSet<DailyReport>();
 
     public ICollection<AbsenceRequest> AbsenceRequests { get; set; } = new HashSet<AbsenceRequest>();
+
+    public ICollection<ConsentRequest> ConsentRequests { get; set; } = new HashSet<ConsentRequest>();
 }

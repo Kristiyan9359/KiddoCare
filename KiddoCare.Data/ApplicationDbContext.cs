@@ -26,6 +26,8 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
     public virtual DbSet<AbsenceRequest> AbsenceRequests { get; set; } = null!;
 
+    public virtual DbSet<ConsentRequest> ConsentRequests { get; set; } = null!;
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
