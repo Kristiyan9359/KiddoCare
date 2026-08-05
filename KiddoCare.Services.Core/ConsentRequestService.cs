@@ -146,6 +146,17 @@ public class ConsentRequestService : IConsentRequestService
             throw new InvalidOperationException("Description is required when type is Other.");
         }
 
+        var hasDuplicatePendingRequest = await context.ConsentRequests.AnyAsync(c =>
+            !c.IsDeleted &&
+            c.ChildId == model.ChildId.Value &&
+            c.Type == model.Type &&
+            c.Status == RequestStatus.Pending);
+
+        if (hasDuplicatePendingRequest)
+        {
+            throw new InvalidOperationException("There is already a pending consent request of this type for this child.");
+        }
+
         var consentRequest = new ConsentRequest
         {
             ChildId = model.ChildId.Value,
