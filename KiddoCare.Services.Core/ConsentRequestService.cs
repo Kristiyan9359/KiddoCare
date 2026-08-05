@@ -146,15 +146,22 @@ public class ConsentRequestService : IConsentRequestService
             throw new InvalidOperationException("Description is required when type is Other.");
         }
 
-        var hasDuplicatePendingRequest = await context.ConsentRequests.AnyAsync(c =>
+        var isStandingConsent =
+            model.Type == ConsentRequestType.PhotoPermission ||
+            model.Type == ConsentRequestType.MedicalAssistance;
+
+        var hasDuplicateRequest = await context.ConsentRequests.AnyAsync(c =>
             !c.IsDeleted &&
             c.ChildId == model.ChildId.Value &&
             c.Type == model.Type &&
-            c.Status == RequestStatus.Pending);
+            (isStandingConsent || c.Status == RequestStatus.Pending));
 
-        if (hasDuplicatePendingRequest)
+        if (hasDuplicateRequest)
         {
-            throw new InvalidOperationException("There is already a pending consent request of this type for this child.");
+            throw new InvalidOperationException(
+                isStandingConsent
+                    ? "This child already has a consent request of this type."
+                    : "There is already a pending consent request of this type for this child.");
         }
 
         var consentRequest = new ConsentRequest
