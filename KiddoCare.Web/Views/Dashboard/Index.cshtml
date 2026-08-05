@@ -2,62 +2,108 @@
 
 @{
     ViewData["Title"] = "Dashboard";
+    var today = DateTime.Today.ToString("yyyy-MM-dd");
 }
 
 <h1>Dashboard</h1>
 
 <div class="row g-3 mb-4">
     <div class="col-md-3">
-        <div class="border rounded p-3">
-            <div class="fw-bold">Groups</div>
-            <div class="fs-4">@Model.GroupsCount</div>
-        </div>
+        <a asp-controller="Groups"
+           asp-action="Index"
+           class="text-decoration-none text-dark">
+            <div class="border rounded p-3 h-100">
+                <div class="fw-bold">Groups</div>
+                <div class="fs-4">@Model.GroupsCount</div>
+            </div>
+        </a>
     </div>
 
     <div class="col-md-3">
-        <div class="border rounded p-3">
-            <div class="fw-bold">Children</div>
-            <div class="fs-4">@Model.ChildrenCount</div>
-        </div>
+        <a asp-controller="Children"
+           asp-action="Index"
+           class="text-decoration-none text-dark">
+            <div class="border rounded p-3 h-100">
+                <div class="fw-bold">Children</div>
+                <div class="fs-4">@Model.ChildrenCount</div>
+            </div>
+        </a>
     </div>
 
     <div class="col-md-3">
-        <div class="border rounded p-3">
-            <div class="fw-bold">Present Today</div>
-            <div class="fs-4">@Model.PresentTodayCount</div>
-        </div>
+        <a asp-controller="Attendance"
+           asp-action="History"
+           asp-route-fromDate="@today"
+           asp-route-toDate="@today"
+           asp-route-status="Present"
+           class="text-decoration-none text-dark">
+            <div class="border rounded p-3 h-100">
+                <div class="fw-bold">Present Today</div>
+                <div class="fs-4">@Model.PresentTodayCount</div>
+            </div>
+        </a>
     </div>
 
     <div class="col-md-3">
-        <div class="border rounded p-3">
-            <div class="fw-bold">Absent Today</div>
-            <div class="fs-4">@Model.AbsentTodayCount</div>
-        </div>
+        <a asp-controller="Attendance"
+           asp-action="History"
+           asp-route-fromDate="@today"
+           asp-route-toDate="@today"
+           asp-route-status="Absent"
+           class="text-decoration-none text-dark">
+            <div class="border rounded p-3 h-100">
+                <div class="fw-bold">Absent Today</div>
+                <div class="fs-4">@Model.AbsentTodayCount</div>
+            </div>
+        </a>
     </div>
 </div>
 
 <div class="row g-3 mb-4">
     <div class="col-md-4">
-        <div class="border rounded p-3">
-            <div class="fw-bold">Sick Today</div>
-            <div class="fs-4">@Model.SickTodayCount</div>
-        </div>
+        <a asp-controller="Attendance"
+           asp-action="History"
+           asp-route-fromDate="@today"
+           asp-route-toDate="@today"
+           asp-route-status="Sick"
+           class="text-decoration-none text-dark">
+            <div class="border rounded p-3 h-100">
+                <div class="fw-bold">Sick Today</div>
+                <div class="fs-4">@Model.SickTodayCount</div>
+            </div>
+        </a>
     </div>
 
     <div class="col-md-4">
-        <div class="border rounded p-3">
-            <div class="fw-bold">Late Today</div>
-            <div class="fs-4">@Model.LateTodayCount</div>
-        </div>
+        <a asp-controller="Attendance"
+           asp-action="History"
+           asp-route-fromDate="@today"
+           asp-route-toDate="@today"
+           asp-route-status="Late"
+           class="text-decoration-none text-dark">
+            <div class="border rounded p-3 h-100">
+                <div class="fw-bold">Late Today</div>
+                <div class="fs-4">@Model.LateTodayCount</div>
+            </div>
+        </a>
     </div>
 
     <div class="col-md-4">
-        <div class="border rounded p-3">
-            <div class="fw-bold">Vacation Today</div>
-            <div class="fs-4">@Model.VacationTodayCount</div>
-        </div>
+        <a asp-controller="Attendance"
+           asp-action="History"
+           asp-route-fromDate="@today"
+           asp-route-toDate="@today"
+           asp-route-status="Vacation"
+           class="text-decoration-none text-dark">
+            <div class="border rounded p-3 h-100">
+                <div class="fw-bold">Vacation Today</div>
+                <div class="fs-4">@Model.VacationTodayCount</div>
+            </div>
+        </a>
     </div>
+</div>
 
+<div class="row g-3 mb-4">
     <div class="col-md-6">
         <a asp-controller="AbsenceRequests"
            asp-action="Index"
@@ -82,7 +128,6 @@
         </a>
     </div>
 </div>
-
 
 <h2>Recent Announcements</h2>
 
