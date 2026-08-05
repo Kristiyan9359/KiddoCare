@@ -181,13 +181,34 @@ public class DashboardService : IDashboardService
                 !c.Child.Parent.IsDeleted &&
                 c.Child.Parent.UserId == userId);
 
+        var recentConsentRequests = await context.ConsentRequests
+             .Where(c =>
+                 !c.IsDeleted &&
+                 c.Child.Parent != null &&
+                 !c.Child.Parent.IsDeleted &&
+                 c.Child.Parent.UserId == userId)
+             .OrderByDescending(c => c.CreatedOn)
+             .Take(5)
+             .Select(c => new ParentDashboardConsentRequestViewModel
+             {
+                 Id = c.Id,
+                 ChildFullName = c.Child.FirstName + " " + c.Child.LastName,
+                 Title = c.Title,
+                 Type = c.Type,
+                 Status = c.Status,
+                 CreatedOn = c.CreatedOn,
+                 CanRespond = c.Status == RequestStatus.Pending
+             })
+             .ToListAsync();
+
         return new ParentDashboardViewModel
         {
             Children = children,
             UpcomingEvents = upcomingEvents,
             RecentAnnouncements = recentAnnouncements,
             RecentAbsenceRequests = recentAbsenceRequests,
-            PendingConsentRequestsCount = pendingConsentRequestsCount
+            PendingConsentRequestsCount = pendingConsentRequestsCount,
+            RecentConsentRequests = recentConsentRequests
         };
     }
 

@@ -83,6 +83,71 @@ else
     </div>
 </div>
 
+<h2>Recent Consent Requests</h2>
+
+@if (!Model.RecentConsentRequests.Any())
+{
+    <p>No consent requests yet.</p>
+}
+else
+{
+    <table class="table table-striped mb-4">
+        <thead>
+            <tr>
+                <th>Child</th>
+                <th>Title</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Created On</th>
+                <th class="text-end">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var request in Model.RecentConsentRequests)
+            {
+                <tr>
+                    <td>@request.ChildFullName</td>
+                    <td>@request.Title</td>
+                    <td>@request.Type</td>
+                    <td>
+                        @if (request.Status == RequestStatus.Pending)
+                        {
+                            <span class="badge bg-warning text-dark">Pending</span>
+                        }
+                        else if (request.Status == RequestStatus.Approved)
+                        {
+                            <span class="badge bg-success">Approved</span>
+                        }
+                        else if (request.Status == RequestStatus.Rejected)
+                        {
+                            <span class="badge bg-danger">Rejected</span>
+                        }
+                    </td>
+                    <td>@request.CreatedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
+                    <td class="text-end">
+                        <a asp-controller="ConsentRequests"
+                           asp-action="Details"
+                           asp-route-id="@request.Id"
+                           class="btn btn-sm btn-outline-secondary">
+                            Details
+                        </a>
+
+                        @if (request.CanRespond)
+                        {
+                            <a asp-controller="ConsentRequests"
+                               asp-action="Respond"
+                               asp-route-id="@request.Id"
+                               class="btn btn-sm btn-outline-primary">
+                                Respond
+                            </a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
 <h2>Recent Announcements</h2>
 
 @if (!Model.RecentAnnouncements.Any())
