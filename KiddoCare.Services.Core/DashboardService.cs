@@ -34,6 +34,9 @@ public class DashboardService : IDashboardService
         var pendingAbsenceRequestsCount = await context.AbsenceRequests
             .CountAsync(a => !a.IsDeleted && a.Status == RequestStatus.Pending);
 
+        var pendingConsentRequestsCount = await context.ConsentRequests
+            .CountAsync(c => !c.IsDeleted && c.Status == RequestStatus.Pending);
+
         var upcomingEvents = await context.Events
             .Where(e => !e.IsDeleted && e.StartDateTime >= DateTime.Now)
             .OrderBy(e => e.StartDateTime)
@@ -73,7 +76,8 @@ public class DashboardService : IDashboardService
             VacationTodayCount = todayAttendance.Count(a => a.Status == AttendanceStatus.Vacation),
             UpcomingEvents = upcomingEvents,
             RecentAnnouncements = recentAnnouncements,
-            PendingAbsenceRequestsCount = pendingAbsenceRequestsCount
+            PendingAbsenceRequestsCount = pendingAbsenceRequestsCount,
+            PendingConsentRequestsCount = pendingConsentRequestsCount
         };
     }
 
@@ -169,12 +173,21 @@ public class DashboardService : IDashboardService
             })
             .ToListAsync();
 
+        var pendingConsentRequestsCount = await context.ConsentRequests
+            .CountAsync(c =>
+                !c.IsDeleted &&
+                c.Status == RequestStatus.Pending &&
+                c.Child.Parent != null &&
+                !c.Child.Parent.IsDeleted &&
+                c.Child.Parent.UserId == userId);
+
         return new ParentDashboardViewModel
         {
             Children = children,
             UpcomingEvents = upcomingEvents,
             RecentAnnouncements = recentAnnouncements,
-            RecentAbsenceRequests = recentAbsenceRequests
+            RecentAbsenceRequests = recentAbsenceRequests,
+            PendingConsentRequestsCount = pendingConsentRequestsCount
         };
     }
 
@@ -200,10 +213,17 @@ public class DashboardService : IDashboardService
                 a.Status == RequestStatus.Pending &&
                 a.Child.GroupId == teacher.GroupId);
 
-        var today = DateTime.Today;
+
+        var pendingConsentRequestsCount = await context.ConsentRequests
+            .CountAsync(c =>
+                !c.IsDeleted &&
+                c.Status == RequestStatus.Pending &&
+                c.Child.GroupId == teacher.GroupId);
 
         var childrenCount = await context.Children
             .CountAsync(c => !c.IsDeleted && c.GroupId == teacher.GroupId);
+
+        var today = DateTime.Today;
 
         var childrenWithMedicalRecordsCount = await context.Children
             .CountAsync(c =>
@@ -287,7 +307,8 @@ public class DashboardService : IDashboardService
             RecentAnnouncements = recentAnnouncements,
             ChildrenWithMedicalRecordsCount = childrenWithMedicalRecordsCount,
             ChildrenWithAllergiesCount = childrenWithAllergiesCount,
-            PendingAbsenceRequestsCount = pendingAbsenceRequestsCount
+            PendingAbsenceRequestsCount = pendingAbsenceRequestsCount,
+            PendingConsentRequestsCount = pendingConsentRequestsCount
         };
     }
 }

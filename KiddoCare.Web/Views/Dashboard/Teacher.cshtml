@@ -84,6 +84,18 @@
             </div>
         </a>
     </div>
+
+    <div class="col-md-6">
+        <a asp-controller="ConsentRequests"
+           asp-action="Index"
+           asp-route-statusFilter="pending"
+           class="text-decoration-none text-dark">
+            <div class="border rounded p-3 h-100">
+                <div class="fw-bold">Pending Consent Requests</div>
+                <div class="fs-4">@Model.PendingConsentRequestsCount</div>
+            </div>
+        </a>
+    </div>
 </div>
 
 <div class="row g-3 mb-4">

@@ -94,6 +94,24 @@ public class ActivityFeedService : IActivityFeedService
 
         items.AddRange(absenceRequestItems);
 
+        var consentRequestItems = await context.ConsentRequests
+          .Where(c => !c.IsDeleted && c.ChildId == childId)
+          .OrderByDescending(c => c.CreatedOn)
+          .Take(10)
+          .Select(c => new ActivityFeedItemViewModel
+          {
+              Date = c.CreatedOn,
+              Type = "Consent Request",
+              Title = c.Title,
+              Description = c.Type + " - " + c.Status,
+              ActionController = "ConsentRequests",
+              ActionName = "Details",
+              RouteId = c.Id
+          })
+          .ToListAsync();
+
+        items.AddRange(consentRequestItems);
+
         var eventItems = await context.Events
             .Where(e =>
                 !e.IsDeleted &&

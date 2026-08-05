@@ -11,4 +11,6 @@ public class ParentDashboardViewModel
     public IEnumerable<DashboardAnnouncementViewModel> RecentAnnouncements { get; set; } = new List<DashboardAnnouncementViewModel>();
 
     public IEnumerable<ParentDashboardAbsenceRequestViewModel> RecentAbsenceRequests { get; set; } = new List<ParentDashboardAbsenceRequestViewModel>();
+
+    public int PendingConsentRequestsCount { get; set; }
 }
