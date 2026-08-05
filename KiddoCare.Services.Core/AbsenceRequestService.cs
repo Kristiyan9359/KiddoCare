@@ -139,6 +139,18 @@ public class AbsenceRequestService : IAbsenceRequestService
             throw new InvalidOperationException("Child not found.");
         }
 
+        var hasOverlappingRequest = await context.AbsenceRequests.AnyAsync(a =>
+            !a.IsDeleted &&
+            a.ChildId == model.ChildId.Value &&
+            a.Status != AbsenceRequestStatus.Rejected &&
+            a.StartDate <= model.EndDate.Date &&
+            a.EndDate >= model.StartDate.Date);
+
+        if (hasOverlappingRequest)
+        {
+            throw new InvalidOperationException("There is already an active absence request for this child in the selected period.");
+        }
+
         var absenceRequest = new AbsenceRequest
         {
             ChildId = model.ChildId.Value,
