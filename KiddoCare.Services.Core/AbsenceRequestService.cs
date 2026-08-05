@@ -17,7 +17,7 @@ public class AbsenceRequestService : IAbsenceRequestService
         this.context = context;
     }
 
-    public async Task<IEnumerable<AbsenceRequestIndexViewModel>> GetAllAsync(string userId, bool isAdmin, bool isTeacher)
+    public async Task<IEnumerable<AbsenceRequestIndexViewModel>> GetAllAsync(string userId, bool isAdmin, bool isTeacher, string? statusFilter)
     {
         var query = context.AbsenceRequests
             .Where(a => !a.IsDeleted && !a.Child.IsDeleted)
@@ -42,6 +42,19 @@ public class AbsenceRequestService : IAbsenceRequestService
                 a.Child.Parent != null &&
                 !a.Child.Parent.IsDeleted &&
                 a.Child.Parent.UserId == userId);
+        }
+
+        if (statusFilter == "pending")
+        {
+            query = query.Where(a => a.Status == AbsenceRequestStatus.Pending);
+        }
+        else if (statusFilter == "approved")
+        {
+            query = query.Where(a => a.Status == AbsenceRequestStatus.Approved);
+        }
+        else if (statusFilter == "rejected")
+        {
+            query = query.Where(a => a.Status == AbsenceRequestStatus.Rejected);
         }
 
         return await query

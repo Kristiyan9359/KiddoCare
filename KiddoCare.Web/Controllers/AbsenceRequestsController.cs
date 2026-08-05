@@ -18,13 +18,15 @@ public class AbsenceRequestsController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string? statusFilter)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
         var isAdmin = User.IsInRole(Admin);
         var isTeacher = User.IsInRole(Teacher);
 
-        var model = await absenceRequestService.GetAllAsync(userId, isAdmin, isTeacher);
+        var model = await absenceRequestService.GetAllAsync(userId, isAdmin, isTeacher, statusFilter);
+
+        ViewBag.StatusFilter = statusFilter;
 
         return View(model);
     }

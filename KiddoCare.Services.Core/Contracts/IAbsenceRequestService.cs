@@ -4,7 +4,7 @@ namespace KiddoCare.Services.Core.Contracts;
 
 public interface IAbsenceRequestService
 {
-    Task<IEnumerable<AbsenceRequestIndexViewModel>> GetAllAsync(string userId, bool isAdmin, bool isTeacher);
+    Task<IEnumerable<AbsenceRequestIndexViewModel>> GetAllAsync(string userId, bool isAdmin, bool isTeacher, string? statusFilter);
 
     Task<AbsenceRequestDetailsViewModel?> GetDetailsAsync(int id, string userId, bool isAdmin, bool isTeacher);
 

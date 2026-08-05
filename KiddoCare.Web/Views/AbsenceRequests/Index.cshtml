@@ -12,6 +12,31 @@
     </a>
 </div>
 
+<div class="mb-3">
+    <a asp-action="Index"
+       class="btn btn-sm @(ViewBag.StatusFilter == null ? "btn-primary" : "btn-outline-primary")">
+        All
+    </a>
+
+    <a asp-action="Index"
+       asp-route-statusFilter="pending"
+       class="btn btn-sm @(ViewBag.StatusFilter == "pending" ? "btn-primary" : "btn-outline-primary")">
+        Pending
+    </a>
+
+    <a asp-action="Index"
+       asp-route-statusFilter="approved"
+       class="btn btn-sm @(ViewBag.StatusFilter == "approved" ? "btn-primary" : "btn-outline-primary")">
+        Approved
+    </a>
+
+    <a asp-action="Index"
+       asp-route-statusFilter="rejected"
+       class="btn btn-sm @(ViewBag.StatusFilter == "rejected" ? "btn-primary" : "btn-outline-primary")">
+        Rejected
+    </a>
+</div>
+
 @if (!Model.Any())
 {
     <div class="alert alert-info">
