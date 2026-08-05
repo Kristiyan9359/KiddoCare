@@ -221,7 +221,20 @@ public class ChildService : IChildService
                 MedicalEmergencyContactPhone = c.MedicalRecords
                     .Where(m => !m.IsDeleted)
                     .Select(m => m.EmergencyContactPhone)
-                    .FirstOrDefault()
+                    .FirstOrDefault(),
+                RecentAbsenceRequests = c.AbsenceRequests
+                    .Where(a => !a.IsDeleted)
+                    .OrderByDescending(a => a.RequestedOn)
+                    .Take(3)
+                    .Select(a => new ChildDetailsAbsenceRequestViewModel
+                    {
+                        Id = a.Id,
+                        StartDate = a.StartDate,
+                        EndDate = a.EndDate,
+                        Reason = a.Reason,
+                        Status = a.Status
+                    })
+                    .ToList()
             })
             .FirstOrDefaultAsync();
     }

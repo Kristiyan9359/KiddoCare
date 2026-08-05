@@ -31,4 +31,6 @@ public class ChildDetailsViewModel
     public string? MedicalEmergencyContactName { get; set; }
 
     public string? MedicalEmergencyContactPhone { get; set; }
+
+    public IEnumerable<ChildDetailsAbsenceRequestViewModel> RecentAbsenceRequests { get; set; } = new List<ChildDetailsAbsenceRequestViewModel>();
 }
