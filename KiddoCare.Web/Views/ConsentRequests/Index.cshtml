@@ -1,0 +1,108 @@
+﻿@using KiddoCare.Data.Models.Enums
+@model IEnumerable<KiddoCare.ViewModels.ConsentRequests.ConsentRequestIndexViewModel>
+
+@{
+    ViewData["Title"] = "Consent Requests";
+    bool canCreate = User.IsInRole("Admin") || User.IsInRole("Teacher");
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Consent Requests</h1>
+
+    @if (canCreate)
+    {
+        <a asp-action="Create" class="btn btn-primary">
+            Create Consent Request
+        </a>
+    }
+</div>
+
+<div class="mb-3">
+    <a asp-action="Index"
+       class="btn btn-sm @(ViewBag.StatusFilter == null ? "btn-primary" : "btn-outline-primary")">
+        All
+    </a>
+
+    <a asp-action="Index"
+       asp-route-statusFilter="pending"
+       class="btn btn-sm @(ViewBag.StatusFilter == "pending" ? "btn-primary" : "btn-outline-primary")">
+        Pending
+    </a>
+
+    <a asp-action="Index"
+       asp-route-statusFilter="approved"
+       class="btn btn-sm @(ViewBag.StatusFilter == "approved" ? "btn-primary" : "btn-outline-primary")">
+        Approved
+    </a>
+
+    <a asp-action="Index"
+       asp-route-statusFilter="rejected"
+       class="btn btn-sm @(ViewBag.StatusFilter == "rejected" ? "btn-primary" : "btn-outline-primary")">
+        Rejected
+    </a>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        No consent requests found.
+    </div>
+}
+else
+{
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Child</th>
+                <th>Group</th>
+                <th>Title</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Created On</th>
+                <th class="text-end">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var request in Model)
+            {
+                <tr>
+                    <td>@request.ChildFullName</td>
+                    <td>@request.GroupName</td>
+                    <td>@request.Title</td>
+                    <td>@request.Type</td>
+                    <td>
+                        @if (request.Status == RequestStatus.Pending)
+                        {
+                            <span class="badge bg-warning text-dark">Pending</span>
+                        }
+                        else if (request.Status == RequestStatus.Approved)
+                        {
+                            <span class="badge bg-success">Approved</span>
+                        }
+                        else if (request.Status == RequestStatus.Rejected)
+                        {
+                            <span class="badge bg-danger">Rejected</span>
+                        }
+                    </td>
+                    <td>@request.CreatedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
+                    <td class="text-end">
+                        <a asp-action="Details"
+                           asp-route-id="@request.Id"
+                           class="btn btn-sm btn-outline-secondary">
+                            Details
+                        </a>
+
+                        @if (request.CanRespond)
+                        {
+                            <a asp-action="Respond"
+                               asp-route-id="@request.Id"
+                               class="btn btn-sm btn-outline-primary">
+                                Respond
+                            </a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
