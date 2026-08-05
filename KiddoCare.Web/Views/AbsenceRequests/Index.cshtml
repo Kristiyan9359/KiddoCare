@@ -1,4 +1,5 @@
-﻿@model IEnumerable<KiddoCare.ViewModels.AbsenceRequests.AbsenceRequestIndexViewModel>
+﻿@using KiddoCare.Data.Models.Enums
+@model IEnumerable<KiddoCare.ViewModels.AbsenceRequests.AbsenceRequestIndexViewModel>
 
 @{
     ViewData["Title"] = "Absence Requests";
@@ -68,7 +69,20 @@ else
                         @request.EndDate.ToString("dd MMM yyyy")
                     </td>
                     <td>@request.Reason</td>
-                    <td>@request.Status</td>
+                    <td>
+                        @if (request.Status == AbsenceRequestStatus.Pending)
+                        {
+                            <span class="badge bg-warning text-dark">Pending</span>
+                        }
+                        else if (request.Status == AbsenceRequestStatus.Approved)
+                        {
+                            <span class="badge bg-success">Approved</span>
+                        }
+                        else if (request.Status == AbsenceRequestStatus.Rejected)
+                        {
+                            <span class="badge bg-danger">Rejected</span>
+                        }
+                    </td>
                     <td class="text-end">
                         <a asp-action="Details"
                            asp-route-id="@request.Id"
