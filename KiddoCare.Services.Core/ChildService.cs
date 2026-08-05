@@ -234,6 +234,19 @@ public class ChildService : IChildService
                         Reason = a.Reason,
                         Status = a.Status
                     })
+                    .ToList(),
+                RecentConsentRequests = c.ConsentRequests
+                    .Where(r => !r.IsDeleted)
+                    .OrderByDescending(r => r.CreatedOn)
+                    .Take(3)
+                    .Select(r => new ChildDetailsConsentRequestViewModel
+                    {
+                        Id = r.Id,
+                        Title = r.Title,
+                        Type = r.Type,
+                        Status = r.Status,
+                        CreatedOn = r.CreatedOn
+                    })
                     .ToList()
             })
             .FirstOrDefaultAsync();
