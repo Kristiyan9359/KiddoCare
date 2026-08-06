@@ -46,6 +46,8 @@ builder.Services.AddScoped<IAbsenceRequestService, AbsenceRequestService>();
 
 builder.Services.AddScoped<IConsentRequestService, ConsentRequestService>();
 
+builder.Services.AddScoped<IChildDocumentService, ChildDocumentService>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
