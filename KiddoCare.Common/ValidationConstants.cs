@@ -54,4 +54,9 @@ public static class ValidationConstants
     public const int ConsentRequestTitleMaxLength = 150;
     public const int ConsentRequestDescriptionMaxLength = 1000;
     public const int ConsentRequestParentNoteMaxLength = 1000;
+
+    //Child Documents
+    public const int ChildDocumentTitleMaxLength = 150;
+    public const int ChildDocumentFileUrlMaxLength = 2048;
+    public const int ChildDocumentReviewNoteMaxLength = 1000;
 }

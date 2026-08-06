@@ -50,4 +50,6 @@ public class Child
     public ICollection<AbsenceRequest> AbsenceRequests { get; set; } = new HashSet<AbsenceRequest>();
 
     public ICollection<ConsentRequest> ConsentRequests { get; set; } = new HashSet<ConsentRequest>();
+
+    public ICollection<ChildDocument> ChildDocuments { get; set; } = new HashSet<ChildDocument>();
 }
