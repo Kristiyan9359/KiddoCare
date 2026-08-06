@@ -1,0 +1,104 @@
+﻿@using KiddoCare.Data.Models.Enums
+@model IEnumerable<KiddoCare.ViewModels.ChildDocuments.ChildDocumentIndexViewModel>
+
+@{
+    ViewData["Title"] = "Child Documents";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Child Documents</h1>
+
+    <a asp-action="Create" class="btn btn-primary">
+        Upload Document
+    </a>
+</div>
+
+<div class="mb-3">
+    <a asp-action="Index"
+       class="btn btn-sm @(ViewBag.StatusFilter == null ? "btn-primary" : "btn-outline-primary")">
+        All
+    </a>
+
+    <a asp-action="Index"
+       asp-route-statusFilter="pending"
+       class="btn btn-sm @(ViewBag.StatusFilter == "pending" ? "btn-primary" : "btn-outline-primary")">
+        Pending
+    </a>
+
+    <a asp-action="Index"
+       asp-route-statusFilter="approved"
+       class="btn btn-sm @(ViewBag.StatusFilter == "approved" ? "btn-primary" : "btn-outline-primary")">
+        Approved
+    </a>
+
+    <a asp-action="Index"
+       asp-route-statusFilter="rejected"
+       class="btn btn-sm @(ViewBag.StatusFilter == "rejected" ? "btn-primary" : "btn-outline-primary")">
+        Rejected
+    </a>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        No documents found.
+    </div>
+}
+else
+{
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Child</th>
+                <th>Group</th>
+                <th>Type</th>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Uploaded On</th>
+                <th class="text-end">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var document in Model)
+            {
+                <tr>
+                    <td>@document.ChildFullName</td>
+                    <td>@document.GroupName</td>
+                    <td>@document.Type</td>
+                    <td>@document.Title</td>
+                    <td>
+                        @if (document.Status == RequestStatus.Pending)
+                        {
+                            <span class="badge bg-warning text-dark">Pending</span>
+                        }
+                        else if (document.Status == RequestStatus.Approved)
+                        {
+                            <span class="badge bg-success">Approved</span>
+                        }
+                        else if (document.Status == RequestStatus.Rejected)
+                        {
+                            <span class="badge bg-danger">Rejected</span>
+                        }
+                    </td>
+                    <td>@document.UploadedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
+                    <td class="text-end">
+                        <a asp-action="Details"
+                           asp-route-id="@document.Id"
+                           class="btn btn-sm btn-outline-secondary">
+                            Details
+                        </a>
+
+                        @if (document.CanReview)
+                        {
+                            <a asp-action="Review"
+                               asp-route-id="@document.Id"
+                               class="btn btn-sm btn-outline-primary">
+                                Review
+                            </a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

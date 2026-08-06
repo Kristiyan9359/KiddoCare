@@ -1,0 +1,48 @@
+﻿@using KiddoCare.Data.Models.Enums
+@model KiddoCare.ViewModels.ChildDocuments.ChildDocumentCreateViewModel
+
+@{
+    ViewData["Title"] = "Upload Child Document";
+}
+
+<h1>Upload Child Document</h1>
+
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="ChildId" class="form-label"></label>
+        <select asp-for="ChildId" asp-items="Model.Children" class="form-select">
+            <option value="">Select child</option>
+        </select>
+        <span asp-validation-for="ChildId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Type" class="form-label"></label>
+        <select asp-for="Type"
+                asp-items="Html.GetEnumSelectList<ChildDocumentType>()"
+                class="form-select">
+        </select>
+        <span asp-validation-for="Type" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Title" class="form-label"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="FileUrl" class="form-label"></label>
+        <input asp-for="FileUrl" class="form-control" />
+        <span asp-validation-for="FileUrl" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Upload</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
