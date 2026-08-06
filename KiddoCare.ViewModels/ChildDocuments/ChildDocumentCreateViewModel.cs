@@ -1,5 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using KiddoCare.Data.Models.Enums;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using static KiddoCare.Common.ValidationConstants;
 
@@ -19,9 +20,10 @@ public class ChildDocumentCreateViewModel
     public string Title { get; set; } = null!;
 
     [Required]
-    [Display(Name = "File URL")]
-    [MaxLength(ChildDocumentFileUrlMaxLength)]
-    public string FileUrl { get; set; } = null!;
+    [Display(Name = "Document File")]
+    public IFormFile File { get; set; } = null!;
+
+    public string? FileUrl { get; set; }
 
     public IEnumerable<SelectListItem> Children { get; set; } = new List<SelectListItem>();
 }

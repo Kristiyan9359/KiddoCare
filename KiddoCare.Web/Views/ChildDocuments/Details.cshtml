@@ -33,7 +33,8 @@
 
     <dt class="col-sm-3">File</dt>
     <dd class="col-sm-9">
-        <a href="@Model.FileUrl" target="_blank" rel="noopener noreferrer">
+        <a asp-action="Download"
+           asp-route-id="@Model.Id">
             Open document
         </a>
     </dd>

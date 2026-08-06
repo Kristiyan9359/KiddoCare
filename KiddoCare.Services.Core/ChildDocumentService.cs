@@ -131,7 +131,7 @@ public class ChildDocumentService : IChildDocumentService
             ChildId = model.ChildId.Value,
             Type = model.Type,
             Title = model.Title,
-            FileUrl = model.FileUrl,
+            FileUrl = model.FileUrl ?? throw new InvalidOperationException("Document file is required."),
             UploadedByUserId = userId
         };
 

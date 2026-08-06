@@ -10,11 +10,25 @@ namespace KiddoCare.Web.Controllers;
 [Authorize]
 public class ChildDocumentsController : Controller
 {
-    private readonly IChildDocumentService childDocumentService;
+    private const long MaxFileSize = 5 * 1024 * 1024;
 
-    public ChildDocumentsController(IChildDocumentService childDocumentService)
+    private static readonly HashSet<string> AllowedFileExtensions = new(StringComparer.OrdinalIgnoreCase)
+    {
+        ".pdf",
+        ".jpg",
+        ".jpeg",
+        ".png"
+    };
+
+    private readonly IChildDocumentService childDocumentService;
+    private readonly IWebHostEnvironment webHostEnvironment;
+
+    public ChildDocumentsController(
+        IChildDocumentService childDocumentService,
+        IWebHostEnvironment webHostEnvironment)
     {
         this.childDocumentService = childDocumentService;
+        this.webHostEnvironment = webHostEnvironment;
     }
 
     [HttpGet]
@@ -49,6 +63,35 @@ public class ChildDocumentsController : Controller
     }
 
     [HttpGet]
+    public async Task<IActionResult> Download(int id)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        var isAdmin = User.IsInRole(Admin);
+        var isTeacher = User.IsInRole(Teacher);
+
+        var model = await childDocumentService.GetDetailsAsync(id, userId, isAdmin, isTeacher);
+
+        if (model == null)
+        {
+            return NotFound();
+        }
+
+        var filePath = Path.Combine(
+            webHostEnvironment.ContentRootPath,
+            model.FileUrl.TrimStart('/').Replace('/', Path.DirectorySeparatorChar));
+
+        if (!System.IO.File.Exists(filePath))
+        {
+            return NotFound();
+        }
+
+        var fileName = $"{model.Title}{Path.GetExtension(filePath)}";
+
+        return PhysicalFile(filePath, GetContentType(filePath), fileName);
+    }
+
+    [Authorize(Roles = $"{Admin},{Parent}")]
+    [HttpGet]
     public async Task<IActionResult> Create()
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
@@ -60,6 +103,7 @@ public class ChildDocumentsController : Controller
         return View(model);
     }
 
+    [Authorize(Roles = $"{Admin},{Parent}")]
     [HttpPost]
     public async Task<IActionResult> Create(ChildDocumentCreateViewModel model)
     {
@@ -77,6 +121,8 @@ public class ChildDocumentsController : Controller
 
         try
         {
+            model.FileUrl = await SaveDocumentFileAsync(model.File);
+
             await childDocumentService.CreateAsync(model, userId, isAdmin, isTeacher);
         }
         catch (InvalidOperationException ex)
@@ -90,6 +136,56 @@ public class ChildDocumentsController : Controller
         }
 
         return RedirectToAction(nameof(Index));
+    }
+
+    private async Task<string> SaveDocumentFileAsync(IFormFile file)
+    {
+        if (file.Length == 0)
+        {
+            throw new InvalidOperationException("Document file is required.");
+        }
+
+        if (file.Length > MaxFileSize)
+        {
+            throw new InvalidOperationException("Document file cannot be larger than 5 MB.");
+        }
+
+        var extension = Path.GetExtension(file.FileName);
+
+        if (!AllowedFileExtensions.Contains(extension))
+        {
+            throw new InvalidOperationException("Allowed document formats are PDF, JPG and PNG.");
+        }
+
+        var uploadsFolder = Path.Combine(
+            webHostEnvironment.ContentRootPath,
+            "App_Data",
+            "uploads",
+            "child-documents");
+
+        Directory.CreateDirectory(uploadsFolder);
+
+        var fileName = $"{Guid.NewGuid()}{extension}";
+        var filePath = Path.Combine(uploadsFolder, fileName);
+
+        await using var stream = new FileStream(filePath, FileMode.Create);
+        await file.CopyToAsync(stream);
+
+        return $"/App_Data/uploads/child-documents/{fileName}";
+    }
+
+    private static string GetContentType(string filePath)
+    {
+        var extension = Path.GetExtension(filePath).ToLowerInvariant();
+
+        return extension switch
+        {
+            ".pdf" => "application/pdf",
+            ".jpg" => "image/jpeg",
+            ".jpeg" => "image/jpeg",
+            ".png" => "image/png",
+            _ => "application/octet-stream"
+        };
     }
 
     [Authorize(Roles = Admin)]
