@@ -171,6 +171,59 @@
                 </table>
             }
 
+            <h2 class="mt-4">Recent Documents</h2>
+
+            @if (!Model.RecentDocuments.Any())
+            {
+                <p class="text-muted">No documents uploaded yet.</p>
+            }
+            else
+            {
+                <table class="table table-striped mb-3">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Uploaded On</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var document in Model.RecentDocuments)
+                        {
+                            <tr>
+                                <td>@document.Title</td>
+                                <td>@document.Type</td>
+                                <td>
+                                    @if (document.Status == RequestStatus.Pending)
+                                    {
+                                        <span class="badge bg-warning text-dark">Pending</span>
+                                    }
+                                    else if (document.Status == RequestStatus.Approved)
+                                    {
+                                        <span class="badge bg-success">Approved</span>
+                                    }
+                                    else if (document.Status == RequestStatus.Rejected)
+                                    {
+                                        <span class="badge bg-danger">Rejected</span>
+                                    }
+                                </td>
+                                <td>@document.UploadedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
+                                <td class="text-end">
+                                    <a asp-controller="ChildDocuments"
+                                       asp-action="Details"
+                                       asp-route-id="@document.Id"
+                                       class="btn btn-sm btn-outline-secondary">
+                                        Details
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+
             <a asp-controller="MedicalRecords"
                asp-action="Details"
                asp-route-childId="@Model.Id"

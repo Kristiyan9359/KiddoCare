@@ -35,4 +35,6 @@ public class ChildDetailsViewModel
     public IEnumerable<ChildDetailsAbsenceRequestViewModel> RecentAbsenceRequests { get; set; } = new List<ChildDetailsAbsenceRequestViewModel>();
 
     public IEnumerable<ChildDetailsConsentRequestViewModel> RecentConsentRequests { get; set; } = new List<ChildDetailsConsentRequestViewModel>();
+
+    public IEnumerable<ChildDetailsDocumentViewModel> RecentDocuments { get; set; } = new List<ChildDetailsDocumentViewModel>();
 }

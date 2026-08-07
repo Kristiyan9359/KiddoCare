@@ -248,6 +248,19 @@ public class ChildService : IChildService
                         Status = r.Status,
                         CreatedOn = r.CreatedOn
                     })
+                    .ToList(),
+                RecentDocuments = c.ChildDocuments
+                    .Where(d => !d.IsDeleted)
+                    .OrderByDescending(d => d.UploadedOn)
+                    .Take(3)
+                    .Select(d => new ChildDetailsDocumentViewModel
+                    {
+                        Id = d.Id,
+                        Type = d.Type,
+                        Title = d.Title,
+                        Status = d.Status,
+                        UploadedOn = d.UploadedOn
+                    })
                     .ToList()
             })
             .FirstOrDefaultAsync();
