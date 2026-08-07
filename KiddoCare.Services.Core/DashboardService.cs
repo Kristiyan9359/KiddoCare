@@ -214,6 +214,25 @@ public class DashboardService : IDashboardService
              })
              .ToListAsync();
 
+        var recentDocuments = await context.ChildDocuments
+             .Where(d =>
+                 !d.IsDeleted &&
+                 d.Child.Parent != null &&
+                 !d.Child.Parent.IsDeleted &&
+                 d.Child.Parent.UserId == userId)
+             .OrderByDescending(d => d.UploadedOn)
+             .Take(5)
+             .Select(d => new ParentDashboardDocumentViewModel
+             {
+                 Id = d.Id,
+                 ChildFullName = d.Child.FirstName + " " + d.Child.LastName,
+                 Type = d.Type,
+                 Title = d.Title,
+                 Status = d.Status,
+                 UploadedOn = d.UploadedOn
+             })
+             .ToListAsync();
+
         return new ParentDashboardViewModel
         {
             Children = children,
@@ -222,7 +241,8 @@ public class DashboardService : IDashboardService
             RecentAbsenceRequests = recentAbsenceRequests,
             PendingConsentRequestsCount = pendingConsentRequestsCount,
             RecentConsentRequests = recentConsentRequests,
-            PendingChildDocumentsCount = pendingChildDocumentsCount
+            PendingChildDocumentsCount = pendingChildDocumentsCount,
+            RecentDocuments = recentDocuments
         };
     }
 
@@ -319,6 +339,23 @@ public class DashboardService : IDashboardService
             })
             .ToListAsync();
 
+        var recentDocuments = await context.ChildDocuments
+           .Where(d =>
+               !d.IsDeleted &&
+               d.Child.GroupId == teacher.GroupId)
+           .OrderByDescending(d => d.UploadedOn)
+           .Take(5)
+           .Select(d => new TeacherDashboardDocumentViewModel
+           {
+               Id = d.Id,
+               ChildFullName = d.Child.FirstName + " " + d.Child.LastName,
+               Type = d.Type,
+               Title = d.Title,
+               Status = d.Status,
+               UploadedOn = d.UploadedOn
+           })
+           .ToListAsync();
+
         var recentAnnouncements = await context.Announcements
             .Where(a =>
                 !a.IsDeleted &&
@@ -350,7 +387,8 @@ public class DashboardService : IDashboardService
             ChildrenWithAllergiesCount = childrenWithAllergiesCount,
             PendingAbsenceRequestsCount = pendingAbsenceRequestsCount,
             PendingConsentRequestsCount = pendingConsentRequestsCount,
-            PendingChildDocumentsCount = pendingChildDocumentsCount
+            PendingChildDocumentsCount = pendingChildDocumentsCount,
+            RecentDocuments = recentDocuments
         };
     }
 }

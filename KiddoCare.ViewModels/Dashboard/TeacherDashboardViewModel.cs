@@ -33,4 +33,6 @@ public class TeacherDashboardViewModel
     public IEnumerable<TeacherDashboardDailyReportViewModel> RecentDailyReports { get; set; } = new List<TeacherDashboardDailyReportViewModel>();
 
     public IEnumerable<DashboardAnnouncementViewModel> RecentAnnouncements { get; set; } = new List<DashboardAnnouncementViewModel>();
+
+    public IEnumerable<TeacherDashboardDocumentViewModel> RecentDocuments { get; set; } = new List<TeacherDashboardDocumentViewModel>();
 }
