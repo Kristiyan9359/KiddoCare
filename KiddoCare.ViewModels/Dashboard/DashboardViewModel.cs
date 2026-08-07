@@ -27,4 +27,6 @@ public class DashboardViewModel
     public IEnumerable<EventIndexViewModel> UpcomingEvents { get; set; } = new List<EventIndexViewModel>();
 
     public IEnumerable<DashboardAnnouncementViewModel> RecentAnnouncements { get; set; } = new List<DashboardAnnouncementViewModel>();
+
+    public IEnumerable<DashboardDocumentViewModel> RecentDocuments { get; set; } = new List<DashboardDocumentViewModel>();
 }

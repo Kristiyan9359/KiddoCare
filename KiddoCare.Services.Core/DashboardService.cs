@@ -68,6 +68,22 @@ public class DashboardService : IDashboardService
             })
             .ToListAsync();
 
+        var recentDocuments = await context.ChildDocuments
+            .Where(d => !d.IsDeleted && !d.Child.IsDeleted)
+            .OrderByDescending(d => d.UploadedOn)
+            .Take(5)
+            .Select(d => new DashboardDocumentViewModel
+            {
+                Id = d.Id,
+                ChildFullName = d.Child.FirstName + " " + d.Child.LastName,
+                GroupName = d.Child.Group.Name,
+                Type = d.Type,
+                Title = d.Title,
+                Status = d.Status,
+                UploadedOn = d.UploadedOn
+            })
+            .ToListAsync();
+
         return new DashboardViewModel
         {
             GroupsCount = groupsCount,
@@ -81,7 +97,8 @@ public class DashboardService : IDashboardService
             RecentAnnouncements = recentAnnouncements,
             PendingAbsenceRequestsCount = pendingAbsenceRequestsCount,
             PendingConsentRequestsCount = pendingConsentRequestsCount,
-            PendingChildDocumentsCount = pendingChildDocumentsCount
+            PendingChildDocumentsCount = pendingChildDocumentsCount,
+            RecentDocuments = recentDocuments
         };
     }
 
