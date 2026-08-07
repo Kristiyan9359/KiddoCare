@@ -6,8 +6,9 @@
 
 <h1>Edit Child</h1>
 
-<form asp-action="Edit" method="post">
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
     <input asp-for="Id" type="hidden" />
+    <input asp-for="PhotoUrl" type="hidden" />
 
     <div class="mb-3">
         <label asp-for="FirstName" class="form-label"></label>
@@ -56,10 +57,19 @@
     </div>
 
 
+    @if (!string.IsNullOrWhiteSpace(Model.PhotoUrl))
+    {
+        <div class="mb-3">
+            <img src="@Url.Action("Photo", "Children", new { id = Model.Id })"
+                 alt="@($"{Model.FirstName} {Model.LastName}")"
+                 style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px;" />
+        </div>
+    }
+
     <div class="mb-3">
-        <label asp-for="PhotoUrl" class="form-label"></label>
-        <input asp-for="PhotoUrl" class="form-control" />
-        <span asp-validation-for="PhotoUrl" class="text-danger"></span>
+        <label asp-for="Photo" class="form-label"></label>
+        <input asp-for="Photo" type="file" class="form-control" />
+        <span asp-validation-for="Photo" class="text-danger"></span>
     </div>
 
     <button type="submit" class="btn btn-primary">Save</button>

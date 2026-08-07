@@ -22,7 +22,7 @@ else
                 <div class="border rounded p-3 h-100">
                     @if (!string.IsNullOrWhiteSpace(child.PhotoUrl))
                     {
-                        <img src="@child.PhotoUrl"
+                        <img src="@Url.Action("Photo", "Children", new { id = child.Id })"
                              alt="@child.FullName"
                              class="img-fluid rounded mb-3"
                              style="height: 180px; width: 100%; object-fit: cover;" />
