@@ -161,6 +161,17 @@ public class AbsenceRequestService : IAbsenceRequestService
         };
 
         await context.AbsenceRequests.AddAsync(absenceRequest);
+
+        if (isAdmin || isTeacher)
+        {
+            absenceRequest.Status = RequestStatus.Approved;
+            absenceRequest.ReviewedByUserId = userId;
+            absenceRequest.ReviewedOn = DateTime.UtcNow;
+            absenceRequest.ReviewNote = "Confirmed on creation.";
+
+            await ApplyConfirmedAbsenceToAttendanceAsync(absenceRequest);
+        }
+
         await context.SaveChangesAsync();
     }
 
