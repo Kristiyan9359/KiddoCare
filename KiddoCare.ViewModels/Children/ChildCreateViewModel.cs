@@ -1,6 +1,7 @@
 ﻿using KiddoCare.Data.Models.Enums;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using static KiddoCare.Common.ValidationConstants;
 using KiddoCare.Common.ValidationAttributes;
 
@@ -28,6 +29,9 @@ public class ChildCreateViewModel
 
     [MaxLength(ChildPhotoUrlMaxLength)]
     public string? PhotoUrl { get; set; }
+
+    [Display(Name = "Photo")]
+    public IFormFile? Photo { get; set; }
 
     public int? ParentId { get; set; }
 

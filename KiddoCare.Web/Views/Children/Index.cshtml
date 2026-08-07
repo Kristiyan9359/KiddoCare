@@ -77,7 +77,7 @@
                 <td>
                     @if (!string.IsNullOrWhiteSpace(child.PhotoUrl))
                     {
-                        <img src="@child.PhotoUrl" alt="@child.FullName" style="width: 48px; height: 48px; object-fit: cover; border-radius: 50%;" />
+                        <img src="@Url.Action("Photo", "Children", new { id = child.Id })" alt="@child.FullName" style="width: 48px; height: 48px; object-fit: cover; border-radius: 50%;" />
                     }
                 </td>
                 <td class="text-end">
