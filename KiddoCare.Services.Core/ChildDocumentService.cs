@@ -135,6 +135,14 @@ public class ChildDocumentService : IChildDocumentService
             UploadedByUserId = userId
         };
 
+        if (isAdmin)
+        {
+            childDocument.Status = RequestStatus.Approved;
+            childDocument.ReviewedByUserId = userId;
+            childDocument.ReviewedOn = DateTime.UtcNow;
+            childDocument.ReviewNote = "Approved on upload.";
+        }
+
         await context.ChildDocuments.AddAsync(childDocument);
         await context.SaveChangesAsync();
     }
