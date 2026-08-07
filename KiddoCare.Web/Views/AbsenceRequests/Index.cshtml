@@ -2,14 +2,14 @@
 @model IEnumerable<KiddoCare.ViewModels.AbsenceRequests.AbsenceRequestIndexViewModel>
 
 @{
-    ViewData["Title"] = "Absence Requests";
+    ViewData["Title"] = "Absence Notices";
 }
 
 <div class="d-flex justify-content-between align-items-center mb-3">
-    <h1>Absence Requests</h1>
+    <h1>Absence Notices</h1>
 
     <a asp-action="Create" class="btn btn-primary">
-        Create Absence Request
+        Create Absence Notice
     </a>
 </div>
 
@@ -26,22 +26,16 @@
     </a>
 
     <a asp-action="Index"
-       asp-route-statusFilter="approved"
-       class="btn btn-sm @(ViewBag.StatusFilter == "approved" ? "btn-primary" : "btn-outline-primary")">
-        Approved
-    </a>
-
-    <a asp-action="Index"
-       asp-route-statusFilter="rejected"
-       class="btn btn-sm @(ViewBag.StatusFilter == "rejected" ? "btn-primary" : "btn-outline-primary")">
-        Rejected
+       asp-route-statusFilter="confirmed"
+       class="btn btn-sm @(ViewBag.StatusFilter == "confirmed" || ViewBag.StatusFilter == "approved" ? "btn-primary" : "btn-outline-primary")">
+        Confirmed
     </a>
 </div>
 
 @if (!Model.Any())
 {
     <div class="alert alert-info">
-        No absence requests found.
+        No absence notices found.
     </div>
 }
 else
@@ -76,11 +70,7 @@ else
                         }
                         else if (request.Status == RequestStatus.Approved)
                         {
-                            <span class="badge bg-success">Approved</span>
-                        }
-                        else if (request.Status == RequestStatus.Rejected)
-                        {
-                            <span class="badge bg-danger">Rejected</span>
+                            <span class="badge bg-success">Confirmed</span>
                         }
                     </td>
                     <td class="text-end">
@@ -95,7 +85,7 @@ else
                             <a asp-action="Review"
                                asp-route-id="@request.Id"
                                class="btn btn-sm btn-outline-primary">
-                                Review
+                                Confirm
                             </a>
                         }
                     </td>

@@ -1,14 +1,10 @@
-﻿@using KiddoCare.Data.Models.Enums
 @model KiddoCare.ViewModels.AbsenceRequests.AbsenceRequestReviewViewModel
 
 @{
-    ViewData["Title"] = "Review Absence Request";
-
-    var statusOptions = Html.GetEnumSelectList<RequestStatus>()
-        .Where(s => s.Value != "0");
+    ViewData["Title"] = "Confirm Absence Notice";
 }
 
-<h1>Review Absence Request</h1>
+<h1>Confirm Absence Notice</h1>
 
 <p>
     <strong>Child:</strong> @Model.ChildFullName
@@ -36,22 +32,12 @@
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
     <div class="mb-3">
-        <label asp-for="Status" class="form-label"></label>
-        <select asp-for="Status"
-                asp-items="statusOptions"
-                class="form-select">
-            <option value="0">Select status</option>
-        </select>
-        <span asp-validation-for="Status" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="ReviewNote" class="form-label"></label>
+        <label asp-for="ReviewNote" class="form-label">Confirmation Note</label>
         <textarea asp-for="ReviewNote" class="form-control" rows="4"></textarea>
         <span asp-validation-for="ReviewNote" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="btn btn-primary">Save Review</button>
+    <button type="submit" class="btn btn-primary">Save Confirmation</button>
     <a asp-action="Index" class="btn btn-secondary">Cancel</a>
 </form>
 

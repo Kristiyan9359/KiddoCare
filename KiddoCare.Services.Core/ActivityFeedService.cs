@@ -1,4 +1,5 @@
 ﻿using KiddoCare.Data;
+using KiddoCare.Data.Models.Enums;
 using KiddoCare.Services.Core.Contracts;
 using KiddoCare.ViewModels.ActivityFeed;
 using Microsoft.EntityFrameworkCore;
@@ -77,15 +78,18 @@ public class ActivityFeedService : IActivityFeedService
         items.AddRange(dailyReportItems);
 
         var absenceRequestItems = await context.AbsenceRequests
-          .Where(a => !a.IsDeleted && a.ChildId == childId)
+          .Where(a =>
+              !a.IsDeleted &&
+              a.ChildId == childId &&
+              a.Status != RequestStatus.Rejected)
           .OrderByDescending(a => a.RequestedOn)
           .Take(10)
           .Select(a => new ActivityFeedItemViewModel
           {
               Date = a.RequestedOn,
-              Type = "Absence Request",
-              Title = "Absence request submitted",
-              Description = a.Reason + " - " + a.Status,
+              Type = "Absence Notice",
+              Title = "Absence notice submitted",
+              Description = a.Reason + " - " + (a.Status == RequestStatus.Approved ? "Confirmed" : a.Status.ToString()),
               ActionController = "AbsenceRequests",
               ActionName = "Details",
               RouteId = a.Id

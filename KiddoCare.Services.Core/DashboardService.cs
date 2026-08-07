@@ -161,6 +161,7 @@ public class DashboardService : IDashboardService
         var recentAbsenceRequests = await context.AbsenceRequests
             .Where(a =>
                 !a.IsDeleted &&
+                a.Status != RequestStatus.Rejected &&
                 a.Child.Parent != null &&
                 !a.Child.Parent.IsDeleted &&
                 a.Child.Parent.UserId == userId)

@@ -1,5 +1,6 @@
 ﻿using KiddoCare.Data;
 using KiddoCare.Data.Models;
+using KiddoCare.Data.Models.Enums;
 using KiddoCare.Services.Core.Contracts;
 using KiddoCare.ViewModels.Children;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -223,7 +224,7 @@ public class ChildService : IChildService
                     .Select(m => m.EmergencyContactPhone)
                     .FirstOrDefault(),
                 RecentAbsenceRequests = c.AbsenceRequests
-                    .Where(a => !a.IsDeleted)
+                    .Where(a => !a.IsDeleted && a.Status != RequestStatus.Rejected)
                     .OrderByDescending(a => a.RequestedOn)
                     .Take(3)
                     .Select(a => new ChildDetailsAbsenceRequestViewModel

@@ -18,10 +18,6 @@ public class AbsenceRequestReviewViewModel
 
     public string? ParentNote { get; set; }
 
-    [Required]
-    [Range(1, 2, ErrorMessage = "Please select a valid status.")]
-    public RequestStatus Status { get; set; }
-
     [Display(Name = "Review Note")]
     [MaxLength(AbsenceRequestReviewNoteMaxLength)]
     public string? ReviewNote { get; set; }

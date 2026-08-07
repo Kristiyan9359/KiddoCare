@@ -197,19 +197,19 @@ else
     </table>
 }
 
-<h2>Recent Absence Requests</h2>
+<h2>Recent Absence Notices</h2>
 
 <p>
     <a asp-controller="AbsenceRequests"
        asp-action="Create"
        class="btn btn-sm btn-outline-primary">
-        Create Absence Request
+        Create Absence Notice
     </a>
 </p>
 
 @if (!Model.RecentAbsenceRequests.Any())
 {
-    <p>No absence requests yet.</p>
+    <p>No absence notices yet.</p>
 }
 else
 {
@@ -241,11 +241,7 @@ else
                         }
                         else if (request.Status == RequestStatus.Approved)
                         {
-                            <span class="badge bg-success">Approved</span>
-                        }
-                        else if (request.Status == RequestStatus.Rejected)
-                        {
-                            <span class="badge bg-danger">Rejected</span>
+                            <span class="badge bg-success">Confirmed</span>
                         }
                     </td>
                     <td class="text-end">

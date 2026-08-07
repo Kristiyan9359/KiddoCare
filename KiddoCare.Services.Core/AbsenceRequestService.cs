@@ -20,7 +20,10 @@ public class AbsenceRequestService : IAbsenceRequestService
     public async Task<IEnumerable<AbsenceRequestIndexViewModel>> GetAllAsync(string userId, bool isAdmin, bool isTeacher, string? statusFilter)
     {
         var query = context.AbsenceRequests
-            .Where(a => !a.IsDeleted && !a.Child.IsDeleted)
+            .Where(a =>
+                !a.IsDeleted &&
+                !a.Child.IsDeleted &&
+                a.Status != RequestStatus.Rejected)
             .AsQueryable();
 
         int? teacherGroupId = null;
@@ -48,15 +51,10 @@ public class AbsenceRequestService : IAbsenceRequestService
         {
             query = query.Where(a => a.Status == RequestStatus.Pending);
         }
-        else if (statusFilter == "approved")
+        else if (statusFilter == "confirmed" || statusFilter == "approved")
         {
             query = query.Where(a => a.Status == RequestStatus.Approved);
         }
-        else if (statusFilter == "rejected")
-        {
-            query = query.Where(a => a.Status == RequestStatus.Rejected);
-        }
-
         return await query
             .OrderByDescending(a => a.RequestedOn)
             .Select(a => new AbsenceRequestIndexViewModel
@@ -84,6 +82,7 @@ public class AbsenceRequestService : IAbsenceRequestService
 
         return await context.AbsenceRequests
             .Where(a => !a.IsDeleted && a.Id == id)
+            .Where(a => a.Status != RequestStatus.Rejected)
             .Select(a => new AbsenceRequestDetailsViewModel
             {
                 Id = a.Id,
@@ -148,7 +147,7 @@ public class AbsenceRequestService : IAbsenceRequestService
 
         if (hasOverlappingRequest)
         {
-            throw new InvalidOperationException("There is already an active absence request for this child in the selected period.");
+            throw new InvalidOperationException("There is already an active absence notice for this child in the selected period.");
         }
 
         var absenceRequest = new AbsenceRequest
@@ -184,7 +183,6 @@ public class AbsenceRequestService : IAbsenceRequestService
                 EndDate = a.EndDate,
                 Reason = a.Reason,
                 ParentNote = a.ParentNote,
-                Status = a.Status,
                 ReviewNote = a.ReviewNote
             })
             .FirstOrDefaultAsync();
@@ -196,7 +194,7 @@ public class AbsenceRequestService : IAbsenceRequestService
 
         if (!canReview)
         {
-            throw new InvalidOperationException("Absence request not found.");
+            throw new InvalidOperationException("Absence notice not found.");
         }
 
         var absenceRequest = await context.AbsenceRequests
@@ -204,23 +202,20 @@ public class AbsenceRequestService : IAbsenceRequestService
 
         if (absenceRequest == null)
         {
-            throw new InvalidOperationException("Absence request not found.");
+            throw new InvalidOperationException("Absence notice not found.");
         }
 
         if (absenceRequest.Status != RequestStatus.Pending)
         {
-            throw new InvalidOperationException("Only pending requests can be reviewed.");
+            throw new InvalidOperationException("Only pending notices can be confirmed.");
         }
 
-        absenceRequest.Status = model.Status;
+        absenceRequest.Status = RequestStatus.Approved;
         absenceRequest.ReviewNote = model.ReviewNote;
         absenceRequest.ReviewedByUserId = userId;
         absenceRequest.ReviewedOn = DateTime.UtcNow;
 
-        if (absenceRequest.Status == RequestStatus.Approved)
-        {
-            await ApplyApprovedAbsenceToAttendanceAsync(absenceRequest);
-        }
+        await ApplyConfirmedAbsenceToAttendanceAsync(absenceRequest);
 
         await context.SaveChangesAsync();
     }
@@ -230,7 +225,10 @@ public class AbsenceRequestService : IAbsenceRequestService
         if (isAdmin)
         {
             return await context.AbsenceRequests
-                .AnyAsync(a => !a.IsDeleted && a.Id == id);
+                .AnyAsync(a =>
+                    !a.IsDeleted &&
+                    a.Id == id &&
+                    a.Status != RequestStatus.Rejected);
         }
 
         if (isTeacher)
@@ -241,12 +239,14 @@ public class AbsenceRequestService : IAbsenceRequestService
                    await context.AbsenceRequests.AnyAsync(a =>
                        !a.IsDeleted &&
                        a.Id == id &&
+                       a.Status != RequestStatus.Rejected &&
                        a.Child.GroupId == teacherGroupId.Value);
         }
 
         return await context.AbsenceRequests.AnyAsync(a =>
             !a.IsDeleted &&
             a.Id == id &&
+            a.Status != RequestStatus.Rejected &&
             a.Child.Parent != null &&
             !a.Child.Parent.IsDeleted &&
             a.Child.Parent.UserId == userId);
@@ -257,7 +257,10 @@ public class AbsenceRequestService : IAbsenceRequestService
         if (isAdmin)
         {
             return await context.AbsenceRequests
-                .AnyAsync(a => !a.IsDeleted && a.Id == id);
+                .AnyAsync(a =>
+                    !a.IsDeleted &&
+                    a.Id == id &&
+                    a.Status == RequestStatus.Pending);
         }
 
         if (!isTeacher)
@@ -271,6 +274,7 @@ public class AbsenceRequestService : IAbsenceRequestService
                await context.AbsenceRequests.AnyAsync(a =>
                    !a.IsDeleted &&
                    a.Id == id &&
+                   a.Status == RequestStatus.Pending &&
                    a.Child.GroupId == teacherGroupId.Value);
     }
 
@@ -326,7 +330,7 @@ public class AbsenceRequestService : IAbsenceRequestService
             .ToListAsync();
     }
 
-    private async Task ApplyApprovedAbsenceToAttendanceAsync(AbsenceRequest absenceRequest)
+    private async Task ApplyConfirmedAbsenceToAttendanceAsync(AbsenceRequest absenceRequest)
     {
         var status = absenceRequest.Reason switch
         {
@@ -352,7 +356,7 @@ public class AbsenceRequestService : IAbsenceRequestService
                     ChildId = absenceRequest.ChildId,
                     Date = currentDate,
                     Status = status,
-                    Note = "Created from approved absence request."
+                    Note = "Created from confirmed absence notice."
                 };
 
                 await context.AttendanceRecords.AddAsync(attendanceRecord);
@@ -360,7 +364,7 @@ public class AbsenceRequestService : IAbsenceRequestService
             else
             {
                 attendanceRecord.Status = status;
-                attendanceRecord.Note = "Updated from approved absence request.";
+                attendanceRecord.Note = "Updated from confirmed absence notice.";
             }
 
             currentDate = currentDate.AddDays(1);

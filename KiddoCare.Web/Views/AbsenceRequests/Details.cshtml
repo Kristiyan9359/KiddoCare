@@ -2,18 +2,18 @@
 @model KiddoCare.ViewModels.AbsenceRequests.AbsenceRequestDetailsViewModel
 
 @{
-    ViewData["Title"] = "Absence Request Details";
+    ViewData["Title"] = "Absence Notice Details";
 }
 
 <div class="d-flex justify-content-between align-items-center mb-3">
-    <h1>Absence Request</h1>
+    <h1>Absence Notice</h1>
 
     @if (Model.CanReview)
     {
         <a asp-action="Review"
            asp-route-id="@Model.Id"
            class="btn btn-outline-primary">
-            Review
+            Confirm
         </a>
     }
 </div>
@@ -43,11 +43,7 @@
         }
         else if (Model.Status == RequestStatus.Approved)
         {
-            <span class="badge bg-success">Approved</span>
-        }
-        else if (Model.Status == RequestStatus.Rejected)
-        {
-            <span class="badge bg-danger">Rejected</span>
+            <span class="badge bg-success">Confirmed</span>
         }
     </dd>
 
@@ -56,22 +52,22 @@
         @(Model.ParentNote ?? "No note provided.")
     </dd>
 
-    <dt class="col-sm-3">Requested By</dt>
+    <dt class="col-sm-3">Submitted By</dt>
     <dd class="col-sm-9">@Model.RequestedByEmail</dd>
 
-    <dt class="col-sm-3">Requested On</dt>
+    <dt class="col-sm-3">Submitted On</dt>
     <dd class="col-sm-9">@Model.RequestedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</dd>
 
-    <dt class="col-sm-3">Review Note</dt>
+    <dt class="col-sm-3">Confirmation Note</dt>
     <dd class="col-sm-9" style="white-space: pre-line">
-        @(Model.ReviewNote ?? "No review note.")
+        @(Model.ReviewNote ?? "No confirmation note.")
     </dd>
 
-    <dt class="col-sm-3">Reviewed On</dt>
+    <dt class="col-sm-3">Confirmed On</dt>
     <dd class="col-sm-9">
         @(Model.ReviewedOn.HasValue
             ? Model.ReviewedOn.Value.ToLocalTime().ToString("dd MMM yyyy, HH:mm")
-            : "Not reviewed yet.")
+            : "Not confirmed yet.")
     </dd>
 </dl>
 

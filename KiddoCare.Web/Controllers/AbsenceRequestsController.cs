@@ -129,7 +129,6 @@ public class AbsenceRequestsController : Controller
                 return NotFound();
             }
 
-            reviewModel.Status = model.Status;
             reviewModel.ReviewNote = model.ReviewNote;
 
             return View(reviewModel);
@@ -150,7 +149,6 @@ public class AbsenceRequestsController : Controller
                 return NotFound();
             }
 
-            reviewModel.Status = model.Status;
             reviewModel.ReviewNote = model.ReviewNote;
 
             return View(reviewModel);
