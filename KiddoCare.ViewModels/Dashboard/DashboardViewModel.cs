@@ -22,6 +22,8 @@ public class DashboardViewModel
 
     public int PendingConsentRequestsCount { get; set; }
 
+    public int PendingChildDocumentsCount { get; set; }
+
     public IEnumerable<EventIndexViewModel> UpcomingEvents { get; set; } = new List<EventIndexViewModel>();
 
     public IEnumerable<DashboardAnnouncementViewModel> RecentAnnouncements { get; set; } = new List<DashboardAnnouncementViewModel>();

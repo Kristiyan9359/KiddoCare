@@ -37,6 +37,9 @@ public class DashboardService : IDashboardService
         var pendingConsentRequestsCount = await context.ConsentRequests
             .CountAsync(c => !c.IsDeleted && c.Status == RequestStatus.Pending);
 
+        var pendingChildDocumentsCount = await context.ChildDocuments
+            .CountAsync(d => !d.IsDeleted && d.Status == RequestStatus.Pending);
+
         var upcomingEvents = await context.Events
             .Where(e => !e.IsDeleted && e.StartDateTime >= DateTime.Now)
             .OrderBy(e => e.StartDateTime)
@@ -77,7 +80,8 @@ public class DashboardService : IDashboardService
             UpcomingEvents = upcomingEvents,
             RecentAnnouncements = recentAnnouncements,
             PendingAbsenceRequestsCount = pendingAbsenceRequestsCount,
-            PendingConsentRequestsCount = pendingConsentRequestsCount
+            PendingConsentRequestsCount = pendingConsentRequestsCount,
+            PendingChildDocumentsCount = pendingChildDocumentsCount
         };
     }
 
@@ -181,6 +185,14 @@ public class DashboardService : IDashboardService
                 !c.Child.Parent.IsDeleted &&
                 c.Child.Parent.UserId == userId);
 
+        var pendingChildDocumentsCount = await context.ChildDocuments
+            .CountAsync(d =>
+                !d.IsDeleted &&
+                d.Status == RequestStatus.Pending &&
+                d.Child.Parent != null &&
+                !d.Child.Parent.IsDeleted &&
+                d.Child.Parent.UserId == userId);
+
         var recentConsentRequests = await context.ConsentRequests
              .Where(c =>
                  !c.IsDeleted &&
@@ -208,7 +220,8 @@ public class DashboardService : IDashboardService
             RecentAnnouncements = recentAnnouncements,
             RecentAbsenceRequests = recentAbsenceRequests,
             PendingConsentRequestsCount = pendingConsentRequestsCount,
-            RecentConsentRequests = recentConsentRequests
+            RecentConsentRequests = recentConsentRequests,
+            PendingChildDocumentsCount = pendingChildDocumentsCount
         };
     }
 
@@ -240,6 +253,12 @@ public class DashboardService : IDashboardService
                 !c.IsDeleted &&
                 c.Status == RequestStatus.Pending &&
                 c.Child.GroupId == teacher.GroupId);
+
+        var pendingChildDocumentsCount = await context.ChildDocuments
+            .CountAsync(d =>
+                !d.IsDeleted &&
+                d.Status == RequestStatus.Pending &&
+                d.Child.GroupId == teacher.GroupId);
 
         var childrenCount = await context.Children
             .CountAsync(c => !c.IsDeleted && c.GroupId == teacher.GroupId);
@@ -329,7 +348,8 @@ public class DashboardService : IDashboardService
             ChildrenWithMedicalRecordsCount = childrenWithMedicalRecordsCount,
             ChildrenWithAllergiesCount = childrenWithAllergiesCount,
             PendingAbsenceRequestsCount = pendingAbsenceRequestsCount,
-            PendingConsentRequestsCount = pendingConsentRequestsCount
+            PendingConsentRequestsCount = pendingConsentRequestsCount,
+            PendingChildDocumentsCount = pendingChildDocumentsCount
         };
     }
 }

@@ -6,6 +6,8 @@ public class ParentDashboardViewModel
 {
     public int PendingConsentRequestsCount { get; set; }
 
+    public int PendingChildDocumentsCount { get; set; }
+
     public IEnumerable<ParentDashboardChildViewModel> Children { get; set; } = new List<ParentDashboardChildViewModel>();
 
     public IEnumerable<EventIndexViewModel> UpcomingEvents { get; set; } = new List<EventIndexViewModel>();
