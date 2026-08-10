@@ -171,7 +171,8 @@ public class KiddoCareWebApplicationFactory : WebApplicationFactory<Program>
                 Gender = Gender.Male,
                 DateOfBirth = DateTime.Today.AddYears(-4),
                 GroupId = 1,
-                ParentId = 1
+                ParentId = 1,
+                PhotoUrl = "/App_Data/uploads/child-photos/ivan.jpg"
             },
             new Child
             {
@@ -182,6 +183,17 @@ public class KiddoCareWebApplicationFactory : WebApplicationFactory<Program>
                 DateOfBirth = DateTime.Today.AddYears(-3),
                 GroupId = 2,
                 ParentId = 2
+            },
+            new Child
+            {
+                Id = 3,
+                FirstName = "Georgi",
+                LastName = "Georgiev",
+                Gender = Gender.Male,
+                DateOfBirth = DateTime.Today.AddYears(-5),
+                GroupId = 1,
+                ParentId = 1,
+                PhotoUrl = "/App_Data/uploads/child-photos/../secret.jpg"
             });
 
         context.Events.AddRange(
@@ -256,6 +268,16 @@ public class KiddoCareWebApplicationFactory : WebApplicationFactory<Program>
                 FileUrl = "/App_Data/uploads/child-documents/other.pdf",
                 Status = RequestStatus.Approved,
                 UploadedByUserId = "other-parent-user-id"
+            },
+            new ChildDocument
+            {
+                Id = 3,
+                ChildId = 1,
+                Type = ChildDocumentType.MedicalNote,
+                Title = "Unsafe document",
+                FileUrl = "/App_Data/uploads/child-documents/../secret.pdf",
+                Status = RequestStatus.Approved,
+                UploadedByUserId = "parent-user-id"
             });
 
         await context.SaveChangesAsync();
