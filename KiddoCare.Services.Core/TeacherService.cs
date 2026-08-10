@@ -6,22 +6,24 @@ using KiddoCare.ViewModels.Teachers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace KiddoCare.Services.Core;
 
 public class TeacherService : ITeacherService
 {
-    private const string DefaultTeacherPassword = "Teacher123!";
-
     private readonly ApplicationDbContext context;
     private readonly UserManager<IdentityUser> userManager;
+    private readonly IConfiguration configuration;
 
     public TeacherService(
         ApplicationDbContext context,
-        UserManager<IdentityUser> userManager)
+        UserManager<IdentityUser> userManager,
+        IConfiguration configuration)
     {
         this.context = context;
         this.userManager = userManager;
+        this.configuration = configuration;
     }
 
     public async Task<IEnumerable<TeacherIndexViewModel>> GetAllAsync()
@@ -80,7 +82,15 @@ public class TeacherService : ITeacherService
             PhoneNumber = model.PhoneNumber
         };
 
-        var result = await userManager.CreateAsync(user, DefaultTeacherPassword);
+        var defaultTeacherPassword = configuration[UserPasswordConfigurationKeys.DefaultTeacherPassword];
+
+        if (string.IsNullOrWhiteSpace(defaultTeacherPassword))
+        {
+            throw new InvalidOperationException(
+                $"Default teacher password is not configured. Set '{UserPasswordConfigurationKeys.DefaultTeacherPassword}' in user secrets.");
+        }
+
+        var result = await userManager.CreateAsync(user, defaultTeacherPassword);
 
         if (!result.Succeeded)
         {

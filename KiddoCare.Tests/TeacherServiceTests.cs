@@ -1,3 +1,4 @@
+using KiddoCare.Common;
 using KiddoCare.Data;
 using KiddoCare.Data.Models;
 using KiddoCare.Services.Core;
@@ -5,6 +6,7 @@ using KiddoCare.ViewModels.Teachers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
@@ -21,7 +23,7 @@ public class TeacherServiceTests
         await SeedDataAsync(context);
         using var userManager = CreateUserManager(context);
 
-        var service = new TeacherService(context, userManager);
+        var service = new TeacherService(context, userManager, CreateConfiguration());
 
         var result = (await service.GetAllAsync()).ToList();
 
@@ -39,7 +41,7 @@ public class TeacherServiceTests
         await SeedDataAsync(context);
         using var userManager = CreateUserManager(context);
 
-        var service = new TeacherService(context, userManager);
+        var service = new TeacherService(context, userManager, CreateConfiguration());
 
         var model = await service.GetDetailsAsync(1);
 
@@ -57,7 +59,7 @@ public class TeacherServiceTests
         await SeedDataAsync(context);
         using var userManager = CreateUserManager(context);
 
-        var service = new TeacherService(context, userManager);
+        var service = new TeacherService(context, userManager, CreateConfiguration());
 
         var model = await service.GetDetailsAsync(3);
 
@@ -71,7 +73,7 @@ public class TeacherServiceTests
         await SeedDataAsync(context);
         using var userManager = CreateUserManager(context);
 
-        var service = new TeacherService(context, userManager);
+        var service = new TeacherService(context, userManager, CreateConfiguration());
 
         var model = await service.GetCreateModelAsync();
         var groups = model.Groups.ToList();
@@ -89,7 +91,7 @@ public class TeacherServiceTests
         await SeedRolesAndGroupsAsync(context);
         using var userManager = CreateUserManager(context);
 
-        var service = new TeacherService(context, userManager);
+        var service = new TeacherService(context, userManager, CreateConfiguration());
         var model = new TeacherCreateViewModel
         {
             Email = "new-teacher@kiddocare.com",
@@ -120,7 +122,7 @@ public class TeacherServiceTests
         await SeedDataAsync(context);
         using var userManager = CreateUserManager(context);
 
-        var service = new TeacherService(context, userManager);
+        var service = new TeacherService(context, userManager, CreateConfiguration());
         var model = new TeacherCreateViewModel
         {
             Email = "teacher@kiddocare.com",
@@ -139,7 +141,7 @@ public class TeacherServiceTests
         await SeedDataAsync(context);
         using var userManager = CreateUserManager(context);
 
-        var service = new TeacherService(context, userManager);
+        var service = new TeacherService(context, userManager, CreateConfiguration());
 
         var model = await service.GetForEditAsync(1);
 
@@ -157,7 +159,7 @@ public class TeacherServiceTests
         await SeedDataAsync(context);
         using var userManager = CreateUserManager(context);
 
-        var service = new TeacherService(context, userManager);
+        var service = new TeacherService(context, userManager, CreateConfiguration());
 
         var model = await service.GetForEditAsync(3);
 
@@ -171,7 +173,7 @@ public class TeacherServiceTests
         await SeedDataAsync(context);
         using var userManager = CreateUserManager(context);
 
-        var service = new TeacherService(context, userManager);
+        var service = new TeacherService(context, userManager, CreateConfiguration());
         var model = new TeacherEditViewModel
         {
             Id = 1,
@@ -199,7 +201,7 @@ public class TeacherServiceTests
         await SeedDataAsync(context);
         using var userManager = CreateUserManager(context);
 
-        var service = new TeacherService(context, userManager);
+        var service = new TeacherService(context, userManager, CreateConfiguration());
         var model = new TeacherEditViewModel
         {
             Id = 3,
@@ -217,7 +219,7 @@ public class TeacherServiceTests
         await SeedDataAsync(context);
         using var userManager = CreateUserManager(context);
 
-        var service = new TeacherService(context, userManager);
+        var service = new TeacherService(context, userManager, CreateConfiguration());
 
         var model = await service.GetForDeleteAsync(1);
 
@@ -234,7 +236,7 @@ public class TeacherServiceTests
         await SeedDataAsync(context);
         using var userManager = CreateUserManager(context);
 
-        var service = new TeacherService(context, userManager);
+        var service = new TeacherService(context, userManager, CreateConfiguration());
 
         await service.DeleteAsync(1);
 
@@ -267,6 +269,16 @@ public class TeacherServiceTests
             new IdentityErrorDescriber(),
             services,
             NullLogger<UserManager<IdentityUser>>.Instance);
+    }
+
+    private static IConfiguration CreateConfiguration()
+    {
+        return new ConfigurationBuilder()
+            .AddInMemoryCollection(new Dictionary<string, string?>
+            {
+                [UserPasswordConfigurationKeys.DefaultTeacherPassword] = "TestTeacherPassword123!"
+            })
+            .Build();
     }
 
     private static async Task SeedDataAsync(ApplicationDbContext context)
@@ -365,3 +377,4 @@ public class TeacherServiceTests
         await context.SaveChangesAsync();
     }
 }
+

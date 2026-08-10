@@ -7,8 +7,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using KiddoCare.Common;
 using static KiddoCare.Common.RoleConstants;
 
 namespace KiddoCare.Tests.Integration;
@@ -19,6 +21,16 @@ public class KiddoCareWebApplicationFactory : WebApplicationFactory<Program>
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
+        builder.ConfigureAppConfiguration((_, configurationBuilder) =>
+        {
+            configurationBuilder.AddInMemoryCollection(new Dictionary<string, string?>
+            {
+                [UserPasswordConfigurationKeys.AdminPassword] = "TestAdminPassword123!",
+                [UserPasswordConfigurationKeys.DefaultParentPassword] = "TestParentPassword123!",
+                [UserPasswordConfigurationKeys.DefaultTeacherPassword] = "TestTeacherPassword123!"
+            });
+        });
+
         builder.ConfigureTestServices(services =>
         {
             services.RemoveAll<DbContextOptions<ApplicationDbContext>>();

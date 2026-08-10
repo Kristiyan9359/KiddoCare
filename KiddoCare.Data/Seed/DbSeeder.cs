@@ -1,5 +1,6 @@
 ﻿using KiddoCare.Common;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace KiddoCare.Data.Seed;
@@ -31,9 +32,16 @@ public static class DbSeeder
     public static async Task SeedAdminAsync(IServiceProvider serviceProvider)
     {
         var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+        var configuration = serviceProvider.GetRequiredService<IConfiguration>();
 
         const string adminEmail = "admin@kiddocare.com";
-        const string adminPassword = "Admin123!";
+        var adminPassword = configuration[UserPasswordConfigurationKeys.AdminPassword];
+
+        if (string.IsNullOrWhiteSpace(adminPassword))
+        {
+            throw new InvalidOperationException(
+                $"Admin password is not configured. Set '{UserPasswordConfigurationKeys.AdminPassword}' in user secrets.");
+        }
 
         var adminUser = await userManager.FindByEmailAsync(adminEmail);
 

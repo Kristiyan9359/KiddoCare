@@ -5,22 +5,24 @@ using KiddoCare.Services.Core.Contracts;
 using KiddoCare.ViewModels.Parents;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace KiddoCare.Services.Core;
 
 public class ParentService : IParentService
 {
-    private const string DefaultParentPassword = "Parent123!";
-
     private readonly ApplicationDbContext context;
     private readonly UserManager<IdentityUser> userManager;
+    private readonly IConfiguration configuration;
 
     public ParentService(
         ApplicationDbContext context,
-        UserManager<IdentityUser> userManager)
+        UserManager<IdentityUser> userManager,
+        IConfiguration configuration)
     {
         this.context = context;
         this.userManager = userManager;
+        this.configuration = configuration;
     }
 
     public async Task<IEnumerable<ParentIndexViewModel>> GetAllAsync()
@@ -83,7 +85,15 @@ public class ParentService : IParentService
             PhoneNumber = model.PhoneNumber
         };
 
-        var result = await userManager.CreateAsync(user, DefaultParentPassword);
+        var defaultParentPassword = configuration[UserPasswordConfigurationKeys.DefaultParentPassword];
+
+        if (string.IsNullOrWhiteSpace(defaultParentPassword))
+        {
+            throw new InvalidOperationException(
+                $"Default parent password is not configured. Set '{UserPasswordConfigurationKeys.DefaultParentPassword}' in user secrets.");
+        }
+
+        var result = await userManager.CreateAsync(user, defaultParentPassword);
 
         if (!result.Succeeded)
         {

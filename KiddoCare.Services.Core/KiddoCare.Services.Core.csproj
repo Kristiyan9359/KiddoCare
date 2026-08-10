@@ -1,6 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.10" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\KiddoCare.Data\KiddoCare.Data.csproj" />
     <ProjectReference Include="..\KiddoCare.Data.Models\KiddoCare.Data.Models.csproj" />
     <ProjectReference Include="..\KiddoCare.ViewModels\KiddoCare.ViewModels.csproj" />

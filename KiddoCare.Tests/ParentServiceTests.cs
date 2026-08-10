@@ -1,3 +1,4 @@
+using KiddoCare.Common;
 using KiddoCare.Data;
 using KiddoCare.Data.Models;
 using KiddoCare.Data.Models.Enums;
@@ -6,6 +7,7 @@ using KiddoCare.ViewModels.Parents;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
@@ -22,7 +24,7 @@ public class ParentServiceTests
         await SeedDataAsync(context);
         using var userManager = CreateUserManager(context);
 
-        var service = new ParentService(context, userManager);
+        var service = new ParentService(context, userManager, CreateConfiguration());
 
         var result = (await service.GetAllAsync()).ToList();
 
@@ -40,7 +42,7 @@ public class ParentServiceTests
         await SeedDataAsync(context);
         using var userManager = CreateUserManager(context);
 
-        var service = new ParentService(context, userManager);
+        var service = new ParentService(context, userManager, CreateConfiguration());
 
         var model = await service.GetDetailsAsync(1);
 
@@ -60,7 +62,7 @@ public class ParentServiceTests
         await SeedDataAsync(context);
         using var userManager = CreateUserManager(context);
 
-        var service = new ParentService(context, userManager);
+        var service = new ParentService(context, userManager, CreateConfiguration());
 
         var model = await service.GetDetailsAsync(3);
 
@@ -74,7 +76,7 @@ public class ParentServiceTests
         await SeedRolesAsync(context);
         using var userManager = CreateUserManager(context);
 
-        var service = new ParentService(context, userManager);
+        var service = new ParentService(context, userManager, CreateConfiguration());
         var model = new ParentCreateViewModel
         {
             Email = "new-parent@kiddocare.com",
@@ -103,7 +105,7 @@ public class ParentServiceTests
         await SeedDataAsync(context);
         using var userManager = CreateUserManager(context);
 
-        var service = new ParentService(context, userManager);
+        var service = new ParentService(context, userManager, CreateConfiguration());
         var model = new ParentCreateViewModel
         {
             Email = "parent@kiddocare.com",
@@ -121,7 +123,7 @@ public class ParentServiceTests
         await SeedDataAsync(context);
         using var userManager = CreateUserManager(context);
 
-        var service = new ParentService(context, userManager);
+        var service = new ParentService(context, userManager, CreateConfiguration());
 
         var model = await service.GetForEditAsync(3);
 
@@ -135,7 +137,7 @@ public class ParentServiceTests
         await SeedDataAsync(context);
         using var userManager = CreateUserManager(context);
 
-        var service = new ParentService(context, userManager);
+        var service = new ParentService(context, userManager, CreateConfiguration());
         var model = new ParentEditViewModel
         {
             Id = 1,
@@ -161,7 +163,7 @@ public class ParentServiceTests
         await SeedDataAsync(context);
         using var userManager = CreateUserManager(context);
 
-        var service = new ParentService(context, userManager);
+        var service = new ParentService(context, userManager, CreateConfiguration());
         var model = new ParentEditViewModel
         {
             Id = 3,
@@ -178,7 +180,7 @@ public class ParentServiceTests
         await SeedDataAsync(context);
         using var userManager = CreateUserManager(context);
 
-        var service = new ParentService(context, userManager);
+        var service = new ParentService(context, userManager, CreateConfiguration());
 
         var model = await service.GetForDeleteAsync(1);
 
@@ -195,7 +197,7 @@ public class ParentServiceTests
         await SeedDataAsync(context);
         using var userManager = CreateUserManager(context);
 
-        var service = new ParentService(context, userManager);
+        var service = new ParentService(context, userManager, CreateConfiguration());
 
         await service.DeleteAsync(1);
 
@@ -228,6 +230,16 @@ public class ParentServiceTests
             new IdentityErrorDescriber(),
             services,
             NullLogger<UserManager<IdentityUser>>.Instance);
+    }
+
+    private static IConfiguration CreateConfiguration()
+    {
+        return new ConfigurationBuilder()
+            .AddInMemoryCollection(new Dictionary<string, string?>
+            {
+                [UserPasswordConfigurationKeys.DefaultParentPassword] = "TestParentPassword123!"
+            })
+            .Build();
     }
 
     private static async Task SeedDataAsync(ApplicationDbContext context)
@@ -360,3 +372,4 @@ public class ParentServiceTests
         await context.SaveChangesAsync();
     }
 }
+
