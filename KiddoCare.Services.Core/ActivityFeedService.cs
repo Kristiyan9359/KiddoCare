@@ -141,6 +141,7 @@ public class ActivityFeedService : IActivityFeedService
         var announcementItems = await context.Announcements
             .Where(a =>
                 !a.IsDeleted &&
+                (isAdmin || isTeacher || a.IsPublic) &&
                 (a.GroupId == null || a.GroupId == child.GroupId))
             .OrderByDescending(a => a.PublishedOn)
             .Take(10)
