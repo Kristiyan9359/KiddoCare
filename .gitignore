@@ -363,3 +363,6 @@ MigrationBackup/
 FodyWeavers.xsd
 # Old locked project folder kept temporarily after restructuring
 /KiddoCare/
+
+# Uploaded child photos and documents
+KiddoCare.Web/App_Data/
