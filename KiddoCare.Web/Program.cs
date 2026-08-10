@@ -1,6 +1,7 @@
 using KiddoCare.Data;
 using KiddoCare.Data.Seed;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using KiddoCare.Services.Core;
 using KiddoCare.Services.Core.Contracts;
@@ -18,7 +19,10 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+});
 
 builder.Services.AddScoped<IGroupService, GroupService>();
 

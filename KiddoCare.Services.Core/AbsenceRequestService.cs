@@ -291,10 +291,21 @@ public class AbsenceRequestService : IAbsenceRequestService
 
     private async Task<bool> CanCreateForChildAsync(int childId, string userId, bool isAdmin, bool isTeacher)
     {
-        if (isAdmin || isTeacher)
+        if (isAdmin)
         {
             return await context.Children
                 .AnyAsync(c => !c.IsDeleted && c.Id == childId);
+        }
+
+        if (isTeacher)
+        {
+            var teacherGroupId = await GetTeacherGroupIdAsync(userId);
+
+            return teacherGroupId.HasValue &&
+                   await context.Children.AnyAsync(c =>
+                       !c.IsDeleted &&
+                       c.Id == childId &&
+                       c.GroupId == teacherGroupId.Value);
         }
 
         return await context.Children.AnyAsync(c =>

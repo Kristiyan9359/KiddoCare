@@ -76,11 +76,19 @@ public class ChildDocumentsController : Controller
             return NotFound();
         }
 
-        var filePath = Path.Combine(
+        var uploadsFolder = Path.GetFullPath(Path.Combine(
             webHostEnvironment.ContentRootPath,
-            model.FileUrl.TrimStart('/').Replace('/', Path.DirectorySeparatorChar));
+            "App_Data",
+            "uploads",
+            "child-documents"));
+        var uploadsFolderPrefix = uploadsFolder + Path.DirectorySeparatorChar;
 
-        if (!System.IO.File.Exists(filePath))
+        var filePath = Path.GetFullPath(Path.Combine(
+            webHostEnvironment.ContentRootPath,
+            model.FileUrl.TrimStart('/').Replace('/', Path.DirectorySeparatorChar)));
+
+        if (!filePath.StartsWith(uploadsFolderPrefix, StringComparison.OrdinalIgnoreCase) ||
+            !System.IO.File.Exists(filePath))
         {
             return NotFound();
         }
