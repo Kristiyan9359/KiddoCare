@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.10" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
     <PackageReference Include="xunit" Version="2.9.3" />
@@ -23,6 +24,7 @@
     <ProjectReference Include="..\KiddoCare.Services.Core\KiddoCare.Services.Core.csproj" />
     <ProjectReference Include="..\KiddoCare.Data\KiddoCare.Data.csproj" />
     <ProjectReference Include="..\KiddoCare.Data.Models\KiddoCare.Data.Models.csproj" />
+    <ProjectReference Include="..\KiddoCare.Web\KiddoCare.Web.csproj" />
   </ItemGroup>
 
 </Project>
