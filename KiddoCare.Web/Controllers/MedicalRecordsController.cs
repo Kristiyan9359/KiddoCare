@@ -18,7 +18,7 @@ public class MedicalRecordsController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Details(int childId)
+    public async Task<IActionResult> Details(int childId, string? returnUrl)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
         var isAdmin = User.IsInRole(Admin);
@@ -31,12 +31,14 @@ public class MedicalRecordsController : Controller
             return NotFound();
         }
 
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
+
         return View(model);
     }
 
     [Authorize(Roles = Admin)]
     [HttpGet]
-    public async Task<IActionResult> Create(int? childId)
+    public async Task<IActionResult> Create(int? childId, string? returnUrl)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
         var isAdmin = User.IsInRole(Admin);
@@ -48,6 +50,8 @@ public class MedicalRecordsController : Controller
         {
             model.ChildId = childId.Value;
         }
+
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
 
         return View(model);
     }
@@ -64,6 +68,7 @@ public class MedicalRecordsController : Controller
         {
             var createModel = await medicalRecordService.GetCreateModelAsync(userId, isAdmin, isTeacher);
             model.Children = createModel.Children;
+            model.ReturnUrl = GetSafeReturnUrl(model.ReturnUrl);
 
             return View(model);
         }
@@ -78,16 +83,17 @@ public class MedicalRecordsController : Controller
 
             var createModel = await medicalRecordService.GetCreateModelAsync(userId, isAdmin, isTeacher);
             model.Children = createModel.Children;
+            model.ReturnUrl = GetSafeReturnUrl(model.ReturnUrl);
 
             return View(model);
         }
 
-        return RedirectToAction("Index", "Children");
+        return RedirectToLocalOrChildrenIndex(model.ReturnUrl);
     }
 
     [Authorize(Roles = Admin)]
     [HttpGet]
-    public async Task<IActionResult> Edit(int id)
+    public async Task<IActionResult> Edit(int id, string? returnUrl)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
         var isAdmin = User.IsInRole(Admin);
@@ -99,6 +105,8 @@ public class MedicalRecordsController : Controller
         {
             return NotFound();
         }
+
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
 
         return View(model);
     }
@@ -113,6 +121,8 @@ public class MedicalRecordsController : Controller
 
         if (!ModelState.IsValid)
         {
+            model.ReturnUrl = GetSafeReturnUrl(model.ReturnUrl);
+
             return View(model);
         }
 
@@ -125,12 +135,12 @@ public class MedicalRecordsController : Controller
             return NotFound();
         }
 
-        return RedirectToAction("Details", "MedicalRecords", new { childId = model.ChildId });
+        return RedirectToLocalOrMedicalRecordDetails(model.ReturnUrl, model.ChildId);
     }
 
     [Authorize(Roles = Admin)]
     [HttpGet]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(int id, string? returnUrl)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
         var isAdmin = User.IsInRole(Admin);
@@ -143,13 +153,15 @@ public class MedicalRecordsController : Controller
             return NotFound();
         }
 
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
+
         return View(model);
     }
 
     [Authorize(Roles = Admin)]
     [HttpPost]
     [ActionName("Delete")]
-    public async Task<IActionResult> DeleteConfirmed(int id)
+    public async Task<IActionResult> DeleteConfirmed(int id, string? returnUrl)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
         var isAdmin = User.IsInRole(Admin);
@@ -164,6 +176,37 @@ public class MedicalRecordsController : Controller
             return NotFound();
         }
 
+        return RedirectToLocalOrChildrenIndex(returnUrl);
+    }
+
+    private string? GetSafeReturnUrl(string? returnUrl)
+    {
+        return !string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl)
+            ? returnUrl
+            : null;
+    }
+
+    private IActionResult RedirectToLocalOrChildrenIndex(string? returnUrl)
+    {
+        var safeReturnUrl = GetSafeReturnUrl(returnUrl);
+
+        if (safeReturnUrl != null)
+        {
+            return Redirect(safeReturnUrl);
+        }
+
         return RedirectToAction("Index", "Children");
+    }
+
+    private IActionResult RedirectToLocalOrMedicalRecordDetails(string? returnUrl, int childId)
+    {
+        var safeReturnUrl = GetSafeReturnUrl(returnUrl);
+
+        if (safeReturnUrl != null)
+        {
+            return Redirect(safeReturnUrl);
+        }
+
+        return RedirectToAction("Details", "MedicalRecords", new { childId });
     }
 }

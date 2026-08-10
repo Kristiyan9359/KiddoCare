@@ -3,6 +3,8 @@
 
 @{
     ViewData["Title"] = "Absence Notice Details";
+    var currentUrl = Context.Request.Path + Context.Request.QueryString;
+    var backUrl = Model.ReturnUrl ?? Url.Action("Index");
 }
 
 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -12,6 +14,7 @@
     {
         <a asp-action="Review"
            asp-route-id="@Model.Id"
+           asp-route-returnUrl="@currentUrl"
            class="btn btn-outline-primary">
             Confirm
         </a>
@@ -71,4 +74,4 @@
     </dd>
 </dl>
 
-<a asp-action="Index" class="btn btn-secondary">Back</a>
+<a href="@backUrl" class="btn btn-secondary">Back</a>

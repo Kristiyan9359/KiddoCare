@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Teacher Dashboard";
+    var currentUrl = Context.Request.Path + Context.Request.QueryString;
 }
 
 <h1>Teacher Dashboard</h1>
@@ -18,6 +19,7 @@
 
     <a asp-controller="DailyReports"
        asp-action="Create"
+       asp-route-returnUrl="@currentUrl"
        class="btn btn-outline-primary me-2">
         Create Daily Report
     </a>
@@ -163,7 +165,8 @@ else
                     <td>
                         <a asp-controller="Announcements"
                            asp-action="Details"
-                           asp-route-id="@announcement.Id">
+                           asp-route-id="@announcement.Id"
+                           asp-route-returnUrl="@currentUrl">
                             @announcement.Title
                         </a>
                     </td>
@@ -203,6 +206,7 @@ else
                         <a asp-controller="DailyReports"
                            asp-action="Details"
                            asp-route-id="@report.Id"
+                           asp-route-returnUrl="@currentUrl"
                            class="btn btn-sm btn-outline-secondary">
                             Details
                         </a>
@@ -210,6 +214,7 @@ else
                         <a asp-controller="DailyReports"
                            asp-action="Edit"
                            asp-route-id="@report.Id"
+                           asp-route-returnUrl="@currentUrl"
                            class="btn btn-sm btn-outline-primary">
                             Edit
                         </a>
@@ -265,6 +270,7 @@ else
                         <a asp-controller="ChildDocuments"
                            asp-action="Details"
                            asp-route-id="@document.Id"
+                           asp-route-returnUrl="@currentUrl"
                            class="btn btn-sm btn-outline-secondary">
                             Details
                         </a>
@@ -298,7 +304,10 @@ else
             {
                 <tr>
                     <td>
-                        <a asp-controller="Events" asp-action="Details" asp-route-id="@eventItem.Id">
+                        <a asp-controller="Events"
+                           asp-action="Details"
+                           asp-route-id="@eventItem.Id"
+                           asp-route-returnUrl="@currentUrl">
                             @eventItem.Title
                         </a>
                     </td>

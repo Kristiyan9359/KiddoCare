@@ -21,4 +21,6 @@ public class AbsenceRequestReviewViewModel
     [Display(Name = "Review Note")]
     [MaxLength(AbsenceRequestReviewNoteMaxLength)]
     public string? ReviewNote { get; set; }
+
+    public string? ReturnUrl { get; set; }
 }

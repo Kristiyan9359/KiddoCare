@@ -30,4 +30,6 @@ public class DailyReportEditViewModel
     [MaxLength(DailyReportTeacherNoteMaxLength)]
     [Display(Name = "Teacher Note")]
     public string? TeacherNote { get; set; }
+
+    public string? ReturnUrl { get; set; }
 }

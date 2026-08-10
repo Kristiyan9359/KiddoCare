@@ -22,4 +22,6 @@ public class ConsentRequestRespondViewModel
     [Display(Name = "Parent Note")]
     [MaxLength(ConsentRequestParentNoteMaxLength)]
     public string? ParentNote { get; set; }
+
+    public string? ReturnUrl { get; set; }
 }

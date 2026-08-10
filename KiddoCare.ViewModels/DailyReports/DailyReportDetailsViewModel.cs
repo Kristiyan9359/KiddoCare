@@ -25,4 +25,6 @@ public class DailyReportDetailsViewModel
     public DateTime CreatedOn { get; set; }
 
     public bool CanManage { get; set; }
+
+    public string? ReturnUrl { get; set; }
 }

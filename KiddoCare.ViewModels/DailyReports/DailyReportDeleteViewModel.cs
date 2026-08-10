@@ -9,4 +9,6 @@ public class DailyReportDeleteViewModel
     public DateTime ReportDate { get; set; }
 
     public string Mood { get; set; } = null!;
+
+    public string? ReturnUrl { get; set; }
 }

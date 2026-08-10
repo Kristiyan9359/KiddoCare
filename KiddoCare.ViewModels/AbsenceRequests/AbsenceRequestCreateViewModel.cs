@@ -26,5 +26,7 @@ public class AbsenceRequestCreateViewModel
     [MaxLength(AbsenceRequestParentNoteMaxLength)]
     public string? ParentNote { get; set; }
 
+    public string? ReturnUrl { get; set; }
+
     public IEnumerable<SelectListItem> Children { get; set; } = new List<SelectListItem>();
 }

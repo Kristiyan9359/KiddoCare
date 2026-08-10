@@ -2,15 +2,18 @@
 @model KiddoCare.ViewModels.DailyReports.DailyReportCreateViewModel
 
 @{
-    ViewData["Title"] = "Edit Daily Report";
+    ViewData["Title"] = "Create Daily Report";
     var maxReportDate = DateTime.Today.ToString("yyyy-MM-dd");
     var moodOptions = Html.GetEnumSelectList<ChildMood>()
         .Where(m => m.Value != "0");
+    var backUrl = Model.ReturnUrl ?? Url.Action("Index");
 }
 
 <h1>Create Daily Report</h1>
 
 <form asp-action="Create" method="post">
+    <input asp-for="ReturnUrl" type="hidden" />
+
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
     <div class="mb-3">
@@ -57,7 +60,7 @@
     </div>
 
     <button type="submit" class="btn btn-primary">Create</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    <a href="@backUrl" class="btn btn-secondary">Cancel</a>
 </form>
 
 @section Scripts {

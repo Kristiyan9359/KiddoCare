@@ -23,4 +23,6 @@ public class MedicalRecordDetailsViewModel
     public string? Notes { get; set; }
 
     public bool CanManage { get; set; }
+
+    public string? ReturnUrl { get; set; }
 }

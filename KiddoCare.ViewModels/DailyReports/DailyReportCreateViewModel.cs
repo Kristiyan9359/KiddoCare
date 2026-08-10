@@ -32,6 +32,8 @@ public class DailyReportCreateViewModel
     [Display(Name = "Teacher Note")]
     public string? TeacherNote { get; set; }
 
+    public string? ReturnUrl { get; set; }
+
     public IEnumerable<SelectListItem> Children { get; set; } =
         new List<SelectListItem>();
 }

@@ -36,5 +36,7 @@ public class MedicalRecordCreateViewModel
     [MaxLength(MedicalRecordNotesMaxLength)]
     public string? Notes { get; set; }
 
+    public string? ReturnUrl { get; set; }
+
     public IEnumerable<SelectListItem> Children { get; set; } = new List<SelectListItem>();
 }

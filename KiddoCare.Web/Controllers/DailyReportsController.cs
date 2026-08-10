@@ -30,7 +30,7 @@ public class DailyReportsController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Details(int id)
+    public async Task<IActionResult> Details(int id, string? returnUrl)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
         var isAdmin = User.IsInRole(Admin);
@@ -50,18 +50,21 @@ public class DailyReportsController : Controller
             return NotFound();
         }
 
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
+
         return View(model);
     }
 
     [Authorize(Roles = $"{Admin},{Teacher}")]
     [HttpGet]
-    public async Task<IActionResult> Create()
+    public async Task<IActionResult> Create(string? returnUrl)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
         var isAdmin = User.IsInRole(Admin);
         var isTeacher = User.IsInRole(Teacher);
 
         var model = await dailyReportService.GetCreateModelAsync(userId, isAdmin, isTeacher);
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
 
         return View(model);
     }
@@ -78,6 +81,7 @@ public class DailyReportsController : Controller
         {
             var createModel = await dailyReportService.GetCreateModelAsync(userId, isAdmin, isTeacher);
             model.Children = createModel.Children;
+            model.ReturnUrl = GetSafeReturnUrl(model.ReturnUrl);
 
             return View(model);
         }
@@ -92,16 +96,17 @@ public class DailyReportsController : Controller
 
             var createModel = await dailyReportService.GetCreateModelAsync(userId, isAdmin, isTeacher);
             model.Children = createModel.Children;
+            model.ReturnUrl = GetSafeReturnUrl(model.ReturnUrl);
 
             return View(model);
         }
 
-        return RedirectToAction(nameof(Index));
+        return RedirectToLocalOrIndex(model.ReturnUrl);
     }
 
     [Authorize(Roles = $"{Admin},{Teacher}")]
     [HttpGet]
-    public async Task<IActionResult> Edit(int id)
+    public async Task<IActionResult> Edit(int id, string? returnUrl)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
         var isAdmin = User.IsInRole(Admin);
@@ -113,6 +118,8 @@ public class DailyReportsController : Controller
         {
             return NotFound();
         }
+
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
 
         return View(model);
     }
@@ -135,6 +142,7 @@ public class DailyReportsController : Controller
             }
 
             model.ChildFullName = editModel.ChildFullName;
+            model.ReturnUrl = GetSafeReturnUrl(model.ReturnUrl);
 
             return View(model);
         }
@@ -155,16 +163,17 @@ public class DailyReportsController : Controller
             }
 
             model.ChildFullName = editModel.ChildFullName;
+            model.ReturnUrl = GetSafeReturnUrl(model.ReturnUrl);
 
             return View(model);
         }
 
-        return RedirectToAction(nameof(Index));
+        return RedirectToLocalOrIndex(model.ReturnUrl);
     }
 
     [Authorize(Roles = $"{Admin},{Teacher}")]
     [HttpGet]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(int id, string? returnUrl)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
         var isAdmin = User.IsInRole(Admin);
@@ -177,13 +186,15 @@ public class DailyReportsController : Controller
             return NotFound();
         }
 
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
+
         return View(model);
     }
 
     [Authorize(Roles = $"{Admin},{Teacher}")]
     [HttpPost]
     [ActionName("Delete")]
-    public async Task<IActionResult> DeleteConfirmed(int id)
+    public async Task<IActionResult> DeleteConfirmed(int id, string? returnUrl)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
         var isAdmin = User.IsInRole(Admin);
@@ -196,6 +207,25 @@ public class DailyReportsController : Controller
         catch (InvalidOperationException)
         {
             return NotFound();
+        }
+
+        return RedirectToLocalOrIndex(returnUrl);
+    }
+
+    private string? GetSafeReturnUrl(string? returnUrl)
+    {
+        return !string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl)
+            ? returnUrl
+            : null;
+    }
+
+    private IActionResult RedirectToLocalOrIndex(string? returnUrl)
+    {
+        var safeReturnUrl = GetSafeReturnUrl(returnUrl);
+
+        if (safeReturnUrl != null)
+        {
+            return Redirect(safeReturnUrl);
         }
 
         return RedirectToAction(nameof(Index));

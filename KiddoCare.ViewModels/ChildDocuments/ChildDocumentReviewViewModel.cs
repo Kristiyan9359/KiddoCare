@@ -22,4 +22,6 @@ public class ChildDocumentReviewViewModel
     [Display(Name = "Review Note")]
     [MaxLength(ChildDocumentReviewNoteMaxLength)]
     public string? ReviewNote { get; set; }
+
+    public string? ReturnUrl { get; set; }
 }

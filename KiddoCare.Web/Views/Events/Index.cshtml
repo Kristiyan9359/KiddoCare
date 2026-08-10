@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Events";
+    var currentUrl = Context.Request.Path + Context.Request.QueryString;
 }
 
 <h1>Events</h1>
@@ -35,7 +36,12 @@
                 <td>@eventItem.Location</td>
                 <td>@eventItem.GroupName</td>
                 <td class="text-end">
-                    <a asp-action="Details" asp-route-id="@eventItem.Id" class="btn btn-sm btn-outline-secondary">Details</a>
+                    <a asp-action="Details"
+                       asp-route-id="@eventItem.Id"
+                       asp-route-returnUrl="@currentUrl"
+                       class="btn btn-sm btn-outline-secondary">
+                        Details
+                    </a>
 
                     @if (eventItem.CanManage)
                     {

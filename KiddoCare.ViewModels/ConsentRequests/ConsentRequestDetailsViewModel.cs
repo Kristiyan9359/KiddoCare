@@ -29,4 +29,6 @@ public class ConsentRequestDetailsViewModel
     public DateTime? RespondedOn { get; set; }
 
     public bool CanRespond { get; set; }
+
+    public string? ReturnUrl { get; set; }
 }

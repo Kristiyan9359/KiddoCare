@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Medical Record";
+    var currentUrl = Context.Request.Path + Context.Request.QueryString;
+    var backUrl = Model.ReturnUrl ?? Url.Action("Details", "Children", new { id = Model.ChildId });
 }
 
 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -12,12 +14,14 @@
         <div>
             <a asp-action="Edit"
                asp-route-id="@Model.Id"
+               asp-route-returnUrl="@currentUrl"
                class="btn btn-outline-primary">
                 Edit
             </a>
 
             <a asp-action="Delete"
                asp-route-id="@Model.Id"
+               asp-route-returnUrl="@currentUrl"
                class="btn btn-outline-danger">
                 Delete
             </a>
@@ -54,9 +58,6 @@
     </dd>
 </dl>
 
-<a asp-controller="Children"
-   asp-action="Details"
-   asp-route-id="@Model.ChildId"
-   class="btn btn-secondary">
+<a href="@backUrl" class="btn btn-secondary">
     Back to Child
 </a>

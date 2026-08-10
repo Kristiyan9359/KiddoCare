@@ -46,7 +46,7 @@ public class ChildDocumentsController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Details(int id)
+    public async Task<IActionResult> Details(int id, string? returnUrl)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
         var isAdmin = User.IsInRole(Admin);
@@ -58,6 +58,8 @@ public class ChildDocumentsController : Controller
         {
             return NotFound();
         }
+
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
 
         return View(model);
     }
@@ -100,13 +102,14 @@ public class ChildDocumentsController : Controller
 
     [Authorize(Roles = $"{Admin},{Parent}")]
     [HttpGet]
-    public async Task<IActionResult> Create()
+    public async Task<IActionResult> Create(string? returnUrl)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
         var isAdmin = User.IsInRole(Admin);
         var isTeacher = User.IsInRole(Teacher);
 
         var model = await childDocumentService.GetCreateModelAsync(userId, isAdmin, isTeacher);
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
 
         return View(model);
     }
@@ -123,6 +126,7 @@ public class ChildDocumentsController : Controller
         {
             var createModel = await childDocumentService.GetCreateModelAsync(userId, isAdmin, isTeacher);
             model.Children = createModel.Children;
+            model.ReturnUrl = GetSafeReturnUrl(model.ReturnUrl);
 
             return View(model);
         }
@@ -139,11 +143,12 @@ public class ChildDocumentsController : Controller
 
             var createModel = await childDocumentService.GetCreateModelAsync(userId, isAdmin, isTeacher);
             model.Children = createModel.Children;
+            model.ReturnUrl = GetSafeReturnUrl(model.ReturnUrl);
 
             return View(model);
         }
 
-        return RedirectToAction(nameof(Index));
+        return RedirectToLocalOrIndex(model.ReturnUrl);
     }
 
     private async Task<string> SaveDocumentFileAsync(IFormFile file)
@@ -196,9 +201,16 @@ public class ChildDocumentsController : Controller
         };
     }
 
+    private string? GetSafeReturnUrl(string? returnUrl)
+    {
+        return !string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl)
+            ? returnUrl
+            : null;
+    }
+
     [Authorize(Roles = Admin)]
     [HttpGet]
-    public async Task<IActionResult> Review(int id)
+    public async Task<IActionResult> Review(int id, string? returnUrl)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
         var isAdmin = User.IsInRole(Admin);
@@ -210,6 +222,8 @@ public class ChildDocumentsController : Controller
         {
             return NotFound();
         }
+
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
 
         return View(model);
     }
@@ -237,6 +251,7 @@ public class ChildDocumentsController : Controller
 
             reviewModel.Status = model.Status;
             reviewModel.ReviewNote = model.ReviewNote;
+            reviewModel.ReturnUrl = GetSafeReturnUrl(model.ReturnUrl);
 
             return View(reviewModel);
         }
@@ -258,8 +273,21 @@ public class ChildDocumentsController : Controller
 
             reviewModel.Status = model.Status;
             reviewModel.ReviewNote = model.ReviewNote;
+            reviewModel.ReturnUrl = GetSafeReturnUrl(model.ReturnUrl);
 
             return View(reviewModel);
+        }
+
+        return RedirectToLocalOrIndex(model.ReturnUrl);
+    }
+
+    private IActionResult RedirectToLocalOrIndex(string? returnUrl)
+    {
+        var safeReturnUrl = GetSafeReturnUrl(returnUrl);
+
+        if (safeReturnUrl != null)
+        {
+            return Redirect(safeReturnUrl);
         }
 
         return RedirectToAction(nameof(Index));

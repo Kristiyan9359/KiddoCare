@@ -3,6 +3,10 @@
 
 @{
     ViewData["Title"] = "Child Details";
+    var currentUrl = Context.Request.Path + Context.Request.QueryString;
+    var backUrl = Model.ReturnUrl ?? (User.IsInRole("Parent")
+        ? Url.Action("Index", "Dashboard")
+        : Url.Action("Index"));
 }
 
 <h1>@Model.FullName</h1>
@@ -108,6 +112,7 @@
                                     <a asp-controller="AbsenceRequests"
                                        asp-action="Details"
                                        asp-route-id="@request.Id"
+                                       asp-route-returnUrl="@currentUrl"
                                        class="btn btn-sm btn-outline-secondary">
                                         Details
                                     </a>
@@ -161,6 +166,7 @@
                                     <a asp-controller="ConsentRequests"
                                        asp-action="Details"
                                        asp-route-id="@request.Id"
+                                       asp-route-returnUrl="@currentUrl"
                                        class="btn btn-sm btn-outline-secondary">
                                         Details
                                     </a>
@@ -214,6 +220,7 @@
                                     <a asp-controller="ChildDocuments"
                                        asp-action="Details"
                                        asp-route-id="@document.Id"
+                                       asp-route-returnUrl="@currentUrl"
                                        class="btn btn-sm btn-outline-secondary">
                                         Details
                                     </a>
@@ -227,6 +234,7 @@
             <a asp-controller="MedicalRecords"
                asp-action="Details"
                asp-route-childId="@Model.Id"
+               asp-route-returnUrl="@currentUrl"
                class="btn btn-outline-info">
                 View Full Medical Record
             </a>
@@ -240,6 +248,7 @@
                 <a asp-controller="MedicalRecords"
                    asp-action="Create"
                    asp-route-childId="@Model.Id"
+                   asp-route-returnUrl="@currentUrl"
                    class="btn btn-outline-info">
                     Add Medical Record
                 </a>
@@ -249,10 +258,11 @@
         <a asp-controller="ActivityFeed"
            asp-action="Child"
            asp-route-childId="@Model.Id"
+           asp-route-returnUrl="@currentUrl"
            class="btn btn-outline-primary">
             Activity Feed
         </a>
 
-        <a asp-action="Index" class="btn btn-secondary">Back</a>
+        <a href="@backUrl" class="btn btn-secondary">Back</a>
     </div>
 </div>

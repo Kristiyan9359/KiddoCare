@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Daily Reports";
     bool canCreate = User.IsInRole("Admin") || User.IsInRole("Teacher");
+    var currentUrl = Context.Request.Path + Context.Request.QueryString;
 }
 
 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -10,7 +11,11 @@
 
     @if (canCreate)
     {
-        <a asp-action="Create" class="btn btn-primary">Create Daily Report</a>
+        <a asp-action="Create"
+           asp-route-returnUrl="@currentUrl"
+           class="btn btn-primary">
+            Create Daily Report
+        </a>
     }
 </div>
 
@@ -41,6 +46,7 @@ else
                     <td class="text-end">
                         <a asp-action="Details"
                            asp-route-id="@report.Id"
+                           asp-route-returnUrl="@currentUrl"
                            class="btn btn-sm btn-outline-secondary">
                             Details
                         </a>
@@ -49,12 +55,14 @@ else
                         {
                             <a asp-action="Edit"
                                asp-route-id="@report.Id"
+                               asp-route-returnUrl="@currentUrl"
                                class="btn btn-sm btn-outline-primary">
                                 Edit
                             </a>
 
                             <a asp-action="Delete"
                                asp-route-id="@report.Id"
+                               asp-route-returnUrl="@currentUrl"
                                class="btn btn-sm btn-outline-danger">
                                 Delete
                             </a>

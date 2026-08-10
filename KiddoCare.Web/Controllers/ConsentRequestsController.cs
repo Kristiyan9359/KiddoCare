@@ -32,7 +32,7 @@ public class ConsentRequestsController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Details(int id)
+    public async Task<IActionResult> Details(int id, string? returnUrl)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
         var isAdmin = User.IsInRole(Admin);
@@ -44,6 +44,8 @@ public class ConsentRequestsController : Controller
         {
             return NotFound();
         }
+
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
 
         return View(model);
     }
@@ -95,7 +97,7 @@ public class ConsentRequestsController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Respond(int id)
+    public async Task<IActionResult> Respond(int id, string? returnUrl)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 
@@ -105,6 +107,8 @@ public class ConsentRequestsController : Controller
         {
             return NotFound();
         }
+
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
 
         return View(model);
     }
@@ -128,6 +132,7 @@ public class ConsentRequestsController : Controller
 
             respondModel.Status = model.Status;
             respondModel.ParentNote = model.ParentNote;
+            respondModel.ReturnUrl = GetSafeReturnUrl(model.ReturnUrl);
 
             return View(respondModel);
         }
@@ -149,8 +154,28 @@ public class ConsentRequestsController : Controller
 
             respondModel.Status = model.Status;
             respondModel.ParentNote = model.ParentNote;
+            respondModel.ReturnUrl = GetSafeReturnUrl(model.ReturnUrl);
 
             return View(respondModel);
+        }
+
+        return RedirectToLocalOrIndex(model.ReturnUrl);
+    }
+
+    private string? GetSafeReturnUrl(string? returnUrl)
+    {
+        return !string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl)
+            ? returnUrl
+            : null;
+    }
+
+    private IActionResult RedirectToLocalOrIndex(string? returnUrl)
+    {
+        var safeReturnUrl = GetSafeReturnUrl(returnUrl);
+
+        if (safeReturnUrl != null)
+        {
+            return Redirect(safeReturnUrl);
         }
 
         return RedirectToAction(nameof(Index));

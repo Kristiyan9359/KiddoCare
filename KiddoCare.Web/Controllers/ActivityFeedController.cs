@@ -17,7 +17,7 @@ public class ActivityFeedController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Child(int childId)
+    public async Task<IActionResult> Child(int childId, string? returnUrl)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
         var isAdmin = User.IsInRole(Admin);
@@ -30,6 +30,15 @@ public class ActivityFeedController : Controller
             return NotFound();
         }
 
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
+
         return View(model);
+    }
+
+    private string? GetSafeReturnUrl(string? returnUrl)
+    {
+        return !string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl)
+            ? returnUrl
+            : null;
     }
 }

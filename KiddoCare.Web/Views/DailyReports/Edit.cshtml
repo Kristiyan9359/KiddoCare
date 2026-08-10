@@ -7,6 +7,7 @@
     var maxReportDate = DateTime.Today.ToString("yyyy-MM-dd");
     var moodOptions = Html.GetEnumSelectList<ChildMood>()
         .Where(m => m.Value != "0");
+    var backUrl = Model.ReturnUrl ?? Url.Action("Details", new { id = Model.Id });
 }
 
 <h1>Edit Daily Report</h1>
@@ -18,6 +19,7 @@
 <form asp-action="Edit" method="post">
     <input asp-for="Id" type="hidden" />
     <input asp-for="ChildFullName" type="hidden" />
+    <input asp-for="ReturnUrl" type="hidden" />
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -65,7 +67,7 @@
     </div>
 
     <button type="submit" class="btn btn-primary">Save</button>
-    <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-secondary">Cancel</a>
+    <a href="@backUrl" class="btn btn-secondary">Cancel</a>
 </form>
 
 @section Scripts {

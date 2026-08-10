@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Parent Dashboard";
+    var currentUrl = Context.Request.Path + Context.Request.QueryString;
 }
 
 <h1>Parent Dashboard</h1>
@@ -53,6 +54,7 @@ else
                     <a asp-controller="Children"
                        asp-action="Details"
                        asp-route-id="@child.Id"
+                       asp-route-returnUrl="@currentUrl"
                        class="btn btn-sm btn-outline-secondary">
                         View Child
                     </a>
@@ -60,6 +62,7 @@ else
                     <a asp-controller="ActivityFeed"
                        asp-action="Child"
                        asp-route-childId="@child.Id"
+                       asp-route-returnUrl="@currentUrl"
                        class="btn btn-sm btn-outline-primary">
                         Activity Feed
                     </a>
@@ -142,6 +145,7 @@ else
                         <a asp-controller="ConsentRequests"
                            asp-action="Details"
                            asp-route-id="@request.Id"
+                           asp-route-returnUrl="@currentUrl"
                            class="btn btn-sm btn-outline-secondary">
                             Details
                         </a>
@@ -151,6 +155,7 @@ else
                             <a asp-controller="ConsentRequests"
                                asp-action="Respond"
                                asp-route-id="@request.Id"
+                               asp-route-returnUrl="@currentUrl"
                                class="btn btn-sm btn-outline-primary">
                                 Respond
                             </a>
@@ -207,6 +212,7 @@ else
                         <a asp-controller="ChildDocuments"
                            asp-action="Details"
                            asp-route-id="@document.Id"
+                           asp-route-returnUrl="@currentUrl"
                            class="btn btn-sm btn-outline-secondary">
                             Details
                         </a>
@@ -240,7 +246,8 @@ else
                     <td>
                         <a asp-controller="Announcements"
                            asp-action="Details"
-                           asp-route-id="@announcement.Id">
+                           asp-route-id="@announcement.Id"
+                           asp-route-returnUrl="@currentUrl">
                             @announcement.Title
                         </a>
                     </td>
@@ -257,6 +264,7 @@ else
 <p>
     <a asp-controller="AbsenceRequests"
        asp-action="Create"
+       asp-route-returnUrl="@currentUrl"
        class="btn btn-sm btn-outline-primary">
         Create Absence Notice
     </a>
@@ -303,6 +311,7 @@ else
                         <a asp-controller="AbsenceRequests"
                            asp-action="Details"
                            asp-route-id="@request.Id"
+                           asp-route-returnUrl="@currentUrl"
                            class="btn btn-sm btn-outline-secondary">
                             Details
                         </a>
@@ -338,7 +347,8 @@ else
                     <td>
                         <a asp-controller="Events"
                            asp-action="Details"
-                           asp-route-id="@eventItem.Id">
+                           asp-route-id="@eventItem.Id"
+                           asp-route-returnUrl="@currentUrl">
                             @eventItem.Title
                         </a>
                     </td>

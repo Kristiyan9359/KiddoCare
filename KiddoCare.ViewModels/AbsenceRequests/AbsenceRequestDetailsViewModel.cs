@@ -31,4 +31,6 @@ public class AbsenceRequestDetailsViewModel
     public DateTime? ReviewedOn { get; set; }
 
     public bool CanReview { get; set; }
+
+    public string? ReturnUrl { get; set; }
 }

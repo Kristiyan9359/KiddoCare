@@ -37,4 +37,6 @@ public class ChildDetailsViewModel
     public IEnumerable<ChildDetailsConsentRequestViewModel> RecentConsentRequests { get; set; } = new List<ChildDetailsConsentRequestViewModel>();
 
     public IEnumerable<ChildDetailsDocumentViewModel> RecentDocuments { get; set; } = new List<ChildDetailsDocumentViewModel>();
+
+    public string? ReturnUrl { get; set; }
 }

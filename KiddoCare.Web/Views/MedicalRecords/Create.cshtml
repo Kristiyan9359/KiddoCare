@@ -2,11 +2,14 @@
 
 @{
     ViewData["Title"] = "Create Medical Record";
+    var backUrl = Model.ReturnUrl ?? Url.Action("Index", "Children");
 }
 
 <h1>Create Medical Record</h1>
 
 <form asp-action="Create" method="post">
+    <input asp-for="ReturnUrl" type="hidden" />
+
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
     <div class="mb-3">
@@ -60,7 +63,7 @@
     </div>
 
     <button type="submit" class="btn btn-primary">Create</button>
-    <a asp-controller="Children" asp-action="Index" class="btn btn-secondary">Cancel</a>
+    <a href="@backUrl" class="btn btn-secondary">Cancel</a>
 </form>
 
 @section Scripts {

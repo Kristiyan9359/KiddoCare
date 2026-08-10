@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Activity Feed";
+    var currentUrl = Context.Request.Path + Context.Request.QueryString;
+    var backUrl = Model.ReturnUrl ?? Url.Action("Details", "Children", new { id = Model.ChildId });
 }
 
 <h1>Activity Feed</h1>
@@ -47,6 +49,7 @@ else
                             <a asp-controller="@item.ActionController"
                                asp-action="@item.ActionName"
                                asp-route-id="@item.RouteId.Value"
+                               asp-route-returnUrl="@currentUrl"
                                class="btn btn-sm btn-outline-secondary">
                                 View
                             </a>
@@ -66,9 +69,4 @@ else
     </div>
 }
 
-<a asp-controller="Children"
-   asp-action="Details"
-   asp-route-id="@Model.ChildId"
-   class="btn btn-secondary">
-    Back to Child
-</a>
+<a href="@backUrl" class="btn btn-secondary">Back</a>

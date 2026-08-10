@@ -31,7 +31,7 @@ public class AnnouncementsController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Details(int id)
+    public async Task<IActionResult> Details(int id, string? returnUrl)
     {
         string userId = this.GetUserId();
         bool isAdmin = this.User.IsInRole(RoleConstants.Admin);
@@ -52,6 +52,8 @@ public class AnnouncementsController : Controller
         {
             return this.NotFound();
         }
+
+        model.ReturnUrl = this.GetSafeReturnUrl(returnUrl);
 
         return this.View(model);
     }
@@ -168,5 +170,12 @@ public class AnnouncementsController : Controller
     private string GetUserId()
     {
         return this.User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+    }
+
+    private string? GetSafeReturnUrl(string? returnUrl)
+    {
+        return !string.IsNullOrWhiteSpace(returnUrl) && this.Url.IsLocalUrl(returnUrl)
+            ? returnUrl
+            : null;
     }
 }

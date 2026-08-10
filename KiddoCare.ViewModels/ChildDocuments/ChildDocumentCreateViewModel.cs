@@ -25,5 +25,7 @@ public class ChildDocumentCreateViewModel
 
     public string? FileUrl { get; set; }
 
+    public string? ReturnUrl { get; set; }
+
     public IEnumerable<SelectListItem> Children { get; set; } = new List<SelectListItem>();
 }

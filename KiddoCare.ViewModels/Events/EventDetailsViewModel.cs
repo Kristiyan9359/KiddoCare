@@ -21,4 +21,6 @@ public class EventDetailsViewModel
     public string GroupName { get; set; } = "All groups";
 
     public bool IsPublic { get; set; }
+
+    public string? ReturnUrl { get; set; }
 }

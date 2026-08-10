@@ -231,7 +231,7 @@ public class ChildrenController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Details(int id)
+    public async Task<IActionResult> Details(int id, string? returnUrl)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
         var isAdmin = User.IsInRole(Admin);
@@ -251,7 +251,16 @@ public class ChildrenController : Controller
             return NotFound();
         }
 
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
+
         return View(model);
+    }
+
+    private string? GetSafeReturnUrl(string? returnUrl)
+    {
+        return !string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl)
+            ? returnUrl
+            : null;
     }
 
     private async Task<string> SavePhotoAsync(IFormFile photo)

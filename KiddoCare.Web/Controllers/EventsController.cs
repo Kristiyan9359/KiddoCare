@@ -30,7 +30,7 @@ public class EventsController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Details(int id)
+    public async Task<IActionResult> Details(int id, string? returnUrl)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
         var isAdmin = User.IsInRole(Admin);
@@ -49,6 +49,8 @@ public class EventsController : Controller
         {
             return NotFound();
         }
+
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
 
         return View(model);
     }
@@ -169,5 +171,12 @@ public class EventsController : Controller
         }
 
         return RedirectToAction(nameof(Index));
+    }
+
+    private string? GetSafeReturnUrl(string? returnUrl)
+    {
+        return !string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl)
+            ? returnUrl
+            : null;
     }
 }

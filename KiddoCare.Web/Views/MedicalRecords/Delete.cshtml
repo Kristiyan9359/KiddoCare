@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Delete Medical Record";
+    var backUrl = Model.ReturnUrl ?? Url.Action("Index", "Children");
 }
 
 <h1>Delete Medical Record</h1>
@@ -13,7 +14,8 @@
 
 <form asp-action="Delete" method="post">
     <input asp-for="Id" type="hidden" />
+    <input asp-for="ReturnUrl" type="hidden" />
 
     <button type="submit" class="btn btn-danger">Delete</button>
-    <a asp-controller="Children" asp-action="Index" class="btn btn-secondary">Cancel</a>
+    <a href="@backUrl" class="btn btn-secondary">Cancel</a>
 </form>

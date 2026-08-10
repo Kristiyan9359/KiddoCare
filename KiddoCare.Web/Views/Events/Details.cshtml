@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Event Details";
+    var backUrl = Model.ReturnUrl ?? Url.Action("Index");
 }
 
 <h1>@Model.Title</h1>
@@ -29,4 +30,4 @@
     <dd class="col-sm-9">@(Model.IsPublic ? "Yes" : "No")</dd>
 </dl>
 
-<a asp-action="Index" class="btn btn-secondary">Back</a>
+<a href="@backUrl" class="btn btn-secondary">Back</a>

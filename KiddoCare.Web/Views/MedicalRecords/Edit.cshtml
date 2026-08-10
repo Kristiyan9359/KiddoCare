@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Edit Medical Record";
+    var backUrl = Model.ReturnUrl ?? Url.Action("Details", "MedicalRecords", new { childId = Model.ChildId });
 }
 
 <h1>Edit Medical Record</h1>
@@ -14,6 +15,7 @@
     <input asp-for="Id" type="hidden" />
     <input asp-for="ChildId" type="hidden" />
     <input asp-for="ChildFullName" type="hidden" />
+    <input asp-for="ReturnUrl" type="hidden" />
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -60,9 +62,7 @@
     </div>
 
     <button type="submit" class="btn btn-primary">Save</button>
-    <a asp-action="Details"
-       asp-route-childId="@Model.ChildId"
-       class="btn btn-secondary">
+    <a href="@backUrl" class="btn btn-secondary">
         Cancel
     </a>
 </form>

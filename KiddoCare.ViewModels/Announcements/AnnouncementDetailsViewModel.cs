@@ -13,4 +13,6 @@ public class AnnouncementDetailsViewModel
     public DateTime PublishedOn { get; set; }
 
     public bool IsPublic { get; set; }
+
+    public string? ReturnUrl { get; set; }
 }

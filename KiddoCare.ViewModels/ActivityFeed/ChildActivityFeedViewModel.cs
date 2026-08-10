@@ -7,4 +7,6 @@ public class ChildActivityFeedViewModel
     public string ChildFullName { get; set; } = null!;
 
     public IEnumerable<ActivityFeedItemViewModel> Items { get; set; } = new List<ActivityFeedItemViewModel>();
+
+    public string? ReturnUrl { get; set; }
 }

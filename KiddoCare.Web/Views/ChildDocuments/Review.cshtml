@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Review Child Document";
+    var backUrl = Model.ReturnUrl ?? Url.Action("Index");
 
     var statusOptions = Html.GetEnumSelectList<RequestStatus>()
         .Where(s => s.Value != "0");
@@ -32,6 +33,7 @@
 
 <form asp-action="Review" method="post">
     <input asp-for="Id" type="hidden" />
+    <input asp-for="ReturnUrl" type="hidden" />
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -52,7 +54,7 @@
     </div>
 
     <button type="submit" class="btn btn-primary">Save Review</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    <a href="@backUrl" class="btn btn-secondary">Cancel</a>
 </form>
 
 @section Scripts {

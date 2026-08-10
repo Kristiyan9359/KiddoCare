@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Announcements";
     bool canCreate = User.IsInRole("Admin") || User.IsInRole("Teacher");
+    var currentUrl = Context.Request.Path + Context.Request.QueryString;
 }
 
 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -40,6 +41,7 @@ else
                     <div class="d-flex gap-2">
                         <a asp-action="Details"
                            asp-route-id="@announcement.Id"
+                           asp-route-returnUrl="@currentUrl"
                            class="btn btn-sm btn-outline-secondary">
                             Details
                         </a>

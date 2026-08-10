@@ -36,4 +36,6 @@ public class MedicalRecordEditViewModel
     public string? Notes { get; set; }
 
     public int ChildId { get; set; }
+
+    public string? ReturnUrl { get; set; }
 }
