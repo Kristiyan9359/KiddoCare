@@ -163,6 +163,7 @@ public class DashboardService : IDashboardService
         var recentAnnouncements = await context.Announcements
             .Where(a =>
                 !a.IsDeleted &&
+                a.IsPublic &&
                 (a.GroupId == null || groupIds.Contains(a.GroupId.Value)))
             .OrderByDescending(a => a.PublishedOn)
             .Take(5)
