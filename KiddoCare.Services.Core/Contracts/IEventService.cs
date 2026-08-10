@@ -8,7 +8,7 @@ public interface IEventService
 
     Task<EventDetailsViewModel?> GetDetailsAsync(int id);
 
-    Task<bool> CanAccessEventAsync(int eventId, string userId, bool isAdminOrTeacher);
+    Task<bool> CanAccessEventAsync(int eventId, string userId, bool isAdmin, bool isTeacher);
 
     Task<EventCreateViewModel> GetCreateModelAsync(string userId, bool isAdmin, bool isTeacher);
 

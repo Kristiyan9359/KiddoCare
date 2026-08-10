@@ -23,7 +23,6 @@ public class EventsController : Controller
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
         var isAdmin = User.IsInRole(Admin);
         var isTeacher = User.IsInRole(Teacher);
-        var isAdminOrTeacher = isAdmin || isTeacher;
 
         var events = await eventService.GetAllAsync(userId, isAdmin, isTeacher);
 
@@ -36,9 +35,8 @@ public class EventsController : Controller
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
         var isAdmin = User.IsInRole(Admin);
         var isTeacher = User.IsInRole(Teacher);
-        var isAdminOrTeacher = isAdmin || isTeacher;
 
-        var canAccess = await eventService.CanAccessEventAsync(id, userId, isAdminOrTeacher);
+        var canAccess = await eventService.CanAccessEventAsync(id, userId, isAdmin, isTeacher);
 
         if (!canAccess)
         {

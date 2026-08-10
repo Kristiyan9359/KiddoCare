@@ -90,12 +90,23 @@ public class EventService : IEventService
             .FirstOrDefaultAsync();
     }
 
-    public async Task<bool> CanAccessEventAsync(int eventId, string userId, bool isAdminOrTeacher)
+    public async Task<bool> CanAccessEventAsync(int eventId, string userId, bool isAdmin, bool isTeacher)
     {
-        if (isAdminOrTeacher)
+        if (isAdmin)
         {
             return await context.Events
                 .AnyAsync(e => e.Id == eventId && !e.IsDeleted);
+        }
+
+        if (isTeacher)
+        {
+            var teacherGroupId = await GetTeacherGroupIdAsync(userId);
+
+            return teacherGroupId.HasValue &&
+                   await context.Events.AnyAsync(e =>
+                       e.Id == eventId &&
+                       !e.IsDeleted &&
+                       (e.GroupId == null || e.GroupId == teacherGroupId.Value));
         }
 
         var parentGroupIds = await context.Children
