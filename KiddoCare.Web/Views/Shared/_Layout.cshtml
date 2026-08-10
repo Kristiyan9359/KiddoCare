@@ -63,9 +63,14 @@
                                 </a>
                             </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Children" asp-action="Index">Children</a>
-                            </li>
+                            @if (User.IsInRole(Admin) || User.IsInRole(Teacher))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Children" asp-action="Index">
+                                        Children
+                                    </a>
+                                </li>
+                            }
 
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="Events" asp-action="Index">Events</a>

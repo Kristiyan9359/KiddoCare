@@ -31,6 +31,7 @@ public class ChildrenController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = $"{Admin},{Teacher}")]
     public async Task<IActionResult> Index(string? medicalFilter)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
