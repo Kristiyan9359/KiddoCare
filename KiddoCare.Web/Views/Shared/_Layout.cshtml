@@ -1,4 +1,13 @@
 ﻿@using static KiddoCare.Common.RoleConstants
+
+@{
+    bool isAuthenticated = User.Identity?.IsAuthenticated == true;
+    bool isAdmin = User.IsInRole(Admin);
+    bool isTeacher = User.IsInRole(Teacher);
+    bool isParent = User.IsInRole(Parent);
+    bool isStaff = isAdmin || isTeacher;
+}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,89 +34,67 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
 
-                        @if (User.Identity?.IsAuthenticated == true)
+                        @if (isAuthenticated)
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
                             </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link text-dark"
-                                   asp-controller="DailyReports"
-                                   asp-action="Index">
-                                    Daily Reports
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link text-dark"
-                                   asp-controller="AbsenceRequests"
-                                   asp-action="Index">
-                                    Absence Notices
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link text-dark"
-                                   asp-controller="ConsentRequests"
-                                   asp-action="Index">
-                                    Consent Requests
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link text-dark"
-                                   asp-controller="ChildDocuments"
-                                   asp-action="Index">
-                                    Documents
-                                </a>
-                            </li>
-
-                            @if (User.IsInRole(Admin) || User.IsInRole(Teacher))
+                            @if (isStaff)
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Children" asp-action="Index">
-                                        Children
-                                    </a>
+                                    <a class="nav-link text-dark" asp-controller="Children" asp-action="Index">Children</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Attendance" asp-action="Daily">Attendance</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Attendance" asp-action="History">History</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="DailyReports" asp-action="Index">Daily Reports</a>
                                 </li>
                             }
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="AbsenceRequests" asp-action="Index">Absence Notices</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="ConsentRequests" asp-action="Index">Consent Requests</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="ChildDocuments" asp-action="Index">Child Documents</a>
+                            </li>
 
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="Events" asp-action="Index">Events</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark"
-                                   asp-controller="Announcements"
-                                   asp-action="Index">
-                                    Announcements
-                                </a>
+                                <a class="nav-link text-dark" asp-controller="Announcements" asp-action="Index">Announcements</a>
                             </li>
+
+                            @if (isAdmin)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Groups" asp-action="Index">Groups</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Parents" asp-action="Index">Parents</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Teachers" asp-action="Index">Teachers</a>
+                                </li>
+                            }
                         }
 
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Groups" asp-action="Index">Groups</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Parents" asp-action="Index">Parents</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Teachers" asp-action="Index">Teachers</a>
-                            </li>
-                        }
-                        @if (User.IsInRole(Admin) || User.IsInRole(Teacher))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Attendance" asp-action="Daily">Attendance</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Attendance" asp-action="History">History</a>
-                            </li>
-                        }
-
-                        
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
