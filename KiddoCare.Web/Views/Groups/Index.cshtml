@@ -4,44 +4,81 @@
     ViewData["Title"] = "Groups";
 }
 
-<h1>Groups</h1>
+<div class="list-page-header">
+    <div>
+        <div class="page-kicker">Kindergarten groups</div>
+        <h1 class="page-title">Groups</h1>
+        <p class="page-subtitle">
+            Manage classroom groups and keep children, teachers, announcements and events organized.
+        </p>
+    </div>
 
-<p>
     <a asp-action="Create" class="btn btn-primary">Create Group</a>
-</p>
+</div>
 
 @if (!Model.Any())
 {
-    <div class="alert alert-info">
-        No groups found.
-    </div>
+    <section class="empty-state">
+        <div class="empty-state-icon">+</div>
+        <h2>No groups yet</h2>
+        <p>Create your first group before adding children and assigning teachers.</p>
+        <a asp-action="Create" class="btn btn-primary">Create Group</a>
+    </section>
 }
 else
 {
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th class="text-end">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var group in Model)
-        {
-            <tr>
-                <td>@group.Name</td>
-                <td>@group.Description</td>
-                <td class="text-end">
+    <section class="section-panel">
+        <div class="table-responsive">
+            <table class="table table-striped align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Group Name</th>
+                        <th>Description</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var group in Model)
+                    {
+                        <tr>
+                            <td>
+                                <div class="fw-bold">@group.Name</div>
+                            </td>
+                            <td>
+                                @if (string.IsNullOrWhiteSpace(group.Description))
+                                {
+                                    <span class="text-muted">No description</span>
+                                }
+                                else
+                                {
+                                    @group.Description
+                                }
+                            </td>
+                            <td class="text-end">
+                                <div class="action-buttons">
+                                    <a asp-action="Details"
+                                       asp-route-id="@group.Id"
+                                       class="btn btn-sm btn-outline-secondary">
+                                        Details
+                                    </a>
 
-                    <a asp-action="Details" asp-route-id="@group.Id" class="btn btn-sm btn-outline-secondary">Details</a>
+                                    <a asp-action="Edit"
+                                       asp-route-id="@group.Id"
+                                       class="btn btn-sm btn-outline-primary">
+                                        Edit
+                                    </a>
 
-                    <a asp-action="Edit" asp-route-id="@group.Id" class="btn btn-sm btn-outline-primary">Edit</a>
-
-                    <a asp-action="Delete" asp-route-id="@group.Id" class="btn btn-sm btn-outline-danger">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                                    <a asp-action="Delete"
+                                       asp-route-id="@group.Id"
+                                       class="btn btn-sm btn-outline-danger">
+                                        Delete
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
 }

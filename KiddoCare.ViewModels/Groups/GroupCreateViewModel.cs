@@ -5,10 +5,12 @@ namespace KiddoCare.ViewModels.Groups;
 
 public class GroupCreateViewModel
 {
-    [Required]
-    [MaxLength(KindergartenGroupNameMaxLength)]
+    [Display(Name = "Group name")]
+    [Required(ErrorMessage = "Please enter a group name.")]
+    [MaxLength(KindergartenGroupNameMaxLength, ErrorMessage = "Group name cannot be longer than {1} characters.")]
     public string Name { get; set; } = null!;
 
-    [MaxLength(KindergartenGroupDescriptionMaxLength)]
+    [Display(Name = "Description")]
+    [MaxLength(KindergartenGroupDescriptionMaxLength, ErrorMessage = "Description cannot be longer than {1} characters.")]
     public string? Description { get; set; }
 }
