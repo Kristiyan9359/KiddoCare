@@ -594,6 +594,13 @@ textarea.form-control {
     color: var(--kc-muted);
 }
 
+.page-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
 .metric-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -707,6 +714,11 @@ textarea.form-control {
     .page-header {
         display: block;
     }
+
+    .page-actions {
+        justify-content: flex-start;
+        margin-top: 16px;
+    }
 }
 
 @media (max-width: 575px) {
@@ -725,5 +737,9 @@ textarea.form-control {
 
     .section-panel-header {
         display: block;
+    }
+
+    .page-actions .btn {
+        width: 100%;
     }
 }
