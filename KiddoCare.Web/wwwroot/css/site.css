@@ -1394,3 +1394,11 @@ textarea.form-control {
         grid-template-columns: 1fr;
     }
 }
+
+.announcement-message {
+    margin-bottom: 0;
+    color: var(--kc-ink);
+    font-size: 1.08rem;
+    line-height: 1.75;
+    white-space: pre-line;
+}

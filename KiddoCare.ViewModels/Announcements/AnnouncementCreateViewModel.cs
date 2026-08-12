@@ -6,16 +6,20 @@ namespace KiddoCare.ViewModels.Announcements;
 
 public class AnnouncementCreateViewModel
 {
-    [Required]
-    [MaxLength(AnnouncementTitleMaxLength)]
+    [Display(Name = "Announcement title")]
+    [Required(ErrorMessage = "Please enter an announcement title.")]
+    [MaxLength(AnnouncementTitleMaxLength, ErrorMessage = "Announcement title cannot be longer than {1} characters.")]
     public string Title { get; set; } = null!;
 
-    [Required]
-    [MaxLength(AnnouncementContentMaxLength)]
+    [Display(Name = "Message")]
+    [Required(ErrorMessage = "Please enter the announcement message.")]
+    [MaxLength(AnnouncementContentMaxLength, ErrorMessage = "Message cannot be longer than {1} characters.")]
     public string Content { get; set; } = null!;
 
+    [Display(Name = "Group")]
     public int? GroupId { get; set; }
 
+    [Display(Name = "Visible to parents")]
     public bool IsPublic { get; set; } = true;
 
     public IEnumerable<SelectListItem> Groups { get; set; } = new List<SelectListItem>();

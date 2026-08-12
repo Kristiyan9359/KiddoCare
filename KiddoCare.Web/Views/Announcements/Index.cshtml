@@ -1,16 +1,17 @@
-﻿@model IEnumerable<KiddoCare.ViewModels.Announcements.AnnouncementIndexViewModel>
+﻿@using static KiddoCare.Common.RoleConstants
+@model IEnumerable<KiddoCare.ViewModels.Announcements.AnnouncementIndexViewModel>
 
 @{
     ViewData["Title"] = "Announcements";
-    bool canCreate = User.IsInRole("Admin") || User.IsInRole("Teacher");
+    bool canCreate = User.IsInRole(Admin) || User.IsInRole(Teacher);
     var currentUrl = Context.Request.Path + Context.Request.QueryString;
 }
 
 <div class="list-page-header">
     <div>
         <div class="page-kicker">Updates</div>
-        <h1>Announcements</h1>
-        <p class="list-page-subtitle">
+        <h1 class="page-title">Announcements</h1>
+        <p class="page-subtitle">
             Important kindergarten updates, group messages and staff notices.
         </p>
     </div>
@@ -23,7 +24,16 @@
 
 @if (!Model.Any())
 {
-    <p class="empty-state">No announcements found.</p>
+    <section class="empty-state">
+        <div class="empty-state-icon">+</div>
+        <h2>No announcements yet</h2>
+        <p>Create the first update to keep families and staff informed.</p>
+
+        @if (canCreate)
+        {
+            <a asp-action="Create" class="btn btn-primary">Create Announcement</a>
+        }
+    </section>
 }
 else
 {
@@ -32,13 +42,13 @@ else
         {
             <article class="content-list-item">
                 <div>
+                    <div class="item-meta mb-2">
+                        <span>@announcement.GroupName</span>
+                        <span>@announcement.PublishedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</span>
+                    </div>
+
                     <h2 class="item-title">@announcement.Title</h2>
                     <p class="item-preview">@announcement.ContentPreview</p>
-
-                    <div class="item-meta">
-                        <span>Group: @announcement.GroupName</span>
-                        <span>Published: @announcement.PublishedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</span>
-                    </div>
                 </div>
 
                 <div class="item-actions">

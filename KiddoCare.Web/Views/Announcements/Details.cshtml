@@ -5,24 +5,56 @@
     var backUrl = Model.ReturnUrl ?? Url.Action("Index");
 }
 
-<h1>@Model.Title</h1>
+<div class="page-header">
+    <div>
+        <div class="page-kicker">Updates</div>
+        <h1 class="page-title">@Model.Title</h1>
+        <p class="page-subtitle">
+            Announcement details, audience and message content.
+        </p>
+    </div>
 
-<div class="mb-3">
-    <strong>Group:</strong> @Model.GroupName
+    <div class="page-actions">
+        <a href="@backUrl" class="btn btn-secondary">Back</a>
+    </div>
 </div>
 
-<div class="mb-3">
-    <strong>Published:</strong>
-    @Model.PublishedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")
+<div class="detail-grid">
+    <section class="info-panel">
+        <div class="section-heading-row">
+            <div>
+                <h2>Announcement Summary</h2>
+                <p>Where and when this update is visible.</p>
+            </div>
+        </div>
+
+        <dl class="info-list">
+            <div>
+                <dt>Title</dt>
+                <dd>@Model.Title</dd>
+            </div>
+            <div>
+                <dt>Group</dt>
+                <dd>@Model.GroupName</dd>
+            </div>
+            <div>
+                <dt>Published</dt>
+                <dd>@Model.PublishedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</dd>
+            </div>
+            <div>
+                <dt>Visibility</dt>
+                <dd>@(Model.IsPublic ? "Visible to parents" : "Staff only")</dd>
+            </div>
+        </dl>
+    </section>
+
+    <section class="info-panel">
+        <div class="section-heading-row">
+            <div>
+                <h2>Message</h2>
+            </div>
+        </div>
+
+        <p class="announcement-message">@Model.Content</p>
+    </section>
 </div>
-
-<div class="mb-3">
-    <strong>Visibility:</strong>
-    @(Model.IsPublic ? "Visible to parents" : "Staff only")
-</div>
-
-<hr />
-
-<p style="white-space: pre-line">@Model.Content</p>
-
-<a href="@backUrl" class="btn btn-secondary">Back</a>
