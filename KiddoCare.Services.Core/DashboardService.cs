@@ -119,15 +119,41 @@ public class DashboardService : IDashboardService
                 Gender = c.Gender,
                 PhotoUrl = c.PhotoUrl,
                 GroupName = c.Group.Name,
+                LastDailyReportId = c.DailyReports
+                    .Where(r => !r.IsDeleted)
+                    .OrderByDescending(r => r.ReportDate)
+                    .ThenByDescending(r => r.CreatedOn)
+                    .Select(r => (int?)r.Id)
+                    .FirstOrDefault(),
                 LastDailyReportDate = c.DailyReports
                     .Where(r => !r.IsDeleted)
                     .OrderByDescending(r => r.ReportDate)
+                    .ThenByDescending(r => r.CreatedOn)
                     .Select(r => (DateTime?)r.ReportDate)
                     .FirstOrDefault(),
                 LastDailyReportMood = c.DailyReports
                     .Where(r => !r.IsDeleted)
                     .OrderByDescending(r => r.ReportDate)
+                    .ThenByDescending(r => r.CreatedOn)
                     .Select(r => (ChildMood?)r.Mood)
+                    .FirstOrDefault(),
+                LastMealRating = c.DailyReports
+                    .Where(r => !r.IsDeleted)
+                    .OrderByDescending(r => r.ReportDate)
+                    .ThenByDescending(r => r.CreatedOn)
+                    .Select(r => (int?)r.MealRating)
+                    .FirstOrDefault(),
+                LastSleepRating = c.DailyReports
+                    .Where(r => !r.IsDeleted)
+                    .OrderByDescending(r => r.ReportDate)
+                    .ThenByDescending(r => r.CreatedOn)
+                    .Select(r => (int?)r.SleepRating)
+                    .FirstOrDefault(),
+                LastActivityRating = c.DailyReports
+                    .Where(r => !r.IsDeleted)
+                    .OrderByDescending(r => r.ReportDate)
+                    .ThenByDescending(r => r.CreatedOn)
+                    .Select(r => (int?)r.ActivityRating)
                     .FirstOrDefault()
             })
             .ToListAsync();

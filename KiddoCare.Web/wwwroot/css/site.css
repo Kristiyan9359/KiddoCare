@@ -827,6 +827,44 @@ textarea.form-control {
     gap: 3px;
 }
 
+.child-card-report-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.child-card-report-header div {
+    display: grid;
+    gap: 3px;
+}
+
+.child-card-mood {
+    flex-shrink: 0;
+    border-radius: 999px;
+    padding: 4px 8px;
+    color: #0f766e !important;
+    background: rgba(20, 184, 166, 0.12);
+    font-weight: 800;
+}
+
+.child-card-rating-list {
+    display: grid;
+    gap: 6px;
+    margin-top: 10px;
+}
+
+.child-card-rating-list div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.child-card-rating-list strong {
+    font-size: 0.95rem;
+}
+
 .child-card-report span {
     color: var(--kc-muted);
     font-size: 0.88rem;

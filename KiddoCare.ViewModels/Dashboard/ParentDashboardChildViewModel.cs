@@ -16,7 +16,15 @@ public class ParentDashboardChildViewModel
 
     public string GroupName { get; set; } = null!;
 
+    public int? LastDailyReportId { get; set; }
+
     public DateTime? LastDailyReportDate { get; set; }
 
     public ChildMood? LastDailyReportMood { get; set; }
+
+    public int? LastMealRating { get; set; }
+
+    public int? LastSleepRating { get; set; }
+
+    public int? LastActivityRating { get; set; }
 }

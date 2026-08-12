@@ -6,6 +6,18 @@
     var currentUrl = Context.Request.Path + Context.Request.QueryString;
 }
 
+@functions {
+    private static string Stars(int? rating)
+    {
+        if (!rating.HasValue)
+        {
+            return "No rating";
+        }
+
+        return new string('★', rating.Value) + new string('☆', 5 - rating.Value);
+    }
+}
+
 <div class="page-header">
     <div>
         <div class="page-kicker">Family overview</div>
@@ -75,9 +87,28 @@
                         @if (child.LastDailyReportDate.HasValue)
                         {
                             <div class="child-card-report">
-                                <span>Last report</span>
-                                <strong>@child.LastDailyReportDate.Value.ToString("dd MMM yyyy")</strong>
-                                <span>Mood: @child.LastDailyReportMood</span>
+                                <div class="child-card-report-header">
+                                    <div>
+                                        <span>Last report</span>
+                                        <strong>@child.LastDailyReportDate.Value.ToString("dd MMM yyyy")</strong>
+                                    </div>
+                                    <span class="child-card-mood">@child.LastDailyReportMood</span>
+                                </div>
+
+                                <div class="child-card-rating-list">
+                                    <div>
+                                        <span>Meals</span>
+                                        <strong class="rating-stars">@Stars(child.LastMealRating)</strong>
+                                    </div>
+                                    <div>
+                                        <span>Sleep</span>
+                                        <strong class="rating-stars">@Stars(child.LastSleepRating)</strong>
+                                    </div>
+                                    <div>
+                                        <span>Activities</span>
+                                        <strong class="rating-stars">@Stars(child.LastActivityRating)</strong>
+                                    </div>
+                                </div>
                             </div>
                         }
                         else
@@ -103,6 +134,17 @@
                                class="btn btn-sm btn-outline-primary">
                                 Activity Feed
                             </a>
+
+                            @if (child.LastDailyReportId.HasValue)
+                            {
+                                <a asp-controller="DailyReports"
+                                   asp-action="Details"
+                                   asp-route-id="@child.LastDailyReportId.Value"
+                                   asp-route-returnUrl="@currentUrl"
+                                   class="btn btn-sm btn-primary">
+                                    View Report
+                                </a>
+                            }
                         </div>
                     </div>
                 </article>
