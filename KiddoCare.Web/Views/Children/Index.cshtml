@@ -4,25 +4,25 @@
 @{
     ViewData["Title"] = "Children";
     var currentUrl = Context.Request.Path + Context.Request.QueryString;
+    bool isAdmin = User.IsInRole(Admin);
 }
 
-<h1>Children</h1>
-
-@if (User.IsInRole(Admin))
-{
-    <p>
-        <a asp-action="Create" class="btn btn-primary">Add Child</a>
-    </p>
-}
-@if (!Model.Any())
-{
-    <div class="alert alert-info">
-        No children found.
+<div class="list-page-header">
+    <div>
+        <div class="page-kicker">Child records</div>
+        <h1>Children</h1>
+        <p class="list-page-subtitle">
+            Browse children, groups, photos and important medical indicators.
+        </p>
     </div>
-}
-else
-{ 
-<div class="mb-3">
+
+    @if (isAdmin)
+    {
+        <a asp-action="Create" class="btn btn-primary">Add Child</a>
+    }
+</div>
+
+<div class="filter-bar">
     <a asp-action="Index"
        class="btn btn-sm @(ViewBag.MedicalFilter == null ? "btn-primary" : "btn-outline-primary")">
         All children
@@ -41,70 +41,94 @@ else
     </a>
 </div>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Full Name</th>
-            <th>Date of Birth</th>
-            <th>Gender</th>
-            <th>Group</th>
-            <th>Medical</th>
-            <th>Allergies</th>
-            <th>Photo</th>
-            <th class="text-end">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var child in Model)
-        {
+@if (!Model.Any())
+{
+    <p class="empty-state">No children found.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
             <tr>
-                <td>@child.FullName</td>
-                <td>@child.DateOfBirth.ToString("dd MMM yyyy")</td>
-                <td>@child.Gender</td>
-                <td>@child.GroupName</td>
-                <td>
-                    @if (child.HasMedicalRecord)
-                    {
-                        <span class="badge bg-info text-dark">Yes</span>
-                    }
-                    else
-                    {
-                        <span class="badge bg-secondary">No</span>
-                    }
-                </td>
-                <td>
-                    @if (child.HasAllergies)
-                    {
-                        <span class="badge bg-warning text-dark">Yes</span>
-                    }
-                    else
-                    {
-                        <span class="badge bg-secondary">No</span>
-                    }
-                </td>
-                <td>
-                    @if (!string.IsNullOrWhiteSpace(child.PhotoUrl))
-                    {
-                        <img src="@Url.Action("Photo", "Children", new { id = child.Id })" alt="@child.FullName" style="width: 48px; height: 48px; object-fit: cover; border-radius: 50%;" />
-                    }
-                </td>
-                <td class="text-end">
-                    <a asp-action="Details"
-                       asp-route-id="@child.Id"
-                       asp-route-returnUrl="@currentUrl"
-                       class="btn btn-sm btn-outline-secondary">
-                        Details
-                    </a>
-
-                    @if (User.IsInRole(Admin))
-                    {
-                        <a asp-action="Edit" asp-route-id="@child.Id" class="btn btn-sm btn-outline-primary">Edit</a>
-
-                        <a asp-action="Delete" asp-route-id="@child.Id" class="btn btn-sm btn-outline-danger">Delete</a>
-                    }
-                </td>
+                <th>Photo</th>
+                <th>Full Name</th>
+                <th>Date of Birth</th>
+                <th>Gender</th>
+                <th>Group</th>
+                <th>Medical</th>
+                <th>Allergies</th>
+                <th class="text-end">Actions</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var child in Model)
+            {
+                <tr>
+                    <td>
+                        @if (!string.IsNullOrWhiteSpace(child.PhotoUrl))
+                        {
+                            <img src="@Url.Action("Photo", "Children", new { id = child.Id })"
+                                 alt="@child.FullName"
+                                 class="child-avatar" />
+                        }
+                        else
+                        {
+                            <div class="child-avatar-placeholder">
+                                @child.FullName.Substring(0, 1)
+                            </div>
+                        }
+                    </td>
+                    <td>
+                        <strong>@child.FullName</strong>
+                    </td>
+                    <td>@child.DateOfBirth.ToString("dd MMM yyyy")</td>
+                    <td>@child.Gender</td>
+                    <td>@child.GroupName</td>
+                    <td>
+                        @if (child.HasMedicalRecord)
+                        {
+                            <span class="badge bg-info text-dark">Yes</span>
+                        }
+                        else
+                        {
+                            <span class="badge status-badge-muted">No</span>
+                        }
+                    </td>
+                    <td>
+                        @if (child.HasAllergies)
+                        {
+                            <span class="badge bg-warning text-dark">Yes</span>
+                        }
+                        else
+                        {
+                            <span class="badge status-badge-muted">No</span>
+                        }
+                    </td>
+                    <td class="text-end">
+                        <a asp-action="Details"
+                           asp-route-id="@child.Id"
+                           asp-route-returnUrl="@currentUrl"
+                           class="btn btn-sm btn-outline-secondary">
+                            Details
+                        </a>
+
+                        @if (isAdmin)
+                        {
+                            <a asp-action="Edit"
+                               asp-route-id="@child.Id"
+                               class="btn btn-sm btn-outline-primary">
+                                Edit
+                            </a>
+
+                            <a asp-action="Delete"
+                               asp-route-id="@child.Id"
+                               class="btn btn-sm btn-outline-danger">
+                                Delete
+                            </a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }

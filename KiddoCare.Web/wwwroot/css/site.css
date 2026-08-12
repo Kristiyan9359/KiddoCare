@@ -1002,3 +1002,41 @@ textarea.form-control {
                 width: 100%;
             }
 }
+
+.filter-bar {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+}
+
+.child-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 999px;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 6px 14px rgba(23, 32, 51, 0.14);
+}
+
+.child-avatar-placeholder {
+    width: 48px;
+    height: 48px;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    background: #eef4ff;
+    color: var(--kc-primary);
+    font-weight: 900;
+}
+
+.status-badge-muted {
+    background: #e5e7eb !important;
+    color: #4b5563 !important;
+}
+
+@media (max-width: 767px) {
+    .filter-bar .btn {
+        flex: 1 1 100%;
+    }
+}
