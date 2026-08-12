@@ -4,17 +4,59 @@
     ViewData["Title"] = "Teacher Details";
 }
 
-<h1>@Model.FullName</h1>
+<div class="page-header">
+    <div>
+        <div class="page-kicker">Staff management</div>
+        <h1 class="page-title">@Model.FullName</h1>
+        <p class="page-subtitle">
+            Review teacher contact details and classroom assignment.
+        </p>
+    </div>
 
-<dl class="row">
-    <dt class="col-sm-3">Email</dt>
-    <dd class="col-sm-9">@Model.Email</dd>
+    <div class="page-actions">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+        <a asp-action="Index" class="btn btn-secondary">Back</a>
+    </div>
+</div>
 
-    <dt class="col-sm-3">Phone</dt>
-    <dd class="col-sm-9">@(string.IsNullOrWhiteSpace(Model.PhoneNumber) ? "Not specified" : Model.PhoneNumber)</dd>
+<div class="detail-grid">
+    <section class="info-panel">
+        <div class="section-heading-row">
+            <div>
+                <h2>Contact Summary</h2>
+                <p>Primary teacher contact information.</p>
+            </div>
+        </div>
 
-    <dt class="col-sm-3">Group</dt>
-    <dd class="col-sm-9">@Model.GroupName</dd>
-</dl>
+        <dl class="info-list">
+            <div>
+                <dt>Full Name</dt>
+                <dd>@Model.FullName</dd>
+            </div>
+            <div>
+                <dt>Email</dt>
+                <dd>@Model.Email</dd>
+            </div>
+            <div>
+                <dt>Phone</dt>
+                <dd>@(string.IsNullOrWhiteSpace(Model.PhoneNumber) ? "Not specified" : Model.PhoneNumber)</dd>
+            </div>
+        </dl>
+    </section>
 
-<a asp-action="Index" class="btn btn-secondary">Back</a>
+    <section class="info-panel">
+        <div class="section-heading-row">
+            <div>
+                <h2>Classroom Assignment</h2>
+                <p>The group this teacher can manage.</p>
+            </div>
+        </div>
+
+        <dl class="info-list">
+            <div>
+                <dt>Assigned Group</dt>
+                <dd>@Model.GroupName</dd>
+            </div>
+        </dl>
+    </section>
+</div>

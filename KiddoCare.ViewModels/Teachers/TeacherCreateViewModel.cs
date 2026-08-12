@@ -6,18 +6,22 @@ namespace KiddoCare.ViewModels.Teachers;
 
 public class TeacherCreateViewModel
 {
-    [Required]
-    [EmailAddress]
+    [Display(Name = "Email address")]
+    [Required(ErrorMessage = "Please enter the teacher's email address.")]
+    [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
     public string Email { get; set; } = null!;
 
-    [Required]
-    [MaxLength(TeacherFullNameMaxLength)]
+    [Display(Name = "Full name")]
+    [Required(ErrorMessage = "Please enter the teacher's full name.")]
+    [MaxLength(TeacherFullNameMaxLength, ErrorMessage = "Full name cannot be longer than {1} characters.")]
     public string FullName { get; set; } = null!;
 
-    [MaxLength(TeacherPhoneNumberMaxLength)]
+    [Display(Name = "Phone number")]
+    [MaxLength(TeacherPhoneNumberMaxLength, ErrorMessage = "Phone number cannot be longer than {1} characters.")]
     public string? PhoneNumber { get; set; }
 
-    [Required]
+    [Display(Name = "Assigned group")]
+    [Required(ErrorMessage = "Please select a group.")]
     public int GroupId { get; set; }
 
     public IEnumerable<SelectListItem> Groups { get; set; } = new List<SelectListItem>();

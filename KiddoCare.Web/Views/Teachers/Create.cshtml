@@ -4,40 +4,54 @@
     ViewData["Title"] = "Create Teacher";
 }
 
-<h1>Create Teacher</h1>
-
-<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-<form asp-action="Create" method="post">
-    <div class="mb-3">
-        <label asp-for="FullName" class="form-label"></label>
-        <input asp-for="FullName" class="form-control" />
-        <span asp-validation-for="FullName" class="text-danger"></span>
+<div class="page-header">
+    <div>
+        <div class="page-kicker">Staff management</div>
+        <h1 class="page-title">Create Teacher</h1>
+        <p class="page-subtitle">
+            Add a teacher profile and assign it to a kindergarten group.
+        </p>
     </div>
+</div>
 
-    <div class="mb-3">
-        <label asp-for="Email" class="form-label"></label>
-        <input asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
+<section class="section-panel">
+    <form asp-action="Create" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <div class="mb-3">
-        <label asp-for="PhoneNumber" class="form-label"></label>
-        <input asp-for="PhoneNumber" class="form-control" />
-        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-    </div>
+        <div class="form-grid">
+            <div class="mb-3">
+                <label asp-for="FullName" class="form-label"></label>
+                <input asp-for="FullName" class="form-control" placeholder="Example: Elena Petrova" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
 
-    <div class="mb-3">
-        <label asp-for="GroupId" class="form-label">Group</label>
-        <select asp-for="GroupId" asp-items="Model.Groups" class="form-select">
-            <option value="">Select group...</option>
-        </select>
-        <span asp-validation-for="GroupId" class="text-danger"></span>
-    </div>
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" class="form-control" placeholder="teacher@example.com" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
 
-    <button type="submit" class="btn btn-primary">Create</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-</form>
+            <div class="mb-3">
+                <label asp-for="PhoneNumber" class="form-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" placeholder="Optional phone number" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="GroupId" class="form-label"></label>
+                <select asp-for="GroupId" asp-items="Model.Groups" class="form-select">
+                    <option value="">Select group...</option>
+                </select>
+                <span asp-validation-for="GroupId" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-action-row">
+            <button type="submit" class="btn btn-primary">Create</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</section>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

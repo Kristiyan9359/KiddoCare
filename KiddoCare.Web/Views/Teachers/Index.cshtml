@@ -4,45 +4,60 @@
     ViewData["Title"] = "Teachers";
 }
 
-<h1>Teachers</h1>
+<div class="list-page-header">
+    <div>
+        <div class="page-kicker">Staff management</div>
+        <h1 class="page-title">Teachers</h1>
+        <p class="page-subtitle">
+            Manage teacher profiles and their assigned kindergarten groups.
+        </p>
+    </div>
 
-<p>
     <a asp-action="Create" class="btn btn-primary">Create Teacher</a>
-</p>
+</div>
 
 @if (!Model.Any())
 {
-    <div class="alert alert-info">
-        No teachers found.
-    </div>
+    <section class="empty-state">
+        <div class="empty-state-icon">+</div>
+        <h2>No teachers yet</h2>
+        <p>Create a teacher profile before assigning classroom responsibilities.</p>
+        <a asp-action="Create" class="btn btn-primary">Create Teacher</a>
+    </section>
 }
 else
 {
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Full Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Group</th>
-            <th class="text-end">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var teacher in Model)
-        {
-            <tr>
-                <td>@teacher.FullName</td>
-                <td>@teacher.Email</td>
-                <td>@teacher.PhoneNumber</td>
-                <td>@teacher.GroupName</td>
-                <td class="text-end">
-                    <a asp-action="Details" asp-route-id="@teacher.Id" class="btn btn-sm btn-outline-secondary">Details</a>
-                    <a asp-action="Edit" asp-route-id="@teacher.Id" class="btn btn-sm btn-outline-primary">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@teacher.Id" class="btn btn-sm btn-outline-danger">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+    <section class="section-panel">
+        <div class="table-responsive">
+            <table class="table table-striped align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Group</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var teacher in Model)
+                    {
+                        <tr>
+                            <td><div class="fw-bold">@teacher.FullName</div></td>
+                            <td>@teacher.Email</td>
+                            <td>@(string.IsNullOrWhiteSpace(teacher.PhoneNumber) ? "Not specified" : teacher.PhoneNumber)</td>
+                            <td>@teacher.GroupName</td>
+                            <td class="text-end">
+                                <div class="action-buttons">
+                                    <a asp-action="Details" asp-route-id="@teacher.Id" class="btn btn-sm btn-outline-secondary">Details</a>
+                                    <a asp-action="Edit" asp-route-id="@teacher.Id" class="btn btn-sm btn-outline-primary">Edit</a>
+                                    <a asp-action="Delete" asp-route-id="@teacher.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
 }
