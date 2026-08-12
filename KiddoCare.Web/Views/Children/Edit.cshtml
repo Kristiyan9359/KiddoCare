@@ -1,80 +1,99 @@
-﻿@model KiddoCare.ViewModels.Children.ChildEditViewModel
+@model KiddoCare.ViewModels.Children.ChildEditViewModel
 
 @{
     ViewData["Title"] = "Edit Child";
+    var fullName = $"{Model.FirstName} {Model.LastName}";
 }
 
-<h1>Edit Child</h1>
-
-<form asp-action="Edit" method="post" enctype="multipart/form-data">
-    <input asp-for="Id" type="hidden" />
-    <input asp-for="PhotoUrl" type="hidden" />
-
-    <div class="mb-3">
-        <label asp-for="FirstName" class="form-label"></label>
-        <input asp-for="FirstName" class="form-control" />
-        <span asp-validation-for="FirstName" class="text-danger"></span>
+<div class="page-header">
+    <div>
+        <div class="page-kicker">Child records</div>
+        <h1 class="page-title">Edit Child</h1>
+        <p class="page-subtitle">
+            Update profile details, group assignment, parent link and profile photo.
+        </p>
     </div>
+</div>
 
-    <div class="mb-3">
-        <label asp-for="LastName" class="form-label"></label>
-        <input asp-for="LastName" class="form-control" />
-        <span asp-validation-for="LastName" class="text-danger"></span>
-    </div>
+<section class="section-panel">
+    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+        <input asp-for="Id" type="hidden" />
+        <input asp-for="PhotoUrl" type="hidden" />
 
-    <div class="mb-3">
-        <label asp-for="Gender" class="form-label"></label>
-        <select asp-for="Gender" asp-items="Html.GetEnumSelectList<KiddoCare.Data.Models.Enums.Gender>()" class="form-select">
-            <option value="">Select gender...</option>
-        </select>
-        <span asp-validation-for="Gender" class="text-danger"></span>
-    </div>
+        <div class="form-grid">
+            <div class="mb-3">
+                <label asp-for="FirstName" class="form-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
 
-    <div class="mb-3">
-        <label asp-for="DateOfBirth" class="form-label"></label>
-        <input asp-for="DateOfBirth"
-               type="date"
-               class="form-control"
-               min="@DateTime.Today.AddYears(-7).ToString("yyyy-MM-dd")"
-               max="@DateTime.Today.ToString("yyyy-MM-dd")" />
-        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
-    </div>
+            <div class="mb-3">
+                <label asp-for="LastName" class="form-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
 
-    <div class="mb-3">
-        <label asp-for="GroupId" class="form-label">Group</label>
-        <select asp-for="GroupId" asp-items="Model.Groups" class="form-select">
-            <option value="">Select group...</option>
-        </select>
-        <span asp-validation-for="GroupId" class="text-danger"></span>
-    </div>
+            <div class="mb-3">
+                <label asp-for="Gender" class="form-label"></label>
+                <select asp-for="Gender"
+                        asp-items="Html.GetEnumSelectList<KiddoCare.Data.Models.Enums.Gender>()"
+                        class="form-select">
+                    <option value="">Select gender...</option>
+                </select>
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
 
-    <div class="mb-3">
-        <label asp-for="ParentId" class="form-label">Parent</label>
-        <select asp-for="ParentId" asp-items="Model.Parents" class="form-select">
-            <option value="">No parent linked</option>
-        </select>
-        <span asp-validation-for="ParentId" class="text-danger"></span>
-    </div>
+            <div class="mb-3">
+                <label asp-for="DateOfBirth" class="form-label"></label>
+                <input asp-for="DateOfBirth"
+                       type="date"
+                       class="form-control"
+                       min="@DateTime.Today.AddYears(-7).ToString("yyyy-MM-dd")"
+                       max="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            </div>
 
+            <div class="mb-3">
+                <label asp-for="GroupId" class="form-label">Group</label>
+                <select asp-for="GroupId" asp-items="Model.Groups" class="form-select">
+                    <option value="">Select group...</option>
+                </select>
+                <span asp-validation-for="GroupId" class="text-danger"></span>
+            </div>
 
-    @if (!string.IsNullOrWhiteSpace(Model.PhotoUrl))
-    {
-        <div class="mb-3">
-            <img src="@Url.Action("Photo", "Children", new { id = Model.Id })"
-                 alt="@($"{Model.FirstName} {Model.LastName}")"
-                 style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px;" />
+            <div class="mb-3">
+                <label asp-for="ParentId" class="form-label">Parent</label>
+                <select asp-for="ParentId" asp-items="Model.Parents" class="form-select">
+                    <option value="">No parent linked</option>
+                </select>
+                <span asp-validation-for="ParentId" class="text-danger"></span>
+            </div>
         </div>
-    }
 
-    <div class="mb-3">
-        <label asp-for="Photo" class="form-label"></label>
-        <input asp-for="Photo" type="file" class="form-control" />
-        <span asp-validation-for="Photo" class="text-danger"></span>
-    </div>
+        <div class="file-upload-panel">
+            @if (!string.IsNullOrWhiteSpace(Model.PhotoUrl))
+            {
+                <div class="current-photo-preview">
+                    <img src="@Url.Action("Photo", "Children", new { id = Model.Id })"
+                         alt="@fullName" />
+                    <span>Current photo</span>
+                </div>
+            }
 
-    <button type="submit" class="btn btn-primary">Save</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-</form>
+            <div class="flex-grow-1">
+                <label asp-for="Photo" class="form-label"></label>
+                <p class="form-help">Upload a new photo only if you want to replace the current one.</p>
+                <input asp-for="Photo" type="file" class="form-control" />
+                <span asp-validation-for="Photo" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-action-row">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</section>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

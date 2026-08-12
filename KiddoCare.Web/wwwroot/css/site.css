@@ -1165,6 +1165,94 @@ textarea.form-control {
     font-weight: 800;
 }
 
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.form-help {
+    margin: 0 0 10px;
+    color: var(--kc-muted);
+    font-size: 0.92rem;
+}
+
+.file-upload-panel {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    margin-top: 8px;
+    padding: 16px;
+    border: 1px dashed rgba(104, 115, 134, 0.35);
+    border-radius: var(--kc-radius);
+    background: rgba(248, 250, 252, 0.7);
+}
+
+.current-photo-preview {
+    display: grid;
+    gap: 8px;
+    justify-items: center;
+    flex-shrink: 0;
+    color: var(--kc-muted);
+    font-size: 0.86rem;
+    font-weight: 700;
+}
+
+.current-photo-preview img {
+    width: 112px;
+    height: 112px;
+    border-radius: var(--kc-radius);
+    object-fit: cover;
+    box-shadow: 0 10px 22px rgba(23, 32, 51, 0.16);
+}
+
+.form-action-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 22px;
+}
+
+.delete-page {
+    min-height: 56vh;
+    display: grid;
+    place-items: center;
+}
+
+.delete-card {
+    width: min(620px, 100%);
+    padding: 34px;
+    border: 1px solid rgba(220, 38, 38, 0.2);
+    border-radius: var(--kc-radius);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(254, 242, 242, 0.78));
+    box-shadow: var(--kc-shadow);
+    text-align: center;
+}
+
+.delete-kicker {
+    margin-bottom: 8px;
+    color: var(--kc-danger);
+    font-size: 0.78rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.delete-card h1 {
+    margin-bottom: 10px;
+}
+
+.delete-card p {
+    max-width: 460px;
+    margin: 0 auto 20px;
+    color: var(--kc-muted);
+}
+
+.delete-info-list {
+    max-width: 460px;
+    margin: 0 auto;
+    text-align: left;
+}
+
 @media (max-width: 991px) {
     .profile-hero-card {
         grid-template-columns: 220px minmax(0, 1fr);
@@ -1175,7 +1263,8 @@ textarea.form-control {
     }
 
     .profile-info-grid,
-    .medical-summary-grid {
+    .medical-summary-grid,
+    .form-grid {
         grid-template-columns: 1fr;
     }
 }
@@ -1197,5 +1286,21 @@ textarea.form-control {
     .info-list div {
         grid-template-columns: 1fr;
         gap: 3px;
+    }
+
+    .file-upload-panel {
+        display: block;
+    }
+
+    .current-photo-preview {
+        margin-bottom: 14px;
+    }
+
+    .form-action-row .btn {
+        width: 100%;
+    }
+
+    .delete-card {
+        padding: 26px 18px;
     }
 }
