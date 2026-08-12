@@ -1189,6 +1189,7 @@ textarea.form-control {
 }
 
 .current-photo-preview {
+    position: relative;
     display: grid;
     gap: 8px;
     justify-items: center;
@@ -1204,6 +1205,46 @@ textarea.form-control {
     border-radius: var(--kc-radius);
     object-fit: cover;
     box-shadow: 0 10px 22px rgba(23, 32, 51, 0.16);
+}
+
+.current-photo-preview.is-removed {
+    display: none;
+}
+
+.remove-photo-button {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border: 0;
+    border-radius: 999px;
+    color: #ffffff;
+    background: #ef4444;
+    box-shadow: 0 10px 20px rgba(239, 68, 68, 0.28);
+    font-size: 1.25rem;
+    font-weight: 800;
+    line-height: 1;
+    transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+}
+
+.remove-photo-button:hover {
+    transform: translateY(-1px) scale(1.04);
+    background: #dc2626;
+    box-shadow: 0 14px 24px rgba(239, 68, 68, 0.35);
+}
+
+.remove-photo-button:focus-visible {
+    outline: 3px solid rgba(239, 68, 68, 0.28);
+    outline-offset: 2px;
+}
+
+.photo-removed-note {
+    color: #b42318;
+    font-weight: 700;
 }
 
 .form-action-row {

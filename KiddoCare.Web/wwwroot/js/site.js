@@ -1,4 +1,24 @@
 document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll("[data-remove-photo-button]").forEach((button) => {
+        button.addEventListener("click", () => {
+            const form = button.closest("form");
+            const preview = button.closest("[data-current-photo-preview]");
+            const removePhotoInput = form?.querySelector("[data-remove-photo-input]");
+            const removedNote = form?.querySelector("[data-photo-removed-note]");
+
+            if (!preview || !(removePhotoInput instanceof HTMLInputElement)) {
+                return;
+            }
+
+            removePhotoInput.value = "true";
+            preview.classList.add("is-removed");
+
+            if (removedNote instanceof HTMLElement) {
+                removedNote.hidden = false;
+            }
+        });
+    });
+
     const modalElement = document.getElementById("confirmActionModal");
     const messageElement = document.getElementById("confirmActionModalMessage");
     const confirmButton = document.getElementById("confirmActionModalButton");

@@ -19,6 +19,7 @@
     <form asp-action="Edit" method="post" enctype="multipart/form-data">
         <input asp-for="Id" type="hidden" />
         <input asp-for="PhotoUrl" type="hidden" />
+        <input asp-for="RemovePhoto" type="hidden" value="false" data-remove-photo-input />
 
         <div class="form-grid">
             <div class="mb-3">
@@ -73,7 +74,14 @@
         <div class="file-upload-panel">
             @if (!string.IsNullOrWhiteSpace(Model.PhotoUrl))
             {
-                <div class="current-photo-preview">
+                <div class="current-photo-preview" data-current-photo-preview>
+                    <button type="button"
+                            class="remove-photo-button"
+                            aria-label="Remove current photo"
+                            title="Remove current photo"
+                            data-remove-photo-button>
+                        &times;
+                    </button>
                     <img src="@Url.Action("Photo", "Children", new { id = Model.Id })"
                          alt="@fullName" />
                     <span>Current photo</span>
@@ -83,6 +91,9 @@
             <div class="flex-grow-1">
                 <label asp-for="Photo" class="form-label"></label>
                 <p class="form-help">Upload a new photo only if you want to replace the current one.</p>
+                <p class="form-help photo-removed-note" hidden data-photo-removed-note>
+                    The current photo will be removed after you save.
+                </p>
                 <input asp-for="Photo" type="file" class="form-control" />
                 <span asp-validation-for="Photo" class="text-danger"></span>
             </div>

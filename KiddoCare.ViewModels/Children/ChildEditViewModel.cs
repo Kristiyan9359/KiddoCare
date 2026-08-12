@@ -35,6 +35,9 @@ public class ChildEditViewModel
     [Display(Name = "Photo")]
     public IFormFile? Photo { get; set; }
 
+    [Display(Name = "Remove current photo")]
+    public bool RemovePhoto { get; set; }
+
     public IEnumerable<SelectListItem> Groups { get; set; } = new List<SelectListItem>();
 
     public int? ParentId { get; set; }

@@ -123,17 +123,33 @@ public class ChildrenController : Controller
             return View(model);
         }
 
+        string? uploadedPhotoUrl = null;
+
         try
         {
+            var previousPhotoUrl = model.PhotoUrl;
+
             if (model.Photo != null)
             {
-                model.PhotoUrl = await SavePhotoAsync(model.Photo);
+                uploadedPhotoUrl = await SavePhotoAsync(model.Photo);
+                model.PhotoUrl = uploadedPhotoUrl;
+            }
+            else if (model.RemovePhoto)
+            {
+                model.PhotoUrl = null;
             }
 
             await childService.EditAsync(model);
+
+            if (model.Photo != null || model.RemovePhoto)
+            {
+                DeletePhotoFile(previousPhotoUrl);
+            }
         }
         catch (InvalidOperationException ex)
         {
+            DeletePhotoFile(uploadedPhotoUrl);
+
             ModelState.AddModelError(string.Empty, ex.Message);
 
             var editModel = await childService.GetForEditAsync(model.Id);
@@ -143,6 +159,7 @@ public class ChildrenController : Controller
                 return NotFound();
             }
 
+            model.PhotoUrl = editModel.PhotoUrl;
             model.Groups = editModel.Groups;
             model.Parents = editModel.Parents;
 
@@ -297,6 +314,39 @@ public class ChildrenController : Controller
         await photo.CopyToAsync(stream);
 
         return $"/App_Data/uploads/child-photos/{fileName}";
+    }
+
+    private void DeletePhotoFile(string? photoUrl)
+    {
+        if (string.IsNullOrWhiteSpace(photoUrl))
+        {
+            return;
+        }
+
+        if (Uri.TryCreate(photoUrl, UriKind.Absolute, out var photoUri) &&
+            (photoUri.Scheme == Uri.UriSchemeHttp || photoUri.Scheme == Uri.UriSchemeHttps))
+        {
+            return;
+        }
+
+        var uploadsFolder = Path.GetFullPath(Path.Combine(
+            webHostEnvironment.ContentRootPath,
+            "App_Data",
+            "uploads",
+            "child-photos"));
+        var uploadsFolderPrefix = uploadsFolder + Path.DirectorySeparatorChar;
+
+        var filePath = Path.GetFullPath(Path.Combine(
+            webHostEnvironment.ContentRootPath,
+            photoUrl.TrimStart('/').Replace('/', Path.DirectorySeparatorChar)));
+
+        if (!filePath.StartsWith(uploadsFolderPrefix, StringComparison.OrdinalIgnoreCase) ||
+            !System.IO.File.Exists(filePath))
+        {
+            return;
+        }
+
+        System.IO.File.Delete(filePath);
     }
 
     private static string GetPhotoContentType(string filePath)
