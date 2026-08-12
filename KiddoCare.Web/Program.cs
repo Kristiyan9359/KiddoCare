@@ -19,6 +19,11 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.AccessDeniedPath = "/Home/AccessDenied";
+});
+
 builder.Services.AddControllersWithViews(options =>
 {
     options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
@@ -65,6 +70,8 @@ else
 }
 
 app.UseHttpsRedirection();
+
+app.UseStatusCodePagesWithReExecute("/Home/StatusCode", "?code={0}");
 
 app.UseRouting();
 app.UseAuthentication();

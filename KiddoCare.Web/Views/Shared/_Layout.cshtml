@@ -19,88 +19,136 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/KiddoCare.styles.css" asp-append-version="true" />
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
+<body class="app-shell">
+    <header class="app-header">
+        <nav class="navbar navbar-expand-xl app-navbar mb-4">
+            <div class="container app-navbar-inner">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">KiddoCare</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+
+                <button class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#mainNavbar"
+                        aria-controls="mainNavbar"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+
+                <div id="mainNavbar" class="collapse navbar-collapse">
+                    <ul class="navbar-nav me-auto mb-2 mb-xl-0">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
 
                         @if (isAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+                                <a class="nav-link" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
                             </li>
 
                             @if (isStaff)
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="Children" asp-action="Index">Children</a>
+                                    <a class="nav-link" asp-controller="Children" asp-action="Index">Children</a>
                                 </li>
 
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="Attendance" asp-action="Daily">Attendance</a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="Attendance" asp-action="History">History</a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="DailyReports" asp-action="Index">Daily Reports</a>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle"
+                                       href="#"
+                                       role="button"
+                                       data-bs-toggle="dropdown"
+                                       aria-expanded="false">
+                                        Attendance
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a class="dropdown-item" asp-controller="Attendance" asp-action="Daily">
+                                                Manage Attendance
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-controller="Attendance" asp-action="History">
+                                                Attendance History
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-controller="DailyReports" asp-action="Index">
+                                                Daily Reports
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </li>
                             }
 
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="AbsenceRequests" asp-action="Index">Absence Notices</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle"
+                                   href="#"
+                                   role="button"
+                                   data-bs-toggle="dropdown"
+                                   aria-expanded="false">
+                                    Requests
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="AbsenceRequests" asp-action="Index">
+                                            Absence Notices
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="ConsentRequests" asp-action="Index">
+                                            Consent Requests
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="ChildDocuments" asp-action="Index">
+                                            Child Documents
+                                        </a>
+                                    </li>
+                                </ul>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="ConsentRequests" asp-action="Index">Consent Requests</a>
+                                <a class="nav-link" asp-controller="Events" asp-action="Index">Events</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="ChildDocuments" asp-action="Index">Child Documents</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Events" asp-action="Index">Events</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Announcements" asp-action="Index">Announcements</a>
+                                <a class="nav-link" asp-controller="Announcements" asp-action="Index">Announcements</a>
                             </li>
 
                             @if (isAdmin)
                             {
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="Groups" asp-action="Index">Groups</a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="Parents" asp-action="Index">Parents</a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="Teachers" asp-action="Index">Teachers</a>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle"
+                                       href="#"
+                                       role="button"
+                                       data-bs-toggle="dropdown"
+                                       aria-expanded="false">
+                                        Admin
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a class="dropdown-item" asp-controller="Groups" asp-action="Index">Groups</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-controller="Parents" asp-action="Index">Parents</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-controller="Teachers" asp-action="Index">Teachers</a>
+                                        </li>
+                                    </ul>
                                 </li>
                             }
                         }
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-
                     </ul>
-                    <partial name="_LoginPartial" />
+
+                    <div class="app-login">
+                        <partial name="_LoginPartial" />
+                    </div>
                 </div>
             </div>
         </nav>

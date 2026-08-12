@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "Access Denied";
+}
+
+<section class="error-page">
+    <div class="error-card">
+        <div class="error-code">403</div>
+        <h1>Access denied</h1>
+        <p>You do not have permission to access this page.</p>
+
+        <div class="error-actions">
+            <a asp-controller="Dashboard" asp-action="Index" class="btn btn-primary">Go to Dashboard</a>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">Home</a>
+        </div>
+    </div>
+</section>
