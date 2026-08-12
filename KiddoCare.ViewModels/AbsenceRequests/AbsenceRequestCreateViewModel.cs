@@ -7,23 +7,24 @@ namespace KiddoCare.ViewModels.AbsenceRequests;
 
 public class AbsenceRequestCreateViewModel
 {
-    [Required]
     [Display(Name = "Child")]
+    [Required(ErrorMessage = "Please select a child.")]
     public int? ChildId { get; set; }
 
-    [Required]
-    [Display(Name = "Start Date")]
+    [Display(Name = "Start date")]
+    [Required(ErrorMessage = "Please select the first absence date.")]
     public DateTime StartDate { get; set; } = DateTime.Today;
 
-    [Required]
-    [Display(Name = "End Date")]
+    [Display(Name = "End date")]
+    [Required(ErrorMessage = "Please select the last absence date.")]
     public DateTime EndDate { get; set; } = DateTime.Today;
 
-    [Required]
+    [Display(Name = "Reason")]
+    [Required(ErrorMessage = "Please select a reason.")]
     public AbsenceReason Reason { get; set; }
 
-    [Display(Name = "Parent Note")]
-    [MaxLength(AbsenceRequestParentNoteMaxLength)]
+    [Display(Name = "Note")]
+    [MaxLength(AbsenceRequestParentNoteMaxLength, ErrorMessage = "Note cannot be longer than {1} characters.")]
     public string? ParentNote { get; set; }
 
     public string? ReturnUrl { get; set; }

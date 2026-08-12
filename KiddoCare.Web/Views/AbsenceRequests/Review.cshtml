@@ -5,44 +5,78 @@
     var backUrl = Model.ReturnUrl ?? Url.Action("Index");
 }
 
-<h1>Confirm Absence Notice</h1>
-
-<p>
-    <strong>Child:</strong> @Model.ChildFullName
-</p>
-
-<p>
-    <strong>Period:</strong>
-    @Model.StartDate.ToString("dd MMM yyyy")
-    -
-    @Model.EndDate.ToString("dd MMM yyyy")
-</p>
-
-<p>
-    <strong>Reason:</strong> @Model.Reason
-</p>
-
-<p style="white-space: pre-line">
-    <strong>Parent Note:</strong>
-    @(Model.ParentNote ?? "No note provided.")
-</p>
-
-<form asp-action="Review" method="post">
-    <input asp-for="Id" type="hidden" />
-    <input asp-for="ReturnUrl" type="hidden" />
-
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-    <div class="mb-3">
-        <label asp-for="ReviewNote" class="form-label">Confirmation Note</label>
-        <textarea asp-for="ReviewNote" class="form-control" rows="4"></textarea>
-        <span asp-validation-for="ReviewNote" class="text-danger"></span>
+<div class="page-header">
+    <div>
+        <div class="page-kicker">Attendance</div>
+        <h1 class="page-title">Confirm Absence Notice</h1>
+        <p class="page-subtitle">
+            Confirm that the kindergarten has reviewed this absence notice.
+        </p>
     </div>
+</div>
 
-    <button type="submit" class="btn btn-primary">Save Confirmation</button>
-    <a href="@backUrl" class="btn btn-secondary">Cancel</a>
-</form>
+<div class="detail-grid">
+    <section class="info-panel">
+        <div class="section-heading-row">
+            <div>
+                <h2>Notice Summary</h2>
+                <p>Review the details before saving confirmation.</p>
+            </div>
+        </div>
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+        <dl class="info-list">
+            <div>
+                <dt>Child</dt>
+                <dd>@Model.ChildFullName</dd>
+            </div>
+            <div>
+                <dt>Period</dt>
+                <dd>
+                    @Model.StartDate.ToString("dd MMM yyyy")
+                    -
+                    @Model.EndDate.ToString("dd MMM yyyy")
+                </dd>
+            </div>
+            <div>
+                <dt>Reason</dt>
+                <dd>@Model.Reason</dd>
+            </div>
+            <div>
+                <dt>Note</dt>
+                <dd style="white-space: pre-line">
+                    @(Model.ParentNote ?? "No note provided.")
+                </dd>
+            </div>
+        </dl>
+    </section>
+
+    <section class="info-panel">
+        <div class="section-heading-row">
+            <div>
+                <h2>Confirmation</h2>
+                <p>Add an optional staff note.</p>
+            </div>
+        </div>
+
+        <form asp-action="Review" method="post">
+            <input asp-for="Id" type="hidden" />
+            <input asp-for="ReturnUrl" type="hidden" />
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="ReviewNote" class="form-label"></label>
+                <textarea asp-for="ReviewNote"
+                          class="form-control"
+                          rows="5"
+                          placeholder="Optional confirmation note."></textarea>
+                <span asp-validation-for="ReviewNote" class="text-danger"></span>
+            </div>
+
+            <div class="form-action-row">
+                <button type="submit" class="btn btn-primary">Save Confirmation</button>
+                <a href="@backUrl" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </section>
+</div>

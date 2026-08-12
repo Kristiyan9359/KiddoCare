@@ -18,8 +18,8 @@ public class AbsenceRequestReviewViewModel
 
     public string? ParentNote { get; set; }
 
-    [Display(Name = "Review Note")]
-    [MaxLength(AbsenceRequestReviewNoteMaxLength)]
+    [Display(Name = "Confirmation note")]
+    [MaxLength(AbsenceRequestReviewNoteMaxLength, ErrorMessage = "Confirmation note cannot be longer than {1} characters.")]
     public string? ReviewNote { get; set; }
 
     public string? ReturnUrl { get; set; }

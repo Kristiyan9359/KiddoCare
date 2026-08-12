@@ -4,98 +4,129 @@
 @{
     ViewData["Title"] = "Absence Notices";
     var currentUrl = Context.Request.Path + Context.Request.QueryString;
+    string? statusFilter = ViewBag.StatusFilter as string;
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h1>Absence Notices</h1>
+<div class="list-page-header">
+    <div>
+        <div class="page-kicker">Attendance</div>
+        <h1 class="page-title">Absence Notices</h1>
+        <p class="page-subtitle">
+            Track planned absences, sickness notices and family-submitted attendance updates.
+        </p>
+    </div>
 
     <a asp-action="Create"
        asp-route-returnUrl="@currentUrl"
        class="btn btn-primary">
-        Create Absence Notice
+        Create Notice
     </a>
 </div>
 
-<div class="mb-3">
-    <a asp-action="Index"
-       class="btn btn-sm @(ViewBag.StatusFilter == null ? "btn-primary" : "btn-outline-primary")">
-        All
-    </a>
+<div class="filter-bar">
+    <div>
+        <strong>Filter notices</strong>
+        <span>Review all notices or focus on pending confirmations.</span>
+    </div>
 
-    <a asp-action="Index"
-       asp-route-statusFilter="pending"
-       class="btn btn-sm @(ViewBag.StatusFilter == "pending" ? "btn-primary" : "btn-outline-primary")">
-        Pending
-    </a>
+    <div class="action-buttons">
+        <a asp-action="Index"
+           class="btn btn-sm @(statusFilter == null ? "btn-primary" : "btn-outline-primary")">
+            All
+        </a>
 
-    <a asp-action="Index"
-       asp-route-statusFilter="confirmed"
-       class="btn btn-sm @(ViewBag.StatusFilter == "confirmed" || ViewBag.StatusFilter == "approved" ? "btn-primary" : "btn-outline-primary")">
-        Confirmed
-    </a>
+        <a asp-action="Index"
+           asp-route-statusFilter="pending"
+           class="btn btn-sm @(statusFilter == "pending" ? "btn-primary" : "btn-outline-primary")">
+            Pending
+        </a>
+
+        <a asp-action="Index"
+           asp-route-statusFilter="confirmed"
+           class="btn btn-sm @(statusFilter == "confirmed" || statusFilter == "approved" ? "btn-primary" : "btn-outline-primary")">
+            Confirmed
+        </a>
+    </div>
 </div>
 
 @if (!Model.Any())
 {
-    <div class="alert alert-info">
-        No absence notices found.
-    </div>
+    <section class="empty-state">
+        <div class="empty-state-icon">+</div>
+        <h2>No absence notices found</h2>
+        <p>Create a notice when a child will be away from kindergarten.</p>
+        <a asp-action="Create"
+           asp-route-returnUrl="@currentUrl"
+           class="btn btn-primary">
+            Create Notice
+        </a>
+    </section>
 }
 else
 {
-    <table class="table table-striped align-middle">
-        <thead>
-            <tr>
-                <th>Child</th>
-                <th>Group</th>
-                <th>Period</th>
-                <th>Reason</th>
-                <th>Status</th>
-                <th class="text-end">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var request in Model)
-            {
-                <tr>
-                    <td>@request.ChildFullName</td>
-                    <td>@request.GroupName</td>
-                    <td>
-                        @request.StartDate.ToString("dd MMM yyyy")
-                        -
-                        @request.EndDate.ToString("dd MMM yyyy")
-                    </td>
-                    <td>@request.Reason</td>
-                    <td>
-                        @if (request.Status == RequestStatus.Pending)
-                        {
-                            <span class="badge bg-warning text-dark">Pending</span>
-                        }
-                        else if (request.Status == RequestStatus.Approved)
-                        {
-                            <span class="badge bg-success">Confirmed</span>
-                        }
-                    </td>
-                    <td class="text-end">
-                        <a asp-action="Details"
-                           asp-route-id="@request.Id"
-                           asp-route-returnUrl="@currentUrl"
-                           class="btn btn-sm btn-outline-secondary">
-                            Details
-                        </a>
+    <section class="section-panel">
+        <div class="table-responsive">
+            <table class="table table-striped align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Child</th>
+                        <th>Group</th>
+                        <th>Period</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var request in Model)
+                    {
+                        <tr>
+                            <td><div class="fw-bold">@request.ChildFullName</div></td>
+                            <td>@request.GroupName</td>
+                            <td>
+                                @request.StartDate.ToString("dd MMM yyyy")
+                                -
+                                @request.EndDate.ToString("dd MMM yyyy")
+                            </td>
+                            <td>@request.Reason</td>
+                            <td>
+                                @if (request.Status == RequestStatus.Pending)
+                                {
+                                    <span class="badge bg-warning text-dark">Pending</span>
+                                }
+                                else if (request.Status == RequestStatus.Approved)
+                                {
+                                    <span class="badge bg-success">Confirmed</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">@request.Status</span>
+                                }
+                            </td>
+                            <td class="text-end">
+                                <div class="action-buttons">
+                                    <a asp-action="Details"
+                                       asp-route-id="@request.Id"
+                                       asp-route-returnUrl="@currentUrl"
+                                       class="btn btn-sm btn-outline-secondary">
+                                        Details
+                                    </a>
 
-                        @if (request.CanReview)
-                        {
-                            <a asp-action="Review"
-                               asp-route-id="@request.Id"
-                               asp-route-returnUrl="@currentUrl"
-                               class="btn btn-sm btn-outline-primary">
-                                Confirm
-                            </a>
-                        }
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+                                    @if (request.CanReview)
+                                    {
+                                        <a asp-action="Review"
+                                           asp-route-id="@request.Id"
+                                           asp-route-returnUrl="@currentUrl"
+                                           class="btn btn-sm btn-outline-primary">
+                                            Confirm
+                                        </a>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
 }

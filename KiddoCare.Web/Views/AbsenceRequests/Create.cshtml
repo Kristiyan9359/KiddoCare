@@ -6,57 +6,74 @@
     var backUrl = Model.ReturnUrl ?? Url.Action("Index");
 }
 
-<h1>Create Absence Notice</h1>
-
-<form asp-action="Create" method="post">
-    <input asp-for="ReturnUrl" type="hidden" />
-
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-    <div class="mb-3">
-        <label asp-for="ChildId" class="form-label"></label>
-        <select asp-for="ChildId" asp-items="Model.Children" class="form-select">
-            <option value="">Select child</option>
-        </select>
-        <span asp-validation-for="ChildId" class="text-danger"></span>
+<div class="page-header">
+    <div>
+        <div class="page-kicker">Attendance</div>
+        <h1 class="page-title">Create Absence Notice</h1>
+        <p class="page-subtitle">
+            Register when a child will be away and why.
+        </p>
     </div>
+</div>
 
-    <div class="mb-3">
-        <label asp-for="StartDate" class="form-label"></label>
-        <input asp-for="StartDate"
-               type="date"
-               min="@DateTime.Today.ToString("yyyy-MM-dd")"
-               class="form-control" />
-        <span asp-validation-for="StartDate" class="text-danger"></span>
-    </div>
+<section class="section-panel">
+    <form asp-action="Create" method="post">
+        <input asp-for="ReturnUrl" type="hidden" />
 
-    <div class="mb-3">
-        <label asp-for="EndDate" class="form-label"></label>
-        <input asp-for="EndDate"
-               type="date"
-               min="@DateTime.Today.ToString("yyyy-MM-dd")"
-               class="form-control" />
-        <span asp-validation-for="EndDate" class="text-danger"></span>
-    </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <div class="mb-3">
-        <label asp-for="Reason" class="form-label"></label>
-        <select asp-for="Reason"
-                asp-items="Html.GetEnumSelectList<AbsenceReason>()"
-                class="form-select">
-        </select>
-        <span asp-validation-for="Reason" class="text-danger"></span>
-    </div>
+        <div class="form-grid">
+            <div class="mb-3">
+                <label asp-for="ChildId" class="form-label"></label>
+                <select asp-for="ChildId" asp-items="Model.Children" class="form-select">
+                    <option value="">Select child...</option>
+                </select>
+                <span asp-validation-for="ChildId" class="text-danger"></span>
+            </div>
 
-    <div class="mb-3">
-        <label asp-for="ParentNote" class="form-label"></label>
-        <textarea asp-for="ParentNote" class="form-control" rows="4"></textarea>
-        <span asp-validation-for="ParentNote" class="text-danger"></span>
-    </div>
+            <div class="mb-3">
+                <label asp-for="Reason" class="form-label"></label>
+                <select asp-for="Reason"
+                        asp-items="Html.GetEnumSelectList<AbsenceReason>()"
+                        class="form-select">
+                </select>
+                <span asp-validation-for="Reason" class="text-danger"></span>
+            </div>
 
-    <button type="submit" class="btn btn-primary">Create</button>
-    <a href="@backUrl" class="btn btn-secondary">Cancel</a>
-</form>
+            <div class="mb-3">
+                <label asp-for="StartDate" class="form-label"></label>
+                <input asp-for="StartDate"
+                       type="date"
+                       min="@DateTime.Today.ToString("yyyy-MM-dd")"
+                       class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="EndDate" class="form-label"></label>
+                <input asp-for="EndDate"
+                       type="date"
+                       min="@DateTime.Today.ToString("yyyy-MM-dd")"
+                       class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ParentNote" class="form-label"></label>
+            <textarea asp-for="ParentNote"
+                      class="form-control"
+                      rows="4"
+                      placeholder="Optional note for the kindergarten staff."></textarea>
+            <span asp-validation-for="ParentNote" class="text-danger"></span>
+        </div>
+
+        <div class="form-action-row">
+            <button type="submit" class="btn btn-primary">Create Notice</button>
+            <a href="@backUrl" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</section>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
