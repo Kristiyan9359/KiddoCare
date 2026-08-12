@@ -1402,3 +1402,109 @@ textarea.form-control {
     line-height: 1.75;
     white-space: pre-line;
 }
+
+.rating-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin: 8px 0 20px;
+}
+
+.rating-card {
+    padding: 16px;
+    border: 1px solid rgba(148, 163, 184, 0.28);
+    border-radius: var(--kc-radius);
+    background: rgba(255, 255, 255, 0.72);
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
+}
+
+.rating-selector {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.rating-input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.rating-option {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(37, 99, 235, 0.24);
+    border-radius: 999px;
+    color: var(--kc-primary);
+    background: rgba(255, 255, 255, 0.82);
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform 0.18s ease, color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+}
+
+.rating-option::before {
+    content: "★";
+    margin-right: 2px;
+    color: #f59e0b;
+}
+
+.rating-option:hover {
+    transform: translateY(-1px);
+    background: rgba(239, 246, 255, 0.95);
+}
+
+.rating-input:checked + .rating-option {
+    color: #ffffff;
+    background: linear-gradient(135deg, #2563eb, #14b8a6);
+    box-shadow: 0 12px 22px rgba(37, 99, 235, 0.24);
+}
+
+.rating-input:checked + .rating-option::before {
+    color: #ffffff;
+}
+
+.rating-input:focus-visible + .rating-option {
+    outline: 3px solid rgba(37, 99, 235, 0.24);
+    outline-offset: 2px;
+}
+
+.rating-stars {
+    color: #f59e0b;
+    font-size: 1.04rem;
+    letter-spacing: 0;
+    white-space: nowrap;
+}
+
+.rating-summary-list {
+    display: grid;
+    gap: 14px;
+}
+
+.rating-summary-list div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.22);
+}
+
+.rating-summary-list div:last-child {
+    border-bottom: 0;
+}
+
+.rating-summary-list span {
+    color: var(--kc-muted);
+    font-size: 0.82rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+@media (max-width: 991.98px) {
+    .rating-grid {
+        grid-template-columns: 1fr;
+    }
+}

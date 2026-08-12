@@ -55,6 +55,9 @@ public class DailyReportService : IDailyReportService
                 ChildFullName = r.Child.FirstName + " " + r.Child.LastName,
                 ReportDate = r.ReportDate,
                 Mood = r.Mood,
+                MealRating = r.MealRating,
+                SleepRating = r.SleepRating,
+                ActivityRating = r.ActivityRating,
                 CanManage = isAdmin || (isTeacher && r.CreatedByUserId == userId)
             })
             .ToListAsync();
@@ -100,9 +103,9 @@ public class DailyReportService : IDailyReportService
                 ChildFullName = r.Child.FirstName + " " + r.Child.LastName,
                 ReportDate = r.ReportDate,
                 Mood = r.Mood,
-                Meals = r.Meals,
-                Sleep = r.Sleep,
-                Activities = r.Activities,
+                MealRating = r.MealRating,
+                SleepRating = r.SleepRating,
+                ActivityRating = r.ActivityRating,
                 TeacherNote = r.TeacherNote,
                 CreatedOn = r.CreatedOn
             })
@@ -138,6 +141,8 @@ public class DailyReportService : IDailyReportService
             throw new InvalidOperationException("Child mood is required.");
         }
 
+        ValidateRatings(model.MealRating, model.SleepRating, model.ActivityRating);
+
         if (model.ReportDate.Date > DateTime.Today)
         {
             throw new InvalidOperationException("A daily report cannot be created for a future date.");
@@ -170,9 +175,9 @@ public class DailyReportService : IDailyReportService
             ChildId = model.ChildId.Value,
             ReportDate = model.ReportDate.Date,
             Mood = model.Mood,
-            Meals = model.Meals,
-            Sleep = model.Sleep,
-            Activities = model.Activities,
+            MealRating = model.MealRating,
+            SleepRating = model.SleepRating,
+            ActivityRating = model.ActivityRating,
             TeacherNote = model.TeacherNote,
             CreatedByUserId = userId
         };
@@ -198,9 +203,9 @@ public class DailyReportService : IDailyReportService
                 ChildFullName = r.Child.FirstName + " " + r.Child.LastName,
                 ReportDate = r.ReportDate,
                 Mood = r.Mood,
-                Meals = r.Meals,
-                Sleep = r.Sleep,
-                Activities = r.Activities,
+                MealRating = r.MealRating,
+                SleepRating = r.SleepRating,
+                ActivityRating = r.ActivityRating,
                 TeacherNote = r.TeacherNote
             })
             .FirstOrDefaultAsync();
@@ -212,6 +217,8 @@ public class DailyReportService : IDailyReportService
         {
             throw new InvalidOperationException("Child mood is required.");
         }
+
+        ValidateRatings(model.MealRating, model.SleepRating, model.ActivityRating);
 
         if (model.ReportDate.Date > DateTime.Today)
         {
@@ -247,9 +254,9 @@ public class DailyReportService : IDailyReportService
 
         dailyReport.ReportDate = model.ReportDate.Date;
         dailyReport.Mood = model.Mood;
-        dailyReport.Meals = model.Meals;
-        dailyReport.Sleep = model.Sleep;
-        dailyReport.Activities = model.Activities;
+        dailyReport.MealRating = model.MealRating;
+        dailyReport.SleepRating = model.SleepRating;
+        dailyReport.ActivityRating = model.ActivityRating;
         dailyReport.TeacherNote = model.TeacherNote;
 
         await this.context.SaveChangesAsync();
@@ -321,6 +328,21 @@ public class DailyReportService : IDailyReportService
             r.Id == dailyReportId &&
             !r.IsDeleted &&
             r.CreatedByUserId == userId);
+    }
+
+    private static void ValidateRatings(int mealRating, int sleepRating, int activityRating)
+    {
+        if (!IsValidRating(mealRating) ||
+            !IsValidRating(sleepRating) ||
+            !IsValidRating(activityRating))
+        {
+            throw new InvalidOperationException("Daily report ratings must be between 1 and 5.");
+        }
+    }
+
+    private static bool IsValidRating(int rating)
+    {
+        return rating is >= 1 and <= 5;
     }
 
     private async Task<bool> CanManageChildAsync(int childId, string userId, bool isAdmin, bool isTeacher)

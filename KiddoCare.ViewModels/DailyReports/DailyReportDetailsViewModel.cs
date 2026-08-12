@@ -14,11 +14,11 @@ public class DailyReportDetailsViewModel
 
     public ChildMood Mood { get; set; }
 
-    public string? Meals { get; set; }
+    public int MealRating { get; set; }
 
-    public string? Sleep { get; set; }
+    public int SleepRating { get; set; }
 
-    public string? Activities { get; set; }
+    public int ActivityRating { get; set; }
 
     public string? TeacherNote { get; set; }
 

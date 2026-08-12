@@ -20,14 +20,14 @@ public class DailyReport
     [Required]
     public ChildMood Mood { get; set; }
 
-    [MaxLength(DailyReportMealsMaxLength)]
-    public string? Meals { get; set; }
+    [Range(1, 5)]
+    public int MealRating { get; set; }
 
-    [MaxLength(DailyReportSleepMaxLength)]
-    public string? Sleep { get; set; }
+    [Range(1, 5)]
+    public int SleepRating { get; set; }
 
-    [MaxLength(DailyReportActivitiesMaxLength)]
-    public string? Activities { get; set; }
+    [Range(1, 5)]
+    public int ActivityRating { get; set; }
 
     [MaxLength(DailyReportTeacherNoteMaxLength)]
     public string? TeacherNote { get; set; }

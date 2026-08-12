@@ -1,4 +1,4 @@
-﻿@model KiddoCare.ViewModels.DailyReports.DailyReportDetailsViewModel
+@model KiddoCare.ViewModels.DailyReports.DailyReportDetailsViewModel
 
 @{
     ViewData["Title"] = "Daily Report Details";
@@ -6,16 +6,29 @@
     var backUrl = Model.ReturnUrl ?? Url.Action("Index");
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h1>Daily Report</h1>
-
-    @if (Model.CanManage)
+@functions {
+    private static string Stars(int rating)
     {
-        <div>
+        return new string('★', rating) + new string('☆', 5 - rating);
+    }
+}
+
+<div class="page-header">
+    <div>
+        <div class="page-kicker">Daily care</div>
+        <h1 class="page-title">Daily Report</h1>
+        <p class="page-subtitle">
+            @Model.ChildFullName on @Model.ReportDate.ToString("dd MMM yyyy")
+        </p>
+    </div>
+
+    <div class="page-actions">
+        @if (Model.CanManage)
+        {
             <a asp-action="Edit"
                asp-route-id="@Model.Id"
                asp-route-returnUrl="@currentUrl"
-               class="btn btn-outline-primary">
+               class="btn btn-primary">
                 Edit
             </a>
 
@@ -25,40 +38,75 @@
                class="btn btn-outline-danger">
                 Delete
             </a>
-        </div>
-    }
+        }
+
+        <a href="@backUrl" class="btn btn-secondary">Back</a>
+    </div>
 </div>
 
-<dl class="row">
-    <dt class="col-sm-3">Child</dt>
-    <dd class="col-sm-9">@Model.ChildFullName</dd>
+<div class="detail-grid">
+    <section class="info-panel">
+        <div class="section-heading-row">
+            <div>
+                <h2>Report Summary</h2>
+                <p>Mood and report metadata.</p>
+            </div>
+        </div>
 
-    <dt class="col-sm-3">Report Date</dt>
-    <dd class="col-sm-9">@Model.ReportDate.ToString("dd MMM yyyy")</dd>
+        <dl class="info-list">
+            <div>
+                <dt>Child</dt>
+                <dd>@Model.ChildFullName</dd>
+            </div>
+            <div>
+                <dt>Report Date</dt>
+                <dd>@Model.ReportDate.ToString("dd MMM yyyy")</dd>
+            </div>
+            <div>
+                <dt>Mood</dt>
+                <dd>@Model.Mood</dd>
+            </div>
+            <div>
+                <dt>Created On</dt>
+                <dd>@Model.CreatedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</dd>
+            </div>
+        </dl>
+    </section>
 
-    <dt class="col-sm-3">Mood</dt>
-    <dd class="col-sm-9">@Model.Mood</dd>
+    <section class="info-panel">
+        <div class="section-heading-row">
+            <div>
+                <h2>Care Ratings</h2>
+                <p>Quick view of the child's day.</p>
+            </div>
+        </div>
 
-    <dt class="col-sm-3">Meals</dt>
-    <dd class="col-sm-9">@(Model.Meals ?? "No information provided.")</dd>
+        <div class="rating-summary-list">
+            <div>
+                <span>Meals</span>
+                <strong class="rating-stars">@Stars(Model.MealRating)</strong>
+            </div>
+            <div>
+                <span>Sleep</span>
+                <strong class="rating-stars">@Stars(Model.SleepRating)</strong>
+            </div>
+            <div>
+                <span>Activities</span>
+                <strong class="rating-stars">@Stars(Model.ActivityRating)</strong>
+            </div>
+        </div>
+    </section>
+</div>
 
-    <dt class="col-sm-3">Sleep</dt>
-    <dd class="col-sm-9">@(Model.Sleep ?? "No information provided.")</dd>
+<section class="info-panel mt-3">
+    <div class="section-heading-row">
+        <div>
+            <h2>Teacher Note</h2>
+            <p>Additional context for the parent.</p>
+        </div>
+    </div>
 
-    <dt class="col-sm-3">Activities</dt>
-    <dd class="col-sm-9" style="white-space: pre-line">
-        @(Model.Activities ?? "No information provided.")
-    </dd>
-
-    <dt class="col-sm-3">Teacher Note</dt>
-    <dd class="col-sm-9" style="white-space: pre-line">
+    <p class="announcement-message">
         @(Model.TeacherNote ?? "No additional note.")
-    </dd>
-
-    <dt class="col-sm-3">Created On</dt>
-    <dd class="col-sm-9">
-        @Model.CreatedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")
-    </dd>
-</dl>
-
-<a href="@backUrl" class="btn btn-secondary">Back</a>
+    </p>
+</section>

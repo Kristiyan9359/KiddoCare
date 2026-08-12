@@ -226,6 +226,9 @@ public class ActivityFeedServiceTests
                 ChildId = 1,
                 ReportDate = DateTime.Today.AddHours(1),
                 Mood = ChildMood.Happy,
+                MealRating = 4,
+                SleepRating = 3,
+                ActivityRating = 5,
                 CreatedByUserId = "teacher-user-id"
             },
             new DailyReport
@@ -234,6 +237,9 @@ public class ActivityFeedServiceTests
                 ChildId = 1,
                 ReportDate = DateTime.Today.AddHours(2),
                 Mood = ChildMood.Calm,
+                MealRating = 3,
+                SleepRating = 3,
+                ActivityRating = 3,
                 CreatedByUserId = "teacher-user-id",
                 IsDeleted = true
             });

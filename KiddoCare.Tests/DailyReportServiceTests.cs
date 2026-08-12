@@ -41,6 +41,9 @@ public class DailyReportServiceTests
         Assert.Equal(1, report.ChildId);
         Assert.Equal("teacher-user-id", report.CreatedByUserId);
         Assert.Equal(ChildMood.Happy, report.Mood);
+        Assert.Equal(4, report.MealRating);
+        Assert.Equal(3, report.SleepRating);
+        Assert.Equal(5, report.ActivityRating);
     }
 
     [Fact]
@@ -70,6 +73,9 @@ public class DailyReportServiceTests
             ChildId = 1,
             ReportDate = DateTime.Today,
             Mood = ChildMood.Calm,
+            MealRating = 3,
+            SleepRating = 3,
+            ActivityRating = 3,
             CreatedByUserId = "teacher-user-id"
         });
         await context.SaveChangesAsync();
@@ -95,6 +101,9 @@ public class DailyReportServiceTests
             ChildId = 1,
             ReportDate = DateTime.Today,
             Mood = ChildMood.Calm,
+            MealRating = 3,
+            SleepRating = 3,
+            ActivityRating = 3,
             CreatedByUserId = "other-teacher-user-id"
         });
         await context.SaveChangesAsync();
@@ -105,7 +114,10 @@ public class DailyReportServiceTests
             Id = 1,
             ChildFullName = "Ivan Ivanov",
             ReportDate = DateTime.Today,
-            Mood = ChildMood.Happy
+            Mood = ChildMood.Happy,
+            MealRating = 4,
+            SleepRating = 3,
+            ActivityRating = 5
         };
 
         await Assert.ThrowsAsync<InvalidOperationException>(() =>
@@ -128,6 +140,9 @@ public class DailyReportServiceTests
             ChildId = 1,
             ReportDate = DateTime.Today,
             Mood = ChildMood.Calm,
+            MealRating = 3,
+            SleepRating = 3,
+            ActivityRating = 3,
             CreatedByUserId = "teacher-user-id"
         });
         await context.SaveChangesAsync();
@@ -139,6 +154,9 @@ public class DailyReportServiceTests
             ChildFullName = "Ivan Ivanov",
             ReportDate = DateTime.Today,
             Mood = ChildMood.Happy,
+            MealRating = 5,
+            SleepRating = 4,
+            ActivityRating = 5,
             TeacherNote = "Updated by admin."
         };
 
@@ -147,6 +165,9 @@ public class DailyReportServiceTests
         var report = await context.DailyReports.SingleAsync();
 
         Assert.Equal(ChildMood.Happy, report.Mood);
+        Assert.Equal(5, report.MealRating);
+        Assert.Equal(4, report.SleepRating);
+        Assert.Equal(5, report.ActivityRating);
         Assert.Equal("Updated by admin.", report.TeacherNote);
     }
 
@@ -162,6 +183,9 @@ public class DailyReportServiceTests
             ChildId = 1,
             ReportDate = DateTime.Today,
             Mood = ChildMood.Calm,
+            MealRating = 3,
+            SleepRating = 3,
+            ActivityRating = 3,
             CreatedByUserId = "other-teacher-user-id"
         });
         await context.SaveChangesAsync();
@@ -188,6 +212,9 @@ public class DailyReportServiceTests
             ChildId = 1,
             ReportDate = DateTime.Today,
             Mood = ChildMood.Happy,
+            MealRating = 4,
+            SleepRating = 3,
+            ActivityRating = 5,
             CreatedByUserId = "teacher-user-id"
         });
         await context.SaveChangesAsync();
@@ -211,6 +238,9 @@ public class DailyReportServiceTests
             ChildId = 2,
             ReportDate = DateTime.Today,
             Mood = ChildMood.Happy,
+            MealRating = 4,
+            SleepRating = 3,
+            ActivityRating = 5,
             CreatedByUserId = "teacher-user-id"
         });
         await context.SaveChangesAsync();
@@ -229,9 +259,9 @@ public class DailyReportServiceTests
             ChildId = childId,
             ReportDate = DateTime.Today,
             Mood = ChildMood.Happy,
-            Meals = "Lunch",
-            Sleep = "One hour",
-            Activities = "Drawing",
+            MealRating = 4,
+            SleepRating = 3,
+            ActivityRating = 5,
             TeacherNote = "Good day."
         };
     }

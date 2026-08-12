@@ -1,4 +1,4 @@
-﻿@model IEnumerable<KiddoCare.ViewModels.DailyReports.DailyReportIndexViewModel>
+@model IEnumerable<KiddoCare.ViewModels.DailyReports.DailyReportIndexViewModel>
 
 @{
     ViewData["Title"] = "Daily Reports";
@@ -6,8 +6,21 @@
     var currentUrl = Context.Request.Path + Context.Request.QueryString;
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h1>Daily Reports</h1>
+@functions {
+    private static string Stars(int rating)
+    {
+        return new string('★', rating) + new string('☆', 5 - rating);
+    }
+}
+
+<div class="list-page-header">
+    <div>
+        <div class="page-kicker">Daily care</div>
+        <h1 class="page-title">Daily Reports</h1>
+        <p class="page-subtitle">
+            Follow each child's day through mood, meals, sleep, activities and teacher notes.
+        </p>
+    </div>
 
     @if (canCreate)
     {
@@ -21,55 +34,78 @@
 
 @if (!Model.Any())
 {
-    <div class="alert alert-info">
-        No daily reports found.
-    </div>
+    <section class="empty-state">
+        <div class="empty-state-icon">+</div>
+        <h2>No daily reports found</h2>
+        <p>Create a report to share today's care summary with the parent.</p>
+
+        @if (canCreate)
+        {
+            <a asp-action="Create"
+               asp-route-returnUrl="@currentUrl"
+               class="btn btn-primary">
+                Create Daily Report
+            </a>
+        }
+    </section>
 }
 else
 {
-    <table class="table table-striped align-middle">
-        <thead>
-            <tr>
-                <th>Child</th>
-                <th>Date</th>
-                <th>Mood</th>
-                <th class="text-end">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var report in Model)
-            {
-                <tr>
-                    <td>@report.ChildFullName</td>
-                    <td>@report.ReportDate.ToString("dd MMM yyyy")</td>
-                    <td>@report.Mood</td>
-                    <td class="text-end">
-                        <a asp-action="Details"
-                           asp-route-id="@report.Id"
-                           asp-route-returnUrl="@currentUrl"
-                           class="btn btn-sm btn-outline-secondary">
-                            Details
-                        </a>
+    <section class="section-panel">
+        <div class="table-responsive">
+            <table class="table table-striped align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Child</th>
+                        <th>Date</th>
+                        <th>Mood</th>
+                        <th>Meals</th>
+                        <th>Sleep</th>
+                        <th>Activities</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var report in Model)
+                    {
+                        <tr>
+                            <td><div class="fw-bold">@report.ChildFullName</div></td>
+                            <td>@report.ReportDate.ToString("dd MMM yyyy")</td>
+                            <td>@report.Mood</td>
+                            <td><span class="rating-stars">@Stars(report.MealRating)</span></td>
+                            <td><span class="rating-stars">@Stars(report.SleepRating)</span></td>
+                            <td><span class="rating-stars">@Stars(report.ActivityRating)</span></td>
+                            <td class="text-end">
+                                <div class="action-buttons">
+                                    <a asp-action="Details"
+                                       asp-route-id="@report.Id"
+                                       asp-route-returnUrl="@currentUrl"
+                                       class="btn btn-sm btn-outline-secondary">
+                                        Details
+                                    </a>
 
-                        @if (report.CanManage)
-                        {
-                            <a asp-action="Edit"
-                               asp-route-id="@report.Id"
-                               asp-route-returnUrl="@currentUrl"
-                               class="btn btn-sm btn-outline-primary">
-                                Edit
-                            </a>
+                                    @if (report.CanManage)
+                                    {
+                                        <a asp-action="Edit"
+                                           asp-route-id="@report.Id"
+                                           asp-route-returnUrl="@currentUrl"
+                                           class="btn btn-sm btn-outline-primary">
+                                            Edit
+                                        </a>
 
-                            <a asp-action="Delete"
-                               asp-route-id="@report.Id"
-                               asp-route-returnUrl="@currentUrl"
-                               class="btn btn-sm btn-outline-danger">
-                                Delete
-                            </a>
-                        }
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+                                        <a asp-action="Delete"
+                                           asp-route-id="@report.Id"
+                                           asp-route-returnUrl="@currentUrl"
+                                           class="btn btn-sm btn-outline-danger">
+                                            Delete
+                                        </a>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
 }

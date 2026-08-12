@@ -114,7 +114,10 @@ public class ViewModelValidationTests
         {
             ChildId = 1,
             ReportDate = DateTime.Today,
-            Mood = ChildMood.Unknown
+            Mood = ChildMood.Unknown,
+            MealRating = 4,
+            SleepRating = 3,
+            ActivityRating = 5
         };
 
         var errors = Validate(model);

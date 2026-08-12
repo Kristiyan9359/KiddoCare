@@ -235,6 +235,9 @@ public class KiddoCareWebApplicationFactory : WebApplicationFactory<Program>
                 ChildId = 1,
                 ReportDate = DateTime.Today,
                 Mood = ChildMood.Happy,
+                MealRating = 4,
+                SleepRating = 3,
+                ActivityRating = 5,
                 CreatedByUserId = "teacher-user-id"
             },
             new DailyReport
@@ -243,6 +246,9 @@ public class KiddoCareWebApplicationFactory : WebApplicationFactory<Program>
                 ChildId = 2,
                 ReportDate = DateTime.Today,
                 Mood = ChildMood.Calm,
+                MealRating = 3,
+                SleepRating = 3,
+                ActivityRating = 4,
                 CreatedByUserId = "other-teacher-user-id"
             });
 

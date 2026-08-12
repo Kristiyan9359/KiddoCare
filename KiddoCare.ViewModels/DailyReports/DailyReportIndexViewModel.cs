@@ -14,5 +14,11 @@ public class DailyReportIndexViewModel
 
     public ChildMood Mood { get; set; }
 
+    public int MealRating { get; set; }
+
+    public int SleepRating { get; set; }
+
+    public int ActivityRating { get; set; }
+
     public bool CanManage { get; set; }
 }

@@ -1,74 +1,139 @@
-﻿@using KiddoCare.Data.Models.Enums
+@using KiddoCare.Data.Models.Enums
 @model KiddoCare.ViewModels.DailyReports.DailyReportEditViewModel
 
 @{
     ViewData["Title"] = "Edit Daily Report";
-
     var maxReportDate = DateTime.Today.ToString("yyyy-MM-dd");
     var moodOptions = Html.GetEnumSelectList<ChildMood>()
         .Where(m => m.Value != "0");
     var backUrl = Model.ReturnUrl ?? Url.Action("Details", new { id = Model.Id });
 }
 
-<h1>Edit Daily Report</h1>
-
-<p>
-    <strong>Child:</strong> @Model.ChildFullName
-</p>
-
-<form asp-action="Edit" method="post">
-    <input asp-for="Id" type="hidden" />
-    <input asp-for="ChildFullName" type="hidden" />
-    <input asp-for="ReturnUrl" type="hidden" />
-
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-    <div class="mb-3">
-        <label asp-for="ReportDate" class="form-label"></label>
-        <input asp-for="ReportDate"
-               type="date"
-               max="@maxReportDate"
-               class="form-control" />
-        <span asp-validation-for="ReportDate" class="text-danger"></span>
+<div class="page-header">
+    <div>
+        <div class="page-kicker">Daily care</div>
+        <h1 class="page-title">Edit Daily Report</h1>
+        <p class="page-subtitle">
+            Update ratings and the teacher note for @Model.ChildFullName.
+        </p>
     </div>
+</div>
 
-    <div class="mb-3">
-        <label asp-for="Mood" class="form-label"></label>
-        <select asp-for="Mood"
-                asp-items="moodOptions"
-                class="form-select">
-            <option value="0">Select mood</option>
-        </select>
-        <span asp-validation-for="Mood" class="text-danger"></span>
-    </div>
+<section class="section-panel">
+    <form asp-action="Edit" method="post">
+        <input asp-for="Id" type="hidden" />
+        <input asp-for="ChildFullName" type="hidden" />
+        <input asp-for="ReturnUrl" type="hidden" />
 
-    <div class="mb-3">
-        <label asp-for="Meals" class="form-label"></label>
-        <textarea asp-for="Meals" class="form-control" rows="3"></textarea>
-        <span asp-validation-for="Meals" class="text-danger"></span>
-    </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <div class="mb-3">
-        <label asp-for="Sleep" class="form-label"></label>
-        <textarea asp-for="Sleep" class="form-control" rows="3"></textarea>
-        <span asp-validation-for="Sleep" class="text-danger"></span>
-    </div>
+        <div class="form-grid">
+            <div class="mb-3">
+                <label asp-for="ReportDate" class="form-label"></label>
+                <input asp-for="ReportDate"
+                       type="date"
+                       max="@maxReportDate"
+                       class="form-control" />
+                <span asp-validation-for="ReportDate" class="text-danger"></span>
+            </div>
 
-    <div class="mb-3">
-        <label asp-for="Activities" class="form-label"></label>
-        <textarea asp-for="Activities" class="form-control" rows="4"></textarea>
-        <span asp-validation-for="Activities" class="text-danger"></span>
-    </div>
+            <div class="mb-3">
+                <label asp-for="Mood" class="form-label"></label>
+                <select asp-for="Mood"
+                        asp-items="moodOptions"
+                        class="form-select">
+                    <option value="0">Select mood...</option>
+                </select>
+                <span asp-validation-for="Mood" class="text-danger"></span>
+            </div>
+        </div>
 
-    <div class="mb-3">
-        <label asp-for="TeacherNote" class="form-label"></label>
-        <textarea asp-for="TeacherNote" class="form-control" rows="4"></textarea>
-        <span asp-validation-for="TeacherNote" class="text-danger"></span>
-    </div>
+        <div class="rating-grid">
+            <div class="rating-card">
+                <div>
+                    <label asp-for="MealRating" class="form-label"></label>
+                    <p class="form-help">How well did the child eat today?</p>
+                </div>
 
-    <button type="submit" class="btn btn-primary">Save</button>
-    <a href="@backUrl" class="btn btn-secondary">Cancel</a>
-</form>
+                <div class="rating-selector">
+                    @for (int rating = 1; rating <= 5; rating++)
+                    {
+                        <input asp-for="MealRating"
+                               type="radio"
+                               value="@rating"
+                               id="MealRating_@rating"
+                               class="rating-input" />
+                        <label for="MealRating_@rating" class="rating-option" title="@rating out of 5">
+                            @rating
+                        </label>
+                    }
+                </div>
+
+                <span asp-validation-for="MealRating" class="text-danger"></span>
+            </div>
+
+            <div class="rating-card">
+                <div>
+                    <label asp-for="SleepRating" class="form-label"></label>
+                    <p class="form-help">How restful was nap or quiet time?</p>
+                </div>
+
+                <div class="rating-selector">
+                    @for (int rating = 1; rating <= 5; rating++)
+                    {
+                        <input asp-for="SleepRating"
+                               type="radio"
+                               value="@rating"
+                               id="SleepRating_@rating"
+                               class="rating-input" />
+                        <label for="SleepRating_@rating" class="rating-option" title="@rating out of 5">
+                            @rating
+                        </label>
+                    }
+                </div>
+
+                <span asp-validation-for="SleepRating" class="text-danger"></span>
+            </div>
+
+            <div class="rating-card">
+                <div>
+                    <label asp-for="ActivityRating" class="form-label"></label>
+                    <p class="form-help">How engaged was the child in activities?</p>
+                </div>
+
+                <div class="rating-selector">
+                    @for (int rating = 1; rating <= 5; rating++)
+                    {
+                        <input asp-for="ActivityRating"
+                               type="radio"
+                               value="@rating"
+                               id="ActivityRating_@rating"
+                               class="rating-input" />
+                        <label for="ActivityRating_@rating" class="rating-option" title="@rating out of 5">
+                            @rating
+                        </label>
+                    }
+                </div>
+
+                <span asp-validation-for="ActivityRating" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="TeacherNote" class="form-label"></label>
+            <textarea asp-for="TeacherNote"
+                      class="form-control"
+                      rows="5"
+                      placeholder="Optional note for the parent."></textarea>
+            <span asp-validation-for="TeacherNote" class="text-danger"></span>
+        </div>
+
+        <div class="form-action-row">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a href="@backUrl" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</section>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
