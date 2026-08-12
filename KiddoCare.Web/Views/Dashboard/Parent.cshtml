@@ -1,4 +1,4 @@
-﻿@using KiddoCare.Data.Models.Enums
+@using KiddoCare.Data.Models.Enums
 @model KiddoCare.ViewModels.Dashboard.ParentDashboardViewModel
 
 @{
@@ -6,358 +6,433 @@
     var currentUrl = Context.Request.Path + Context.Request.QueryString;
 }
 
-<h1>Parent Dashboard</h1>
-
-<h2>My Children</h2>
-
-@if (!Model.Children.Any())
-{
-    <p>No children linked to your profile yet.</p>
-}
-else
-{
-    <div class="row g-3 mb-4">
-        @foreach (var child in Model.Children)
-        {
-            <div class="col-md-4">
-                <div class="border rounded p-3 h-100">
-                    @if (!string.IsNullOrWhiteSpace(child.PhotoUrl))
-                    {
-                        <img src="@Url.Action("Photo", "Children", new { id = child.Id })"
-                             alt="@child.FullName"
-                             class="img-fluid rounded mb-3"
-                             style="height: 180px; width: 100%; object-fit: cover;" />
-                    }
-
-                    <h5>@child.FullName</h5>
-                    <p class="mb-1"><strong>Group:</strong> @child.GroupName</p>
-                    <p class="mb-1"><strong>Date of Birth:</strong> @child.DateOfBirth.ToString("dd MMM yyyy")</p>
-                    <p class="mb-1"><strong>Gender:</strong> @child.Gender</p>
-
-                    @if (child.LastDailyReportDate.HasValue)
-                    {
-                        <p class="mb-1">
-                            <strong>Last report:</strong>
-                            @child.LastDailyReportDate.Value.ToString("dd MMM yyyy")
-                        </p>
-
-                        <p class="mb-3">
-                            <strong>Mood:</strong>
-                            @child.LastDailyReportMood
-                        </p>
-                    }
-                    else
-                    {
-                        <p class="mb-3 text-muted">No daily report yet.</p>
-                    }
-
-                    <a asp-controller="Children"
-                       asp-action="Details"
-                       asp-route-id="@child.Id"
-                       asp-route-returnUrl="@currentUrl"
-                       class="btn btn-sm btn-outline-secondary">
-                        View Child
-                    </a>
-
-                    <a asp-controller="ActivityFeed"
-                       asp-action="Child"
-                       asp-route-childId="@child.Id"
-                       asp-route-returnUrl="@currentUrl"
-                       class="btn btn-sm btn-outline-primary">
-                        Activity Feed
-                    </a>
-                </div>
-            </div>
-        }
+<div class="page-header">
+    <div>
+        <div class="page-kicker">Family overview</div>
+        <h1 class="page-title">Parent Dashboard</h1>
+        <p class="page-subtitle">
+            Follow your child's day, review requests, documents, notices and upcoming kindergarten events.
+        </p>
     </div>
-}
 
-<div class="row g-3 mb-4">
-    <div class="col-md-4">
-        <a asp-controller="ConsentRequests"
-           asp-action="Index"
-           asp-route-statusFilter="pending"
-           class="text-decoration-none text-dark">
-            <div class="border rounded p-3 h-100">
-                <div class="fw-bold">Pending Consent Requests</div>
-                <div class="fs-4">@Model.PendingConsentRequestsCount</div>
-            </div>
+    <div class="page-actions">
+        <a asp-controller="AbsenceRequests"
+           asp-action="Create"
+           asp-route-returnUrl="@currentUrl"
+           class="btn btn-primary">
+            Create Absence Notice
         </a>
-    </div>
 
-    <div class="col-md-4">
         <a asp-controller="ChildDocuments"
-           asp-action="Index"
-           asp-route-statusFilter="pending"
-           class="text-decoration-none text-dark">
-            <div class="border rounded p-3 h-100">
-                <div class="fw-bold">Pending Documents</div>
-                <div class="fs-4">@Model.PendingChildDocumentsCount</div>
-            </div>
+           asp-action="Create"
+           asp-route-returnUrl="@currentUrl"
+           class="btn btn-outline-primary">
+            Upload Document
         </a>
     </div>
 </div>
 
+<section class="section-panel">
+    <div class="section-panel-header">
+        <h2 class="section-panel-title">My Children</h2>
+    </div>
 
-
-<h2>Recent Consent Requests</h2>
-
-@if (!Model.RecentConsentRequests.Any())
-{
-    <p>No consent requests yet.</p>
-}
-else
-{
-    <table class="table table-striped mb-4">
-        <thead>
-            <tr>
-                <th>Child</th>
-                <th>Title</th>
-                <th>Type</th>
-                <th>Status</th>
-                <th>Created On</th>
-                <th class="text-end">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var request in Model.RecentConsentRequests)
+    @if (!Model.Children.Any())
+    {
+        <p class="empty-state">No children linked to your profile yet.</p>
+    }
+    else
+    {
+        <div class="child-card-grid">
+            @foreach (var child in Model.Children)
             {
-                <tr>
-                    <td>@request.ChildFullName</td>
-                    <td>@request.Title</td>
-                    <td>@request.Type</td>
-                    <td>
-                        @if (request.Status == RequestStatus.Pending)
+                <article class="child-card">
+                    <div class="child-card-photo">
+                        @if (!string.IsNullOrWhiteSpace(child.PhotoUrl))
                         {
-                            <span class="badge bg-warning text-dark">Pending</span>
+                            <img src="@Url.Action("Photo", "Children", new { id = child.Id })"
+                                 alt="@child.FullName" />
                         }
-                        else if (request.Status == RequestStatus.Approved)
+                        else
                         {
-                            <span class="badge bg-success">Approved</span>
+                            <div class="child-card-placeholder">
+                                @child.FullName.Substring(0, 1)
+                            </div>
                         }
-                        else if (request.Status == RequestStatus.Rejected)
-                        {
-                            <span class="badge bg-danger">Rejected</span>
-                        }
-                    </td>
-                    <td>@request.CreatedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
-                    <td class="text-end">
-                        <a asp-controller="ConsentRequests"
-                           asp-action="Details"
-                           asp-route-id="@request.Id"
-                           asp-route-returnUrl="@currentUrl"
-                           class="btn btn-sm btn-outline-secondary">
-                            Details
-                        </a>
+                    </div>
 
-                        @if (request.CanRespond)
+                    <div class="child-card-body">
+                        <div class="child-card-title-row">
+                            <h3>@child.FullName</h3>
+                            <span class="child-card-group">@child.GroupName</span>
+                        </div>
+
+                        <div class="child-card-meta">
+                            <span>Date of Birth: @child.DateOfBirth.ToString("dd MMM yyyy")</span>
+                            <span>Gender: @child.Gender</span>
+                        </div>
+
+                        @if (child.LastDailyReportDate.HasValue)
                         {
-                            <a asp-controller="ConsentRequests"
-                               asp-action="Respond"
-                               asp-route-id="@request.Id"
+                            <div class="child-card-report">
+                                <span>Last report</span>
+                                <strong>@child.LastDailyReportDate.Value.ToString("dd MMM yyyy")</strong>
+                                <span>Mood: @child.LastDailyReportMood</span>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="child-card-report muted">
+                                No daily report yet.
+                            </div>
+                        }
+
+                        <div class="child-card-actions">
+                            <a asp-controller="Children"
+                               asp-action="Details"
+                               asp-route-id="@child.Id"
+                               asp-route-returnUrl="@currentUrl"
+                               class="btn btn-sm btn-outline-secondary">
+                                View Child
+                            </a>
+
+                            <a asp-controller="ActivityFeed"
+                               asp-action="Child"
+                               asp-route-childId="@child.Id"
                                asp-route-returnUrl="@currentUrl"
                                class="btn btn-sm btn-outline-primary">
-                                Respond
+                                Activity Feed
                             </a>
-                        }
-                    </td>
-                </tr>
+                        </div>
+                    </div>
+                </article>
             }
-        </tbody>
-    </table>
-}
+        </div>
+    }
+</section>
 
-<h2>Recent Documents</h2>
-
-@if (!Model.RecentDocuments.Any())
-{
-    <p>No documents uploaded yet.</p>
-}
-else
-{
-    <table class="table table-striped mb-4">
-        <thead>
-            <tr>
-                <th>Child</th>
-                <th>Title</th>
-                <th>Type</th>
-                <th>Status</th>
-                <th>Uploaded On</th>
-                <th class="text-end">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var document in Model.RecentDocuments)
-            {
-                <tr>
-                    <td>@document.ChildFullName</td>
-                    <td>@document.Title</td>
-                    <td>@document.Type</td>
-                    <td>
-                        @if (document.Status == RequestStatus.Pending)
-                        {
-                            <span class="badge bg-warning text-dark">Pending</span>
-                        }
-                        else if (document.Status == RequestStatus.Approved)
-                        {
-                            <span class="badge bg-success">Approved</span>
-                        }
-                        else if (document.Status == RequestStatus.Rejected)
-                        {
-                            <span class="badge bg-danger">Rejected</span>
-                        }
-                    </td>
-                    <td>@document.UploadedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
-                    <td class="text-end">
-                        <a asp-controller="ChildDocuments"
-                           asp-action="Details"
-                           asp-route-id="@document.Id"
-                           asp-route-returnUrl="@currentUrl"
-                           class="btn btn-sm btn-outline-secondary">
-                            Details
-                        </a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-
-<h2>Recent Announcements</h2>
-
-@if (!Model.RecentAnnouncements.Any())
-{
-    <p>No announcements yet.</p>
-}
-else
-{
-    <table class="table table-striped mb-4">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Published On</th>
-                <th>Group</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var announcement in Model.RecentAnnouncements)
-            {
-                <tr>
-                    <td>
-                        <a asp-controller="Announcements"
-                           asp-action="Details"
-                           asp-route-id="@announcement.Id"
-                           asp-route-returnUrl="@currentUrl">
-                            @announcement.Title
-                        </a>
-                    </td>
-                    <td>@announcement.PublishedOn.ToString("dd MMM yyyy")</td>
-                    <td>@announcement.GroupName</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-
-<h2>Recent Absence Notices</h2>
-
-<p>
-    <a asp-controller="AbsenceRequests"
-       asp-action="Create"
-       asp-route-returnUrl="@currentUrl"
-       class="btn btn-sm btn-outline-primary">
-        Create Absence Notice
+<div class="metric-grid metric-grid-three">
+    <a asp-controller="ConsentRequests"
+       asp-action="Index"
+       asp-route-statusFilter="pending"
+       class="metric-card">
+        <div class="metric-label">Pending Consent Requests</div>
+        <div class="metric-value">@Model.PendingConsentRequestsCount</div>
+        <div class="metric-note">Waiting for your response</div>
     </a>
-</p>
 
-@if (!Model.RecentAbsenceRequests.Any())
-{
-    <p>No absence notices yet.</p>
-}
-else
-{
-    <table class="table table-striped mb-4">
-        <thead>
-            <tr>
-                <th>Child</th>
-                <th>Period</th>
-                <th>Reason</th>
-                <th>Status</th>
-                <th class="text-end">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var request in Model.RecentAbsenceRequests)
-            {
+    <a asp-controller="ChildDocuments"
+       asp-action="Index"
+       asp-route-statusFilter="pending"
+       class="metric-card">
+        <div class="metric-label">Pending Documents</div>
+        <div class="metric-value">@Model.PendingChildDocumentsCount</div>
+        <div class="metric-note">Uploaded documents under review</div>
+    </a>
+
+    <a asp-controller="AbsenceRequests"
+       asp-action="Index"
+       class="metric-card">
+        <div class="metric-label">Absence Notices</div>
+        <div class="metric-value">@Model.RecentAbsenceRequests.Count()</div>
+        <div class="metric-note">Recent absence updates</div>
+    </a>
+</div>
+
+<section class="section-panel">
+    <div class="section-panel-header">
+        <h2 class="section-panel-title">Recent Consent Requests</h2>
+        <a asp-controller="ConsentRequests"
+           asp-action="Index"
+           class="btn btn-sm btn-outline-secondary">
+            View All
+        </a>
+    </div>
+
+    @if (!Model.RecentConsentRequests.Any())
+    {
+        <p class="empty-state">No consent requests yet.</p>
+    }
+    else
+    {
+        <table class="table table-striped mb-0">
+            <thead>
                 <tr>
-                    <td>@request.ChildFullName</td>
-                    <td>
-                        @request.StartDate.ToString("dd MMM yyyy")
-                        -
-                        @request.EndDate.ToString("dd MMM yyyy")
-                    </td>
-                    <td>@request.Reason</td>
-                    <td>
-                        @if (request.Status == RequestStatus.Pending)
-                        {
-                            <span class="badge bg-warning text-dark">Pending</span>
-                        }
-                        else if (request.Status == RequestStatus.Approved)
-                        {
-                            <span class="badge bg-success">Confirmed</span>
-                        }
-                    </td>
-                    <td class="text-end">
-                        <a asp-controller="AbsenceRequests"
-                           asp-action="Details"
-                           asp-route-id="@request.Id"
-                           asp-route-returnUrl="@currentUrl"
-                           class="btn btn-sm btn-outline-secondary">
-                            Details
-                        </a>
-                    </td>
+                    <th>Child</th>
+                    <th>Title</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Created On</th>
+                    <th class="text-end">Actions</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-}
+            </thead>
+            <tbody>
+                @foreach (var request in Model.RecentConsentRequests)
+                {
+                    <tr>
+                        <td>@request.ChildFullName</td>
+                        <td>@request.Title</td>
+                        <td>@request.Type</td>
+                        <td>
+                            @if (request.Status == RequestStatus.Pending)
+                            {
+                                <span class="badge bg-warning text-dark">Pending</span>
+                            }
+                            else if (request.Status == RequestStatus.Approved)
+                            {
+                                <span class="badge bg-success">Approved</span>
+                            }
+                            else if (request.Status == RequestStatus.Rejected)
+                            {
+                                <span class="badge bg-danger">Rejected</span>
+                            }
+                        </td>
+                        <td>@request.CreatedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
+                        <td class="text-end">
+                            <a asp-controller="ConsentRequests"
+                               asp-action="Details"
+                               asp-route-id="@request.Id"
+                               asp-route-returnUrl="@currentUrl"
+                               class="btn btn-sm btn-outline-secondary">
+                                Details
+                            </a>
 
-<h2>Upcoming Events</h2>
+                            @if (request.CanRespond)
+                            {
+                                <a asp-controller="ConsentRequests"
+                                   asp-action="Respond"
+                                   asp-route-id="@request.Id"
+                                   asp-route-returnUrl="@currentUrl"
+                                   class="btn btn-sm btn-outline-primary">
+                                    Respond
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</section>
 
-@if (!Model.UpcomingEvents.Any())
-{
-    <p>No upcoming events.</p>
-}
-else
-{
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Date</th>
-                <th>Type</th>
-                <th>Location</th>
-                <th>Group</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var eventItem in Model.UpcomingEvents)
-            {
+<section class="section-panel">
+    <div class="section-panel-header">
+        <h2 class="section-panel-title">Recent Documents</h2>
+        <a asp-controller="ChildDocuments"
+           asp-action="Index"
+           class="btn btn-sm btn-outline-secondary">
+            View All
+        </a>
+    </div>
+
+    @if (!Model.RecentDocuments.Any())
+    {
+        <p class="empty-state">No documents uploaded yet.</p>
+    }
+    else
+    {
+        <table class="table table-striped mb-0">
+            <thead>
                 <tr>
-                    <td>
-                        <a asp-controller="Events"
-                           asp-action="Details"
-                           asp-route-id="@eventItem.Id"
-                           asp-route-returnUrl="@currentUrl">
-                            @eventItem.Title
-                        </a>
-                    </td>
-                    <td>@eventItem.StartDateTime.ToString("dd MMM yyyy HH:mm")</td>
-                    <td>@eventItem.Type</td>
-                    <td>@eventItem.Location</td>
-                    <td>@eventItem.GroupName</td>
+                    <th>Child</th>
+                    <th>Title</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Uploaded On</th>
+                    <th class="text-end">Actions</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-}
+            </thead>
+            <tbody>
+                @foreach (var document in Model.RecentDocuments)
+                {
+                    <tr>
+                        <td>@document.ChildFullName</td>
+                        <td>@document.Title</td>
+                        <td>@document.Type</td>
+                        <td>
+                            @if (document.Status == RequestStatus.Pending)
+                            {
+                                <span class="badge bg-warning text-dark">Pending</span>
+                            }
+                            else if (document.Status == RequestStatus.Approved)
+                            {
+                                <span class="badge bg-success">Approved</span>
+                            }
+                            else if (document.Status == RequestStatus.Rejected)
+                            {
+                                <span class="badge bg-danger">Rejected</span>
+                            }
+                        </td>
+                        <td>@document.UploadedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
+                        <td class="text-end">
+                            <a asp-controller="ChildDocuments"
+                               asp-action="Details"
+                               asp-route-id="@document.Id"
+                               asp-route-returnUrl="@currentUrl"
+                               class="btn btn-sm btn-outline-secondary">
+                                Details
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</section>
+
+<section class="section-panel">
+    <div class="section-panel-header">
+        <h2 class="section-panel-title">Recent Absence Notices</h2>
+        <a asp-controller="AbsenceRequests"
+           asp-action="Index"
+           class="btn btn-sm btn-outline-secondary">
+            View All
+        </a>
+    </div>
+
+    @if (!Model.RecentAbsenceRequests.Any())
+    {
+        <p class="empty-state">No absence notices yet.</p>
+    }
+    else
+    {
+        <table class="table table-striped mb-0">
+            <thead>
+                <tr>
+                    <th>Child</th>
+                    <th>Period</th>
+                    <th>Reason</th>
+                    <th>Status</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var request in Model.RecentAbsenceRequests)
+                {
+                    <tr>
+                        <td>@request.ChildFullName</td>
+                        <td>
+                            @request.StartDate.ToString("dd MMM yyyy")
+                            -
+                            @request.EndDate.ToString("dd MMM yyyy")
+                        </td>
+                        <td>@request.Reason</td>
+                        <td>
+                            @if (request.Status == RequestStatus.Pending)
+                            {
+                                <span class="badge bg-warning text-dark">Pending</span>
+                            }
+                            else if (request.Status == RequestStatus.Approved)
+                            {
+                                <span class="badge bg-success">Confirmed</span>
+                            }
+                        </td>
+                        <td class="text-end">
+                            <a asp-controller="AbsenceRequests"
+                               asp-action="Details"
+                               asp-route-id="@request.Id"
+                               asp-route-returnUrl="@currentUrl"
+                               class="btn btn-sm btn-outline-secondary">
+                                Details
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</section>
+
+<section class="section-panel">
+    <div class="section-panel-header">
+        <h2 class="section-panel-title">Recent Announcements</h2>
+        <a asp-controller="Announcements"
+           asp-action="Index"
+           class="btn btn-sm btn-outline-secondary">
+            View All
+        </a>
+    </div>
+
+    @if (!Model.RecentAnnouncements.Any())
+    {
+        <p class="empty-state">No announcements yet.</p>
+    }
+    else
+    {
+        <table class="table table-striped mb-0">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Published On</th>
+                    <th>Group</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var announcement in Model.RecentAnnouncements)
+                {
+                    <tr>
+                        <td>
+                            <a asp-controller="Announcements"
+                               asp-action="Details"
+                               asp-route-id="@announcement.Id"
+                               asp-route-returnUrl="@currentUrl">
+                                @announcement.Title
+                            </a>
+                        </td>
+                        <td>@announcement.PublishedOn.ToString("dd MMM yyyy")</td>
+                        <td>@announcement.GroupName</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</section>
+
+<section class="section-panel">
+    <div class="section-panel-header">
+        <h2 class="section-panel-title">Upcoming Events</h2>
+        <a asp-controller="Events"
+           asp-action="Index"
+           class="btn btn-sm btn-outline-secondary">
+            View All
+        </a>
+    </div>
+
+    @if (!Model.UpcomingEvents.Any())
+    {
+        <p class="empty-state">No upcoming events.</p>
+    }
+    else
+    {
+        <table class="table table-striped mb-0">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Location</th>
+                    <th>Group</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var eventItem in Model.UpcomingEvents)
+                {
+                    <tr>
+                        <td>
+                            <a asp-controller="Events"
+                               asp-action="Details"
+                               asp-route-id="@eventItem.Id"
+                               asp-route-returnUrl="@currentUrl">
+                                @eventItem.Title
+                            </a>
+                        </td>
+                        <td>@eventItem.StartDateTime.ToString("dd MMM yyyy HH:mm")</td>
+                        <td>@eventItem.Type</td>
+                        <td>@eventItem.Location</td>
+                        <td>@eventItem.GroupName</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</section>

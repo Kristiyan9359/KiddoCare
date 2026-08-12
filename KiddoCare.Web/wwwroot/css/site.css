@@ -743,9 +743,114 @@ textarea.form-control {
     color: var(--kc-muted);
 }
 
+.child-card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.child-card {
+    overflow: hidden;
+    border: 1px solid rgba(221, 229, 239, 0.78);
+    border-radius: var(--kc-radius);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(248, 250, 252, 0.76));
+    box-shadow: 0 12px 28px rgba(23, 32, 51, 0.08);
+    backdrop-filter: blur(14px);
+}
+
+.child-card-photo {
+    height: 210px;
+    background: linear-gradient(135deg, #eef4ff, #eef7f3);
+}
+
+.child-card-photo img,
+.child-card-placeholder {
+    width: 100%;
+    height: 100%;
+}
+
+.child-card-photo img {
+    display: block;
+    object-fit: cover;
+}
+
+.child-card-placeholder {
+    display: grid;
+    place-items: center;
+    color: var(--kc-primary);
+    font-size: 3rem;
+    font-weight: 900;
+}
+
+.child-card-body {
+    padding: 18px;
+}
+
+.child-card-title-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.child-card-title-row h3 {
+    margin: 0;
+    font-size: 1.22rem;
+    font-weight: 900;
+}
+
+.child-card-group {
+    flex-shrink: 0;
+    border-radius: 999px;
+    background: #eef4ff;
+    color: var(--kc-primary);
+    padding: 5px 9px;
+    font-size: 0.78rem;
+    font-weight: 800;
+}
+
+.child-card-meta {
+    display: grid;
+    gap: 4px;
+    color: var(--kc-muted);
+    font-size: 0.92rem;
+}
+
+.child-card-report {
+    margin-top: 14px;
+    padding: 12px;
+    border-radius: var(--kc-radius);
+    background: rgba(238, 247, 243, 0.82);
+    color: var(--kc-text);
+    display: grid;
+    gap: 3px;
+}
+
+.child-card-report span {
+    color: var(--kc-muted);
+    font-size: 0.88rem;
+}
+
+.child-card-report.muted {
+    color: var(--kc-muted);
+    background: rgba(248, 250, 252, 0.88);
+}
+
+.child-card-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+}
+
 @media (max-width: 991px) {
     .metric-grid,
     .metric-grid.metric-grid-three {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .child-card-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
@@ -779,5 +884,17 @@ textarea.form-control {
 
     .page-actions .btn {
         width: 100%;
+    }
+
+    .child-card-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .child-card-photo {
+        height: 190px;
+    }
+
+    .child-card-actions .btn {
+        flex: 1 1 100%;
     }
 }
