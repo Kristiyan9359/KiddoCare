@@ -6,45 +6,67 @@
     var backUrl = Model.ReturnUrl ?? Url.Action("Index");
 }
 
-<h1>Upload Child Document</h1>
-
-<form asp-action="Create" method="post" enctype="multipart/form-data">
-    <input asp-for="ReturnUrl" type="hidden" />
-
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-    <div class="mb-3">
-        <label asp-for="ChildId" class="form-label"></label>
-        <select asp-for="ChildId" asp-items="Model.Children" class="form-select">
-            <option value="">Select child</option>
-        </select>
-        <span asp-validation-for="ChildId" class="text-danger"></span>
+<div class="page-header">
+    <div>
+        <div class="page-kicker">Documents</div>
+        <h1 class="page-title">Upload Child Document</h1>
+        <p class="page-subtitle">
+            Add a PDF, JPG or PNG document to a child profile.
+        </p>
     </div>
+</div>
 
-    <div class="mb-3">
-        <label asp-for="Type" class="form-label"></label>
-        <select asp-for="Type"
-                asp-items="Html.GetEnumSelectList<ChildDocumentType>()"
-                class="form-select">
-        </select>
-        <span asp-validation-for="Type" class="text-danger"></span>
-    </div>
+<section class="section-panel">
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
+        <input asp-for="ReturnUrl" type="hidden" />
 
-    <div class="mb-3">
-        <label asp-for="Title" class="form-label"></label>
-        <input asp-for="Title" class="form-control" />
-        <span asp-validation-for="Title" class="text-danger"></span>
-    </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <div class="mb-3">
-        <label asp-for="File" class="form-label"></label>
-        <input asp-for="File" type="file" class="form-control" />
-        <span asp-validation-for="File" class="text-danger"></span>
-    </div>
+        <div class="form-grid">
+            <div class="mb-3">
+                <label asp-for="ChildId" class="form-label"></label>
+                <select asp-for="ChildId" asp-items="Model.Children" class="form-select">
+                    <option value="">Select child...</option>
+                </select>
+                <span asp-validation-for="ChildId" class="text-danger"></span>
+            </div>
 
-    <button type="submit" class="btn btn-primary">Upload</button>
-    <a href="@backUrl" class="btn btn-secondary">Cancel</a>
-</form>
+            <div class="mb-3">
+                <label asp-for="Type" class="form-label"></label>
+                <select asp-for="Type"
+                        asp-items="Html.GetEnumSelectList<ChildDocumentType>()"
+                        class="form-select">
+                </select>
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Title" class="form-label"></label>
+                <input asp-for="Title"
+                       class="form-control"
+                       placeholder="Example: Medical declaration" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="file-upload-panel">
+            <div>
+                <label asp-for="File" class="form-label"></label>
+                <p class="form-help">Allowed formats: PDF, JPG and PNG. Maximum size: 5 MB.</p>
+            </div>
+
+            <div class="flex-grow-1">
+                <input asp-for="File" type="file" class="form-control" />
+                <span asp-validation-for="File" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-action-row">
+            <button type="submit" class="btn btn-primary">Upload</button>
+            <a href="@backUrl" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</section>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

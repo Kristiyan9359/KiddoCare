@@ -16,11 +16,12 @@ public class ChildDocumentReviewViewModel
 
     public string FileUrl { get; set; } = null!;
 
-    [Range(1, 2, ErrorMessage = "Please select a valid status.")]
+    [Display(Name = "Review decision")]
+    [Range(1, 2, ErrorMessage = "Please select a review decision.")]
     public RequestStatus Status { get; set; }
 
-    [Display(Name = "Review Note")]
-    [MaxLength(ChildDocumentReviewNoteMaxLength)]
+    [Display(Name = "Review note")]
+    [MaxLength(ChildDocumentReviewNoteMaxLength, ErrorMessage = "Review note cannot be longer than {1} characters.")]
     public string? ReviewNote { get; set; }
 
     public string? ReturnUrl { get; set; }

@@ -8,19 +8,21 @@ namespace KiddoCare.ViewModels.ChildDocuments;
 
 public class ChildDocumentCreateViewModel
 {
-    [Required]
     [Display(Name = "Child")]
+    [Required(ErrorMessage = "Please select a child.")]
     public int? ChildId { get; set; }
 
-    [Required]
+    [Display(Name = "Document type")]
+    [Required(ErrorMessage = "Please select a document type.")]
     public ChildDocumentType Type { get; set; }
 
-    [Required]
-    [MaxLength(ChildDocumentTitleMaxLength)]
+    [Display(Name = "Document title")]
+    [Required(ErrorMessage = "Please enter a document title.")]
+    [MaxLength(ChildDocumentTitleMaxLength, ErrorMessage = "Document title cannot be longer than {1} characters.")]
     public string Title { get; set; } = null!;
 
-    [Required]
-    [Display(Name = "Document File")]
+    [Display(Name = "Document file")]
+    [Required(ErrorMessage = "Please upload a document file.")]
     public IFormFile File { get; set; } = null!;
 
     public string? FileUrl { get; set; }
