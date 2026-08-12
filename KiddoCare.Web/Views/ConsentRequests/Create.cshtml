@@ -5,43 +5,62 @@
     ViewData["Title"] = "Create Consent Request";
 }
 
-<h1>Create Consent Request</h1>
-
-<form asp-action="Create" method="post">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-    <div class="mb-3">
-        <label asp-for="ChildId" class="form-label"></label>
-        <select asp-for="ChildId" asp-items="Model.Children" class="form-select">
-            <option value="">Select child</option>
-        </select>
-        <span asp-validation-for="ChildId" class="text-danger"></span>
+<div class="page-header">
+    <div>
+        <div class="page-kicker">Parent permissions</div>
+        <h1 class="page-title">Create Consent Request</h1>
+        <p class="page-subtitle">
+            Ask a parent to approve or decline a specific permission for their child.
+        </p>
     </div>
+</div>
 
-    <div class="mb-3">
-        <label asp-for="Title" class="form-label"></label>
-        <input asp-for="Title" class="form-control" />
-        <span asp-validation-for="Title" class="text-danger"></span>
-    </div>
+<section class="section-panel">
+    <form asp-action="Create" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <div class="mb-3">
-        <label asp-for="Type" class="form-label"></label>
-        <select asp-for="Type"
-                asp-items="Html.GetEnumSelectList<ConsentRequestType>()"
-                class="form-select">
-        </select>
-        <span asp-validation-for="Type" class="text-danger"></span>
-    </div>
+        <div class="form-grid">
+            <div class="mb-3">
+                <label asp-for="ChildId" class="form-label"></label>
+                <select asp-for="ChildId" asp-items="Model.Children" class="form-select">
+                    <option value="">Select child...</option>
+                </select>
+                <span asp-validation-for="ChildId" class="text-danger"></span>
+            </div>
 
-    <div class="mb-3">
-        <label asp-for="Description" class="form-label"></label>
-        <textarea asp-for="Description" class="form-control" rows="4"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
+            <div class="mb-3">
+                <label asp-for="Type" class="form-label"></label>
+                <select asp-for="Type"
+                        asp-items="Html.GetEnumSelectList<ConsentRequestType>()"
+                        class="form-select">
+                </select>
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
 
-    <button type="submit" class="btn btn-primary">Create</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-</form>
+            <div class="mb-3">
+                <label asp-for="Title" class="form-label"></label>
+                <input asp-for="Title"
+                       class="form-control"
+                       placeholder="Example: Photo permission" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label"></label>
+            <textarea asp-for="Description"
+                      class="form-control"
+                      rows="5"
+                      placeholder="Explain clearly what the parent is approving or declining."></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="form-action-row">
+            <button type="submit" class="btn btn-primary">Create Request</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</section>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

@@ -1,111 +1,137 @@
 ﻿@using KiddoCare.Data.Models.Enums
+@using static KiddoCare.Common.RoleConstants
 @model IEnumerable<KiddoCare.ViewModels.ConsentRequests.ConsentRequestIndexViewModel>
 
 @{
     ViewData["Title"] = "Consent Requests";
-    bool canCreate = User.IsInRole("Admin") || User.IsInRole("Teacher");
+    bool canCreate = User.IsInRole(Admin) || User.IsInRole(Teacher);
     var currentUrl = Context.Request.Path + Context.Request.QueryString;
+    string? statusFilter = ViewBag.StatusFilter as string;
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h1>Consent Requests</h1>
+<div class="list-page-header">
+    <div>
+        <div class="page-kicker">Parent permissions</div>
+        <h1 class="page-title">Consent Requests</h1>
+        <p class="page-subtitle">
+            Manage parent permissions for photos, trips, activities and special care situations.
+        </p>
+    </div>
 
     @if (canCreate)
     {
-        <a asp-action="Create" class="btn btn-primary">
-            Create Consent Request
-        </a>
+        <a asp-action="Create" class="btn btn-primary">Create Consent Request</a>
     }
 </div>
 
-<div class="mb-3">
-    <a asp-action="Index"
-       class="btn btn-sm @(ViewBag.StatusFilter == null ? "btn-primary" : "btn-outline-primary")">
-        All
-    </a>
+<div class="filter-bar">
+    <div>
+        <strong>Filter requests</strong>
+        <span>Review pending, approved or declined parent responses.</span>
+    </div>
 
-    <a asp-action="Index"
-       asp-route-statusFilter="pending"
-       class="btn btn-sm @(ViewBag.StatusFilter == "pending" ? "btn-primary" : "btn-outline-primary")">
-        Pending
-    </a>
+    <div class="action-buttons">
+        <a asp-action="Index"
+           class="btn btn-sm @(statusFilter == null ? "btn-primary" : "btn-outline-primary")">
+            All
+        </a>
 
-    <a asp-action="Index"
-       asp-route-statusFilter="approved"
-       class="btn btn-sm @(ViewBag.StatusFilter == "approved" ? "btn-primary" : "btn-outline-primary")">
-        Approved
-    </a>
+        <a asp-action="Index"
+           asp-route-statusFilter="pending"
+           class="btn btn-sm @(statusFilter == "pending" ? "btn-primary" : "btn-outline-primary")">
+            Pending
+        </a>
 
-    <a asp-action="Index"
-       asp-route-statusFilter="rejected"
-       class="btn btn-sm @(ViewBag.StatusFilter == "rejected" ? "btn-primary" : "btn-outline-primary")">
-        Rejected
-    </a>
+        <a asp-action="Index"
+           asp-route-statusFilter="approved"
+           class="btn btn-sm @(statusFilter == "approved" ? "btn-primary" : "btn-outline-primary")">
+            Approved
+        </a>
+
+        <a asp-action="Index"
+           asp-route-statusFilter="rejected"
+           class="btn btn-sm @(statusFilter == "rejected" ? "btn-primary" : "btn-outline-primary")">
+            Declined
+        </a>
+    </div>
 </div>
 
 @if (!Model.Any())
 {
-    <div class="alert alert-info">
-        No consent requests found.
-    </div>
+    <section class="empty-state">
+        <div class="empty-state-icon">+</div>
+        <h2>No consent requests found</h2>
+        <p>Create a request when parent permission is needed.</p>
+
+        @if (canCreate)
+        {
+            <a asp-action="Create" class="btn btn-primary">Create Consent Request</a>
+        }
+    </section>
 }
 else
 {
-    <table class="table table-striped align-middle">
-        <thead>
-            <tr>
-                <th>Child</th>
-                <th>Group</th>
-                <th>Title</th>
-                <th>Type</th>
-                <th>Status</th>
-                <th>Created On</th>
-                <th class="text-end">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var request in Model)
-            {
-                <tr>
-                    <td>@request.ChildFullName</td>
-                    <td>@request.GroupName</td>
-                    <td>@request.Title</td>
-                    <td>@request.Type</td>
-                    <td>
-                        @if (request.Status == RequestStatus.Pending)
-                        {
-                            <span class="badge bg-warning text-dark">Pending</span>
-                        }
-                        else if (request.Status == RequestStatus.Approved)
-                        {
-                            <span class="badge bg-success">Approved</span>
-                        }
-                        else if (request.Status == RequestStatus.Rejected)
-                        {
-                            <span class="badge bg-danger">Rejected</span>
-                        }
-                    </td>
-                    <td>@request.CreatedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
-                    <td class="text-end">
-                        <a asp-action="Details"
-                           asp-route-id="@request.Id"
-                           asp-route-returnUrl="@currentUrl"
-                           class="btn btn-sm btn-outline-secondary">
-                            Details
-                        </a>
+    <section class="section-panel">
+        <div class="table-responsive">
+            <table class="table table-striped align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Child</th>
+                        <th>Group</th>
+                        <th>Title</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>Created On</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var request in Model)
+                    {
+                        <tr>
+                            <td><div class="fw-bold">@request.ChildFullName</div></td>
+                            <td>@request.GroupName</td>
+                            <td>@request.Title</td>
+                            <td>@request.Type</td>
+                            <td>
+                                @if (request.Status == RequestStatus.Pending)
+                                {
+                                    <span class="badge bg-warning text-dark">Pending</span>
+                                }
+                                else if (request.Status == RequestStatus.Approved)
+                                {
+                                    <span class="badge bg-success">Approved</span>
+                                }
+                                else if (request.Status == RequestStatus.Rejected)
+                                {
+                                    <span class="badge bg-danger">Declined</span>
+                                }
+                            </td>
+                            <td>@request.CreatedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
+                            <td class="text-end">
+                                <div class="action-buttons">
+                                    <a asp-action="Details"
+                                       asp-route-id="@request.Id"
+                                       asp-route-returnUrl="@currentUrl"
+                                       class="btn btn-sm btn-outline-secondary">
+                                        Details
+                                    </a>
 
-                        @if (request.CanRespond)
-                        {
-                            <a asp-action="Respond"
-                               asp-route-id="@request.Id"
-                               asp-route-returnUrl="@currentUrl"
-                               class="btn btn-sm btn-outline-primary">
-                                Respond
-                            </a>
-                        }
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+                                    @if (request.CanRespond)
+                                    {
+                                        <a asp-action="Respond"
+                                           asp-route-id="@request.Id"
+                                           asp-route-returnUrl="@currentUrl"
+                                           class="btn btn-sm btn-outline-primary">
+                                            Respond
+                                        </a>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
 }

@@ -7,71 +7,125 @@
     var backUrl = Model.ReturnUrl ?? Url.Action("Index");
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h1>Consent Request</h1>
+<div class="page-header">
+    <div>
+        <div class="page-kicker">Parent permissions</div>
+        <h1 class="page-title">@Model.Title</h1>
+        <p class="page-subtitle">
+            Review consent details and parent response.
+        </p>
+    </div>
 
-    @if (Model.CanRespond)
-    {
-        <a asp-action="Respond"
-           asp-route-id="@Model.Id"
-           asp-route-returnUrl="@currentUrl"
-           class="btn btn-outline-primary">
-            Respond
-        </a>
-    }
+    <div class="page-actions">
+        @if (Model.CanRespond)
+        {
+            <a asp-action="Respond"
+               asp-route-id="@Model.Id"
+               asp-route-returnUrl="@currentUrl"
+               class="btn btn-primary">
+                Respond
+            </a>
+        }
+
+        <a href="@backUrl" class="btn btn-secondary">Back</a>
+    </div>
 </div>
 
-<dl class="row">
-    <dt class="col-sm-3">Child</dt>
-    <dd class="col-sm-9">@Model.ChildFullName</dd>
+<div class="detail-grid">
+    <section class="info-panel">
+        <div class="section-heading-row">
+            <div>
+                <h2>Request Summary</h2>
+                <p>@Model.Type consent for @Model.ChildFullName.</p>
+            </div>
+        </div>
 
-    <dt class="col-sm-3">Group</dt>
-    <dd class="col-sm-9">@Model.GroupName</dd>
+        <dl class="info-list">
+            <div>
+                <dt>Child</dt>
+                <dd>@Model.ChildFullName</dd>
+            </div>
+            <div>
+                <dt>Group</dt>
+                <dd>@Model.GroupName</dd>
+            </div>
+            <div>
+                <dt>Type</dt>
+                <dd>@Model.Type</dd>
+            </div>
+            <div>
+                <dt>Status</dt>
+                <dd>
+                    @if (Model.Status == RequestStatus.Pending)
+                    {
+                        <span class="badge bg-warning text-dark">Pending</span>
+                    }
+                    else if (Model.Status == RequestStatus.Approved)
+                    {
+                        <span class="badge bg-success">Approved</span>
+                    }
+                    else if (Model.Status == RequestStatus.Rejected)
+                    {
+                        <span class="badge bg-danger">Declined</span>
+                    }
+                </dd>
+            </div>
+        </dl>
+    </section>
 
-    <dt class="col-sm-3">Title</dt>
-    <dd class="col-sm-9">@Model.Title</dd>
+    <section class="info-panel">
+        <div class="section-heading-row">
+            <div>
+                <h2>Audit</h2>
+                <p>Creation and response information.</p>
+            </div>
+        </div>
 
-    <dt class="col-sm-3">Type</dt>
-    <dd class="col-sm-9">@Model.Type</dd>
+        <dl class="info-list">
+            <div>
+                <dt>Created By</dt>
+                <dd>@Model.CreatedByEmail</dd>
+            </div>
+            <div>
+                <dt>Created On</dt>
+                <dd>@Model.CreatedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</dd>
+            </div>
+            <div>
+                <dt>Responded On</dt>
+                <dd>
+                    @(Model.RespondedOn.HasValue
+                        ? Model.RespondedOn.Value.ToLocalTime().ToString("dd MMM yyyy, HH:mm")
+                        : "Not responded yet")
+                </dd>
+            </div>
+        </dl>
+    </section>
+</div>
 
-    <dt class="col-sm-3">Status</dt>
-    <dd class="col-sm-9">
-        @if (Model.Status == RequestStatus.Pending)
-        {
-            <span class="badge bg-warning text-dark">Pending</span>
-        }
-        else if (Model.Status == RequestStatus.Approved)
-        {
-            <span class="badge bg-success">Approved</span>
-        }
-        else if (Model.Status == RequestStatus.Rejected)
-        {
-            <span class="badge bg-danger">Rejected</span>
-        }
-    </dd>
+<div class="detail-grid mt-3">
+    <section class="info-panel">
+        <div class="section-heading-row">
+            <div>
+                <h2>Description</h2>
+                <p>What the parent is being asked to approve.</p>
+            </div>
+        </div>
 
-    <dt class="col-sm-3">Description</dt>
-    <dd class="col-sm-9" style="white-space: pre-line">
-        @(Model.Description ?? "No description provided.")
-    </dd>
+        <p class="announcement-message">
+            @(Model.Description ?? "No description provided.")
+        </p>
+    </section>
 
-    <dt class="col-sm-3">Created By</dt>
-    <dd class="col-sm-9">@Model.CreatedByEmail</dd>
+    <section class="info-panel">
+        <div class="section-heading-row">
+            <div>
+                <h2>Parent Note</h2>
+                <p>Optional note submitted with the response.</p>
+            </div>
+        </div>
 
-    <dt class="col-sm-3">Created On</dt>
-    <dd class="col-sm-9">@Model.CreatedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</dd>
-
-    <dt class="col-sm-3">Parent Note</dt>
-    <dd class="col-sm-9" style="white-space: pre-line">
-        @(Model.ParentNote ?? "No parent note.")
-    </dd>
-
-    <dt class="col-sm-3">Responded On</dt>
-    <dd class="col-sm-9">
-        @(Model.RespondedOn.HasValue
-            ? Model.RespondedOn.Value.ToLocalTime().ToString("dd MMM yyyy, HH:mm")
-            : "Not responded yet.")
-    </dd>
-</dl>
-
-<a href="@backUrl" class="btn btn-secondary">Back</a>
+        <p class="mb-0" style="white-space: pre-line">
+            @(Model.ParentNote ?? "No parent note.")
+        </p>
+    </section>
+</div>
