@@ -10,6 +10,14 @@
     <a asp-action="Create" class="btn btn-primary">Create Teacher</a>
 </p>
 
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        No teachers found.
+    </div>
+}
+else
+{
 <table class="table table-striped">
     <thead>
         <tr>
@@ -37,3 +45,4 @@
         }
     </tbody>
 </table>
+}

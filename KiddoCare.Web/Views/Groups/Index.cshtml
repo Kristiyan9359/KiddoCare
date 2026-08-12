@@ -10,6 +10,14 @@
     <a asp-action="Create" class="btn btn-primary">Create Group</a>
 </p>
 
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        No groups found.
+    </div>
+}
+else
+{
 <table class="table table-striped">
     <thead>
         <tr>
@@ -36,3 +44,4 @@
         }
     </tbody>
 </table>
+}

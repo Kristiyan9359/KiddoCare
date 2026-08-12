@@ -14,7 +14,14 @@
         <a asp-action="Create" class="btn btn-primary">Add Child</a>
     </p>
 }
-
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        No children found.
+    </div>
+}
+else
+{ 
 <div class="mb-3">
     <a asp-action="Index"
        class="btn btn-sm @(ViewBag.MedicalFilter == null ? "btn-primary" : "btn-outline-primary")">
@@ -100,3 +107,4 @@
         }
     </tbody>
 </table>
+}
