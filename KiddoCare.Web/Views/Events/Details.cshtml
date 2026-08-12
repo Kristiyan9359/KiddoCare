@@ -5,29 +5,83 @@
     var backUrl = Model.ReturnUrl ?? Url.Action("Index");
 }
 
-<h1>@Model.Title</h1>
+<div class="page-header">
+    <div>
+        <div class="page-kicker">Calendar</div>
+        <h1 class="page-title">@Model.Title</h1>
+        <p class="page-subtitle">
+            Event details, schedule and audience.
+        </p>
+    </div>
 
-<dl class="row">
-    <dt class="col-sm-3">Description</dt>
-    <dd class="col-sm-9">@(string.IsNullOrWhiteSpace(Model.Description) ? "No description" : Model.Description)</dd>
+    <div class="page-actions">
+        <a href="@backUrl" class="btn btn-secondary">Back</a>
+    </div>
+</div>
 
-    <dt class="col-sm-3">Start</dt>
-    <dd class="col-sm-9">@Model.StartDateTime.ToString("dd MMM yyyy HH:mm")</dd>
+<div class="detail-grid">
+    <section class="info-panel">
+        <div class="section-heading-row">
+            <div>
+                <h2>Event Summary</h2>
+                <p>@Model.Type event for @Model.GroupName.</p>
+            </div>
+        </div>
 
-    <dt class="col-sm-3">End</dt>
-    <dd class="col-sm-9">@(Model.EndDateTime.HasValue ? Model.EndDateTime.Value.ToString("dd MMM yyyy HH:mm") : "Not specified")</dd>
+        <dl class="info-list">
+            <div>
+                <dt>Title</dt>
+                <dd>@Model.Title</dd>
+            </div>
+            <div>
+                <dt>Type</dt>
+                <dd>@Model.Type</dd>
+            </div>
+            <div>
+                <dt>Group</dt>
+                <dd>@Model.GroupName</dd>
+            </div>
+            <div>
+                <dt>Visibility</dt>
+                <dd>@(Model.IsPublic ? "Visible to parents" : "Staff only")</dd>
+            </div>
+        </dl>
+    </section>
 
-    <dt class="col-sm-3">Type</dt>
-    <dd class="col-sm-9">@Model.Type</dd>
+    <section class="info-panel">
+        <div class="section-heading-row">
+            <div>
+                <h2>Schedule</h2>
+                <p>When and where the event takes place.</p>
+            </div>
+        </div>
 
-    <dt class="col-sm-3">Location</dt>
-    <dd class="col-sm-9">@(string.IsNullOrWhiteSpace(Model.Location) ? "Not specified" : Model.Location)</dd>
+        <dl class="info-list">
+            <div>
+                <dt>Starts On</dt>
+                <dd>@Model.StartDateTime.ToString("dd MMM yyyy HH:mm")</dd>
+            </div>
+            <div>
+                <dt>Ends On</dt>
+                <dd>@(Model.EndDateTime.HasValue ? Model.EndDateTime.Value.ToString("dd MMM yyyy HH:mm") : "Not specified")</dd>
+            </div>
+            <div>
+                <dt>Location</dt>
+                <dd>@(string.IsNullOrWhiteSpace(Model.Location) ? "Not specified" : Model.Location)</dd>
+            </div>
+        </dl>
+    </section>
+</div>
 
-    <dt class="col-sm-3">Group</dt>
-    <dd class="col-sm-9">@Model.GroupName</dd>
+<section class="info-panel mt-3">
+    <div class="section-heading-row">
+        <div>
+            <h2>Description</h2>
+            <p>Additional event information.</p>
+        </div>
+    </div>
 
-    <dt class="col-sm-3">Public</dt>
-    <dd class="col-sm-9">@(Model.IsPublic ? "Yes" : "No")</dd>
-</dl>
-
-<a href="@backUrl" class="btn btn-secondary">Back</a>
+    <p class="mb-0">
+        @(string.IsNullOrWhiteSpace(Model.Description) ? "No description added." : Model.Description)
+    </p>
+</section>

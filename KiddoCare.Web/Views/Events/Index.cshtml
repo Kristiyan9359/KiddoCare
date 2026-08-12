@@ -10,8 +10,8 @@
 <div class="list-page-header">
     <div>
         <div class="page-kicker">Calendar</div>
-        <h1>Events</h1>
-        <p class="list-page-subtitle">
+        <h1 class="page-title">Events</h1>
+        <p class="page-subtitle">
             Upcoming kindergarten activities, trips, holidays and group events.
         </p>
     </div>
@@ -24,7 +24,16 @@
 
 @if (!Model.Any())
 {
-    <p class="empty-state">No events found.</p>
+    <section class="empty-state">
+        <div class="empty-state-icon">+</div>
+        <h2>No events yet</h2>
+        <p>Create the first event to keep families and teachers aligned.</p>
+
+        @if (canCreate)
+        {
+            <a asp-action="Create" class="btn btn-primary">Create Event</a>
+        }
+    </section>
 }
 else
 {
@@ -33,20 +42,21 @@ else
         {
             <article class="content-list-item">
                 <div>
-                    <h2 class="item-title">@eventItem.Title</h2>
-
                     <div class="item-meta mb-2">
-                        <span>Date: @eventItem.StartDateTime.ToString("dd MMM yyyy HH:mm")</span>
-                        <span>Type: @eventItem.Type</span>
-                        <span>Group: @eventItem.GroupName</span>
+                        <span>@eventItem.Type</span>
+                        <span>@eventItem.GroupName</span>
                     </div>
 
-                    @if (!string.IsNullOrWhiteSpace(eventItem.Location))
-                    {
-                        <p class="item-preview mb-0">
-                            Location: @eventItem.Location
-                        </p>
-                    }
+                    <h2 class="item-title">@eventItem.Title</h2>
+
+                    <div class="item-meta">
+                        <span>@eventItem.StartDateTime.ToString("dd MMM yyyy HH:mm")</span>
+
+                        @if (!string.IsNullOrWhiteSpace(eventItem.Location))
+                        {
+                            <span>@eventItem.Location</span>
+                        }
+                    </div>
                 </div>
 
                 <div class="item-actions">
