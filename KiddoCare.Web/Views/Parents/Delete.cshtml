@@ -4,26 +4,36 @@
     ViewData["Title"] = "Delete Parent";
 }
 
-<h1>Delete Parent</h1>
+<section class="delete-page">
+    <div class="delete-card">
+        <div class="delete-kicker">Permanent action</div>
+        <h1>Delete Parent</h1>
+        <p>
+            Are you sure you want to delete this parent profile? This action cannot be undone.
+        </p>
 
-<div class="alert alert-warning">
-    Are you sure you want to delete this parent profile?
-</div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-<dl class="row">
-    <dt class="col-sm-3">Full Name</dt>
-    <dd class="col-sm-9">@Model.FullName</dd>
+        <dl class="info-list delete-info-list">
+            <div>
+                <dt>Full Name</dt>
+                <dd>@Model.FullName</dd>
+            </div>
+            <div>
+                <dt>Email</dt>
+                <dd>@Model.Email</dd>
+            </div>
+            <div>
+                <dt>Linked Children</dt>
+                <dd>@Model.ChildrenCount</dd>
+            </div>
+        </dl>
 
-    <dt class="col-sm-3">Email</dt>
-    <dd class="col-sm-9">@Model.Email</dd>
+        <form asp-action="Delete" method="post" class="form-action-row justify-content-center">
+            <input asp-for="Id" type="hidden" />
 
-    <dt class="col-sm-3">Linked Children</dt>
-    <dd class="col-sm-9">@Model.ChildrenCount</dd>
-</dl>
-
-<form asp-action="Delete" method="post">
-    <input asp-for="Id" type="hidden" />
-
-    <button type="submit" class="btn btn-danger">Delete</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-</form>
+            <button type="submit" class="btn btn-danger">Delete</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</section>

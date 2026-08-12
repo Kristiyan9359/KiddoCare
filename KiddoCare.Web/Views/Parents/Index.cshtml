@@ -4,45 +4,64 @@
     ViewData["Title"] = "Parents";
 }
 
-<h1>Parents</h1>
+<div class="list-page-header">
+    <div>
+        <div class="page-kicker">Family contacts</div>
+        <h1 class="page-title">Parents</h1>
+        <p class="page-subtitle">
+            Manage parent profiles and keep child contact information connected.
+        </p>
+    </div>
 
-<p>
     <a asp-action="Create" class="btn btn-primary">Create Parent</a>
-</p>
+</div>
 
 @if (!Model.Any())
 {
-    <div class="alert alert-info">
-        No parents found.
-    </div>
+    <section class="empty-state">
+        <div class="empty-state-icon">+</div>
+        <h2>No parents yet</h2>
+        <p>Create a parent profile before linking children to their family contact.</p>
+        <a asp-action="Create" class="btn btn-primary">Create Parent</a>
+    </section>
 }
 else
 {
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Full Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Children</th>
-            <th class="text-end">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var parent in Model)
-        {
-            <tr>
-                <td>@parent.FullName</td>
-                <td>@parent.Email</td>
-                <td>@parent.PhoneNumber</td>
-                <td>@parent.ChildrenCount</td>
-                <td class="text-end">
-                    <a asp-action="Details" asp-route-id="@parent.Id" class="btn btn-sm btn-outline-secondary">Details</a>
-                    <a asp-action="Edit" asp-route-id="@parent.Id" class="btn btn-sm btn-outline-primary">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@parent.Id" class="btn btn-sm btn-outline-danger">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+    <section class="section-panel">
+        <div class="table-responsive">
+            <table class="table table-striped align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Children</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var parent in Model)
+                    {
+                        <tr>
+                            <td><div class="fw-bold">@parent.FullName</div></td>
+                            <td>@parent.Email</td>
+                            <td>
+                                @(string.IsNullOrWhiteSpace(parent.PhoneNumber) ? "Not specified" : parent.PhoneNumber)
+                            </td>
+                            <td>
+                                @parent.ChildrenCount
+                            </td>
+                            <td class="text-end">
+                                <div class="action-buttons">
+                                    <a asp-action="Details" asp-route-id="@parent.Id" class="btn btn-sm btn-outline-secondary">Details</a>
+                                    <a asp-action="Edit" asp-route-id="@parent.Id" class="btn btn-sm btn-outline-primary">Edit</a>
+                                    <a asp-action="Delete" asp-route-id="@parent.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
 }

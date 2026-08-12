@@ -19,93 +19,79 @@
     </div>
 </div>
 
-<section class="profile-layout">
-    <aside class="profile-photo-card profile-placeholder-card">
-        <div class="profile-placeholder">
-            @Model.Name.Substring(0, 1).ToUpper()
+<div class="detail-grid">
+    <section class="info-panel">
+        <div class="section-heading-row">
+            <div>
+                <h2>Group Summary</h2>
+                <p>Basic classroom information.</p>
+            </div>
         </div>
-        <h2>@Model.Name</h2>
-        <p>
-            @(string.IsNullOrWhiteSpace(Model.Description) ? "No description added yet." : Model.Description)
-        </p>
-    </aside>
 
-    <div class="profile-content">
-        <section class="info-panel">
-            <div class="section-heading-row">
-                <div>
-                    <h2>Group Summary</h2>
-                    <p>@Model.Children.Count() active children</p>
-                </div>
+        <dl class="info-list">
+            <div>
+                <dt>Group Name</dt>
+                <dd>@Model.Name</dd>
             </div>
-
-            <dl class="info-list">
-                <div>
-                    <dt>Group Name</dt>
-                    <dd>@Model.Name</dd>
-                </div>
-                <div>
-                    <dt>Description</dt>
-                    <dd>
-                        @(string.IsNullOrWhiteSpace(Model.Description) ? "No description" : Model.Description)
-                    </dd>
-                </div>
-                <div>
-                    <dt>Children</dt>
-                    <dd>@Model.Children.Count()</dd>
-                </div>
-            </dl>
-        </section>
-
-        <section class="info-panel">
-            <div class="section-heading-row">
-                <div>
-                    <h2>Children</h2>
-                    <p>Children currently assigned to this group.</p>
-                </div>
+            <div>
+                <dt>Description</dt>
+                <dd>
+                    @(string.IsNullOrWhiteSpace(Model.Description) ? "No description" : Model.Description)
+                </dd>
             </div>
+            <div>
+                <dt>Children</dt>
+                <dd>@Model.Children.Count()</dd>
+            </div>
+        </dl>
+    </section>
 
-            @if (!Model.Children.Any())
-            {
-                <div class="empty-state compact-empty-state">
-                    <h3>No children in this group</h3>
-                    <p>Assign children to this group from the child edit page.</p>
-                </div>
-            }
-            else
-            {
-                <div class="table-responsive">
-                    <table class="table table-striped align-middle mb-0">
-                        <thead>
+    <section class="info-panel">
+        <div class="section-heading-row">
+            <div>
+                <h2>Children</h2>
+                <p>Children currently assigned to this group.</p>
+            </div>
+        </div>
+
+        @if (!Model.Children.Any())
+        {
+            <div class="empty-state compact-empty-state">
+                <h3>No children in this group</h3>
+                <p>Assign children to this group from the child edit page.</p>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-striped align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Full Name</th>
+                            <th>Date of Birth</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var child in Model.Children)
+                        {
                             <tr>
-                                <th>Full Name</th>
-                                <th>Date of Birth</th>
-                                <th class="text-end">Actions</th>
+                                <td><div class="fw-bold">@child.FullName</div></td>
+                                <td>@child.DateOfBirth.ToString("dd MMM yyyy")</td>
+                                <td class="text-end">
+                                    <a asp-controller="Children"
+                                       asp-action="Details"
+                                       asp-route-id="@child.Id"
+                                       asp-route-returnUrl="@Context.Request.Path"
+                                       class="btn btn-sm btn-outline-secondary">
+                                        View Child
+                                    </a>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var child in Model.Children)
-                            {
-                                <tr>
-                                    <td>
-                                        <div class="fw-bold">@child.FullName</div>
-                                    </td>
-                                    <td>@child.DateOfBirth.ToString("dd MMM yyyy")</td>
-                                    <td class="text-end">
-                                        <a asp-controller="Children"
-                                           asp-action="Details"
-                                           asp-route-id="@child.Id"
-                                           asp-route-returnUrl="@Context.Request.Path"
-                                           class="btn btn-sm btn-outline-secondary">
-                                            View Child
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            }
-        </section>
-    </div>
-</section>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </section>
+</div>

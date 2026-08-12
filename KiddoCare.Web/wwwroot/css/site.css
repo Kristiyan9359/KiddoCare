@@ -1382,3 +1382,15 @@ textarea.form-control {
         margin-bottom: 6px;
         font-size: 1.1rem;
     }
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: 18px;
+}
+
+@media (max-width: 991.98px) {
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+}
