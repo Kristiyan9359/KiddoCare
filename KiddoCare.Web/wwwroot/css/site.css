@@ -557,6 +557,40 @@ textarea.form-control {
     flex-wrap: wrap;
 }
 
+.confirm-modal .modal-content {
+    border: 1px solid rgba(221, 229, 239, 0.82);
+    border-radius: var(--kc-radius);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(248, 250, 252, 0.86));
+    box-shadow: 0 24px 64px rgba(23, 32, 51, 0.22);
+    backdrop-filter: blur(16px);
+}
+
+.confirm-modal .modal-header,
+.confirm-modal .modal-footer {
+    border-color: rgba(221, 229, 239, 0.76);
+}
+
+.confirm-modal .modal-kicker {
+    margin-bottom: 4px;
+    color: var(--kc-danger);
+    font-size: 0.74rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.confirm-modal .modal-title {
+    font-weight: 900;
+}
+
+.confirm-modal .modal-body {
+    color: var(--kc-muted);
+    font-weight: 500;
+}
+
+.confirm-modal .modal-footer {
+    gap: 8px;
+}
+
 @media (max-width: 767px) {
     .error-page {
         min-height: 52vh;
@@ -565,6 +599,10 @@ textarea.form-control {
 
     .error-card {
         padding: 32px 18px;
+    }
+
+    .confirm-modal .modal-dialog {
+        margin: 14px;
     }
 }
 
