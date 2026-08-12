@@ -31,7 +31,12 @@
 
     <div class="form-check mb-3">
         <input asp-for="IsPublic" class="form-check-input" />
-        <label asp-for="IsPublic" class="form-check-label"></label>
+        <label asp-for="IsPublic" class="form-check-label">
+            Visible to parents
+        </label>
+        <div class="form-text">
+            When enabled, parents can see this item in their dashboard.
+        </div>
     </div>
 
     <button type="submit" class="btn btn-primary">Save</button>

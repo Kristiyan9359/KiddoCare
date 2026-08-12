@@ -898,3 +898,107 @@ textarea.form-control {
         flex: 1 1 100%;
     }
 }
+
+.list-page-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: flex-start;
+    margin-bottom: 22px;
+}
+
+    .list-page-header h1 {
+        margin-bottom: 6px;
+    }
+
+.list-page-subtitle {
+    margin: 0;
+    color: var(--kc-muted);
+}
+
+.content-list {
+    display: grid;
+    gap: 12px;
+}
+
+.content-list-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: flex-start;
+    padding: 18px;
+    border: 1px solid rgba(221, 229, 239, 0.78);
+    border-radius: var(--kc-radius);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.92), rgba(248, 250, 252, 0.74));
+    box-shadow: 0 8px 22px rgba(23, 32, 51, 0.06);
+    backdrop-filter: blur(14px);
+    transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+}
+
+    .content-list-item:hover {
+        transform: translateY(-2px);
+        border-color: rgba(37, 99, 235, 0.24);
+        box-shadow: 0 14px 30px rgba(23, 32, 51, 0.1);
+    }
+
+.item-title {
+    margin: 0 0 6px;
+    font-size: 1.12rem;
+    font-weight: 900;
+}
+
+.item-preview {
+    margin: 0 0 10px;
+    color: var(--kc-text);
+}
+
+.item-meta {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    color: var(--kc-muted);
+    font-size: 0.88rem;
+}
+
+    .item-meta span {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+.item-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    flex-shrink: 0;
+}
+
+@media (max-width: 767px) {
+    .list-page-header {
+        display: block;
+    }
+
+        .list-page-header .btn {
+            width: 100%;
+            margin-top: 14px;
+        }
+
+    .content-list-item {
+        display: block;
+    }
+
+    .item-actions {
+        justify-content: flex-start;
+        margin-top: 14px;
+    }
+
+        .item-actions .btn,
+        .item-actions form {
+            flex: 1 1 100%;
+        }
+
+            .item-actions form .btn {
+                width: 100%;
+            }
+}
