@@ -1,4 +1,4 @@
-﻿@using KiddoCare.Data.Models.Enums
+@using KiddoCare.Data.Models.Enums
 @model KiddoCare.ViewModels.Children.ChildDetailsViewModel
 
 @{
@@ -9,260 +9,334 @@
         : Url.Action("Index"));
 }
 
-<h1>@Model.FullName</h1>
+<div class="profile-page-header">
+    <div class="profile-hero-card">
+        <div class="profile-photo">
+            @if (!string.IsNullOrWhiteSpace(Model.PhotoUrl))
+            {
+                <img src="@Url.Action("Photo", "Children", new { id = Model.Id })"
+                     alt="@Model.FullName" />
+            }
+            else
+            {
+                <div class="profile-photo-placeholder">
+                    @Model.FullName.Substring(0, 1)
+                </div>
+            }
+        </div>
 
-<div class="row">
-    <div class="col-md-3">
-        @if (!string.IsNullOrWhiteSpace(Model.PhotoUrl))
-        {
-            <img src="@Url.Action("Photo", "Children", new { id = Model.Id })" alt="@Model.FullName" class="img-fluid rounded" />
-        }
+        <div class="profile-summary">
+            <div class="page-kicker">Child profile</div>
+            <h1 class="page-title">@Model.FullName</h1>
+            <p class="page-subtitle">
+                Group, family contact, medical notes and recent activity for this child.
+            </p>
+
+            <div class="profile-action-row">
+                <a asp-controller="ActivityFeed"
+                   asp-action="Child"
+                   asp-route-childId="@Model.Id"
+                   asp-route-returnUrl="@currentUrl"
+                   class="btn btn-outline-primary">
+                    Activity Feed
+                </a>
+
+                @if (Model.HasMedicalRecord)
+                {
+                    <a asp-controller="MedicalRecords"
+                       asp-action="Details"
+                       asp-route-childId="@Model.Id"
+                       asp-route-returnUrl="@currentUrl"
+                       class="btn btn-outline-secondary">
+                        Medical Record
+                    </a>
+                }
+                else if (User.IsInRole("Admin"))
+                {
+                    <a asp-controller="MedicalRecords"
+                       asp-action="Create"
+                       asp-route-childId="@Model.Id"
+                       asp-route-returnUrl="@currentUrl"
+                       class="btn btn-outline-secondary">
+                        Add Medical Record
+                    </a>
+                }
+
+                <a href="@backUrl" class="btn btn-secondary">Back</a>
+            </div>
+        </div>
     </div>
+</div>
 
-    <div class="col-md-9">
-        <dl class="row">
-            <dt class="col-sm-3">Date of Birth</dt>
-            <dd class="col-sm-9">@Model.DateOfBirth.ToString("dd MMM yyyy")</dd>
+<div class="profile-info-grid">
+    <section class="info-panel">
+        <div class="info-panel-header">
+            <h2>Child Information</h2>
+        </div>
 
-            <dt class="col-sm-3">Gender</dt>
-            <dd class="col-sm-9">@Model.Gender</dd>
-
-            <dt class="col-sm-3">Group</dt>
-            <dd class="col-sm-9">@Model.GroupName</dd>
-
-            <dt class="col-sm-3">Parent</dt>
-            <dd class="col-sm-9">
-                @if (string.IsNullOrWhiteSpace(Model.ParentName))
-                {
-                    <span>No parent linked.</span>
-                }
-                else
-                {
-                    <div>@Model.ParentName</div>
-                    <div>@Model.ParentEmail</div>
-                    <div>@(string.IsNullOrWhiteSpace(Model.ParentPhoneNumber) ? "No phone number" : Model.ParentPhoneNumber)</div>
-                }
-            </dd>
+        <dl class="info-list">
+            <div>
+                <dt>Date of Birth</dt>
+                <dd>@Model.DateOfBirth.ToString("dd MMM yyyy")</dd>
+            </div>
+            <div>
+                <dt>Gender</dt>
+                <dd>@Model.Gender</dd>
+            </div>
+            <div>
+                <dt>Group</dt>
+                <dd>@Model.GroupName</dd>
+            </div>
         </dl>
+    </section>
 
-        <h2>Medical Summary</h2>
+    <section class="info-panel">
+        <div class="info-panel-header">
+            <h2>Parent Contact</h2>
+        </div>
+
+        @if (string.IsNullOrWhiteSpace(Model.ParentName))
+        {
+            <p class="empty-state">No parent linked.</p>
+        }
+        else
+        {
+            <dl class="info-list">
+                <div>
+                    <dt>Name</dt>
+                    <dd>@Model.ParentName</dd>
+                </div>
+                <div>
+                    <dt>Email</dt>
+                    <dd>@Model.ParentEmail</dd>
+                </div>
+                <div>
+                    <dt>Phone</dt>
+                    <dd>@(string.IsNullOrWhiteSpace(Model.ParentPhoneNumber) ? "No phone number" : Model.ParentPhoneNumber)</dd>
+                </div>
+            </dl>
+        }
+    </section>
+</div>
+
+<section class="section-panel">
+    <div class="section-panel-header">
+        <h2 class="section-panel-title">Medical Summary</h2>
 
         @if (Model.HasMedicalRecord)
         {
-            <dl class="row">
-                <dt class="col-sm-3">Allergies</dt>
-                <dd class="col-sm-9">@(Model.MedicalAllergies ?? "No allergies recorded.")</dd>
-
-                <dt class="col-sm-3">Chronic Conditions</dt>
-                <dd class="col-sm-9">@(Model.MedicalChronicConditions ?? "No chronic conditions recorded.")</dd>
-
-                <dt class="col-sm-3">Emergency Contact</dt>
-                <dd class="col-sm-9">
-                    @if (!string.IsNullOrWhiteSpace(Model.MedicalEmergencyContactName) ||
-                        !string.IsNullOrWhiteSpace(Model.MedicalEmergencyContactPhone))
-                    {
-                        <span>@Model.MedicalEmergencyContactName</span>
-                        <span>@Model.MedicalEmergencyContactPhone</span>
-                    }
-                    else
-                    {
-                        <span>No emergency contact recorded.</span>
-                    }
-                </dd>
-            </dl>
-
-            <h2>Recent Absence Notices</h2>
-
-            @if (!Model.RecentAbsenceRequests.Any())
-            {
-                <p class="text-muted">No absence notices yet.</p>
-            }
-            else
-            {
-                <table class="table table-striped mb-3">
-                    <thead>
-                        <tr>
-                            <th>Period</th>
-                            <th>Reason</th>
-                            <th>Status</th>
-                            <th class="text-end">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var request in Model.RecentAbsenceRequests)
-                        {
-                            <tr>
-                                <td>
-                                    @request.StartDate.ToString("dd MMM yyyy")
-                                    -
-                                    @request.EndDate.ToString("dd MMM yyyy")
-                                </td>
-                                <td>@request.Reason</td>
-                                <td>
-                                    @if (request.Status == RequestStatus.Pending)
-                                    {
-                                        <span class="badge bg-warning text-dark">Pending</span>
-                                    }
-                                    else if (request.Status == RequestStatus.Approved)
-                                    {
-                                        <span class="badge bg-success">Confirmed</span>
-                                    }
-                                </td>
-                                <td class="text-end">
-                                    <a asp-controller="AbsenceRequests"
-                                       asp-action="Details"
-                                       asp-route-id="@request.Id"
-                                       asp-route-returnUrl="@currentUrl"
-                                       class="btn btn-sm btn-outline-secondary">
-                                        Details
-                                    </a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            }
-
-            <h2 class="mt-4">Recent Consent Requests</h2>
-
-            @if (!Model.RecentConsentRequests.Any())
-            {
-                <p class="text-muted">No consent requests yet.</p>
-            }
-            else
-            {
-                <table class="table table-striped mb-3">
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Type</th>
-                            <th>Status</th>
-                            <th>Created On</th>
-                            <th class="text-end">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var request in Model.RecentConsentRequests)
-                        {
-                            <tr>
-                                <td>@request.Title</td>
-                                <td>@request.Type</td>
-                                <td>
-                                    @if (request.Status == RequestStatus.Pending)
-                                    {
-                                        <span class="badge bg-warning text-dark">Pending</span>
-                                    }
-                                    else if (request.Status == RequestStatus.Approved)
-                                    {
-                                        <span class="badge bg-success">Approved</span>
-                                    }
-                                    else if (request.Status == RequestStatus.Rejected)
-                                    {
-                                        <span class="badge bg-danger">Rejected</span>
-                                    }
-                                </td>
-                                <td>@request.CreatedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
-                                <td class="text-end">
-                                    <a asp-controller="ConsentRequests"
-                                       asp-action="Details"
-                                       asp-route-id="@request.Id"
-                                       asp-route-returnUrl="@currentUrl"
-                                       class="btn btn-sm btn-outline-secondary">
-                                        Details
-                                    </a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            }
-
-            <h2 class="mt-4">Recent Documents</h2>
-
-            @if (!Model.RecentDocuments.Any())
-            {
-                <p class="text-muted">No documents uploaded yet.</p>
-            }
-            else
-            {
-                <table class="table table-striped mb-3">
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Type</th>
-                            <th>Status</th>
-                            <th>Uploaded On</th>
-                            <th class="text-end">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var document in Model.RecentDocuments)
-                        {
-                            <tr>
-                                <td>@document.Title</td>
-                                <td>@document.Type</td>
-                                <td>
-                                    @if (document.Status == RequestStatus.Pending)
-                                    {
-                                        <span class="badge bg-warning text-dark">Pending</span>
-                                    }
-                                    else if (document.Status == RequestStatus.Approved)
-                                    {
-                                        <span class="badge bg-success">Approved</span>
-                                    }
-                                    else if (document.Status == RequestStatus.Rejected)
-                                    {
-                                        <span class="badge bg-danger">Rejected</span>
-                                    }
-                                </td>
-                                <td>@document.UploadedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
-                                <td class="text-end">
-                                    <a asp-controller="ChildDocuments"
-                                       asp-action="Details"
-                                       asp-route-id="@document.Id"
-                                       asp-route-returnUrl="@currentUrl"
-                                       class="btn btn-sm btn-outline-secondary">
-                                        Details
-                                    </a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            }
-
             <a asp-controller="MedicalRecords"
                asp-action="Details"
                asp-route-childId="@Model.Id"
                asp-route-returnUrl="@currentUrl"
-               class="btn btn-outline-info">
-                View Full Medical Record
+               class="btn btn-sm btn-outline-secondary">
+                View Full Record
             </a>
         }
-        else
-        {
-            <p class="text-muted">No medical record added yet.</p>
-
-            @if (User.IsInRole("Admin"))
-            {
-                <a asp-controller="MedicalRecords"
-                   asp-action="Create"
-                   asp-route-childId="@Model.Id"
-                   asp-route-returnUrl="@currentUrl"
-                   class="btn btn-outline-info">
-                    Add Medical Record
-                </a>
-            }
-        }
-
-        <a asp-controller="ActivityFeed"
-           asp-action="Child"
-           asp-route-childId="@Model.Id"
-           asp-route-returnUrl="@currentUrl"
-           class="btn btn-outline-primary">
-            Activity Feed
-        </a>
-
-        <a href="@backUrl" class="btn btn-secondary">Back</a>
     </div>
-</div>
+
+    @if (Model.HasMedicalRecord)
+    {
+        <div class="medical-summary-grid">
+            <div class="medical-summary-item">
+                <span>Allergies</span>
+                <strong>@(Model.MedicalAllergies ?? "No allergies recorded.")</strong>
+            </div>
+
+            <div class="medical-summary-item">
+                <span>Chronic Conditions</span>
+                <strong>@(Model.MedicalChronicConditions ?? "No chronic conditions recorded.")</strong>
+            </div>
+
+            <div class="medical-summary-item">
+                <span>Emergency Contact</span>
+                @if (!string.IsNullOrWhiteSpace(Model.MedicalEmergencyContactName) ||
+                    !string.IsNullOrWhiteSpace(Model.MedicalEmergencyContactPhone))
+                {
+                    <strong>@Model.MedicalEmergencyContactName</strong>
+                    <small>@Model.MedicalEmergencyContactPhone</small>
+                }
+                else
+                {
+                    <strong>No emergency contact recorded.</strong>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <p class="empty-state">No medical record added yet.</p>
+    }
+</section>
+
+<section class="section-panel">
+    <div class="section-panel-header">
+        <h2 class="section-panel-title">Recent Absence Notices</h2>
+    </div>
+
+    @if (!Model.RecentAbsenceRequests.Any())
+    {
+        <p class="empty-state">No absence notices yet.</p>
+    }
+    else
+    {
+        <table class="table table-striped mb-0">
+            <thead>
+                <tr>
+                    <th>Period</th>
+                    <th>Reason</th>
+                    <th>Status</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var request in Model.RecentAbsenceRequests)
+                {
+                    <tr>
+                        <td>
+                            @request.StartDate.ToString("dd MMM yyyy")
+                            -
+                            @request.EndDate.ToString("dd MMM yyyy")
+                        </td>
+                        <td>@request.Reason</td>
+                        <td>
+                            @if (request.Status == RequestStatus.Pending)
+                            {
+                                <span class="badge bg-warning text-dark">Pending</span>
+                            }
+                            else if (request.Status == RequestStatus.Approved)
+                            {
+                                <span class="badge bg-success">Confirmed</span>
+                            }
+                        </td>
+                        <td class="text-end">
+                            <a asp-controller="AbsenceRequests"
+                               asp-action="Details"
+                               asp-route-id="@request.Id"
+                               asp-route-returnUrl="@currentUrl"
+                               class="btn btn-sm btn-outline-secondary">
+                                Details
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</section>
+
+<section class="section-panel">
+    <div class="section-panel-header">
+        <h2 class="section-panel-title">Recent Consent Requests</h2>
+    </div>
+
+    @if (!Model.RecentConsentRequests.Any())
+    {
+        <p class="empty-state">No consent requests yet.</p>
+    }
+    else
+    {
+        <table class="table table-striped mb-0">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Created On</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var request in Model.RecentConsentRequests)
+                {
+                    <tr>
+                        <td>@request.Title</td>
+                        <td>@request.Type</td>
+                        <td>
+                            @if (request.Status == RequestStatus.Pending)
+                            {
+                                <span class="badge bg-warning text-dark">Pending</span>
+                            }
+                            else if (request.Status == RequestStatus.Approved)
+                            {
+                                <span class="badge bg-success">Approved</span>
+                            }
+                            else if (request.Status == RequestStatus.Rejected)
+                            {
+                                <span class="badge bg-danger">Rejected</span>
+                            }
+                        </td>
+                        <td>@request.CreatedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
+                        <td class="text-end">
+                            <a asp-controller="ConsentRequests"
+                               asp-action="Details"
+                               asp-route-id="@request.Id"
+                               asp-route-returnUrl="@currentUrl"
+                               class="btn btn-sm btn-outline-secondary">
+                                Details
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</section>
+
+<section class="section-panel">
+    <div class="section-panel-header">
+        <h2 class="section-panel-title">Recent Documents</h2>
+    </div>
+
+    @if (!Model.RecentDocuments.Any())
+    {
+        <p class="empty-state">No documents uploaded yet.</p>
+    }
+    else
+    {
+        <table class="table table-striped mb-0">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Uploaded On</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var document in Model.RecentDocuments)
+                {
+                    <tr>
+                        <td>@document.Title</td>
+                        <td>@document.Type</td>
+                        <td>
+                            @if (document.Status == RequestStatus.Pending)
+                            {
+                                <span class="badge bg-warning text-dark">Pending</span>
+                            }
+                            else if (document.Status == RequestStatus.Approved)
+                            {
+                                <span class="badge bg-success">Approved</span>
+                            }
+                            else if (document.Status == RequestStatus.Rejected)
+                            {
+                                <span class="badge bg-danger">Rejected</span>
+                            }
+                        </td>
+                        <td>@document.UploadedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
+                        <td class="text-end">
+                            <a asp-controller="ChildDocuments"
+                               asp-action="Details"
+                               asp-route-id="@document.Id"
+                               asp-route-returnUrl="@currentUrl"
+                               class="btn btn-sm btn-outline-secondary">
+                                Details
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</section>
