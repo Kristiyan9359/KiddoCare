@@ -25,6 +25,7 @@
 <section class="section-panel mb-4">
     <form id="childrenFilterForm" asp-action="Index" method="get" class="filter-form">
         <input type="hidden" name="page" value="1" />
+        <input asp-for="PageSize" type="hidden" id="childrenPageSizeHidden" />
 
         <div class="filter-bar mb-3">
             <a asp-action="Index"
@@ -69,15 +70,6 @@
             </div>
 
             <div class="mb-3">
-                <label asp-for="PageSize" class="form-label">Show</label>
-                <select asp-for="PageSize" id="childrenPageSizeSelect" class="form-select">
-                    <option value="10">10 children</option>
-                    <option value="15">15 children</option>
-                    <option value="20">20 children</option>
-                </select>
-            </div>
-
-            <div class="mb-3">
                 <button type="submit" class="btn btn-primary">Search</button>
                 <a asp-action="Index" class="btn btn-secondary">Clear</a>
             </div>
@@ -94,12 +86,23 @@
             </p>
         </div>
 
-        @if (Model.TotalPages > 0)
-        {
-            <div class="text-muted">
-                Page @Model.Page of @Model.TotalPages
+        <div class="records-toolbar">
+            <div class="records-page-size">
+                <label for="childrenPageSizeSelect" class="form-label mb-0">Show</label>
+                <select id="childrenPageSizeSelect" class="form-select form-select-sm">
+                    <option value="10" selected="@(Model.PageSize == 10)">10</option>
+                    <option value="15" selected="@(Model.PageSize == 15)">15</option>
+                    <option value="20" selected="@(Model.PageSize == 20)">20</option>
+                </select>
             </div>
-        }
+
+            @if (Model.TotalPages > 0)
+            {
+                <div class="text-muted">
+                    Page @Model.Page of @Model.TotalPages
+                </div>
+            }
+        </div>
     </div>
 
     @if (!Model.Children.Any())
@@ -247,9 +250,10 @@
             const form = document.getElementById('childrenFilterForm');
             const searchInput = document.getElementById('childrenSearchInput');
             const pageSizeSelect = document.getElementById('childrenPageSizeSelect');
+            const pageSizeHidden = document.getElementById('childrenPageSizeHidden');
             const suggestionsBox = document.getElementById('childrenSearchSuggestions');
 
-            if (!form || !searchInput || !pageSizeSelect || !suggestionsBox) {
+            if (!form || !searchInput || !pageSizeSelect || !pageSizeHidden || !suggestionsBox) {
                 return;
             }
 
@@ -358,6 +362,7 @@
             });
 
             pageSizeSelect.addEventListener('change', () => {
+                pageSizeHidden.value = pageSizeSelect.value;
                 form.submit();
             });
 

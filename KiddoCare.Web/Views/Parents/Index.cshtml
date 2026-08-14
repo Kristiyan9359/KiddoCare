@@ -25,16 +25,28 @@
             </p>
         </div>
 
-        @if (Model.TotalPages > 0)
-        {
-            <div class="text-muted">
-                Page @Model.Page of @Model.TotalPages
+        <div class="records-toolbar">
+            <div class="records-page-size">
+                <label for="parentsPageSizeSelect" class="form-label mb-0">Show</label>
+                <select id="parentsPageSizeSelect" class="form-select form-select-sm">
+                    <option value="10" selected="@(Model.PageSize == 10)">10</option>
+                    <option value="15" selected="@(Model.PageSize == 15)">15</option>
+                    <option value="20" selected="@(Model.PageSize == 20)">20</option>
+                </select>
             </div>
-        }
+
+            @if (Model.TotalPages > 0)
+            {
+                <div class="text-muted">
+                    Page @Model.Page of @Model.TotalPages
+                </div>
+            }
+        </div>
     </div>
 
     <form id="parentsFilterForm" asp-action="Index" method="get" class="filter-form mb-3">
         <input type="hidden" name="page" value="1" />
+        <input asp-for="PageSize" type="hidden" id="parentsPageSizeHidden" />
 
         <div class="form-grid align-items-end">
             <div class="mb-3 search-suggest-wrapper">
@@ -49,15 +61,6 @@
                      class="search-suggestions"
                      hidden>
                 </div>
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="PageSize" class="form-label">Show</label>
-                <select asp-for="PageSize" id="parentsPageSizeSelect" class="form-select">
-                    <option value="10">10 parents</option>
-                    <option value="15">15 parents</option>
-                    <option value="20">20 parents</option>
-                </select>
             </div>
 
             <div class="mb-3">
@@ -171,9 +174,10 @@
             const form = document.getElementById('parentsFilterForm');
             const searchInput = document.getElementById('parentsSearchInput');
             const pageSizeSelect = document.getElementById('parentsPageSizeSelect');
+            const pageSizeHidden = document.getElementById('parentsPageSizeHidden');
             const suggestionsBox = document.getElementById('parentsSearchSuggestions');
 
-            if (!form || !searchInput || !pageSizeSelect || !suggestionsBox) {
+            if (!form || !searchInput || !pageSizeSelect || !pageSizeHidden || !suggestionsBox) {
                 return;
             }
 
@@ -282,6 +286,7 @@
             });
 
             pageSizeSelect.addEventListener('change', () => {
+                pageSizeHidden.value = pageSizeSelect.value;
                 form.submit();
             });
 
