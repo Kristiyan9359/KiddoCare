@@ -31,6 +31,7 @@
 
         <a asp-controller="Children"
            asp-action="Index"
+           asp-route-returnUrl="@currentUrl"
            class="btn btn-outline-secondary">
             View Children
         </a>
@@ -40,6 +41,7 @@
 <div class="metric-grid">
     <a asp-controller="Children"
        asp-action="Index"
+       asp-route-returnUrl="@currentUrl"
        class="metric-card">
         <div class="metric-label">Children</div>
         <div class="metric-value">@Model.ChildrenCount</div>
@@ -81,6 +83,7 @@
     <a asp-controller="Children"
        asp-action="Index"
        asp-route-medicalFilter="with-allergies"
+       asp-route-returnUrl="@currentUrl"
        class="metric-card">
         <div class="metric-label">Allergies</div>
         <div class="metric-value">@Model.ChildrenWithAllergiesCount</div>
@@ -92,6 +95,7 @@
     <a asp-controller="Children"
        asp-action="Index"
        asp-route-medicalFilter="with-records"
+       asp-route-returnUrl="@currentUrl"
        class="metric-card">
         <div class="metric-label">Medical Records</div>
         <div class="metric-value">@Model.ChildrenWithMedicalRecordsCount</div>
@@ -101,6 +105,7 @@
     <a asp-controller="AbsenceRequests"
        asp-action="Index"
        asp-route-statusFilter="pending"
+       asp-route-returnUrl="@currentUrl"
        class="metric-card">
         <div class="metric-label">Pending Absence Notices</div>
         <div class="metric-value">@Model.PendingAbsenceRequestsCount</div>
@@ -110,6 +115,7 @@
     <a asp-controller="ConsentRequests"
        asp-action="Index"
        asp-route-statusFilter="pending"
+       asp-route-returnUrl="@currentUrl"
        class="metric-card">
         <div class="metric-label">Pending Consent Requests</div>
         <div class="metric-value">@Model.PendingConsentRequestsCount</div>
@@ -130,6 +136,7 @@
 
             <a asp-controller="DailyReports"
                asp-action="Index"
+               asp-route-returnUrl="@currentUrl"
                class="btn btn-sm btn-outline-secondary">
                 View All
             </a>
@@ -187,6 +194,7 @@
         <h2 class="section-panel-title">Recent Announcements</h2>
         <a asp-controller="Announcements"
            asp-action="Index"
+           asp-route-returnUrl="@currentUrl"
            class="btn btn-sm btn-outline-secondary">
             View All
         </a>
@@ -232,6 +240,7 @@
         <h2 class="section-panel-title">Recent Documents</h2>
         <a asp-controller="ChildDocuments"
            asp-action="Index"
+           asp-route-returnUrl="@currentUrl"
            class="btn btn-sm btn-outline-secondary">
             View All
         </a>
@@ -297,6 +306,7 @@
         <h2 class="section-panel-title">Upcoming Events</h2>
         <a asp-controller="Events"
            asp-action="Index"
+           asp-route-returnUrl="@currentUrl"
            class="btn btn-sm btn-outline-secondary">
             View All
         </a>

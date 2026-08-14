@@ -16,20 +16,29 @@
         </p>
     </div>
 
-    @if (isAdmin)
-    {
-        <a asp-action="Create" class="btn btn-primary">Add Child</a>
-    }
+    <div class="page-actions">
+        @if (!string.IsNullOrWhiteSpace(Model.ReturnUrl))
+        {
+            <a href="@Model.ReturnUrl" class="btn btn-secondary">Back</a>
+        }
+
+        @if (isAdmin)
+        {
+            <a asp-action="Create" class="btn btn-primary">Add Child</a>
+        }
+    </div>
 </div>
 
 <section class="section-panel mb-4">
     <form id="childrenFilterForm" asp-action="Index" method="get" class="filter-form">
         <input type="hidden" name="page" value="1" />
         <input asp-for="PageSize" type="hidden" id="childrenPageSizeHidden" />
+        <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
 
         <div class="filter-bar mb-3">
             <a asp-action="Index"
                asp-route-searchTerm="@Model.SearchTerm"
+               asp-route-returnUrl="@Model.ReturnUrl"
                asp-route-pageSize="@Model.PageSize"
                class="btn btn-sm @(Model.MedicalRecordsFilter == null ? "btn-primary" : "btn-outline-primary")">
                 All children
@@ -38,6 +47,7 @@
             <a asp-action="Index"
                asp-route-searchTerm="@Model.SearchTerm"
                asp-route-medicalFilter="with-records"
+               asp-route-returnUrl="@Model.ReturnUrl"
                asp-route-pageSize="@Model.PageSize"
                class="btn btn-sm @(Model.MedicalRecordsFilter == "with-records" ? "btn-primary" : "btn-outline-primary")">
                 With medical records
@@ -46,6 +56,7 @@
             <a asp-action="Index"
                asp-route-searchTerm="@Model.SearchTerm"
                asp-route-medicalFilter="with-allergies"
+               asp-route-returnUrl="@Model.ReturnUrl"
                asp-route-pageSize="@Model.PageSize"
                class="btn btn-sm @(Model.MedicalRecordsFilter == "with-allergies" ? "btn-primary" : "btn-outline-primary")">
                 With allergies
@@ -71,7 +82,11 @@
 
             <div class="mb-3">
                 <button type="submit" class="btn btn-primary">Search</button>
-                <a asp-action="Index" class="btn btn-secondary">Clear</a>
+                <a asp-action="Index"
+                   asp-route-returnUrl="@Model.ReturnUrl"
+                   class="btn btn-secondary">
+                    Clear
+                </a>
             </div>
         </div>
     </form>
@@ -208,6 +223,7 @@
                    asp-action="Index"
                    asp-route-searchTerm="@Model.SearchTerm"
                    asp-route-medicalFilter="@Model.MedicalRecordsFilter"
+                   asp-route-returnUrl="@Model.ReturnUrl"
                    asp-route-page="@(Model.Page - 1)"
                    asp-route-pageSize="@Model.PageSize"
                    asp-fragment="children-list">
@@ -221,6 +237,7 @@
                            asp-action="Index"
                            asp-route-searchTerm="@Model.SearchTerm"
                            asp-route-medicalFilter="@Model.MedicalRecordsFilter"
+                           asp-route-returnUrl="@Model.ReturnUrl"
                            asp-route-page="@pageNumber"
                            asp-route-pageSize="@Model.PageSize"
                            asp-fragment="children-list">
@@ -233,6 +250,7 @@
                    asp-action="Index"
                    asp-route-searchTerm="@Model.SearchTerm"
                    asp-route-medicalFilter="@Model.MedicalRecordsFilter"
+                   asp-route-returnUrl="@Model.ReturnUrl"
                    asp-route-page="@(Model.Page + 1)"
                    asp-route-pageSize="@Model.PageSize"
                    asp-fragment="children-list">

@@ -18,13 +18,14 @@ public class AbsenceRequestsController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index(string? searchTerm, string? statusFilter, int page = 1, int pageSize = 15)
+    public async Task<IActionResult> Index(string? searchTerm, string? statusFilter, string? returnUrl, int page = 1, int pageSize = 15)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
         var isAdmin = User.IsInRole(Admin);
         var isTeacher = User.IsInRole(Teacher);
 
         var model = await absenceRequestService.GetAllAsync(userId, isAdmin, isTeacher, searchTerm, statusFilter, page, pageSize);
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
 
         return View(model);
     }

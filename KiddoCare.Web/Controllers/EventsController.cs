@@ -18,7 +18,7 @@ public class EventsController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index(string? searchTerm, int page = 1, int pageSize = 15)
+    public async Task<IActionResult> Index(string? searchTerm, string? returnUrl, int page = 1, int pageSize = 15)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
         var isAdmin = User.IsInRole(Admin);
@@ -31,6 +31,7 @@ public class EventsController : Controller
             searchTerm,
             page,
             pageSize);
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
 
         return View(model);
     }

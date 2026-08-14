@@ -17,14 +17,21 @@
         </p>
     </div>
 
-    @if (canUpload)
-    {
-        <a asp-action="Create"
-           asp-route-returnUrl="@currentUrl"
-           class="btn btn-primary">
-            Upload Document
-        </a>
-    }
+    <div class="page-actions">
+        @if (!string.IsNullOrWhiteSpace(Model.ReturnUrl))
+        {
+            <a href="@Model.ReturnUrl" class="btn btn-secondary">Back</a>
+        }
+
+        @if (canUpload)
+        {
+            <a asp-action="Create"
+               asp-route-returnUrl="@currentUrl"
+               class="btn btn-primary">
+                Upload Document
+            </a>
+        }
+    </div>
 </div>
 
 <section id="documents-list" class="section-panel">
@@ -59,6 +66,7 @@
         <input type="hidden" name="page" value="1" />
         <input asp-for="PageSize" type="hidden" id="documentsPageSizeHidden" />
         <input type="hidden" name="statusFilter" value="@Model.StatusFilter" />
+        <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
 
         <div class="filter-bar mb-3">
             <div>
@@ -69,6 +77,7 @@
             <div class="action-buttons">
                 <a asp-action="Index"
                    asp-route-searchTerm="@Model.SearchTerm"
+                   asp-route-returnUrl="@Model.ReturnUrl"
                    asp-route-pageSize="@Model.PageSize"
                    class="btn btn-sm @(Model.StatusFilter == null ? "btn-primary" : "btn-outline-primary")">
                     All
@@ -77,6 +86,7 @@
                 <a asp-action="Index"
                    asp-route-searchTerm="@Model.SearchTerm"
                    asp-route-statusFilter="pending"
+                   asp-route-returnUrl="@Model.ReturnUrl"
                    asp-route-pageSize="@Model.PageSize"
                    class="btn btn-sm @(Model.StatusFilter == "pending" ? "btn-primary" : "btn-outline-primary")">
                     Pending
@@ -85,6 +95,7 @@
                 <a asp-action="Index"
                    asp-route-searchTerm="@Model.SearchTerm"
                    asp-route-statusFilter="approved"
+                   asp-route-returnUrl="@Model.ReturnUrl"
                    asp-route-pageSize="@Model.PageSize"
                    class="btn btn-sm @(Model.StatusFilter == "approved" ? "btn-primary" : "btn-outline-primary")">
                     Approved
@@ -93,6 +104,7 @@
                 <a asp-action="Index"
                    asp-route-searchTerm="@Model.SearchTerm"
                    asp-route-statusFilter="rejected"
+                   asp-route-returnUrl="@Model.ReturnUrl"
                    asp-route-pageSize="@Model.PageSize"
                    class="btn btn-sm @(Model.StatusFilter == "rejected" ? "btn-primary" : "btn-outline-primary")">
                     Declined
@@ -117,7 +129,11 @@
 
             <div class="mb-3">
                 <button type="submit" class="btn btn-primary">Search</button>
-                <a asp-action="Index" class="btn btn-secondary">Clear</a>
+                <a asp-action="Index"
+                   asp-route-returnUrl="@Model.ReturnUrl"
+                   class="btn btn-secondary">
+                    Clear
+                </a>
             </div>
         </div>
     </form>
@@ -209,6 +225,7 @@
                    asp-action="Index"
                    asp-route-searchTerm="@Model.SearchTerm"
                    asp-route-statusFilter="@Model.StatusFilter"
+                   asp-route-returnUrl="@Model.ReturnUrl"
                    asp-route-page="@(Model.Page - 1)"
                    asp-route-pageSize="@Model.PageSize"
                    asp-fragment="documents-list">
@@ -222,6 +239,7 @@
                            asp-action="Index"
                            asp-route-searchTerm="@Model.SearchTerm"
                            asp-route-statusFilter="@Model.StatusFilter"
+                           asp-route-returnUrl="@Model.ReturnUrl"
                            asp-route-page="@pageNumber"
                            asp-route-pageSize="@Model.PageSize"
                            asp-fragment="documents-list">
@@ -234,6 +252,7 @@
                    asp-action="Index"
                    asp-route-searchTerm="@Model.SearchTerm"
                    asp-route-statusFilter="@Model.StatusFilter"
+                   asp-route-returnUrl="@Model.ReturnUrl"
                    asp-route-page="@(Model.Page + 1)"
                    asp-route-pageSize="@Model.PageSize"
                    asp-fragment="documents-list">

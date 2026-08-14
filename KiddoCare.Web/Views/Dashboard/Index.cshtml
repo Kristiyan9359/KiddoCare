@@ -28,6 +28,7 @@
 
     <a asp-controller="Children"
        asp-action="Index"
+       asp-route-returnUrl="@currentUrl"
        class="metric-card">
         <div class="metric-label">Children</div>
         <div class="metric-value">@Model.ChildrenCount</div>
@@ -96,6 +97,7 @@
     <a asp-controller="AbsenceRequests"
        asp-action="Index"
        asp-route-statusFilter="pending"
+       asp-route-returnUrl="@currentUrl"
        class="metric-card">
         <div class="metric-label">Pending Absence Notices</div>
         <div class="metric-value">@Model.PendingAbsenceRequestsCount</div>
@@ -105,6 +107,7 @@
     <a asp-controller="ConsentRequests"
        asp-action="Index"
        asp-route-statusFilter="pending"
+       asp-route-returnUrl="@currentUrl"
        class="metric-card">
         <div class="metric-label">Pending Consent Requests</div>
         <div class="metric-value">@Model.PendingConsentRequestsCount</div>
@@ -114,6 +117,7 @@
     <a asp-controller="ChildDocuments"
        asp-action="Index"
        asp-route-statusFilter="pending"
+       asp-route-returnUrl="@currentUrl"
        class="metric-card">
         <div class="metric-label">Pending Documents</div>
         <div class="metric-value">@Model.PendingChildDocumentsCount</div>
@@ -124,7 +128,7 @@
 <section class="section-panel">
     <div class="section-panel-header">
         <h2 class="section-panel-title">Recent Announcements</h2>
-        <a asp-controller="Announcements" asp-action="Index" class="btn btn-sm btn-outline-secondary">View All</a>
+        <a asp-controller="Announcements" asp-action="Index" asp-route-returnUrl="@currentUrl" class="btn btn-sm btn-outline-secondary">View All</a>
     </div>
 
     @if (!Model.RecentAnnouncements.Any())
@@ -165,7 +169,7 @@
 <section class="section-panel">
     <div class="section-panel-header">
         <h2 class="section-panel-title">Recent Documents</h2>
-        <a asp-controller="ChildDocuments" asp-action="Index" class="btn btn-sm btn-outline-secondary">View All</a>
+        <a asp-controller="ChildDocuments" asp-action="Index" asp-route-returnUrl="@currentUrl" class="btn btn-sm btn-outline-secondary">View All</a>
     </div>
 
     @if (!Model.RecentDocuments.Any())
@@ -228,7 +232,7 @@
 <section class="section-panel">
     <div class="section-panel-header">
         <h2 class="section-panel-title">Upcoming Events</h2>
-        <a asp-controller="Events" asp-action="Index" class="btn btn-sm btn-outline-secondary">View All</a>
+        <a asp-controller="Events" asp-action="Index" asp-route-returnUrl="@currentUrl" class="btn btn-sm btn-outline-secondary">View All</a>
     </div>
 
     @if (!Model.UpcomingEvents.Any())

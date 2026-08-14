@@ -18,7 +18,7 @@ public class AnnouncementsController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index(string? searchTerm, int page = 1, int pageSize = 15)
+    public async Task<IActionResult> Index(string? searchTerm, string? returnUrl, int page = 1, int pageSize = 15)
     {
         string userId = this.GetUserId();
         bool isAdmin = this.User.IsInRole(RoleConstants.Admin);
@@ -26,6 +26,7 @@ public class AnnouncementsController : Controller
 
         AnnouncementListViewModel model = await this.announcementService
             .GetAllAsync(userId, isAdmin, isTeacher, searchTerm, page, pageSize);
+        model.ReturnUrl = this.GetSafeReturnUrl(returnUrl);
 
         return this.View(model);
     }

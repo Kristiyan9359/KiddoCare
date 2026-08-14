@@ -6,6 +6,8 @@ public class EventListViewModel
 
     public string? SearchTerm { get; set; }
 
+    public string? ReturnUrl { get; set; }
+
     public int Page { get; set; } = 1;
 
     public int PageSize { get; set; } = 15;

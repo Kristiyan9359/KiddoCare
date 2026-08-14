@@ -30,13 +30,14 @@ public class ChildrenController : Controller
 
     [HttpGet]
     [Authorize(Roles = $"{Admin},{Teacher}")]
-    public async Task<IActionResult> Index(string? searchTerm, string? medicalFilter, int page = 1, int pageSize = 15)
+    public async Task<IActionResult> Index(string? searchTerm, string? medicalFilter, string? returnUrl, int page = 1, int pageSize = 15)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
         var isAdmin = User.IsInRole(Admin);
         var isTeacher = User.IsInRole(Teacher);
 
         var model = await childService.GetAllAsync(userId, isAdmin, isTeacher, searchTerm, medicalFilter, page, pageSize);
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
 
         return View(model);
     }

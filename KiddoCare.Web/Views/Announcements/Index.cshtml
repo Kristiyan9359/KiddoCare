@@ -16,10 +16,17 @@
         </p>
     </div>
 
-    @if (canCreate)
-    {
-        <a asp-action="Create" class="btn btn-primary">Create Announcement</a>
-    }
+    <div class="page-actions">
+        @if (!string.IsNullOrWhiteSpace(Model.ReturnUrl))
+        {
+            <a href="@Model.ReturnUrl" class="btn btn-secondary">Back</a>
+        }
+
+        @if (canCreate)
+        {
+            <a asp-action="Create" class="btn btn-primary">Create Announcement</a>
+        }
+    </div>
 </div>
 
 <section id="announcements-list" class="section-panel">
@@ -53,6 +60,7 @@
     <form id="announcementsFilterForm" asp-action="Index" method="get" class="filter-form mb-3">
         <input type="hidden" name="page" value="1" />
         <input asp-for="PageSize" type="hidden" id="announcementsPageSizeHidden" />
+        <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
 
         <div class="form-grid align-items-end">
             <div class="mb-3 search-suggest-wrapper">
@@ -71,7 +79,11 @@
 
             <div class="mb-3">
                 <button type="submit" class="btn btn-primary">Search</button>
-                <a asp-action="Index" class="btn btn-secondary">Clear</a>
+                <a asp-action="Index"
+                   asp-route-returnUrl="@Model.ReturnUrl"
+                   class="btn btn-secondary">
+                    Clear
+                </a>
             </div>
         </div>
     </form>
@@ -141,6 +153,7 @@
                 <a class="attendance-page-link @(Model.HasPreviousPage ? string.Empty : "disabled")"
                    asp-action="Index"
                    asp-route-searchTerm="@Model.SearchTerm"
+                   asp-route-returnUrl="@Model.ReturnUrl"
                    asp-route-page="@(Model.Page - 1)"
                    asp-route-pageSize="@Model.PageSize"
                    asp-fragment="announcements-list">
@@ -153,6 +166,7 @@
                         <a class="attendance-page-number @(pageNumber == Model.Page ? "active" : string.Empty)"
                            asp-action="Index"
                            asp-route-searchTerm="@Model.SearchTerm"
+                           asp-route-returnUrl="@Model.ReturnUrl"
                            asp-route-page="@pageNumber"
                            asp-route-pageSize="@Model.PageSize"
                            asp-fragment="announcements-list">
@@ -164,6 +178,7 @@
                 <a class="attendance-page-link @(Model.HasNextPage ? string.Empty : "disabled")"
                    asp-action="Index"
                    asp-route-searchTerm="@Model.SearchTerm"
+                   asp-route-returnUrl="@Model.ReturnUrl"
                    asp-route-page="@(Model.Page + 1)"
                    asp-route-pageSize="@Model.PageSize"
                    asp-fragment="announcements-list">
