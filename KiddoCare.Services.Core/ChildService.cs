@@ -17,7 +17,8 @@ public class ChildService : IChildService
         this.context = context;
     }
 
-    public async Task<ChildListViewModel> GetAllAsync(string userId, bool isAdmin, bool isTeacher, string? medicalFilter, int page, int pageSize)
+
+    public async Task<ChildListViewModel> GetAllAsync(string userId, bool isAdmin, bool isTeacher, string? searchTerm, string? medicalFilter, int page, int pageSize)
     {
         var query = context.Children
             .Where(c => !c.IsDeleted)
@@ -34,6 +35,7 @@ public class ChildService : IChildService
             {
                 return new ChildListViewModel
                 {
+                    SearchTerm = searchTerm,
                     MedicalRecordsFilter = medicalFilter,
                     Page = 1,
                     PageSize = pageSize
@@ -45,6 +47,17 @@ public class ChildService : IChildService
         else if (!isAdmin)
         {
             query = query.Where(c => c.Parent != null && c.Parent.UserId == userId);
+        }
+
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            searchTerm = searchTerm.Trim();
+
+            query = query.Where(c =>
+                (c.FirstName + " " + c.LastName).Contains(searchTerm) ||
+                c.Group.Name.Contains(searchTerm) ||
+                (c.Parent != null && c.Parent.FullName.Contains(searchTerm)) ||
+                (c.Parent != null && c.Parent.User.Email!.Contains(searchTerm)));
         }
 
         if (medicalFilter == "with-records")
@@ -94,12 +107,14 @@ public class ChildService : IChildService
         return new ChildListViewModel
         {
             Children = children,
+            SearchTerm = searchTerm,
             MedicalRecordsFilter = medicalFilter,
             Page = page,
             PageSize = pageSize,
             TotalChildren = totalChildren
         };
     }
+
     public async Task<ChildCreateViewModel> GetCreateModelAsync()
     {
         return new ChildCreateViewModel
@@ -339,5 +354,51 @@ public class ChildService : IChildService
                 !c.IsDeleted &&
                 c.Parent != null &&
                 c.Parent.UserId == userId);
+    }
+
+    public async Task<IEnumerable<string>> GetSearchSuggestionsAsync(string term, string userId, bool isAdmin, bool isTeacher)
+    {
+        if (string.IsNullOrWhiteSpace(term))
+        {
+            return new List<string>();
+        }
+
+        term = term.Trim();
+
+        var query = context.Children
+            .Where(c => !c.IsDeleted)
+            .AsQueryable();
+
+        if (isTeacher && !isAdmin)
+        {
+            var teacherGroupId = await context.TeacherProfiles
+                .Where(t => !t.IsDeleted && t.UserId == userId)
+                .Select(t => (int?)t.GroupId)
+                .FirstOrDefaultAsync();
+
+            if (teacherGroupId == null)
+            {
+                return new List<string>();
+            }
+
+            query = query.Where(c => c.GroupId == teacherGroupId.Value);
+        }
+        else if (!isAdmin)
+        {
+            query = query.Where(c => c.Parent != null && c.Parent.UserId == userId);
+        }
+
+        return await query
+            .Where(c =>
+                (c.FirstName + " " + c.LastName).Contains(term) ||
+                c.Group.Name.Contains(term) ||
+                (c.Parent != null && c.Parent.FullName.Contains(term)) ||
+                (c.Parent != null && c.Parent.User.Email!.Contains(term)))
+            .OrderBy(c => c.FirstName)
+            .ThenBy(c => c.LastName)
+            .Select(c => c.FirstName + " " + c.LastName)
+            .Distinct()
+            .Take(8)
+            .ToListAsync();
     }
 }

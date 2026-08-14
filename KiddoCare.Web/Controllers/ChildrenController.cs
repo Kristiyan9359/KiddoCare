@@ -30,19 +30,13 @@ public class ChildrenController : Controller
 
     [HttpGet]
     [Authorize(Roles = $"{Admin},{Teacher}")]
-    public async Task<IActionResult> Index(string? medicalFilter, int page = 1, int pageSize = 15)
+    public async Task<IActionResult> Index(string? searchTerm, string? medicalFilter, int page = 1, int pageSize = 15)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
         var isAdmin = User.IsInRole(Admin);
         var isTeacher = User.IsInRole(Teacher);
 
-        var model = await childService.GetAllAsync(
-            userId,
-            isAdmin,
-            isTeacher,
-            medicalFilter,
-            page,
-            pageSize);
+        var model = await childService.GetAllAsync(userId, isAdmin, isTeacher, searchTerm, medicalFilter, page, pageSize);
 
         return View(model);
     }
@@ -362,5 +356,18 @@ public class ChildrenController : Controller
             ".png" => "image/png",
             _ => "application/octet-stream"
         };
+    }
+
+    [HttpGet]
+    [Authorize(Roles = $"{Admin},{Teacher}")]
+    public async Task<IActionResult> Suggestions(string term)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        var isAdmin = User.IsInRole(Admin);
+        var isTeacher = User.IsInRole(Teacher);
+
+        var suggestions = await childService.GetSearchSuggestionsAsync(term, userId, isAdmin, isTeacher);
+
+        return Json(suggestions);
     }
 }

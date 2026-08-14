@@ -4,6 +4,8 @@ public class ChildListViewModel
 {
     public IEnumerable<ChildIndexViewModel> Children { get; set; } = new List<ChildIndexViewModel>();
 
+    public string? SearchTerm { get; set; }
+
     public string? MedicalRecordsFilter { get; set; }
 
     public string? AllergiesFilter { get; set; }
