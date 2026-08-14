@@ -1,5 +1,6 @@
 ﻿using KiddoCare.Data;
 using KiddoCare.Data.Models;
+using KiddoCare.Data.Models.Enums;
 using KiddoCare.Services.Core.Contracts;
 using KiddoCare.ViewModels.Events;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -16,10 +17,13 @@ public class EventService : IEventService
         this.context = context;
     }
 
-    public async Task<IEnumerable<EventIndexViewModel>> GetAllAsync(
-     string userId,
-     bool isAdmin,
-     bool isTeacher)
+    public async Task<EventListViewModel> GetAllAsync(
+        string userId,
+        bool isAdmin,
+        bool isTeacher,
+        string? searchTerm,
+        int page,
+        int pageSize)
     {
         var query = context.Events
             .Where(e => !e.IsDeleted)
@@ -33,7 +37,12 @@ public class EventService : IEventService
 
             if (teacherGroupId == null)
             {
-                return new List<EventIndexViewModel>();
+                return new EventListViewModel
+                {
+                    SearchTerm = searchTerm,
+                    Page = 1,
+                    PageSize = pageSize
+                };
             }
 
             query = query.Where(e =>
@@ -56,8 +65,36 @@ public class EventService : IEventService
                 (e.GroupId == null || parentGroupIds.Contains(e.GroupId.Value)));
         }
 
-        return await query
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            searchTerm = searchTerm.Trim();
+
+            var matchingTypes = Enum.GetValues<EventType>()
+                .Where(t => t.ToString().Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            query = query.Where(e =>
+                e.Title.Contains(searchTerm) ||
+                (e.Location != null && e.Location.Contains(searchTerm)) ||
+                (e.Group != null && e.Group.Name.Contains(searchTerm)) ||
+                matchingTypes.Contains(e.Type));
+        }
+
+        page = page < 1 ? 1 : page;
+        pageSize = pageSize is 10 or 15 or 20 ? pageSize : 15;
+
+        var totalEvents = await query.CountAsync();
+        var totalPages = (int)Math.Ceiling(totalEvents / (double)pageSize);
+
+        if (totalPages > 0 && page > totalPages)
+        {
+            page = totalPages;
+        }
+
+        var events = await query
             .OrderBy(e => e.StartDateTime)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
             .Select(e => new EventIndexViewModel
             {
                 Id = e.Id,
@@ -68,6 +105,78 @@ public class EventService : IEventService
                 GroupName = e.Group == null ? "All groups" : e.Group.Name,
                 CanManage = isAdmin || (teacherGroupId.HasValue && e.GroupId == teacherGroupId.Value)
             })
+            .ToListAsync();
+
+        return new EventListViewModel
+        {
+            Events = events,
+            SearchTerm = searchTerm,
+            Page = page,
+            PageSize = pageSize,
+            TotalEvents = totalEvents
+        };
+    }
+
+    public async Task<IEnumerable<string>> GetSearchSuggestionsAsync(
+        string term,
+        string userId,
+        bool isAdmin,
+        bool isTeacher)
+    {
+        if (string.IsNullOrWhiteSpace(term))
+        {
+            return new List<string>();
+        }
+
+        term = term.Trim();
+
+        var query = context.Events
+            .Where(e => !e.IsDeleted)
+            .AsQueryable();
+
+        if (isTeacher && !isAdmin)
+        {
+            var teacherGroupId = await GetTeacherGroupIdAsync(userId);
+
+            if (teacherGroupId == null)
+            {
+                return new List<string>();
+            }
+
+            query = query.Where(e =>
+                e.GroupId == null ||
+                e.GroupId == teacherGroupId.Value);
+        }
+        else if (!isAdmin)
+        {
+            var parentGroupIds = await context.Children
+                .Where(c =>
+                    !c.IsDeleted &&
+                    c.Parent != null &&
+                    c.Parent.UserId == userId)
+                .Select(c => c.GroupId)
+                .Distinct()
+                .ToListAsync();
+
+            query = query.Where(e =>
+                e.IsPublic &&
+                (e.GroupId == null || parentGroupIds.Contains(e.GroupId.Value)));
+        }
+
+        var matchingTypes = Enum.GetValues<EventType>()
+            .Where(t => t.ToString().Contains(term, StringComparison.OrdinalIgnoreCase))
+            .ToList();
+
+        return await query
+            .Where(e =>
+                e.Title.Contains(term) ||
+                (e.Location != null && e.Location.Contains(term)) ||
+                (e.Group != null && e.Group.Name.Contains(term)) ||
+                matchingTypes.Contains(e.Type))
+            .OrderBy(e => e.StartDateTime)
+            .Select(e => e.Title)
+            .Distinct()
+            .Take(8)
             .ToListAsync();
     }
 
