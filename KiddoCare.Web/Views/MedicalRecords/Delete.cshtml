@@ -2,20 +2,38 @@
 
 @{
     ViewData["Title"] = "Delete Medical Record";
-    var backUrl = Model.ReturnUrl ?? Url.Action("Index", "Children");
+
+    var cancelUrl = Url.Action(
+        "Details",
+        "MedicalRecords",
+        new
+        {
+            childId = Model.ChildId,
+            returnUrl = Model.ReturnUrl
+        });
 }
 
-<h1>Delete Medical Record</h1>
+<section class="delete-page">
+    <div class="delete-card">
+        <div class="delete-kicker">Permanent action</div>
+        <h1>Delete Medical Record</h1>
+        <p>
+            Are you sure you want to delete the medical record for this child? This action cannot be undone.
+        </p>
 
-<div class="alert alert-warning">
-    Are you sure you want to delete the medical record for
-    <strong>@Model.ChildFullName</strong>?
-</div>
+        <dl class="info-list delete-info-list">
+            <div>
+                <dt>Child</dt>
+                <dd>@Model.ChildFullName</dd>
+            </div>
+        </dl>
 
-<form asp-action="Delete" method="post">
-    <input asp-for="Id" type="hidden" />
-    <input asp-for="ReturnUrl" type="hidden" />
+        <form asp-action="Delete" method="post" class="form-action-row justify-content-center">
+            <input asp-for="Id" type="hidden" />
+            <input asp-for="ReturnUrl" type="hidden" />
 
-    <button type="submit" class="btn btn-danger">Delete</button>
-    <a href="@backUrl" class="btn btn-secondary">Cancel</a>
-</form>
+            <button type="submit" class="btn btn-danger">Delete</button>
+            <a href="@cancelUrl" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</section>

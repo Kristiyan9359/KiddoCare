@@ -6,16 +6,22 @@
     var backUrl = Model.ReturnUrl ?? Url.Action("Details", "Children", new { id = Model.ChildId });
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h1>Medical Record</h1>
+<div class="page-header">
+    <div>
+        <div class="page-kicker">Health records</div>
+        <h1 class="page-title">Medical Record</h1>
+        <p class="page-subtitle">
+            Health summary and emergency information for @Model.ChildFullName.
+        </p>
+    </div>
 
-    @if (Model.CanManage)
-    {
-        <div>
+    <div class="page-actions">
+        @if (Model.CanManage)
+        {
             <a asp-action="Edit"
                asp-route-id="@Model.Id"
                asp-route-returnUrl="@currentUrl"
-               class="btn btn-outline-primary">
+               class="btn btn-primary">
                 Edit
             </a>
 
@@ -25,39 +31,75 @@
                class="btn btn-outline-danger">
                 Delete
             </a>
-        </div>
-    }
+        }
+
+        <a href="@backUrl" class="btn btn-secondary">Back</a>
+    </div>
 </div>
 
-<p>
-    <strong>Child:</strong> @Model.ChildFullName
-</p>
+<div class="detail-grid">
+    <section class="info-panel">
+        <div class="section-heading-row">
+            <div>
+                <h2>Health Summary</h2>
+                <p>Main medical information for this child.</p>
+            </div>
+        </div>
 
-<dl class="row">
-    <dt class="col-sm-3">Allergies</dt>
-    <dd class="col-sm-9">@(Model.Allergies ?? "No information provided.")</dd>
+        <dl class="info-list">
+            <div>
+                <dt>Child</dt>
+                <dd>@Model.ChildFullName</dd>
+            </div>
+            <div>
+                <dt>Allergies</dt>
+                <dd>@(string.IsNullOrWhiteSpace(Model.Allergies) ? "No allergies recorded" : Model.Allergies)</dd>
+            </div>
+            <div>
+                <dt>Chronic Conditions</dt>
+                <dd>@(string.IsNullOrWhiteSpace(Model.ChronicConditions) ? "No chronic conditions recorded" : Model.ChronicConditions)</dd>
+            </div>
+        </dl>
+    </section>
 
-    <dt class="col-sm-3">Chronic Conditions</dt>
-    <dd class="col-sm-9">@(Model.ChronicConditions ?? "No information provided.")</dd>
+    <section class="info-panel">
+        <div class="section-heading-row">
+            <div>
+                <h2>Emergency Contacts</h2>
+                <p>Who to contact if immediate support is needed.</p>
+            </div>
+        </div>
 
-    <dt class="col-sm-3">Doctor Name</dt>
-    <dd class="col-sm-9">@(Model.DoctorName ?? "No information provided.")</dd>
+        <dl class="info-list">
+            <div>
+                <dt>Doctor Name</dt>
+                <dd>@(string.IsNullOrWhiteSpace(Model.DoctorName) ? "Not specified" : Model.DoctorName)</dd>
+            </div>
+            <div>
+                <dt>Doctor Phone</dt>
+                <dd>@(string.IsNullOrWhiteSpace(Model.DoctorPhone) ? "Not specified" : Model.DoctorPhone)</dd>
+            </div>
+            <div>
+                <dt>Emergency Contact</dt>
+                <dd>@(string.IsNullOrWhiteSpace(Model.EmergencyContactName) ? "Not specified" : Model.EmergencyContactName)</dd>
+            </div>
+            <div>
+                <dt>Emergency Phone</dt>
+                <dd>@(string.IsNullOrWhiteSpace(Model.EmergencyContactPhone) ? "Not specified" : Model.EmergencyContactPhone)</dd>
+            </div>
+        </dl>
+    </section>
+</div>
 
-    <dt class="col-sm-3">Doctor Phone</dt>
-    <dd class="col-sm-9">@(Model.DoctorPhone ?? "No information provided.")</dd>
+<section class="info-panel mt-3">
+    <div class="section-heading-row">
+        <div>
+            <h2>Medical Notes</h2>
+            <p>Additional information useful for teachers and staff.</p>
+        </div>
+    </div>
 
-    <dt class="col-sm-3">Emergency Contact Name</dt>
-    <dd class="col-sm-9">@(Model.EmergencyContactName ?? "No information provided.")</dd>
-
-    <dt class="col-sm-3">Emergency Contact Phone</dt>
-    <dd class="col-sm-9">@(Model.EmergencyContactPhone ?? "No information provided.")</dd>
-
-    <dt class="col-sm-3">Notes</dt>
-    <dd class="col-sm-9" style="white-space: pre-line">
-        @(Model.Notes ?? "No additional notes.")
-    </dd>
-</dl>
-
-<a href="@backUrl" class="btn btn-secondary">
-    Back to Child
-</a>
+    <p class="mb-0" style="white-space: pre-line">
+        @(string.IsNullOrWhiteSpace(Model.Notes) ? "No additional notes." : Model.Notes)
+    </p>
+</section>

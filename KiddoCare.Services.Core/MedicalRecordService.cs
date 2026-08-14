@@ -159,6 +159,7 @@ public class MedicalRecordService : IMedicalRecordService
             .Select(m => new MedicalRecordDeleteViewModel
             {
                 Id = m.Id,
+                ChildId = m.ChildId,
                 ChildFullName = m.Child.FirstName + " " + m.Child.LastName
             })
             .FirstOrDefaultAsync();
