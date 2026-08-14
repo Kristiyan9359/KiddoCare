@@ -130,7 +130,7 @@
     else
     {
         <div class="table-responsive">
-            <table class="table table-striped align-middle mb-0">
+            <table class="table table-striped align-middle mb-0 mobile-card-table">
                 <thead>
                     <tr>
                         <th>Photo</th>
@@ -147,7 +147,7 @@
                     @foreach (var child in Model.Children)
                     {
                         <tr>
-                            <td>
+                            <td data-label="Photo">
                                 @if (!string.IsNullOrWhiteSpace(child.PhotoUrl))
                                 {
                                     <img src="@Url.Action("Photo", "Children", new { id = child.Id })"
@@ -161,13 +161,13 @@
                                     </div>
                                 }
                             </td>
-                            <td>
+                            <td data-label="Full Name">
                                 <strong>@child.FullName</strong>
                             </td>
-                            <td>@child.DateOfBirth.ToString("dd MMM yyyy")</td>
-                            <td>@child.Gender</td>
-                            <td>@child.GroupName</td>
-                            <td>
+                            <td data-label="Date of Birth">@child.DateOfBirth.ToString("dd MMM yyyy")</td>
+                            <td data-label="Gender">@child.Gender</td>
+                            <td data-label="Group">@child.GroupName</td>
+                            <td data-label="Medical">
                                 @if (child.HasMedicalRecord)
                                 {
                                     <span class="badge bg-info text-dark">Yes</span>
@@ -177,7 +177,7 @@
                                     <span class="badge status-badge-muted">No</span>
                                 }
                             </td>
-                            <td>
+                            <td data-label="Allergies">
                                 @if (child.HasAllergies)
                                 {
                                     <span class="badge bg-warning text-dark">Yes</span>
@@ -187,7 +187,7 @@
                                     <span class="badge status-badge-muted">No</span>
                                 }
                             </td>
-                            <td class="text-end">
+                            <td class="text-end" data-label="Actions">
                                 <a asp-action="Details"
                                    asp-route-id="@child.Id"
                                    asp-route-returnUrl="@currentUrl"

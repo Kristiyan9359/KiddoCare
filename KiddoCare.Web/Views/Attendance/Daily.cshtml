@@ -103,7 +103,7 @@
             <input asp-for="GroupId" type="hidden" />
 
             <div class="table-responsive">
-                <table class="table table-striped align-middle mb-0">
+                <table class="table table-striped align-middle mb-0 mobile-card-table">
                     <thead>
                         <tr>
                             <th>Child</th>
@@ -116,18 +116,18 @@
                         @for (var i = 0; i < Model.Children.Count; i++)
                         {
                             <tr>
-                                <td>
+                                <td data-label="Child">
                                     <div class="fw-bold">@Model.Children[i].FullName</div>
                                     <input asp-for="Children[i].ChildId" type="hidden" />
                                     <input asp-for="Children[i].FullName" type="hidden" />
                                 </td>
-                                <td>
+                                <td data-label="Status">
                                     <select asp-for="Children[i].Status"
                                             asp-items="Html.GetEnumSelectList<AttendanceStatus>()"
                                             class="form-select">
                                     </select>
                                 </td>
-                                <td>
+                                <td data-label="Note">
                                     <input asp-for="Children[i].Note"
                                            class="form-control"
                                            placeholder="Optional note..." />

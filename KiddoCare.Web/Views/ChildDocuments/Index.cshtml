@@ -157,7 +157,7 @@
     else
     {
         <div class="table-responsive">
-            <table class="table table-striped align-middle mb-0">
+            <table class="table table-striped align-middle mb-0 mobile-card-table">
                 <thead>
                     <tr>
                         <th>Child</th>
@@ -173,11 +173,11 @@
                     @foreach (var document in Model.Documents)
                     {
                         <tr>
-                            <td><div class="fw-bold">@document.ChildFullName</div></td>
-                            <td>@document.GroupName</td>
-                            <td>@document.Type</td>
-                            <td>@document.Title</td>
-                            <td>
+                            <td data-label="Child"><div class="fw-bold">@document.ChildFullName</div></td>
+                            <td data-label="Group">@document.GroupName</td>
+                            <td data-label="Type">@document.Type</td>
+                            <td data-label="Title">@document.Title</td>
+                            <td data-label="Status">
                                 @if (document.Status == RequestStatus.Pending)
                                 {
                                     <span class="badge bg-warning text-dark">Pending</span>
@@ -191,8 +191,8 @@
                                     <span class="badge bg-danger">Declined</span>
                                 }
                             </td>
-                            <td>@document.UploadedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
-                            <td class="text-end">
+                            <td data-label="Uploaded On">@document.UploadedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
+                            <td class="text-end" data-label="Actions">
                                 <div class="action-buttons">
                                     <a asp-action="Details"
                                        asp-route-id="@document.Id"

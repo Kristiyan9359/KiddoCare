@@ -170,6 +170,85 @@ h2 {
         }
 }
 
+@media (max-width: 767px) {
+    .mobile-card-table {
+        display: table;
+        overflow: visible;
+        border-collapse: separate;
+        border-spacing: 0 12px;
+    }
+
+        .mobile-card-table thead {
+            display: none;
+        }
+
+        .mobile-card-table tbody,
+        .mobile-card-table tr,
+        .mobile-card-table td {
+            display: block;
+            width: 100%;
+        }
+
+        .mobile-card-table tbody tr {
+            padding: 12px;
+            border: 1px solid rgba(203, 213, 225, 0.78);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+        }
+
+        .mobile-card-table.table-striped > tbody > tr:nth-of-type(odd) > * {
+            background-color: transparent;
+        }
+
+        .mobile-card-table tbody td {
+            display: grid;
+            grid-template-columns: minmax(112px, 0.38fr) minmax(0, 1fr);
+            gap: 10px;
+            align-items: start;
+            padding: 8px 0;
+            border: 0;
+            white-space: normal;
+        }
+
+            .mobile-card-table tbody td::before {
+                content: attr(data-label);
+                font-size: 0.74rem;
+                font-weight: 800;
+                letter-spacing: 0.02em;
+                text-transform: uppercase;
+                color: var(--kc-muted);
+            }
+
+            .mobile-card-table tbody td:first-child {
+                padding-top: 0;
+            }
+
+            .mobile-card-table tbody td:last-child {
+                padding-bottom: 0;
+            }
+
+        .mobile-card-table .text-end {
+            text-align: left !important;
+        }
+
+        .mobile-card-table .action-buttons {
+            justify-content: flex-start;
+        }
+}
+
+@media (max-width: 480px) {
+    .mobile-card-table tbody td {
+        grid-template-columns: 1fr;
+        gap: 4px;
+    }
+
+    .mobile-card-table .action-buttons,
+    .mobile-card-table .action-buttons .btn {
+        width: 100%;
+    }
+}
+
 .border.rounded.p-3 {
     position: relative;
     overflow: hidden;

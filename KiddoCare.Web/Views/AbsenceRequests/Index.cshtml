@@ -139,7 +139,7 @@
     else
     {
         <div class="table-responsive">
-            <table class="table table-striped align-middle mb-0">
+            <table class="table table-striped align-middle mb-0 mobile-card-table">
                 <thead>
                     <tr>
                         <th>Child</th>
@@ -154,15 +154,15 @@
                     @foreach (var request in Model.AbsenceRequests)
                     {
                         <tr>
-                            <td><div class="fw-bold">@request.ChildFullName</div></td>
-                            <td>@request.GroupName</td>
-                            <td>
+                            <td data-label="Child"><div class="fw-bold">@request.ChildFullName</div></td>
+                            <td data-label="Group">@request.GroupName</td>
+                            <td data-label="Period">
                                 @request.StartDate.ToString("dd MMM yyyy")
                                 -
                                 @request.EndDate.ToString("dd MMM yyyy")
                             </td>
-                            <td>@request.Reason</td>
-                            <td>
+                            <td data-label="Reason">@request.Reason</td>
+                            <td data-label="Status">
                                 @if (request.Status == RequestStatus.Pending)
                                 {
                                     <span class="badge bg-warning text-dark">Pending</span>
@@ -176,7 +176,7 @@
                                     <span class="badge bg-secondary">@request.Status</span>
                                 }
                             </td>
-                            <td class="text-end">
+                            <td class="text-end" data-label="Actions">
                                 <div class="action-buttons">
                                     <a asp-action="Details"
                                        asp-route-id="@request.Id"

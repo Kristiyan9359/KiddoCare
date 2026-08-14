@@ -121,7 +121,7 @@
     else
     {
         <div class="table-responsive">
-            <table class="table table-striped align-middle mb-0">
+            <table class="table table-striped align-middle mb-0 mobile-card-table">
                 <thead>
                     <tr>
                         <th>Child</th>
@@ -138,14 +138,14 @@
                     @foreach (var report in Model.DailyReports)
                     {
                         <tr>
-                            <td><div class="fw-bold">@report.ChildFullName</div></td>
-                            <td>@report.GroupName</td>
-                            <td>@report.ReportDate.ToString("dd MMM yyyy")</td>
-                            <td>@report.Mood</td>
-                            <td><span class="rating-stars">@Html.Raw(Stars(report.MealRating))</span></td>
-                            <td><span class="rating-stars">@Html.Raw(Stars(report.SleepRating))</span></td>
-                            <td><span class="rating-stars">@Html.Raw(Stars(report.ActivityRating))</span></td>
-                            <td class="text-end">
+                            <td data-label="Child"><div class="fw-bold">@report.ChildFullName</div></td>
+                            <td data-label="Group">@report.GroupName</td>
+                            <td data-label="Date">@report.ReportDate.ToString("dd MMM yyyy")</td>
+                            <td data-label="Mood">@report.Mood</td>
+                            <td data-label="Meals"><span class="rating-stars">@Html.Raw(Stars(report.MealRating))</span></td>
+                            <td data-label="Sleep"><span class="rating-stars">@Html.Raw(Stars(report.SleepRating))</span></td>
+                            <td data-label="Activities"><span class="rating-stars">@Html.Raw(Stars(report.ActivityRating))</span></td>
+                            <td class="text-end" data-label="Actions">
                                 <div class="action-buttons">
                                     <a asp-action="Details"
                                        asp-route-id="@report.Id"

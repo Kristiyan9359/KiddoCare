@@ -149,7 +149,7 @@
     else
     {
         <div class="table-responsive">
-            <table class="table table-striped align-middle mb-0">
+            <table class="table table-striped align-middle mb-0 mobile-card-table">
                 <thead>
                     <tr>
                         <th>Child</th>
@@ -165,11 +165,11 @@
                     @foreach (var request in Model.ConsentRequests)
                     {
                         <tr>
-                            <td><div class="fw-bold">@request.ChildFullName</div></td>
-                            <td>@request.GroupName</td>
-                            <td>@request.Title</td>
-                            <td>@request.Type</td>
-                            <td>
+                            <td data-label="Child"><div class="fw-bold">@request.ChildFullName</div></td>
+                            <td data-label="Group">@request.GroupName</td>
+                            <td data-label="Title">@request.Title</td>
+                            <td data-label="Type">@request.Type</td>
+                            <td data-label="Status">
                                 @if (request.Status == RequestStatus.Pending)
                                 {
                                     <span class="badge bg-warning text-dark">Pending</span>
@@ -183,8 +183,8 @@
                                     <span class="badge bg-danger">Declined</span>
                                 }
                             </td>
-                            <td>@request.CreatedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
-                            <td class="text-end">
+                            <td data-label="Created On">@request.CreatedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
+                            <td class="text-end" data-label="Actions">
                                 <div class="action-buttons">
                                     <a asp-action="Details"
                                        asp-route-id="@request.Id"

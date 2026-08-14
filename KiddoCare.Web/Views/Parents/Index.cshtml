@@ -81,7 +81,7 @@
     else
     {
         <div class="table-responsive">
-            <table class="table table-striped align-middle mb-0">
+            <table class="table table-striped align-middle mb-0 mobile-card-table">
                 <thead>
                     <tr>
                         <th>Full Name</th>
@@ -95,13 +95,13 @@
                     @foreach (var parent in Model.Parents)
                     {
                         <tr>
-                            <td><div class="fw-bold">@parent.FullName</div></td>
-                            <td>@parent.Email</td>
-                            <td>
+                            <td data-label="Full Name"><div class="fw-bold">@parent.FullName</div></td>
+                            <td data-label="Email">@parent.Email</td>
+                            <td data-label="Phone">
                                 @(string.IsNullOrWhiteSpace(parent.PhoneNumber) ? "Not specified" : parent.PhoneNumber)
                             </td>
-                            <td>@parent.ChildrenCount</td>
-                            <td class="text-end">
+                            <td data-label="Children">@parent.ChildrenCount</td>
+                            <td class="text-end" data-label="Actions">
                                 <div class="action-buttons">
                                     <a asp-action="Details"
                                        asp-route-id="@parent.Id"

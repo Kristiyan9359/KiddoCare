@@ -81,7 +81,7 @@
     else
     {
         <div class="table-responsive">
-            <table class="table table-striped align-middle mb-0">
+            <table class="table table-striped align-middle mb-0 mobile-card-table">
                 <thead>
                     <tr>
                         <th>Group Name</th>
@@ -93,10 +93,10 @@
                     @foreach (var group in Model.Groups)
                     {
                         <tr>
-                            <td>
+                            <td data-label="Group Name">
                                 <div class="fw-bold">@group.Name</div>
                             </td>
-                            <td>
+                            <td data-label="Description">
                                 @if (string.IsNullOrWhiteSpace(group.Description))
                                 {
                                     <span class="text-muted">No description</span>
@@ -106,7 +106,7 @@
                                     @group.Description
                                 }
                             </td>
-                            <td class="text-end">
+                            <td class="text-end" data-label="Actions">
                                 <div class="action-buttons">
                                     <a asp-action="Details"
                                        asp-route-id="@group.Id"
