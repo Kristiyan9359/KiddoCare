@@ -26,11 +26,38 @@ public class TeacherService : ITeacherService
         this.configuration = configuration;
     }
 
-    public async Task<IEnumerable<TeacherIndexViewModel>> GetAllAsync()
+    public async Task<TeacherListViewModel> GetAllAsync(string? searchTerm, int page, int pageSize)
     {
-        return await context.TeacherProfiles
+        var query = context.TeacherProfiles
             .Where(t => !t.IsDeleted)
+            .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            searchTerm = searchTerm.Trim();
+
+            query = query.Where(t =>
+                t.FullName.Contains(searchTerm) ||
+                t.User.Email!.Contains(searchTerm) ||
+                t.Group.Name.Contains(searchTerm) ||
+                (t.PhoneNumber != null && t.PhoneNumber.Contains(searchTerm)));
+        }
+
+        page = page < 1 ? 1 : page;
+        pageSize = pageSize is 10 or 15 or 20 ? pageSize : 15;
+
+        var totalTeachers = await query.CountAsync();
+        var totalPages = (int)Math.Ceiling(totalTeachers / (double)pageSize);
+
+        if (totalPages > 0 && page > totalPages)
+        {
+            page = totalPages;
+        }
+
+        var teachers = await query
             .OrderBy(t => t.FullName)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
             .Select(t => new TeacherIndexViewModel
             {
                 Id = t.Id,
@@ -40,6 +67,15 @@ public class TeacherService : ITeacherService
                 GroupName = t.Group.Name
             })
             .ToListAsync();
+
+        return new TeacherListViewModel
+        {
+            Teachers = teachers,
+            SearchTerm = searchTerm,
+            Page = page,
+            PageSize = pageSize,
+            TotalTeachers = totalTeachers
+        };
     }
 
     public async Task<TeacherDetailsViewModel?> GetDetailsAsync(int id)
@@ -193,6 +229,29 @@ public class TeacherService : ITeacherService
                 Value = g.Id.ToString(),
                 Text = g.Name
             })
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<string>> GetSearchSuggestionsAsync(string term)
+    {
+        if (string.IsNullOrWhiteSpace(term))
+        {
+            return new List<string>();
+        }
+
+        term = term.Trim();
+
+        return await context.TeacherProfiles
+            .Where(t =>
+                !t.IsDeleted &&
+                (t.FullName.Contains(term) ||
+                 t.User.Email!.Contains(term) ||
+                 t.Group.Name.Contains(term) ||
+                 (t.PhoneNumber != null && t.PhoneNumber.Contains(term))))
+            .OrderBy(t => t.FullName)
+            .Select(t => t.FullName)
+            .Distinct()
+            .Take(8)
             .ToListAsync();
     }
 }

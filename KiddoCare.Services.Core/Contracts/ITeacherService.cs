@@ -4,7 +4,7 @@ namespace KiddoCare.Services.Core.Contracts;
 
 public interface ITeacherService
 {
-    Task<IEnumerable<TeacherIndexViewModel>> GetAllAsync();
+    Task<TeacherListViewModel> GetAllAsync(string? searchTerm, int page, int pageSize);
 
     Task<TeacherDetailsViewModel?> GetDetailsAsync(int id);
 
@@ -19,4 +19,6 @@ public interface ITeacherService
     Task<TeacherDeleteViewModel?> GetForDeleteAsync(int id);
 
     Task DeleteAsync(int id);
+
+    Task<IEnumerable<string>> GetSearchSuggestionsAsync(string term);
 }

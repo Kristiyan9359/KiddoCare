@@ -17,11 +17,11 @@ public class TeachersController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string? searchTerm, int page = 1, int pageSize = 15)
     {
-        var teachers = await teacherService.GetAllAsync();
+        var model = await teacherService.GetAllAsync(searchTerm, page, pageSize);
 
-        return View(teachers);
+        return View(model);
     }
 
     [HttpGet]
@@ -136,5 +136,13 @@ public class TeachersController : Controller
         }
 
         return RedirectToAction(nameof(Index));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Suggestions(string term)
+    {
+        var suggestions = await teacherService.GetSearchSuggestionsAsync(term);
+
+        return Json(suggestions);
     }
 }
