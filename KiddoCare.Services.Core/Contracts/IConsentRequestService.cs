@@ -4,7 +4,9 @@ namespace KiddoCare.Services.Core.Contracts;
 
 public interface IConsentRequestService
 {
-    Task<IEnumerable<ConsentRequestIndexViewModel>> GetAllAsync(string userId, bool isAdmin, bool isTeacher, string? statusFilter);
+    Task<ConsentRequestListViewModel> GetAllAsync(string userId, bool isAdmin, bool isTeacher, string? searchTerm, string? statusFilter, int page, int pageSize);
+
+    Task<IEnumerable<string>> GetSearchSuggestionsAsync(string term, string userId, bool isAdmin, bool isTeacher);
 
     Task<ConsentRequestDetailsViewModel?> GetDetailsAsync(int id, string userId, bool isAdmin, bool isTeacher);
 

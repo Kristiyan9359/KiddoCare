@@ -17,21 +17,25 @@ public class ConsentRequestService : IConsentRequestService
         this.context = context;
     }
 
-    public async Task<IEnumerable<ConsentRequestIndexViewModel>> GetAllAsync(string userId, bool isAdmin, bool isTeacher, string? statusFilter)
+    public async Task<ConsentRequestListViewModel> GetAllAsync(string userId, bool isAdmin, bool isTeacher, string? searchTerm, string? statusFilter, int page, int pageSize)
     {
         var query = context.ConsentRequests
             .Where(c => !c.IsDeleted && !c.Child.IsDeleted)
             .AsQueryable();
 
-        int? teacherGroupId = null;
-
         if (isTeacher && !isAdmin)
         {
-            teacherGroupId = await GetTeacherGroupIdAsync(userId);
+            var teacherGroupId = await GetTeacherGroupIdAsync(userId);
 
             if (teacherGroupId == null)
             {
-                return new List<ConsentRequestIndexViewModel>();
+                return new ConsentRequestListViewModel
+                {
+                    SearchTerm = searchTerm,
+                    StatusFilter = statusFilter,
+                    Page = 1,
+                    PageSize = pageSize
+                };
             }
 
             query = query.Where(c => c.Child.GroupId == teacherGroupId.Value);
@@ -57,8 +61,36 @@ public class ConsentRequestService : IConsentRequestService
             query = query.Where(c => c.Status == RequestStatus.Rejected);
         }
 
-        return await query
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            searchTerm = searchTerm.Trim();
+
+            var matchingTypes = Enum.GetValues<ConsentRequestType>()
+                .Where(t => t.ToString().Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            query = query.Where(c =>
+                c.Title.Contains(searchTerm) ||
+                (c.Child.FirstName + " " + c.Child.LastName).Contains(searchTerm) ||
+                c.Child.Group.Name.Contains(searchTerm) ||
+                matchingTypes.Contains(c.Type));
+        }
+
+        page = page < 1 ? 1 : page;
+        pageSize = pageSize is 10 or 15 or 20 ? pageSize : 15;
+
+        var totalConsentRequests = await query.CountAsync();
+        var totalPages = (int)Math.Ceiling(totalConsentRequests / (double)pageSize);
+
+        if (totalPages > 0 && page > totalPages)
+        {
+            page = totalPages;
+        }
+
+        var consentRequests = await query
             .OrderByDescending(c => c.CreatedOn)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
             .Select(c => new ConsentRequestIndexViewModel
             {
                 Id = c.Id,
@@ -74,6 +106,65 @@ public class ConsentRequestService : IConsentRequestService
                     !c.Child.Parent.IsDeleted &&
                     c.Child.Parent.UserId == userId
             })
+            .ToListAsync();
+
+        return new ConsentRequestListViewModel
+        {
+            ConsentRequests = consentRequests,
+            SearchTerm = searchTerm,
+            StatusFilter = statusFilter,
+            Page = page,
+            PageSize = pageSize,
+            TotalConsentRequests = totalConsentRequests
+        };
+    }
+
+    public async Task<IEnumerable<string>> GetSearchSuggestionsAsync(string term, string userId, bool isAdmin, bool isTeacher)
+    {
+        if (string.IsNullOrWhiteSpace(term))
+        {
+            return new List<string>();
+        }
+
+        term = term.Trim();
+
+        var query = context.ConsentRequests
+            .Where(c => !c.IsDeleted && !c.Child.IsDeleted)
+            .AsQueryable();
+
+        if (isTeacher && !isAdmin)
+        {
+            var teacherGroupId = await GetTeacherGroupIdAsync(userId);
+
+            if (teacherGroupId == null)
+            {
+                return new List<string>();
+            }
+
+            query = query.Where(c => c.Child.GroupId == teacherGroupId.Value);
+        }
+        else if (!isAdmin)
+        {
+            query = query.Where(c =>
+                c.Child.Parent != null &&
+                !c.Child.Parent.IsDeleted &&
+                c.Child.Parent.UserId == userId);
+        }
+
+        var matchingTypes = Enum.GetValues<ConsentRequestType>()
+            .Where(t => t.ToString().Contains(term, StringComparison.OrdinalIgnoreCase))
+            .ToList();
+
+        return await query
+            .Where(c =>
+                c.Title.Contains(term) ||
+                (c.Child.FirstName + " " + c.Child.LastName).Contains(term) ||
+                c.Child.Group.Name.Contains(term) ||
+                matchingTypes.Contains(c.Type))
+            .OrderByDescending(c => c.CreatedOn)
+            .Select(c => c.Title)
+            .Distinct()
+            .Take(8)
             .ToListAsync();
     }
 

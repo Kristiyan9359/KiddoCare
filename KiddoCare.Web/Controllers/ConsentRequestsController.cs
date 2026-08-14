@@ -18,17 +18,27 @@ public class ConsentRequestsController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index(string? statusFilter)
+    public async Task<IActionResult> Index(string? searchTerm, string? statusFilter, int page = 1, int pageSize = 15)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
         var isAdmin = User.IsInRole(Admin);
         var isTeacher = User.IsInRole(Teacher);
 
-        var model = await consentRequestService.GetAllAsync(userId, isAdmin, isTeacher, statusFilter);
-
-        ViewBag.StatusFilter = statusFilter;
+        var model = await consentRequestService.GetAllAsync(userId, isAdmin, isTeacher, searchTerm, statusFilter, page, pageSize);
 
         return View(model);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Suggestions(string term)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        var isAdmin = User.IsInRole(Admin);
+        var isTeacher = User.IsInRole(Teacher);
+
+        var suggestions = await consentRequestService.GetSearchSuggestionsAsync(term, userId, isAdmin, isTeacher);
+
+        return Json(suggestions);
     }
 
     [HttpGet]
