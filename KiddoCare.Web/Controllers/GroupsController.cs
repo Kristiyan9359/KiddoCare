@@ -17,11 +17,11 @@ public class GroupsController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string? searchTerm, int page = 1, int pageSize = 15)
     {
-        var groups = await groupService.GetAllAsync();
+        var model = await groupService.GetAllAsync(searchTerm, page, pageSize);
 
-        return View(groups);
+        return View(model);
     }
 
     [HttpGet]
@@ -125,5 +125,13 @@ public class GroupsController : Controller
         }
 
         return RedirectToAction(nameof(Index));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Suggestions(string term)
+    {
+        var suggestions = await groupService.GetSearchSuggestionsAsync(term);
+
+        return Json(suggestions);
     }
 }

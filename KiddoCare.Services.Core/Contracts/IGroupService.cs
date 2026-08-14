@@ -4,7 +4,7 @@ namespace KiddoCare.Services.Core.Contracts;
 
 public interface IGroupService
 {
-    Task<IEnumerable<GroupIndexViewModel>> GetAllAsync();
+    Task<GroupListViewModel> GetAllAsync(string? searchTerm, int page, int pageSize);
 
     Task<GroupEditViewModel?> GetForEditAsync(int id);
 
@@ -17,4 +17,6 @@ public interface IGroupService
     Task DeleteAsync(int id);
 
     Task<GroupDeleteViewModel?> GetForDeleteAsync(int id);
+
+    Task<IEnumerable<string>> GetSearchSuggestionsAsync(string term);
 }
