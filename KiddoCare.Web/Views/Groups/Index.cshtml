@@ -73,9 +73,8 @@
     @if (!Model.Groups.Any())
     {
         <section class="empty-state compact-empty-state">
-            <div class="empty-state-icon">+</div>
             <h2>No groups found</h2>
-            <p>Try changing the search term or create your first group.</p>
+            <p>Try changing the search term or create a new group.</p>
             <a asp-action="Create" class="btn btn-primary">Create Group</a>
         </section>
     }
