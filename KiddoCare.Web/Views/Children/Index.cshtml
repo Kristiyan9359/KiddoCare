@@ -1,5 +1,5 @@
 ﻿@using static KiddoCare.Common.RoleConstants
-@model IEnumerable<KiddoCare.ViewModels.Children.ChildIndexViewModel>
+@model KiddoCare.ViewModels.Children.ChildListViewModel
 
 @{
     ViewData["Title"] = "Children";
@@ -22,113 +22,199 @@
     }
 </div>
 
-<div class="filter-bar">
-    <a asp-action="Index"
-       class="btn btn-sm @(ViewBag.MedicalFilter == null ? "btn-primary" : "btn-outline-primary")">
-        All children
-    </a>
+<section class="section-panel mb-4">
+    <form asp-action="Index" method="get" class="filter-form">
+        <div class="filter-bar mb-3">
+            <a asp-action="Index"
+               asp-route-pageSize="@Model.PageSize"
+               class="btn btn-sm @(Model.MedicalRecordsFilter == null ? "btn-primary" : "btn-outline-primary")">
+                All children
+            </a>
 
-    <a asp-action="Index"
-       asp-route-medicalFilter="with-records"
-       class="btn btn-sm @(ViewBag.MedicalFilter == "with-records" ? "btn-primary" : "btn-outline-primary")">
-        With medical records
-    </a>
+            <a asp-action="Index"
+               asp-route-medicalFilter="with-records"
+               asp-route-pageSize="@Model.PageSize"
+               class="btn btn-sm @(Model.MedicalRecordsFilter == "with-records" ? "btn-primary" : "btn-outline-primary")">
+                With medical records
+            </a>
 
-    <a asp-action="Index"
-       asp-route-medicalFilter="with-allergies"
-       class="btn btn-sm @(ViewBag.MedicalFilter == "with-allergies" ? "btn-primary" : "btn-outline-primary")">
-        With allergies
-    </a>
-</div>
+            <a asp-action="Index"
+               asp-route-medicalFilter="with-allergies"
+               asp-route-pageSize="@Model.PageSize"
+               class="btn btn-sm @(Model.MedicalRecordsFilter == "with-allergies" ? "btn-primary" : "btn-outline-primary")">
+                With allergies
+            </a>
+        </div>
 
-@if (!Model.Any())
-{
-    <p class="empty-state">No children found.</p>
-}
-else
-{
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Photo</th>
-                <th>Full Name</th>
-                <th>Date of Birth</th>
-                <th>Gender</th>
-                <th>Group</th>
-                <th>Medical</th>
-                <th>Allergies</th>
-                <th class="text-end">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var child in Model)
-            {
-                <tr>
-                    <td>
-                        @if (!string.IsNullOrWhiteSpace(child.PhotoUrl))
-                        {
-                            <img src="@Url.Action("Photo", "Children", new { id = child.Id })"
-                                 alt="@child.FullName"
-                                 class="child-avatar" />
-                        }
-                        else
-                        {
-                            <div class="child-avatar-placeholder">
-                                @child.FullName.Substring(0, 1)
-                            </div>
-                        }
-                    </td>
-                    <td>
-                        <strong>@child.FullName</strong>
-                    </td>
-                    <td>@child.DateOfBirth.ToString("dd MMM yyyy")</td>
-                    <td>@child.Gender</td>
-                    <td>@child.GroupName</td>
-                    <td>
-                        @if (child.HasMedicalRecord)
-                        {
-                            <span class="badge bg-info text-dark">Yes</span>
-                        }
-                        else
-                        {
-                            <span class="badge status-badge-muted">No</span>
-                        }
-                    </td>
-                    <td>
-                        @if (child.HasAllergies)
-                        {
-                            <span class="badge bg-warning text-dark">Yes</span>
-                        }
-                        else
-                        {
-                            <span class="badge status-badge-muted">No</span>
-                        }
-                    </td>
-                    <td class="text-end">
-                        <a asp-action="Details"
-                           asp-route-id="@child.Id"
-                           asp-route-returnUrl="@currentUrl"
-                           class="btn btn-sm btn-outline-secondary">
-                            Details
+        <input type="hidden" name="medicalFilter" value="@Model.MedicalRecordsFilter" />
+        <input type="hidden" name="page" value="1" />
+
+        <div class="form-grid align-items-end">
+            <div class="mb-3">
+                <label asp-for="PageSize" class="form-label">Show</label>
+                <select asp-for="PageSize" class="form-select">
+                    <option value="10">10 children</option>
+                    <option value="15">15 children</option>
+                    <option value="20">20 children</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Apply</button>
+            </div>
+        </div>
+    </form>
+</section>
+
+<section id="children-list" class="section-panel">
+    <div class="section-panel-header">
+        <div>
+            <h2 class="section-panel-title">Children</h2>
+            <p class="section-panel-subtitle">
+                @Model.TotalChildren child records found.
+            </p>
+        </div>
+
+        @if (Model.TotalPages > 0)
+        {
+            <div class="text-muted">
+                Page @Model.Page of @Model.TotalPages
+            </div>
+        }
+    </div>
+
+    @if (!Model.Children.Any())
+    {
+        <section class="empty-state compact-empty-state">
+            <div class="empty-state-icon">+</div>
+            <h2>No children found</h2>
+            <p>Try changing the filter or add a new child profile.</p>
+        </section>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-striped align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Photo</th>
+                        <th>Full Name</th>
+                        <th>Date of Birth</th>
+                        <th>Gender</th>
+                        <th>Group</th>
+                        <th>Medical</th>
+                        <th>Allergies</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var child in Model.Children)
+                    {
+                        <tr>
+                            <td>
+                                @if (!string.IsNullOrWhiteSpace(child.PhotoUrl))
+                                {
+                                    <img src="@Url.Action("Photo", "Children", new { id = child.Id })"
+                                         alt="@child.FullName"
+                                         class="child-avatar" />
+                                }
+                                else
+                                {
+                                    <div class="child-avatar-placeholder">
+                                        @child.FullName.Substring(0, 1)
+                                    </div>
+                                }
+                            </td>
+                            <td>
+                                <strong>@child.FullName</strong>
+                            </td>
+                            <td>@child.DateOfBirth.ToString("dd MMM yyyy")</td>
+                            <td>@child.Gender</td>
+                            <td>@child.GroupName</td>
+                            <td>
+                                @if (child.HasMedicalRecord)
+                                {
+                                    <span class="badge bg-info text-dark">Yes</span>
+                                }
+                                else
+                                {
+                                    <span class="badge status-badge-muted">No</span>
+                                }
+                            </td>
+                            <td>
+                                @if (child.HasAllergies)
+                                {
+                                    <span class="badge bg-warning text-dark">Yes</span>
+                                }
+                                else
+                                {
+                                    <span class="badge status-badge-muted">No</span>
+                                }
+                            </td>
+                            <td class="text-end">
+                                <a asp-action="Details"
+                                   asp-route-id="@child.Id"
+                                   asp-route-returnUrl="@currentUrl"
+                                   class="btn btn-sm btn-outline-secondary">
+                                    Details
+                                </a>
+
+                                @if (isAdmin)
+                                {
+                                    <a asp-action="Edit"
+                                       asp-route-id="@child.Id"
+                                       class="btn btn-sm btn-outline-primary">
+                                        Edit
+                                    </a>
+
+                                    <a asp-action="Delete"
+                                       asp-route-id="@child.Id"
+                                       class="btn btn-sm btn-outline-danger">
+                                        Delete
+                                    </a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        @if (Model.TotalPages > 1)
+        {
+            <nav class="attendance-pager" aria-label="Children pages">
+                <a class="attendance-page-link @(Model.HasPreviousPage ? string.Empty : "disabled")"
+                   asp-action="Index"
+                   asp-route-medicalFilter="@Model.MedicalRecordsFilter"
+                   asp-route-page="@(Model.Page - 1)"
+                   asp-route-pageSize="@Model.PageSize"
+                   asp-fragment="children-list">
+                    Previous
+                </a>
+
+                <div class="attendance-page-numbers">
+                    @for (var pageNumber = 1; pageNumber <= Model.TotalPages; pageNumber++)
+                    {
+                        <a class="attendance-page-number @(pageNumber == Model.Page ? "active" : string.Empty)"
+                           asp-action="Index"
+                           asp-route-medicalFilter="@Model.MedicalRecordsFilter"
+                           asp-route-page="@pageNumber"
+                           asp-route-pageSize="@Model.PageSize"
+                           asp-fragment="children-list">
+                            @pageNumber
                         </a>
+                    }
+                </div>
 
-                        @if (isAdmin)
-                        {
-                            <a asp-action="Edit"
-                               asp-route-id="@child.Id"
-                               class="btn btn-sm btn-outline-primary">
-                                Edit
-                            </a>
-
-                            <a asp-action="Delete"
-                               asp-route-id="@child.Id"
-                               class="btn btn-sm btn-outline-danger">
-                                Delete
-                            </a>
-                        }
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+                <a class="attendance-page-link @(Model.HasNextPage ? string.Empty : "disabled")"
+                   asp-action="Index"
+                   asp-route-medicalFilter="@Model.MedicalRecordsFilter"
+                   asp-route-page="@(Model.Page + 1)"
+                   asp-route-pageSize="@Model.PageSize"
+                   asp-fragment="children-list">
+                    Next
+                </a>
+            </nav>
+        }
+    }
+</section>

@@ -17,7 +17,7 @@ public class ChildService : IChildService
         this.context = context;
     }
 
-    public async Task<IEnumerable<ChildIndexViewModel>> GetAllAsync(string userId, bool isAdmin, bool isTeacher, string? medicalFilter)
+    public async Task<ChildListViewModel> GetAllAsync(string userId, bool isAdmin, bool isTeacher, string? medicalFilter, int page, int pageSize)
     {
         var query = context.Children
             .Where(c => !c.IsDeleted)
@@ -32,7 +32,12 @@ public class ChildService : IChildService
 
             if (teacherGroupId == null)
             {
-                return new List<ChildIndexViewModel>();
+                return new ChildListViewModel
+                {
+                    MedicalRecordsFilter = medicalFilter,
+                    Page = 1,
+                    PageSize = pageSize
+                };
             }
 
             query = query.Where(c => c.GroupId == teacherGroupId.Value);
@@ -55,9 +60,22 @@ public class ChildService : IChildService
                     !string.IsNullOrWhiteSpace(m.Allergies)));
         }
 
-        return await query
+        page = page < 1 ? 1 : page;
+        pageSize = pageSize is 10 or 15 or 20 ? pageSize : 15;
+
+        var totalChildren = await query.CountAsync();
+        var totalPages = (int)Math.Ceiling(totalChildren / (double)pageSize);
+
+        if (totalPages > 0 && page > totalPages)
+        {
+            page = totalPages;
+        }
+
+        var children = await query
             .OrderBy(c => c.FirstName)
             .ThenBy(c => c.LastName)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
             .Select(c => new ChildIndexViewModel
             {
                 Id = c.Id,
@@ -72,8 +90,16 @@ public class ChildService : IChildService
                     !string.IsNullOrWhiteSpace(m.Allergies))
             })
             .ToListAsync();
-    }
 
+        return new ChildListViewModel
+        {
+            Children = children,
+            MedicalRecordsFilter = medicalFilter,
+            Page = page,
+            PageSize = pageSize,
+            TotalChildren = totalChildren
+        };
+    }
     public async Task<ChildCreateViewModel> GetCreateModelAsync()
     {
         return new ChildCreateViewModel

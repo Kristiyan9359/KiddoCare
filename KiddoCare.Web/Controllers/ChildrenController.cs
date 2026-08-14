@@ -22,9 +22,7 @@ public class ChildrenController : Controller
     private readonly IChildService childService;
     private readonly IWebHostEnvironment webHostEnvironment;
 
-    public ChildrenController(
-        IChildService childService,
-        IWebHostEnvironment webHostEnvironment)
+    public ChildrenController(IChildService childService, IWebHostEnvironment webHostEnvironment)
     {
         this.childService = childService;
         this.webHostEnvironment = webHostEnvironment;
@@ -32,17 +30,21 @@ public class ChildrenController : Controller
 
     [HttpGet]
     [Authorize(Roles = $"{Admin},{Teacher}")]
-    public async Task<IActionResult> Index(string? medicalFilter)
+    public async Task<IActionResult> Index(string? medicalFilter, int page = 1, int pageSize = 15)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
         var isAdmin = User.IsInRole(Admin);
         var isTeacher = User.IsInRole(Teacher);
 
-        var children = await childService.GetAllAsync(userId, isAdmin, isTeacher, medicalFilter);
+        var model = await childService.GetAllAsync(
+            userId,
+            isAdmin,
+            isTeacher,
+            medicalFilter,
+            page,
+            pageSize);
 
-        ViewBag.MedicalFilter = medicalFilter;
-
-        return View(children);
+        return View(model);
     }
 
     [Authorize(Roles = Admin)]
