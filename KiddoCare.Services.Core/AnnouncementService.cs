@@ -16,7 +16,13 @@ public class AnnouncementService : IAnnouncementService
         this.context = context;
     }
 
-    public async Task<IEnumerable<AnnouncementIndexViewModel>> GetAllAsync(string userId, bool isAdmin, bool isTeacher)
+    public async Task<AnnouncementListViewModel> GetAllAsync(
+        string userId,
+        bool isAdmin,
+        bool isTeacher,
+        string? searchTerm,
+        int page,
+        int pageSize)
     {
         var query = context.Announcements
             .Where(a => !a.IsDeleted)
@@ -30,7 +36,99 @@ public class AnnouncementService : IAnnouncementService
 
             if (teacherGroupId == null)
             {
-                return new List<AnnouncementIndexViewModel>();
+                return new AnnouncementListViewModel
+                {
+                    SearchTerm = searchTerm,
+                    Page = 1,
+                    PageSize = pageSize
+                };
+            }
+
+            query = query.Where(a =>
+                a.GroupId == null ||
+                a.GroupId == teacherGroupId.Value);
+        }
+        else if (!isAdmin)
+        {
+            var parentGroupIds = await GetParentGroupIdsAsync(userId);
+
+            query = query.Where(a =>
+                a.IsPublic &&
+                (a.GroupId == null || parentGroupIds.Contains(a.GroupId.Value)));
+        }
+
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            searchTerm = searchTerm.Trim();
+
+            query = query.Where(a =>
+                a.Title.Contains(searchTerm) ||
+                a.Content.Contains(searchTerm) ||
+                (a.Group != null && a.Group.Name.Contains(searchTerm)));
+        }
+
+        page = page < 1 ? 1 : page;
+        pageSize = pageSize is 10 or 15 or 20 ? pageSize : 15;
+
+        var totalAnnouncements = await query.CountAsync();
+        var totalPages = (int)Math.Ceiling(totalAnnouncements / (double)pageSize);
+
+        if (totalPages > 0 && page > totalPages)
+        {
+            page = totalPages;
+        }
+
+        var announcements = await query
+            .OrderByDescending(a => a.PublishedOn)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .Select(a => new AnnouncementIndexViewModel
+            {
+                Id = a.Id,
+                Title = a.Title,
+                ContentPreview = a.Content.Length > 120
+                    ? a.Content.Substring(0, 120) + "..."
+                    : a.Content,
+                GroupName = a.Group == null ? "All groups" : a.Group.Name,
+                PublishedOn = a.PublishedOn,
+                CanManage = isAdmin || (teacherGroupId.HasValue && a.GroupId == teacherGroupId.Value)
+            })
+            .ToListAsync();
+
+        return new AnnouncementListViewModel
+        {
+            Announcements = announcements,
+            SearchTerm = searchTerm,
+            Page = page,
+            PageSize = pageSize,
+            TotalAnnouncements = totalAnnouncements
+        };
+    }
+
+    public async Task<IEnumerable<string>> GetSearchSuggestionsAsync(
+        string term,
+        string userId,
+        bool isAdmin,
+        bool isTeacher)
+    {
+        if (string.IsNullOrWhiteSpace(term))
+        {
+            return new List<string>();
+        }
+
+        term = term.Trim();
+
+        var query = context.Announcements
+            .Where(a => !a.IsDeleted)
+            .AsQueryable();
+
+        if (isTeacher && !isAdmin)
+        {
+            var teacherGroupId = await GetTeacherGroupIdAsync(userId);
+
+            if (teacherGroupId == null)
+            {
+                return new List<string>();
             }
 
             query = query.Where(a =>
@@ -47,18 +145,14 @@ public class AnnouncementService : IAnnouncementService
         }
 
         return await query
+            .Where(a =>
+                a.Title.Contains(term) ||
+                a.Content.Contains(term) ||
+                (a.Group != null && a.Group.Name.Contains(term)))
             .OrderByDescending(a => a.PublishedOn)
-            .Select(a => new AnnouncementIndexViewModel
-            {
-                Id = a.Id,
-                Title = a.Title,
-                ContentPreview = a.Content.Length > 120
-                    ? a.Content.Substring(0, 120) + "..."
-                    : a.Content,
-                GroupName = a.Group == null ? "All groups" : a.Group.Name,
-                PublishedOn = a.PublishedOn,
-                CanManage = isAdmin || (teacherGroupId.HasValue && a.GroupId == teacherGroupId.Value)
-            })
+            .Select(a => a.Title)
+            .Distinct()
+            .Take(8)
             .ToListAsync();
     }
 

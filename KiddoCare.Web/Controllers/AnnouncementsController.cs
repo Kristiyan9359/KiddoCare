@@ -18,16 +18,29 @@ public class AnnouncementsController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string? searchTerm, int page = 1, int pageSize = 15)
     {
         string userId = this.GetUserId();
         bool isAdmin = this.User.IsInRole(RoleConstants.Admin);
         bool isTeacher = this.User.IsInRole(RoleConstants.Teacher);
 
-        var announcements = await this.announcementService
-            .GetAllAsync(userId, isAdmin, isTeacher);
+        AnnouncementListViewModel model = await this.announcementService
+            .GetAllAsync(userId, isAdmin, isTeacher, searchTerm, page, pageSize);
 
-        return this.View(announcements);
+        return this.View(model);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Suggestions(string term)
+    {
+        string userId = this.GetUserId();
+        bool isAdmin = this.User.IsInRole(RoleConstants.Admin);
+        bool isTeacher = this.User.IsInRole(RoleConstants.Teacher);
+
+        IEnumerable<string> suggestions = await this.announcementService
+            .GetSearchSuggestionsAsync(term, userId, isAdmin, isTeacher);
+
+        return this.Json(suggestions);
     }
 
     [HttpGet]

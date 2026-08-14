@@ -4,7 +4,9 @@ namespace KiddoCare.Services.Core.Contracts;
 
 public interface IAnnouncementService
 {
-    Task<IEnumerable<AnnouncementIndexViewModel>> GetAllAsync(string userId, bool isAdmin, bool isTeacher);
+    Task<AnnouncementListViewModel> GetAllAsync(string userId, bool isAdmin, bool isTeacher, string? searchTerm, int page, int pageSize);
+
+    Task<IEnumerable<string>> GetSearchSuggestionsAsync(string term, string userId, bool isAdmin, bool isTeacher);
 
     Task<AnnouncementDetailsViewModel?> GetDetailsAsync(int id);
 
