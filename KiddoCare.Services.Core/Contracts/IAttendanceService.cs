@@ -13,4 +13,6 @@ public interface IAttendanceService
     Task<AttendanceEditViewModel?> GetForEditAsync(int id, string userId, bool isAdmin, bool isTeacher);
 
     Task EditAsync(AttendanceEditViewModel model, string userId, bool isAdmin, bool isTeacher);
+
+    Task<IEnumerable<string>> GetHistorySearchSuggestionsAsync(string term, string userId, bool isAdmin, bool isTeacher);
 }

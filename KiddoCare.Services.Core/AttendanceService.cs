@@ -214,6 +214,16 @@ public class AttendanceService : IAttendanceService
             query = query.Where(a => a.Date >= filter.FromDate.Value.Date);
         }
 
+        if (!string.IsNullOrWhiteSpace(filter.SearchTerm))
+        {
+            filter.SearchTerm = filter.SearchTerm.Trim();
+
+            query = query.Where(a =>
+                (a.Child.FirstName + " " + a.Child.LastName).Contains(filter.SearchTerm) ||
+                a.Child.Group.Name.Contains(filter.SearchTerm) ||
+                (a.Note != null && a.Note.Contains(filter.SearchTerm)));
+        }
+
         if (filter.ToDate.HasValue)
         {
             query = query.Where(a => a.Date <= filter.ToDate.Value.Date);
@@ -351,5 +361,44 @@ public class AttendanceService : IAttendanceService
                 !c.IsDeleted &&
                 c.Id == childId &&
                 c.GroupId == teacherGroupId.Value);
+    }
+
+    public async Task<IEnumerable<string>> GetHistorySearchSuggestionsAsync(string term, string userId, bool isAdmin, bool isTeacher)
+    {
+        if (string.IsNullOrWhiteSpace(term))
+        {
+            return new List<string>();
+        }
+
+        term = term.Trim();
+
+        var query = context.AttendanceRecords
+            .Include(a => a.Child)
+            .ThenInclude(c => c.Group)
+            .AsQueryable();
+
+        if (isTeacher && !isAdmin)
+        {
+            var teacherGroupId = await GetTeacherGroupIdAsync(userId);
+
+            if (teacherGroupId == null)
+            {
+                return new List<string>();
+            }
+
+            query = query.Where(a => a.Child.GroupId == teacherGroupId.Value);
+        }
+
+        return await query
+            .Where(a =>
+                (a.Child.FirstName + " " + a.Child.LastName).Contains(term) ||
+                a.Child.Group.Name.Contains(term) ||
+                (a.Note != null && a.Note.Contains(term)))
+            .OrderBy(a => a.Child.FirstName)
+            .ThenBy(a => a.Child.LastName)
+            .Select(a => a.Child.FirstName + " " + a.Child.LastName)
+            .Distinct()
+            .Take(8)
+            .ToListAsync();
     }
 }

@@ -176,4 +176,20 @@ public class AttendanceController : Controller
 
         return RedirectToAction(nameof(History));
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Suggestions(string term)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        var isAdmin = User.IsInRole(Admin);
+        var isTeacher = User.IsInRole(Teacher);
+
+        var suggestions = await attendanceService.GetHistorySearchSuggestionsAsync(
+            term,
+            userId,
+            isAdmin,
+            isTeacher);
+
+        return Json(suggestions);
+    }
 }

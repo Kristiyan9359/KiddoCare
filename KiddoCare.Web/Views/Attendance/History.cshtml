@@ -10,13 +10,16 @@
         <div class="page-kicker">Attendance</div>
         <h1 class="page-title">Attendance History</h1>
         <p class="page-subtitle">
-            Review attendance records by date range, group and status.
+            Review attendance records by date range, child, group and status.
         </p>
     </div>
 </div>
 
 <section class="section-panel">
-    <form asp-action="History" method="get" class="filter-form">
+    <form id="attendanceHistoryFilterForm" asp-action="History" method="get" class="filter-form">
+        <input type="hidden" name="page" value="1" />
+        <input asp-for="PageSize" type="hidden" id="attendancePageSizeHidden" />
+
         <div class="form-grid">
             <div class="mb-3">
                 <label asp-for="FromDate" class="form-label">From</label>
@@ -30,38 +33,41 @@
 
             <div class="mb-3">
                 <label asp-for="GroupId" class="form-label">Group</label>
-                <select asp-for="GroupId" asp-items="Model.Groups" class="form-select">
+                <select asp-for="GroupId" id="attendanceGroupSelect" asp-items="Model.Groups" class="form-select">
                     <option value="">All groups</option>
                 </select>
             </div>
 
             <div class="mb-3">
                 <label asp-for="Status" class="form-label">Status</label>
-                <select asp-for="Status" asp-items="Html.GetEnumSelectList<AttendanceStatus>()" class="form-select">
+                <select asp-for="Status" id="attendanceStatusSelect" asp-items="Html.GetEnumSelectList<AttendanceStatus>()" class="form-select">
                     <option value="">All statuses</option>
-                </select>
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="PageSize" class="form-label">Show</label>
-                <select asp-for="PageSize" class="form-select">
-                    <option value="10">10 records</option>
-                    <option value="15">15 records</option>
-                    <option value="20">20 records</option>
                 </select>
             </div>
         </div>
 
-        <input asp-for="Page" type="hidden" value="1" />
+        <div class="mb-3 search-suggest-wrapper">
+            <label asp-for="SearchTerm" class="form-label">Search</label>
+            <input asp-for="SearchTerm"
+                   id="attendanceHistorySearchInput"
+                   class="form-control"
+                   autocomplete="off"
+                   placeholder="Search by child, group or note..." />
+
+            <div id="attendanceHistorySearchSuggestions"
+                 class="search-suggestions"
+                 hidden>
+            </div>
+        </div>
 
         <div class="form-action-row">
-            <button type="submit" class="btn btn-primary">Filter</button>
+            <button type="submit" class="btn btn-primary">Search</button>
             <a asp-action="History" class="btn btn-secondary">Clear</a>
         </div>
     </form>
 </section>
 
-    <section id="attendance-records" class="section-panel mt-4">
+<section id="attendance-records" class="section-panel mt-4">
     <div class="section-panel-header">
         <div>
             <h2 class="section-panel-title">Records</h2>
@@ -70,12 +76,23 @@
             </p>
         </div>
 
-        @if (Model.TotalPages > 0)
-        {
-            <div class="text-muted">
-                Page @Model.Page of @Model.TotalPages
+        <div class="records-toolbar">
+            <div class="records-page-size">
+                <label for="attendancePageSizeSelect" class="form-label mb-0">Show</label>
+                <select id="attendancePageSizeSelect" class="form-select form-select-sm">
+                    <option value="10" selected="@(Model.PageSize == 10)">10</option>
+                    <option value="15" selected="@(Model.PageSize == 15)">15</option>
+                    <option value="20" selected="@(Model.PageSize == 20)">20</option>
+                </select>
             </div>
-        }
+
+            @if (Model.TotalPages > 0)
+            {
+                <div class="text-muted">
+                    Page @Model.Page of @Model.TotalPages
+                </div>
+            }
+        </div>
     </div>
 
     @if (!Model.Records.Any())
@@ -83,7 +100,7 @@
         <section class="empty-state compact-empty-state">
             <div class="empty-state-icon">+</div>
             <h2>No attendance records</h2>
-            <p>Try changing the filters or save attendance for the selected period.</p>
+            <p>Try changing the search or filters, or save attendance for the selected period.</p>
         </section>
     }
     else
@@ -138,6 +155,7 @@
             <nav class="attendance-pager" aria-label="Attendance history pages">
                 <a class="attendance-page-link @(Model.HasPreviousPage ? string.Empty : "disabled")"
                    asp-action="History"
+                   asp-route-searchTerm="@Model.SearchTerm"
                    asp-route-fromDate="@Model.FromDate?.ToString("yyyy-MM-dd")"
                    asp-route-toDate="@Model.ToDate?.ToString("yyyy-MM-dd")"
                    asp-route-groupId="@Model.GroupId"
@@ -153,6 +171,7 @@
                     {
                         <a class="attendance-page-number @(pageNumber == Model.Page ? "active" : string.Empty)"
                            asp-action="History"
+                           asp-route-searchTerm="@Model.SearchTerm"
                            asp-route-fromDate="@Model.FromDate?.ToString("yyyy-MM-dd")"
                            asp-route-toDate="@Model.ToDate?.ToString("yyyy-MM-dd")"
                            asp-route-groupId="@Model.GroupId"
@@ -167,6 +186,7 @@
 
                 <a class="attendance-page-link @(Model.HasNextPage ? string.Empty : "disabled")"
                    asp-action="History"
+                   asp-route-searchTerm="@Model.SearchTerm"
                    asp-route-fromDate="@Model.FromDate?.ToString("yyyy-MM-dd")"
                    asp-route-toDate="@Model.ToDate?.ToString("yyyy-MM-dd")"
                    asp-route-groupId="@Model.GroupId"
@@ -180,3 +200,138 @@
         }
     }
 </section>
+
+@section Scripts {
+    <script>
+        (() => {
+            const form = document.getElementById('attendanceHistoryFilterForm');
+            const searchInput = document.getElementById('attendanceHistorySearchInput');
+            const suggestionsBox = document.getElementById('attendanceHistorySearchSuggestions');
+            const groupSelect = document.getElementById('attendanceGroupSelect');
+            const statusSelect = document.getElementById('attendanceStatusSelect');
+            const pageSizeSelect = document.getElementById('attendancePageSizeSelect');
+            const pageSizeHidden = document.getElementById('attendancePageSizeHidden');
+
+            if (!form || !searchInput || !suggestionsBox || !groupSelect || !statusSelect || !pageSizeSelect || !pageSizeHidden) {
+                return;
+            }
+
+            let suggestionsTimeout;
+            let activeSuggestionIndex = -1;
+
+            const hideSuggestions = () => {
+                suggestionsBox.hidden = true;
+                suggestionsBox.innerHTML = '';
+                activeSuggestionIndex = -1;
+            };
+
+            const getSuggestionButtons = () => {
+                return Array.from(suggestionsBox.querySelectorAll('button'));
+            };
+
+            const setActiveSuggestion = (index) => {
+                const buttons = getSuggestionButtons();
+
+                buttons.forEach(button => button.classList.remove('active'));
+
+                if (index >= 0 && index < buttons.length) {
+                    buttons[index].classList.add('active');
+                    buttons[index].scrollIntoView({ block: 'nearest' });
+                }
+
+                activeSuggestionIndex = index;
+            };
+
+            const renderSuggestions = (items) => {
+                suggestionsBox.innerHTML = '';
+
+                if (!items.length) {
+                    hideSuggestions();
+                    return;
+                }
+
+                items.forEach(item => {
+                    const button = document.createElement('button');
+                    button.type = 'button';
+                    button.className = 'search-suggestion-item';
+                    button.textContent = item;
+
+                    button.addEventListener('click', () => {
+                        searchInput.value = item;
+                        hideSuggestions();
+                        form.submit();
+                    });
+
+                    suggestionsBox.appendChild(button);
+                });
+
+                suggestionsBox.hidden = false;
+                activeSuggestionIndex = -1;
+            };
+
+            searchInput.addEventListener('input', () => {
+                clearTimeout(suggestionsTimeout);
+
+                const term = searchInput.value.trim();
+
+                if (term.length < 2) {
+                    hideSuggestions();
+                    return;
+                }
+
+                suggestionsTimeout = setTimeout(async () => {
+                    const response = await fetch(`/Attendance/Suggestions?term=${encodeURIComponent(term)}`);
+
+                    if (!response.ok) {
+                        hideSuggestions();
+                        return;
+                    }
+
+                    const items = await response.json();
+                    renderSuggestions(items);
+                }, 250);
+            });
+
+            searchInput.addEventListener('keydown', (event) => {
+                const buttons = getSuggestionButtons();
+
+                if (event.key === 'Escape') {
+                    hideSuggestions();
+                    return;
+                }
+
+                if (suggestionsBox.hidden || !buttons.length) {
+                    return;
+                }
+
+                if (event.key === 'ArrowDown') {
+                    event.preventDefault();
+                    setActiveSuggestion((activeSuggestionIndex + 1) % buttons.length);
+                }
+
+                if (event.key === 'ArrowUp') {
+                    event.preventDefault();
+                    setActiveSuggestion(activeSuggestionIndex <= 0 ? buttons.length - 1 : activeSuggestionIndex - 1);
+                }
+
+                if (event.key === 'Enter' && activeSuggestionIndex >= 0) {
+                    event.preventDefault();
+                    buttons[activeSuggestionIndex].click();
+                }
+            });
+
+            groupSelect.addEventListener('change', () => form.submit());
+            statusSelect.addEventListener('change', () => form.submit());
+            pageSizeSelect.addEventListener('change', () => {
+                pageSizeHidden.value = pageSizeSelect.value;
+                form.submit();
+            });
+
+            document.addEventListener('click', (event) => {
+                if (!suggestionsBox.contains(event.target) && event.target !== searchInput) {
+                    hideSuggestions();
+                }
+            });
+        })();
+    </script>
+}

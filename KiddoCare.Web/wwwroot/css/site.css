@@ -1692,9 +1692,35 @@ textarea.form-control {
         transform: rotate(45deg);
     }
 
-    .search-suggestion-item:hover,
-    .search-suggestion-item.active {
-        background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(22, 163, 184, 0.08));
-        color: var(--kc-primary);
-        transform: translateX(2px);
+.search-suggestion-item:hover,
+.search-suggestion-item.active {
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(22, 163, 184, 0.08));
+    color: var(--kc-primary);
+    transform: translateX(2px);
+}
+
+.records-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: var(--kc-muted);
+}
+
+.records-page-size {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.records-page-size .form-select {
+    width: auto;
+    min-width: 78px;
+}
+
+@media (max-width: 767px) {
+    .records-toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
     }
+}
