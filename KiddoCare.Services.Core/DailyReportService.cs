@@ -17,21 +17,24 @@ public class DailyReportService : IDailyReportService
         this.context = context;
     }
 
-    public async Task<IEnumerable<DailyReportIndexViewModel>> GetAllAsync(string userId, bool isAdmin, bool isTeacher)
+    public async Task<DailyReportListViewModel> GetAllAsync(string userId, bool isAdmin, bool isTeacher, string? searchTerm, int page, int pageSize)
     {
         var query = this.context.DailyReports
             .Where(r => !r.IsDeleted && !r.Child.IsDeleted)
             .AsQueryable();
 
-        int? teacherGroupId = null;
-
         if (isTeacher && !isAdmin)
         {
-            teacherGroupId = await this.GetTeacherGroupIdAsync(userId);
+            int? teacherGroupId = await this.GetTeacherGroupIdAsync(userId);
 
             if (teacherGroupId == null)
             {
-                return new List<DailyReportIndexViewModel>();
+                return new DailyReportListViewModel
+                {
+                    SearchTerm = searchTerm,
+                    Page = 1,
+                    PageSize = pageSize
+                };
             }
 
             query = query.Where(r => r.Child.GroupId == teacherGroupId.Value);
@@ -44,15 +47,43 @@ public class DailyReportService : IDailyReportService
                 r.Child.Parent.UserId == userId);
         }
 
-        return await query
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            searchTerm = searchTerm.Trim();
+
+            var matchingMoods = Enum.GetValues<ChildMood>()
+                .Where(m => m.ToString().Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            query = query.Where(r =>
+                (r.Child.FirstName + " " + r.Child.LastName).Contains(searchTerm) ||
+                r.Child.Group.Name.Contains(searchTerm) ||
+                matchingMoods.Contains(r.Mood));
+        }
+
+        page = page < 1 ? 1 : page;
+        pageSize = pageSize is 10 or 15 or 20 ? pageSize : 15;
+
+        var totalDailyReports = await query.CountAsync();
+        var totalPages = (int)Math.Ceiling(totalDailyReports / (double)pageSize);
+
+        if (totalPages > 0 && page > totalPages)
+        {
+            page = totalPages;
+        }
+
+        var dailyReports = await query
             .OrderByDescending(r => r.ReportDate)
             .ThenBy(r => r.Child.FirstName)
             .ThenBy(r => r.Child.LastName)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
             .Select(r => new DailyReportIndexViewModel
             {
                 Id = r.Id,
                 ChildId = r.ChildId,
                 ChildFullName = r.Child.FirstName + " " + r.Child.LastName,
+                GroupName = r.Child.Group.Name,
                 ReportDate = r.ReportDate,
                 Mood = r.Mood,
                 MealRating = r.MealRating,
@@ -60,6 +91,63 @@ public class DailyReportService : IDailyReportService
                 ActivityRating = r.ActivityRating,
                 CanManage = isAdmin || (isTeacher && r.CreatedByUserId == userId)
             })
+            .ToListAsync();
+
+        return new DailyReportListViewModel
+        {
+            DailyReports = dailyReports,
+            SearchTerm = searchTerm,
+            Page = page,
+            PageSize = pageSize,
+            TotalDailyReports = totalDailyReports
+        };
+    }
+
+    public async Task<IEnumerable<string>> GetSearchSuggestionsAsync(string term, string userId, bool isAdmin, bool isTeacher)
+    {
+        if (string.IsNullOrWhiteSpace(term))
+        {
+            return new List<string>();
+        }
+
+        term = term.Trim();
+
+        var query = this.context.DailyReports
+            .Where(r => !r.IsDeleted && !r.Child.IsDeleted)
+            .AsQueryable();
+
+        if (isTeacher && !isAdmin)
+        {
+            int? teacherGroupId = await this.GetTeacherGroupIdAsync(userId);
+
+            if (teacherGroupId == null)
+            {
+                return new List<string>();
+            }
+
+            query = query.Where(r => r.Child.GroupId == teacherGroupId.Value);
+        }
+        else if (!isAdmin)
+        {
+            query = query.Where(r =>
+                r.Child.Parent != null &&
+                !r.Child.Parent.IsDeleted &&
+                r.Child.Parent.UserId == userId);
+        }
+
+        var matchingMoods = Enum.GetValues<ChildMood>()
+            .Where(m => m.ToString().Contains(term, StringComparison.OrdinalIgnoreCase))
+            .ToList();
+
+        return await query
+            .Where(r =>
+                (r.Child.FirstName + " " + r.Child.LastName).Contains(term) ||
+                r.Child.Group.Name.Contains(term) ||
+                matchingMoods.Contains(r.Mood))
+            .OrderByDescending(r => r.ReportDate)
+            .Select(r => r.Child.FirstName + " " + r.Child.LastName)
+            .Distinct()
+            .Take(8)
             .ToListAsync();
     }
 

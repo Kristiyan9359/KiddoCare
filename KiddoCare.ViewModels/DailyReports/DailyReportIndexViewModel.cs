@@ -10,6 +10,8 @@ public class DailyReportIndexViewModel
 
     public string ChildFullName { get; set; } = null!;
 
+    public string GroupName { get; set; } = null!;
+
     public DateTime ReportDate { get; set; }
 
     public ChildMood Mood { get; set; }
