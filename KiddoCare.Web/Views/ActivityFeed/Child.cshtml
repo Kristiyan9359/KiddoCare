@@ -1,72 +1,219 @@
-﻿@model KiddoCare.ViewModels.ActivityFeed.ChildActivityFeedViewModel
+@model KiddoCare.ViewModels.ActivityFeed.ChildActivityFeedViewModel
 
 @{
     ViewData["Title"] = "Activity Feed";
     var currentUrl = Context.Request.Path + Context.Request.QueryString;
     var backUrl = Model.ReturnUrl ?? Url.Action("Details", "Children", new { id = Model.ChildId });
+    var items = Model.Items.ToList();
+    var groupedItems = items
+        .GroupBy(item => item.Date.Date)
+        .OrderByDescending(group => group.Key)
+        .ToList();
+    var itemTypes = items
+        .GroupBy(item => item.Type)
+        .OrderBy(group => group.Key)
+        .ToList();
 }
 
-<h1>Activity Feed</h1>
-
-<p>
-    <strong>Child:</strong> @Model.ChildFullName
-</p>
-
-@if (!Model.Items.Any())
-{
-    <div class="alert alert-info">
-        No activity yet.
-    </div>
-}
-else
-{
-    <div class="list-group mb-3">
-        @foreach (var item in Model.Items)
+@functions {
+    private static string TypeClass(string type)
+    {
+        return type switch
         {
-            <div class="list-group-item">
-                <div class="d-flex justify-content-between">
-                    <div>
-                        <div class="fw-bold">@item.Title</div>
-                        <div class="text-muted">@item.Type</div>
+            "Attendance" => "attendance",
+            "Daily Report" => "report",
+            "Absence Notice" => "absence",
+            "Consent Request" => "consent",
+            "Event" => "event",
+            "Announcement" => "announcement",
+            _ => "default"
+        };
+    }
 
-                        @if (!string.IsNullOrWhiteSpace(item.Description))
-                        {
-                            <div>@item.Description</div>
-                        }
-                    </div>
+    private static string TypeInitial(string type)
+    {
+        return type switch
+        {
+            "Attendance" => "A",
+            "Daily Report" => "R",
+            "Absence Notice" => "N",
+            "Consent Request" => "C",
+            "Event" => "E",
+            "Announcement" => "M",
+            _ => "I"
+        };
+    }
 
-                    <div class="text-muted">
-                        @item.Date.ToString("dd MMM yyyy HH:mm")
-                    </div>
-                </div>
-
-                @if (!string.IsNullOrWhiteSpace(item.ActionController) &&
-                    !string.IsNullOrWhiteSpace(item.ActionName))
-                {
-                    <div class="mt-2">
-                        @if (item.RouteId.HasValue)
-                        {
-                            <a asp-controller="@item.ActionController"
-                               asp-action="@item.ActionName"
-                               asp-route-id="@item.RouteId.Value"
-                               asp-route-returnUrl="@currentUrl"
-                               class="btn btn-sm btn-outline-secondary">
-                                View
-                            </a>
-                        }
-                        else
-                        {
-                            <a asp-controller="@item.ActionController"
-                               asp-action="@item.ActionName"
-                               class="btn btn-sm btn-outline-secondary">
-                                View
-                            </a>
-                        }
-                    </div>
-                }
-            </div>
-        }
-    </div>
+    private static string ActionLabel(string type)
+    {
+        return type switch
+        {
+            "Attendance" => "View history",
+            "Daily Report" => "View report",
+            "Absence Notice" => "View notice",
+            "Consent Request" => "View request",
+            "Event" => "View event",
+            "Announcement" => "View announcement",
+            _ => "View"
+        };
+    }
 }
 
-<a href="@backUrl" class="btn btn-secondary">Back</a>
+<div class="page-header activity-header">
+    <div>
+        <div class="page-kicker">Child timeline</div>
+        <h1 class="page-title">@Model.ChildFullName</h1>
+        <p class="page-subtitle">
+            A clear timeline of reports, attendance updates, notices, events and parent permissions.
+        </p>
+    </div>
+
+    <div class="page-actions">
+        <a href="@backUrl" class="btn btn-secondary">Back</a>
+    </div>
+</div>
+
+<div class="activity-summary-grid">
+    <button type="button"
+            class="activity-summary-card activity-summary-filter active"
+            data-activity-filter="all">
+        <span>Total activity</span>
+        <strong>@items.Count</strong>
+    </button>
+
+    @foreach (var typeGroup in itemTypes.Take(5))
+    {
+        <button type="button"
+                class="activity-summary-card activity-summary-filter"
+                data-activity-filter="@TypeClass(typeGroup.Key)">
+            <span>@typeGroup.Key</span>
+            <strong>@typeGroup.Count()</strong>
+        </button>
+    }
+</div>
+
+<section class="section-panel activity-feed-panel">
+    <div class="section-panel-header">
+        <div>
+            <h2 class="section-panel-title">Activity Timeline</h2>
+            <p class="section-panel-subtitle">
+                Newest updates appear first.
+            </p>
+        </div>
+
+    </div>
+
+    @if (!items.Any())
+    {
+        <section class="empty-state compact-empty-state">
+            <h2>No activity yet</h2>
+            <p>Updates for this child will appear here when reports, attendance records, notices or events are created.</p>
+        </section>
+    }
+    else
+    {
+        <div class="activity-timeline">
+            @foreach (var dayGroup in groupedItems)
+            {
+                <section class="activity-day-group">
+                    <div class="activity-day-label">
+                        <span>@dayGroup.Key.ToString("dd MMM yyyy")</span>
+                    </div>
+
+                    <div class="activity-day-items">
+                        @foreach (var item in dayGroup.OrderByDescending(i => i.Date))
+                        {
+                            var typeClass = TypeClass(item.Type);
+
+                            <article class="activity-item activity-type-@typeClass"
+                                     data-activity-type="@typeClass">
+                                <div class="activity-marker">@TypeInitial(item.Type)</div>
+
+                                <div class="activity-card">
+                                    <div class="activity-card-header">
+                                        <div>
+                                            <span class="activity-type-pill">@item.Type</span>
+                                            <h3>@item.Title</h3>
+                                        </div>
+
+                                        <time datetime="@item.Date.ToString("O")">
+                                            @item.Date.ToString("HH:mm")
+                                        </time>
+                                    </div>
+
+                                    @if (!string.IsNullOrWhiteSpace(item.Description))
+                                    {
+                                        <p class="activity-description">@item.Description</p>
+                                    }
+
+                                    @if (!string.IsNullOrWhiteSpace(item.ActionController) &&
+                                        !string.IsNullOrWhiteSpace(item.ActionName))
+                                    {
+                                        <div class="activity-card-actions">
+                                            @if (item.RouteId.HasValue)
+                                            {
+                                                <a asp-controller="@item.ActionController"
+                                                   asp-action="@item.ActionName"
+                                                   asp-route-id="@item.RouteId.Value"
+                                                   asp-route-returnUrl="@currentUrl"
+                                                   class="btn btn-sm btn-outline-secondary">
+                                                    @ActionLabel(item.Type)
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a asp-controller="@item.ActionController"
+                                                   asp-action="@item.ActionName"
+                                                   class="btn btn-sm btn-outline-secondary">
+                                                    @ActionLabel(item.Type)
+                                                </a>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            </article>
+                        }
+                    </div>
+                </section>
+            }
+        </div>
+    }
+</section>
+
+@section Scripts {
+    <script>
+        (() => {
+            const filterButtons = document.querySelectorAll('[data-activity-filter]');
+            const activityItems = document.querySelectorAll('[data-activity-type]');
+            const dayGroups = document.querySelectorAll('.activity-day-group');
+
+            if (!filterButtons.length || !activityItems.length) {
+                return;
+            }
+
+            const applyFilter = (filter) => {
+                filterButtons.forEach(button => {
+                    button.classList.toggle('active', button.dataset.activityFilter === filter);
+                });
+
+                activityItems.forEach(item => {
+                    const isVisible = filter === 'all' || item.dataset.activityType === filter;
+                    item.hidden = !isVisible;
+                });
+
+                dayGroups.forEach(group => {
+                    const hasVisibleItems = Array.from(group.querySelectorAll('[data-activity-type]'))
+                        .some(item => !item.hidden);
+
+                    group.hidden = !hasVisibleItems;
+                });
+            };
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    applyFilter(button.dataset.activityFilter);
+                });
+            });
+        })();
+    </script>
+}

@@ -1724,3 +1724,281 @@ textarea.form-control {
         gap: 8px;
     }
 }
+
+.activity-header {
+    align-items: center;
+}
+
+.activity-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.activity-summary-card {
+    display: grid;
+    gap: 8px;
+    min-height: 96px;
+    padding: 16px;
+    border: 1px solid rgba(221, 229, 239, 0.82);
+    border-radius: var(--kc-radius);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(248, 250, 252, 0.74));
+    box-shadow: 0 10px 24px rgba(23, 32, 51, 0.07);
+    color: var(--kc-text);
+    text-align: left;
+}
+
+.activity-summary-card span {
+    color: var(--kc-muted);
+    font-size: 0.78rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.activity-summary-card strong {
+    color: var(--kc-primary);
+    font-size: 1.75rem;
+    line-height: 1;
+}
+
+.activity-summary-filter {
+    cursor: pointer;
+    transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.activity-summary-filter:hover,
+.activity-summary-filter.active {
+    transform: translateY(-2px);
+    border-color: rgba(37, 99, 235, 0.32);
+    box-shadow: 0 16px 30px rgba(23, 32, 51, 0.11);
+}
+
+.activity-feed-panel {
+    overflow: hidden;
+}
+
+.activity-feed-panel .section-panel-header {
+    align-items: flex-start;
+}
+
+.activity-timeline {
+    display: grid;
+    gap: 22px;
+}
+
+.activity-day-group {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: 18px;
+}
+
+.activity-day-label {
+    position: relative;
+    color: var(--kc-muted);
+    font-size: 0.78rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.activity-day-label span {
+    position: sticky;
+    top: 16px;
+    display: inline-flex;
+    padding: 8px 10px;
+    border: 1px solid rgba(221, 229, 239, 0.82);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: 0 8px 18px rgba(23, 32, 51, 0.06);
+}
+
+.activity-day-items {
+    position: relative;
+    display: grid;
+    gap: 14px;
+}
+
+.activity-day-items::before {
+    content: "";
+    position: absolute;
+    top: 12px;
+    bottom: 12px;
+    left: 17px;
+    width: 2px;
+    border-radius: 999px;
+    background: linear-gradient(to bottom, rgba(37, 99, 235, 0.28), rgba(22, 163, 184, 0.14));
+}
+
+.activity-item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 36px minmax(0, 1fr);
+    gap: 14px;
+}
+
+.activity-marker {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 3px solid rgba(255, 255, 255, 0.92);
+    border-radius: 50%;
+    background: var(--kc-primary);
+    color: #ffffff;
+    box-shadow: 0 10px 20px rgba(23, 32, 51, 0.14);
+    font-size: 0.82rem;
+    font-weight: 900;
+}
+
+.activity-card {
+    padding: 16px;
+    border: 1px solid rgba(221, 229, 239, 0.82);
+    border-radius: var(--kc-radius);
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: 0 10px 24px rgba(23, 32, 51, 0.07);
+    transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.activity-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(37, 99, 235, 0.26);
+    box-shadow: 0 16px 32px rgba(23, 32, 51, 0.11);
+}
+
+.activity-card-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    align-items: flex-start;
+}
+
+.activity-card-header h3 {
+    margin: 7px 0 0;
+    font-size: 1.08rem;
+    font-weight: 900;
+}
+
+.activity-card-header time {
+    flex-shrink: 0;
+    color: var(--kc-muted);
+    font-size: 0.86rem;
+    font-weight: 800;
+}
+
+.activity-type-pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+    border-radius: 999px;
+    background: #eef4ff;
+    color: var(--kc-primary);
+    padding: 0 9px;
+    font-size: 0.74rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.activity-description {
+    margin: 10px 0 0;
+    color: var(--kc-muted);
+    font-weight: 600;
+}
+
+.activity-card-actions {
+    margin-top: 14px;
+}
+
+.activity-type-attendance .activity-marker,
+.activity-type-attendance .activity-type-pill {
+    background: #eef4ff;
+    color: var(--kc-primary);
+}
+
+.activity-type-report .activity-marker,
+.activity-type-report .activity-type-pill {
+    background: #ecfdf5;
+    color: #047857;
+}
+
+.activity-type-absence .activity-marker,
+.activity-type-absence .activity-type-pill {
+    background: #fff7ed;
+    color: #c2410c;
+}
+
+.activity-type-consent .activity-marker,
+.activity-type-consent .activity-type-pill {
+    background: #f5f3ff;
+    color: #6d28d9;
+}
+
+.activity-type-event .activity-marker,
+.activity-type-event .activity-type-pill {
+    background: #ecfeff;
+    color: #0e7490;
+}
+
+.activity-type-announcement .activity-marker,
+.activity-type-announcement .activity-type-pill {
+    background: #fefce8;
+    color: #a16207;
+}
+
+.activity-type-default .activity-marker,
+.activity-type-default .activity-type-pill {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+@media (max-width: 1199px) {
+    .activity-summary-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 767px) {
+    .activity-summary-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .activity-feed-panel .section-panel-header {
+        display: grid;
+        gap: 14px;
+    }
+
+    .activity-day-group {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .activity-day-label span {
+        position: static;
+    }
+
+    .activity-card-header {
+        display: grid;
+    }
+}
+
+@media (max-width: 480px) {
+    .activity-summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .activity-item {
+        grid-template-columns: 30px minmax(0, 1fr);
+        gap: 10px;
+    }
+
+    .activity-marker {
+        width: 30px;
+        height: 30px;
+    }
+
+    .activity-day-items::before {
+        left: 14px;
+    }
+}
