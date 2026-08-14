@@ -18,7 +18,7 @@ public class ChildServiceTests
 
         var service = new ChildService(context);
 
-        var result = (await service.GetAllAsync("admin-user-id", isAdmin: true, isTeacher: false, medicalFilter: null)).ToList();
+        var result = (await service.GetAllAsync("admin-user-id", isAdmin: true, isTeacher: false, searchTerm: null, medicalFilter: null, page: 1, pageSize: 15)).Children.ToList();
 
         Assert.Equal(3, result.Count);
         Assert.Contains(result, c => c.FullName == "Ivan Ivanov");
@@ -34,7 +34,7 @@ public class ChildServiceTests
 
         var service = new ChildService(context);
 
-        var result = (await service.GetAllAsync("teacher-user-id", isAdmin: false, isTeacher: true, medicalFilter: null)).ToList();
+        var result = (await service.GetAllAsync("teacher-user-id", isAdmin: false, isTeacher: true, searchTerm: null, medicalFilter: null, page: 1, pageSize: 15)).Children.ToList();
 
         Assert.Equal(2, result.Count);
         Assert.Contains(result, c => c.FullName == "Ivan Ivanov");
@@ -50,7 +50,7 @@ public class ChildServiceTests
 
         var service = new ChildService(context);
 
-        var result = (await service.GetAllAsync("parent-user-id", isAdmin: false, isTeacher: false, medicalFilter: null)).ToList();
+        var result = (await service.GetAllAsync("parent-user-id", isAdmin: false, isTeacher: false, searchTerm: null, medicalFilter: null, page: 1, pageSize: 15)).Children.ToList();
 
         Assert.Equal(2, result.Count);
         Assert.Contains(result, c => c.FullName == "Ivan Ivanov");
@@ -66,7 +66,7 @@ public class ChildServiceTests
 
         var service = new ChildService(context);
 
-        var result = (await service.GetAllAsync("admin-user-id", isAdmin: true, isTeacher: false, medicalFilter: "with-records")).ToList();
+        var result = (await service.GetAllAsync("admin-user-id", isAdmin: true, isTeacher: false, searchTerm: null, medicalFilter: "with-records", page: 1, pageSize: 15)).Children.ToList();
 
         Assert.Equal(2, result.Count);
         Assert.Contains(result, c => c.FullName == "Ivan Ivanov");
@@ -82,7 +82,7 @@ public class ChildServiceTests
 
         var service = new ChildService(context);
 
-        var result = (await service.GetAllAsync("admin-user-id", isAdmin: true, isTeacher: false, medicalFilter: "with-allergies")).ToList();
+        var result = (await service.GetAllAsync("admin-user-id", isAdmin: true, isTeacher: false, searchTerm: null, medicalFilter: "with-allergies", page: 1, pageSize: 15)).Children.ToList();
 
         Assert.Single(result);
         Assert.Equal("Ivan Ivanov", result[0].FullName);

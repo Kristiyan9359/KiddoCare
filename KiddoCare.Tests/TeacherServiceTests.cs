@@ -25,7 +25,7 @@ public class TeacherServiceTests
 
         var service = new TeacherService(context, userManager, CreateConfiguration());
 
-        var result = (await service.GetAllAsync()).ToList();
+        var result = (await service.GetAllAsync(searchTerm: null, page: 1, pageSize: 15)).Teachers.ToList();
 
         Assert.Equal(2, result.Count);
         Assert.Equal("Teacher One", result[0].FullName);

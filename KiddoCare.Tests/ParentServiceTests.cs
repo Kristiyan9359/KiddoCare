@@ -26,7 +26,7 @@ public class ParentServiceTests
 
         var service = new ParentService(context, userManager, CreateConfiguration());
 
-        var result = (await service.GetAllAsync()).ToList();
+        var result = (await service.GetAllAsync(searchTerm: null, page: 1, pageSize: 15)).Parents.ToList();
 
         Assert.Equal(2, result.Count);
         Assert.Equal("Parent One", result[0].FullName);

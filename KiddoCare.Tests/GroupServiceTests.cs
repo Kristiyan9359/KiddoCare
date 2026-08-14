@@ -17,7 +17,7 @@ public class GroupServiceTests
 
         var service = new GroupService(context);
 
-        var result = (await service.GetAllAsync()).ToList();
+        var result = (await service.GetAllAsync(searchTerm: null, page: 1, pageSize: 15)).Groups.ToList();
 
         Assert.Equal(3, result.Count);
         Assert.Equal("Empty Group", result[0].Name);

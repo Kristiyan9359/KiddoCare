@@ -125,7 +125,7 @@ public class EventServiceTests
 
         var service = new EventService(context);
 
-        var result = (await service.GetAllAsync("teacher-user-id", isAdmin: false, isTeacher: true)).ToList();
+        var result = (await service.GetAllAsync("teacher-user-id", isAdmin: false, isTeacher: true, searchTerm: null, page: 1, pageSize: 15)).Events.ToList();
 
         Assert.Equal(3, result.Count);
         Assert.Contains(result, e => e.Title == "Own group event");

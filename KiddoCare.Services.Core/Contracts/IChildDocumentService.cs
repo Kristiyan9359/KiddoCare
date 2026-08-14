@@ -4,7 +4,9 @@ namespace KiddoCare.Services.Core.Contracts;
 
 public interface IChildDocumentService
 {
-    Task<IEnumerable<ChildDocumentIndexViewModel>> GetAllAsync(string userId, bool isAdmin, bool isTeacher, string? statusFilter);
+    Task<ChildDocumentListViewModel> GetAllAsync(string userId, bool isAdmin, bool isTeacher, string? searchTerm, string? statusFilter, int page, int pageSize);
+
+    Task<IEnumerable<string>> GetSearchSuggestionsAsync(string term, string userId, bool isAdmin, bool isTeacher);
 
     Task<ChildDocumentDetailsViewModel?> GetDetailsAsync(int id, string userId, bool isAdmin, bool isTeacher);
 

@@ -71,9 +71,9 @@ public class ChildDocumentServiceTests
 
         var service = new ChildDocumentService(context);
 
-        var result = await service.GetAllAsync("teacher-user-id", isAdmin: false, isTeacher: true, statusFilter: null);
+        var result = await service.GetAllAsync("teacher-user-id", isAdmin: false, isTeacher: true, searchTerm: null, statusFilter: null, page: 1, pageSize: 15);
 
-        var document = Assert.Single(result);
+        var document = Assert.Single(result.Documents);
 
         Assert.Equal("Ivan Ivanov", document.ChildFullName);
         Assert.Equal("Sunshine", document.GroupName);

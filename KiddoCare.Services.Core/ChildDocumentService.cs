@@ -17,7 +17,7 @@ public class ChildDocumentService : IChildDocumentService
         this.context = context;
     }
 
-    public async Task<IEnumerable<ChildDocumentIndexViewModel>> GetAllAsync(string userId, bool isAdmin, bool isTeacher, string? statusFilter)
+    public async Task<ChildDocumentListViewModel> GetAllAsync(string userId, bool isAdmin, bool isTeacher, string? searchTerm, string? statusFilter, int page, int pageSize)
     {
         var query = context.ChildDocuments
             .Where(d => !d.IsDeleted && !d.Child.IsDeleted)
@@ -29,7 +29,13 @@ public class ChildDocumentService : IChildDocumentService
 
             if (teacherGroupId == null)
             {
-                return new List<ChildDocumentIndexViewModel>();
+                return new ChildDocumentListViewModel
+                {
+                    SearchTerm = searchTerm,
+                    StatusFilter = statusFilter,
+                    Page = 1,
+                    PageSize = pageSize
+                };
             }
 
             query = query.Where(d => d.Child.GroupId == teacherGroupId.Value);
@@ -55,8 +61,36 @@ public class ChildDocumentService : IChildDocumentService
             query = query.Where(d => d.Status == RequestStatus.Rejected);
         }
 
-        return await query
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            searchTerm = searchTerm.Trim();
+
+            var matchingTypes = Enum.GetValues<ChildDocumentType>()
+                .Where(t => t.ToString().Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            query = query.Where(d =>
+                d.Title.Contains(searchTerm) ||
+                (d.Child.FirstName + " " + d.Child.LastName).Contains(searchTerm) ||
+                d.Child.Group.Name.Contains(searchTerm) ||
+                matchingTypes.Contains(d.Type));
+        }
+
+        page = page < 1 ? 1 : page;
+        pageSize = pageSize is 10 or 15 or 20 ? pageSize : 15;
+
+        var totalDocuments = await query.CountAsync();
+        var totalPages = (int)Math.Ceiling(totalDocuments / (double)pageSize);
+
+        if (totalPages > 0 && page > totalPages)
+        {
+            page = totalPages;
+        }
+
+        var documents = await query
             .OrderByDescending(d => d.UploadedOn)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
             .Select(d => new ChildDocumentIndexViewModel
             {
                 Id = d.Id,
@@ -68,6 +102,65 @@ public class ChildDocumentService : IChildDocumentService
                 UploadedOn = d.UploadedOn,
                 CanReview = isAdmin && d.Status == RequestStatus.Pending
             })
+            .ToListAsync();
+
+        return new ChildDocumentListViewModel
+        {
+            Documents = documents,
+            SearchTerm = searchTerm,
+            StatusFilter = statusFilter,
+            Page = page,
+            PageSize = pageSize,
+            TotalDocuments = totalDocuments
+        };
+    }
+
+    public async Task<IEnumerable<string>> GetSearchSuggestionsAsync(string term, string userId, bool isAdmin, bool isTeacher)
+    {
+        if (string.IsNullOrWhiteSpace(term))
+        {
+            return new List<string>();
+        }
+
+        term = term.Trim();
+
+        var query = context.ChildDocuments
+            .Where(d => !d.IsDeleted && !d.Child.IsDeleted)
+            .AsQueryable();
+
+        if (isTeacher && !isAdmin)
+        {
+            var teacherGroupId = await GetTeacherGroupIdAsync(userId);
+
+            if (teacherGroupId == null)
+            {
+                return new List<string>();
+            }
+
+            query = query.Where(d => d.Child.GroupId == teacherGroupId.Value);
+        }
+        else if (!isAdmin)
+        {
+            query = query.Where(d =>
+                d.Child.Parent != null &&
+                !d.Child.Parent.IsDeleted &&
+                d.Child.Parent.UserId == userId);
+        }
+
+        var matchingTypes = Enum.GetValues<ChildDocumentType>()
+            .Where(t => t.ToString().Contains(term, StringComparison.OrdinalIgnoreCase))
+            .ToList();
+
+        return await query
+            .Where(d =>
+                d.Title.Contains(term) ||
+                (d.Child.FirstName + " " + d.Child.LastName).Contains(term) ||
+                d.Child.Group.Name.Contains(term) ||
+                matchingTypes.Contains(d.Type))
+            .OrderByDescending(d => d.UploadedOn)
+            .Select(d => d.Title)
+            .Distinct()
+            .Take(8)
             .ToListAsync();
     }
 

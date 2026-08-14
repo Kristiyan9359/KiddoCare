@@ -17,13 +17,7 @@ public class EventService : IEventService
         this.context = context;
     }
 
-    public async Task<EventListViewModel> GetAllAsync(
-        string userId,
-        bool isAdmin,
-        bool isTeacher,
-        string? searchTerm,
-        int page,
-        int pageSize)
+    public async Task<EventListViewModel> GetAllAsync(string userId, bool isAdmin, bool isTeacher, string? searchTerm, int page, int pageSize)
     {
         var query = context.Events
             .Where(e => !e.IsDeleted)
@@ -117,11 +111,7 @@ public class EventService : IEventService
         };
     }
 
-    public async Task<IEnumerable<string>> GetSearchSuggestionsAsync(
-        string term,
-        string userId,
-        bool isAdmin,
-        bool isTeacher)
+    public async Task<IEnumerable<string>> GetSearchSuggestionsAsync(string term, string userId, bool isAdmin, bool isTeacher)
     {
         if (string.IsNullOrWhiteSpace(term))
         {
@@ -372,10 +362,7 @@ public class EventService : IEventService
         await context.SaveChangesAsync();
     }
 
-    private async Task<IEnumerable<SelectListItem>> GetGroupSelectListAsync(
-        string userId,
-        bool isAdmin,
-        bool isTeacher)
+    private async Task<IEnumerable<SelectListItem>> GetGroupSelectListAsync(string userId, bool isAdmin, bool isTeacher)
     {
         var query = context.KindergartenGroups
             .Where(g => !g.IsDeleted)

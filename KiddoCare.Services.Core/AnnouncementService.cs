@@ -16,13 +16,7 @@ public class AnnouncementService : IAnnouncementService
         this.context = context;
     }
 
-    public async Task<AnnouncementListViewModel> GetAllAsync(
-        string userId,
-        bool isAdmin,
-        bool isTeacher,
-        string? searchTerm,
-        int page,
-        int pageSize)
+    public async Task<AnnouncementListViewModel> GetAllAsync(string userId, bool isAdmin, bool isTeacher, string? searchTerm, int page, int pageSize)
     {
         var query = context.Announcements
             .Where(a => !a.IsDeleted)
@@ -105,11 +99,7 @@ public class AnnouncementService : IAnnouncementService
         };
     }
 
-    public async Task<IEnumerable<string>> GetSearchSuggestionsAsync(
-        string term,
-        string userId,
-        bool isAdmin,
-        bool isTeacher)
+    public async Task<IEnumerable<string>> GetSearchSuggestionsAsync(string term, string userId, bool isAdmin, bool isTeacher)
     {
         if (string.IsNullOrWhiteSpace(term))
         {

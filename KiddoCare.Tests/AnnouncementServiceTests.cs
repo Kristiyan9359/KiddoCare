@@ -126,7 +126,7 @@ public class AnnouncementServiceTests
 
         var service = new AnnouncementService(context);
 
-        var result = (await service.GetAllAsync("teacher-user-id", isAdmin: false, isTeacher: true)).ToList();
+        var result = (await service.GetAllAsync("teacher-user-id", isAdmin: false, isTeacher: true, searchTerm: null, page: 1, pageSize: 15)).Announcements.ToList();
 
         Assert.Equal(3, result.Count);
         Assert.Contains(result, a => a.Title == "Own group announcement");

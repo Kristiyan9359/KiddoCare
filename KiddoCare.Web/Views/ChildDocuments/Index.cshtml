@@ -1,12 +1,11 @@
-﻿@using KiddoCare.Data.Models.Enums
+@using KiddoCare.Data.Models.Enums
 @using static KiddoCare.Common.RoleConstants
-@model IEnumerable<KiddoCare.ViewModels.ChildDocuments.ChildDocumentIndexViewModel>
+@model KiddoCare.ViewModels.ChildDocuments.ChildDocumentListViewModel
 
 @{
     ViewData["Title"] = "Child Documents";
     bool canUpload = User.IsInRole(Admin) || User.IsInRole(Parent);
     var currentUrl = Context.Request.Path + Context.Request.QueryString;
-    string? statusFilter = ViewBag.StatusFilter as string;
 }
 
 <div class="list-page-header">
@@ -28,39 +27,119 @@
     }
 </div>
 
-<div class="filter-bar">
-    <div>
-        <strong>Filter documents</strong>
-        <span>Review pending, approved or declined uploads.</span>
+<section id="documents-list" class="section-panel">
+    <div class="section-panel-header">
+        <div>
+            <h2 class="section-panel-title">Document Records</h2>
+            <p class="section-panel-subtitle">
+                @Model.TotalDocuments document records found.
+            </p>
+        </div>
+
+        <div class="records-toolbar">
+            <div class="records-page-size">
+                <label for="documentsPageSizeSelect" class="form-label mb-0">Show</label>
+                <select id="documentsPageSizeSelect" class="form-select form-select-sm">
+                    <option value="10" selected="@(Model.PageSize == 10)">10</option>
+                    <option value="15" selected="@(Model.PageSize == 15)">15</option>
+                    <option value="20" selected="@(Model.PageSize == 20)">20</option>
+                </select>
+            </div>
+
+            @if (Model.TotalPages > 0)
+            {
+                <div class="text-muted">
+                    Page @Model.Page of @Model.TotalPages
+                </div>
+            }
+        </div>
     </div>
 
-    <div class="action-buttons">
-        <a asp-action="Index" class="btn btn-sm @(statusFilter == null ? "btn-primary" : "btn-outline-primary")">All</a>
-        <a asp-action="Index" asp-route-statusFilter="pending" class="btn btn-sm @(statusFilter == "pending" ? "btn-primary" : "btn-outline-primary")">Pending</a>
-        <a asp-action="Index" asp-route-statusFilter="approved" class="btn btn-sm @(statusFilter == "approved" ? "btn-primary" : "btn-outline-primary")">Approved</a>
-        <a asp-action="Index" asp-route-statusFilter="rejected" class="btn btn-sm @(statusFilter == "rejected" ? "btn-primary" : "btn-outline-primary")">Declined</a>
-    </div>
-</div>
+    <form id="documentsFilterForm" asp-action="Index" method="get" class="filter-form mb-3">
+        <input type="hidden" name="page" value="1" />
+        <input asp-for="PageSize" type="hidden" id="documentsPageSizeHidden" />
+        <input type="hidden" name="statusFilter" value="@Model.StatusFilter" />
 
-@if (!Model.Any())
-{
-    <section class="empty-state">
-        <h2>No documents found</h2>
-        <p>Upload a child document such as a declaration, medical file or parent-provided form.</p>
+        <div class="filter-bar mb-3">
+            <div>
+                <strong>Filter documents</strong>
+                <span>Review pending, approved or declined uploads.</span>
+            </div>
 
-        @if (canUpload)
-        {
-            <a asp-action="Create"
-               asp-route-returnUrl="@currentUrl"
-               class="btn btn-primary">
-                Upload Document
-            </a>
-        }
-    </section>
-}
-else
-{
-    <section class="section-panel">
+            <div class="action-buttons">
+                <a asp-action="Index"
+                   asp-route-searchTerm="@Model.SearchTerm"
+                   asp-route-pageSize="@Model.PageSize"
+                   class="btn btn-sm @(Model.StatusFilter == null ? "btn-primary" : "btn-outline-primary")">
+                    All
+                </a>
+
+                <a asp-action="Index"
+                   asp-route-searchTerm="@Model.SearchTerm"
+                   asp-route-statusFilter="pending"
+                   asp-route-pageSize="@Model.PageSize"
+                   class="btn btn-sm @(Model.StatusFilter == "pending" ? "btn-primary" : "btn-outline-primary")">
+                    Pending
+                </a>
+
+                <a asp-action="Index"
+                   asp-route-searchTerm="@Model.SearchTerm"
+                   asp-route-statusFilter="approved"
+                   asp-route-pageSize="@Model.PageSize"
+                   class="btn btn-sm @(Model.StatusFilter == "approved" ? "btn-primary" : "btn-outline-primary")">
+                    Approved
+                </a>
+
+                <a asp-action="Index"
+                   asp-route-searchTerm="@Model.SearchTerm"
+                   asp-route-statusFilter="rejected"
+                   asp-route-pageSize="@Model.PageSize"
+                   class="btn btn-sm @(Model.StatusFilter == "rejected" ? "btn-primary" : "btn-outline-primary")">
+                    Declined
+                </a>
+            </div>
+        </div>
+
+        <div class="form-grid align-items-end">
+            <div class="mb-3 search-suggest-wrapper">
+                <label asp-for="SearchTerm" class="form-label">Search</label>
+                <input asp-for="SearchTerm"
+                       id="documentsSearchInput"
+                       class="form-control"
+                       autocomplete="off"
+                       placeholder="Search by child, title, group or type..." />
+
+                <div id="documentsSearchSuggestions"
+                     class="search-suggestions"
+                     hidden>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Search</button>
+                <a asp-action="Index" class="btn btn-secondary">Clear</a>
+            </div>
+        </div>
+    </form>
+
+    @if (!Model.Documents.Any())
+    {
+        <section class="empty-state compact-empty-state">
+            <h2>No documents found</h2>
+            <p>Try changing the search or status filter, or upload a child document.</p>
+
+            @if (canUpload)
+            {
+                <a asp-action="Create"
+                   asp-route-returnUrl="@currentUrl"
+                   class="btn btn-primary">
+                    Upload Document
+                </a>
+            }
+        </section>
+    }
+    else
+    {
         <div class="table-responsive">
             <table class="table table-striped align-middle mb-0">
                 <thead>
@@ -75,7 +154,7 @@ else
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var document in Model)
+                    @foreach (var document in Model.Documents)
                     {
                         <tr>
                             <td><div class="fw-bold">@document.ChildFullName</div></td>
@@ -122,5 +201,176 @@ else
                 </tbody>
             </table>
         </div>
-    </section>
+
+        @if (Model.TotalPages > 1)
+        {
+            <nav class="attendance-pager" aria-label="Child document pages">
+                <a class="attendance-page-link @(Model.HasPreviousPage ? string.Empty : "disabled")"
+                   asp-action="Index"
+                   asp-route-searchTerm="@Model.SearchTerm"
+                   asp-route-statusFilter="@Model.StatusFilter"
+                   asp-route-page="@(Model.Page - 1)"
+                   asp-route-pageSize="@Model.PageSize"
+                   asp-fragment="documents-list">
+                    Previous
+                </a>
+
+                <div class="attendance-page-numbers">
+                    @for (var pageNumber = 1; pageNumber <= Model.TotalPages; pageNumber++)
+                    {
+                        <a class="attendance-page-number @(pageNumber == Model.Page ? "active" : string.Empty)"
+                           asp-action="Index"
+                           asp-route-searchTerm="@Model.SearchTerm"
+                           asp-route-statusFilter="@Model.StatusFilter"
+                           asp-route-page="@pageNumber"
+                           asp-route-pageSize="@Model.PageSize"
+                           asp-fragment="documents-list">
+                            @pageNumber
+                        </a>
+                    }
+                </div>
+
+                <a class="attendance-page-link @(Model.HasNextPage ? string.Empty : "disabled")"
+                   asp-action="Index"
+                   asp-route-searchTerm="@Model.SearchTerm"
+                   asp-route-statusFilter="@Model.StatusFilter"
+                   asp-route-page="@(Model.Page + 1)"
+                   asp-route-pageSize="@Model.PageSize"
+                   asp-fragment="documents-list">
+                    Next
+                </a>
+            </nav>
+        }
+    }
+</section>
+
+@section Scripts {
+    <script>
+        (() => {
+            const form = document.getElementById('documentsFilterForm');
+            const searchInput = document.getElementById('documentsSearchInput');
+            const pageSizeSelect = document.getElementById('documentsPageSizeSelect');
+            const pageSizeHidden = document.getElementById('documentsPageSizeHidden');
+            const suggestionsBox = document.getElementById('documentsSearchSuggestions');
+
+            if (!form || !searchInput || !pageSizeSelect || !pageSizeHidden || !suggestionsBox) {
+                return;
+            }
+
+            let suggestionsTimeout;
+            let activeSuggestionIndex = -1;
+
+            const hideSuggestions = () => {
+                suggestionsBox.hidden = true;
+                suggestionsBox.innerHTML = '';
+                activeSuggestionIndex = -1;
+            };
+
+            const getSuggestionButtons = () => {
+                return Array.from(suggestionsBox.querySelectorAll('button'));
+            };
+
+            const setActiveSuggestion = (index) => {
+                const buttons = getSuggestionButtons();
+
+                buttons.forEach(button => button.classList.remove('active'));
+
+                if (index >= 0 && index < buttons.length) {
+                    buttons[index].classList.add('active');
+                    buttons[index].scrollIntoView({ block: 'nearest' });
+                }
+
+                activeSuggestionIndex = index;
+            };
+
+            const renderSuggestions = (items) => {
+                suggestionsBox.innerHTML = '';
+
+                if (!items.length) {
+                    hideSuggestions();
+                    return;
+                }
+
+                items.forEach(item => {
+                    const button = document.createElement('button');
+                    button.type = 'button';
+                    button.className = 'search-suggestion-item';
+                    button.textContent = item;
+
+                    button.addEventListener('click', () => {
+                        searchInput.value = item;
+                        hideSuggestions();
+                        form.submit();
+                    });
+
+                    suggestionsBox.appendChild(button);
+                });
+
+                suggestionsBox.hidden = false;
+                activeSuggestionIndex = -1;
+            };
+
+            searchInput.addEventListener('input', () => {
+                clearTimeout(suggestionsTimeout);
+
+                const term = searchInput.value.trim();
+
+                if (term.length < 2) {
+                    hideSuggestions();
+                    return;
+                }
+
+                suggestionsTimeout = setTimeout(async () => {
+                    const response = await fetch(`/ChildDocuments/Suggestions?term=${encodeURIComponent(term)}`);
+
+                    if (!response.ok) {
+                        hideSuggestions();
+                        return;
+                    }
+
+                    const items = await response.json();
+                    renderSuggestions(items);
+                }, 250);
+            });
+
+            searchInput.addEventListener('keydown', (event) => {
+                const buttons = getSuggestionButtons();
+
+                if (event.key === 'Escape') {
+                    hideSuggestions();
+                    return;
+                }
+
+                if (suggestionsBox.hidden || !buttons.length) {
+                    return;
+                }
+
+                if (event.key === 'ArrowDown') {
+                    event.preventDefault();
+                    setActiveSuggestion((activeSuggestionIndex + 1) % buttons.length);
+                }
+
+                if (event.key === 'ArrowUp') {
+                    event.preventDefault();
+                    setActiveSuggestion(activeSuggestionIndex <= 0 ? buttons.length - 1 : activeSuggestionIndex - 1);
+                }
+
+                if (event.key === 'Enter' && activeSuggestionIndex >= 0) {
+                    event.preventDefault();
+                    buttons[activeSuggestionIndex].click();
+                }
+            });
+
+            pageSizeSelect.addEventListener('change', () => {
+                pageSizeHidden.value = pageSizeSelect.value;
+                form.submit();
+            });
+
+            document.addEventListener('click', (event) => {
+                if (!suggestionsBox.contains(event.target) && event.target !== searchInput) {
+                    hideSuggestions();
+                }
+            });
+        })();
+    </script>
 }
