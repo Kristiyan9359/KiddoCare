@@ -25,11 +25,37 @@ public class ParentService : IParentService
         this.configuration = configuration;
     }
 
-    public async Task<IEnumerable<ParentIndexViewModel>> GetAllAsync()
+    public async Task<ParentListViewModel> GetAllAsync(string? searchTerm, int page, int pageSize)
     {
-        return await context.ParentProfiles
+        var query = context.ParentProfiles
             .Where(p => !p.IsDeleted)
+            .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            searchTerm = searchTerm.Trim();
+
+            query = query.Where(p =>
+                p.FullName.Contains(searchTerm) ||
+                p.User.Email!.Contains(searchTerm) ||
+                (p.PhoneNumber != null && p.PhoneNumber.Contains(searchTerm)));
+        }
+
+        page = page < 1 ? 1 : page;
+        pageSize = pageSize is 10 or 15 or 20 ? pageSize : 15;
+
+        var totalParents = await query.CountAsync();
+        var totalPages = (int)Math.Ceiling(totalParents / (double)pageSize);
+
+        if (totalPages > 0 && page > totalPages)
+        {
+            page = totalPages;
+        }
+
+        var parents = await query
             .OrderBy(p => p.FullName)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
             .Select(p => new ParentIndexViewModel
             {
                 Id = p.Id,
@@ -39,6 +65,15 @@ public class ParentService : IParentService
                 ChildrenCount = p.Children.Count(c => !c.IsDeleted)
             })
             .ToListAsync();
+
+        return new ParentListViewModel
+        {
+            Parents = parents,
+            Page = page,
+            PageSize = pageSize,
+            TotalParents = totalParents,
+            SearchTerm = searchTerm
+        };
     }
 
     public async Task<ParentDetailsViewModel?> GetDetailsAsync(int id)
@@ -172,5 +207,27 @@ public class ParentService : IParentService
         parent.IsDeleted = true;
 
         await context.SaveChangesAsync();
+    }
+
+    public async Task<IEnumerable<string>> GetSearchSuggestionsAsync(string term)
+    {
+        if (string.IsNullOrWhiteSpace(term))
+        {
+            return new List<string>();
+        }
+
+        term = term.Trim();
+
+        return await context.ParentProfiles
+            .Where(p =>
+                !p.IsDeleted &&
+                (p.FullName.Contains(term) ||
+                 p.User.Email!.Contains(term) ||
+                 (p.PhoneNumber != null && p.PhoneNumber.Contains(term))))
+            .OrderBy(p => p.FullName)
+            .Select(p => p.FullName)
+            .Distinct()
+            .Take(8)
+            .ToListAsync();
     }
 }

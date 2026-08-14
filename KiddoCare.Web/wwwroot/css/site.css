@@ -1622,3 +1622,79 @@ textarea.form-control {
         min-height: 34px;
     }
 }
+
+.search-suggest-wrapper {
+    position: relative;
+}
+
+.search-suggestions {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(100% - 8px);
+    z-index: 30;
+    overflow: hidden;
+    border: 1px solid rgba(221, 229, 239, 0.9);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 22px 48px rgba(23, 32, 51, 0.16);
+    backdrop-filter: blur(16px);
+    padding: 6px;
+}
+
+    .search-suggestions::before {
+        content: "Suggestions";
+        display: block;
+        padding: 7px 10px 6px;
+        color: var(--kc-muted);
+        font-size: 0.72rem;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+
+.search-suggestion-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 42px;
+    border: 0;
+    border-radius: 9px;
+    background: transparent;
+    color: var(--kc-text);
+    padding: 9px 12px 9px 38px;
+    text-align: left;
+    font-weight: 800;
+    transition: background-color 0.16s ease, color 0.16s ease, transform 0.16s ease;
+}
+
+    .search-suggestion-item::before {
+        content: "";
+        position: absolute;
+        left: 12px;
+        width: 14px;
+        height: 14px;
+        border: 2px solid rgba(37, 99, 235, 0.42);
+        border-radius: 50%;
+        box-shadow: inset 6px -6px 0 -5px rgba(22, 163, 184, 0.45);
+    }
+
+    .search-suggestion-item::after {
+        content: "";
+        position: absolute;
+        left: 24px;
+        top: 25px;
+        width: 7px;
+        height: 2px;
+        border-radius: 999px;
+        background: rgba(37, 99, 235, 0.42);
+        transform: rotate(45deg);
+    }
+
+    .search-suggestion-item:hover,
+    .search-suggestion-item.active {
+        background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(22, 163, 184, 0.08));
+        color: var(--kc-primary);
+        transform: translateX(2px);
+    }

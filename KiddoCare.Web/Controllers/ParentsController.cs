@@ -17,11 +17,11 @@ public class ParentsController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string? searchTerm, int page = 1, int pageSize = 15)
     {
-        var parents = await parentService.GetAllAsync();
+        var model = await parentService.GetAllAsync(searchTerm, page, pageSize);
 
-        return View(parents);
+        return View(model);
     }
 
     [HttpGet]
@@ -126,5 +126,13 @@ public class ParentsController : Controller
         }
 
         return RedirectToAction(nameof(Index));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Suggestions(string term)
+    {
+        var suggestions = await parentService.GetSearchSuggestionsAsync(term);
+
+        return Json(suggestions);
     }
 }
