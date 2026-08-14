@@ -17,7 +17,7 @@ public class AbsenceRequestService : IAbsenceRequestService
         this.context = context;
     }
 
-    public async Task<IEnumerable<AbsenceRequestIndexViewModel>> GetAllAsync(string userId, bool isAdmin, bool isTeacher, string? statusFilter)
+    public async Task<AbsenceRequestListViewModel> GetAllAsync(string userId, bool isAdmin, bool isTeacher, string? searchTerm, string? statusFilter, int page, int pageSize)
     {
         var query = context.AbsenceRequests
             .Where(a =>
@@ -26,15 +26,19 @@ public class AbsenceRequestService : IAbsenceRequestService
                 a.Status != RequestStatus.Rejected)
             .AsQueryable();
 
-        int? teacherGroupId = null;
-
         if (isTeacher && !isAdmin)
         {
-            teacherGroupId = await GetTeacherGroupIdAsync(userId);
+            var teacherGroupId = await GetTeacherGroupIdAsync(userId);
 
             if (teacherGroupId == null)
             {
-                return new List<AbsenceRequestIndexViewModel>();
+                return new AbsenceRequestListViewModel
+                {
+                    SearchTerm = searchTerm,
+                    StatusFilter = statusFilter,
+                    Page = 1,
+                    PageSize = pageSize
+                };
             }
 
             query = query.Where(a => a.Child.GroupId == teacherGroupId.Value);
@@ -55,8 +59,36 @@ public class AbsenceRequestService : IAbsenceRequestService
         {
             query = query.Where(a => a.Status == RequestStatus.Approved);
         }
-        return await query
+
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            searchTerm = searchTerm.Trim();
+
+            var matchingReasons = Enum.GetValues<AbsenceReason>()
+                .Where(r => r.ToString().Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            query = query.Where(a =>
+                (a.Child.FirstName + " " + a.Child.LastName).Contains(searchTerm) ||
+                a.Child.Group.Name.Contains(searchTerm) ||
+                matchingReasons.Contains(a.Reason));
+        }
+
+        page = page < 1 ? 1 : page;
+        pageSize = pageSize is 10 or 15 or 20 ? pageSize : 15;
+
+        var totalAbsenceRequests = await query.CountAsync();
+        var totalPages = (int)Math.Ceiling(totalAbsenceRequests / (double)pageSize);
+
+        if (totalPages > 0 && page > totalPages)
+        {
+            page = totalPages;
+        }
+
+        var absenceRequests = await query
             .OrderByDescending(a => a.RequestedOn)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
             .Select(a => new AbsenceRequestIndexViewModel
             {
                 Id = a.Id,
@@ -68,6 +100,67 @@ public class AbsenceRequestService : IAbsenceRequestService
                 Status = a.Status,
                 CanReview = (isAdmin || isTeacher) && a.Status == RequestStatus.Pending
             })
+            .ToListAsync();
+
+        return new AbsenceRequestListViewModel
+        {
+            AbsenceRequests = absenceRequests,
+            SearchTerm = searchTerm,
+            StatusFilter = statusFilter,
+            Page = page,
+            PageSize = pageSize,
+            TotalAbsenceRequests = totalAbsenceRequests
+        };
+    }
+
+    public async Task<IEnumerable<string>> GetSearchSuggestionsAsync(string term, string userId, bool isAdmin, bool isTeacher)
+    {
+        if (string.IsNullOrWhiteSpace(term))
+        {
+            return new List<string>();
+        }
+
+        term = term.Trim();
+
+        var query = context.AbsenceRequests
+            .Where(a =>
+                !a.IsDeleted &&
+                !a.Child.IsDeleted &&
+                a.Status != RequestStatus.Rejected)
+            .AsQueryable();
+
+        if (isTeacher && !isAdmin)
+        {
+            var teacherGroupId = await GetTeacherGroupIdAsync(userId);
+
+            if (teacherGroupId == null)
+            {
+                return new List<string>();
+            }
+
+            query = query.Where(a => a.Child.GroupId == teacherGroupId.Value);
+        }
+        else if (!isAdmin)
+        {
+            query = query.Where(a =>
+                a.Child.Parent != null &&
+                !a.Child.Parent.IsDeleted &&
+                a.Child.Parent.UserId == userId);
+        }
+
+        var matchingReasons = Enum.GetValues<AbsenceReason>()
+            .Where(r => r.ToString().Contains(term, StringComparison.OrdinalIgnoreCase))
+            .ToList();
+
+        return await query
+            .Where(a =>
+                (a.Child.FirstName + " " + a.Child.LastName).Contains(term) ||
+                a.Child.Group.Name.Contains(term) ||
+                matchingReasons.Contains(a.Reason))
+            .OrderByDescending(a => a.RequestedOn)
+            .Select(a => a.Child.FirstName + " " + a.Child.LastName)
+            .Distinct()
+            .Take(8)
             .ToListAsync();
     }
 
