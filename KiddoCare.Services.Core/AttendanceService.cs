@@ -17,12 +17,7 @@ public class AttendanceService : IAttendanceService
         this.context = context;
     }
 
-    public async Task<AttendanceDailyViewModel> GetDailyAttendanceAsync(
-        DateTime date,
-        int? groupId,
-        string userId,
-        bool isAdmin,
-        bool isTeacher)
+    public async Task<AttendanceDailyViewModel> GetDailyAttendanceAsync(DateTime date, int? groupId, string userId, bool isAdmin, bool isTeacher)
     {
         var normalizedDate = date.Date;
         var effectiveGroupId = groupId;
@@ -116,11 +111,7 @@ public class AttendanceService : IAttendanceService
         };
     }
 
-    public async Task SaveDailyAttendanceAsync(
-        AttendanceDailyViewModel model,
-        string userId,
-        bool isAdmin,
-        bool isTeacher)
+    public async Task SaveDailyAttendanceAsync(AttendanceDailyViewModel model, string userId, bool isAdmin, bool isTeacher)
     {
         var normalizedDate = model.Date.Date;
 
@@ -178,11 +169,7 @@ public class AttendanceService : IAttendanceService
         await context.SaveChangesAsync();
     }
 
-    public async Task<AttendanceFilterViewModel> GetHistoryAsync(
-        AttendanceFilterViewModel filter,
-        string userId,
-        bool isAdmin,
-        bool isTeacher)
+    public async Task<AttendanceFilterViewModel> GetHistoryAsync(AttendanceFilterViewModel filter, string userId, bool isAdmin, bool isTeacher)
     {
         var effectiveGroupId = filter.GroupId;
 
@@ -242,12 +229,27 @@ public class AttendanceService : IAttendanceService
             query = query.Where(a => a.Status == filter.Status.Value);
         }
 
+        filter.Page = filter.Page < 1 ? 1 : filter.Page;
+        filter.PageSize = filter.PageSize is 10 or 15 or 20 ? filter.PageSize : 15;
+
+        var totalRecords = await query.CountAsync();
+
+        var totalPages = (int)Math.Ceiling(totalRecords / (double)filter.PageSize);
+
+        if (totalPages > 0 && filter.Page > totalPages)
+        {
+            filter.Page = totalPages;
+        }
+
         var records = await query
             .OrderByDescending(a => a.Date)
             .ThenBy(a => a.Child.FirstName)
             .ThenBy(a => a.Child.LastName)
+            .Skip((filter.Page - 1) * filter.PageSize)
+            .Take(filter.PageSize)
             .Select(a => new AttendanceRecordViewModel
             {
+                Id = a.Id,
                 Date = a.Date,
                 ChildName = a.Child.FirstName + " " + a.Child.LastName,
                 GroupName = a.Child.Group.Name,
@@ -258,6 +260,7 @@ public class AttendanceService : IAttendanceService
 
         filter.GroupId = effectiveGroupId;
         filter.Groups = groups;
+        filter.TotalRecords = totalRecords;
         filter.Records = records;
 
         return filter;
@@ -269,5 +272,84 @@ public class AttendanceService : IAttendanceService
             .Where(t => !t.IsDeleted && t.UserId == userId)
             .Select(t => (int?)t.GroupId)
             .FirstOrDefaultAsync();
+    }
+
+    public async Task<AttendanceEditViewModel?> GetForEditAsync(int id, string userId, bool isAdmin, bool isTeacher)
+    {
+        var record = await context.AttendanceRecords
+            .Include(a => a.Child)
+            .ThenInclude(c => c.Group)
+            .FirstOrDefaultAsync(a => a.Id == id);
+
+        if (record == null)
+        {
+            return null;
+        }
+
+        if (!await CanManageRecordAsync(record.ChildId, userId, isAdmin, isTeacher))
+        {
+            return null;
+        }
+
+        return new AttendanceEditViewModel
+        {
+            Id = record.Id,
+            Date = record.Date,
+            ChildName = record.Child.FirstName + " " + record.Child.LastName,
+            GroupName = record.Child.Group.Name,
+            Status = record.Status,
+            Note = record.Note
+        };
+    }
+
+    public async Task EditAsync(
+        AttendanceEditViewModel model,
+        string userId,
+        bool isAdmin,
+        bool isTeacher)
+    {
+        var record = await context.AttendanceRecords
+            .FirstOrDefaultAsync(a => a.Id == model.Id);
+
+        if (record == null)
+        {
+            throw new InvalidOperationException("Attendance record not found.");
+        }
+
+        if (!await CanManageRecordAsync(record.ChildId, userId, isAdmin, isTeacher))
+        {
+            throw new UnauthorizedAccessException("You cannot edit this attendance record.");
+        }
+
+        record.Status = model.Status;
+        record.Note = model.Note;
+
+        await context.SaveChangesAsync();
+    }
+
+    private async Task<bool> CanManageRecordAsync(int childId, string userId, bool isAdmin, bool isTeacher)
+    {
+        if (isAdmin)
+        {
+            return true;
+        }
+
+        if (!isTeacher)
+        {
+            return false;
+        }
+
+        var teacherGroupId = await GetTeacherGroupIdAsync(userId);
+
+        if (teacherGroupId == null)
+        {
+            return false;
+        }
+
+        return await context.Children
+            .AnyAsync(c =>
+                !c.IsDeleted &&
+                c.Id == childId &&
+                c.GroupId == teacherGroupId.Value);
     }
 }

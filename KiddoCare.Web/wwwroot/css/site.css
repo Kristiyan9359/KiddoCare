@@ -1546,3 +1546,79 @@ textarea.form-control {
         grid-template-columns: 1fr;
     }
 }
+
+.attendance-pager {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 18px;
+}
+
+.attendance-page-numbers {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.attendance-page-link,
+.attendance-page-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    border: 1px solid rgba(221, 229, 239, 0.9);
+    background: rgba(255, 255, 255, 0.76);
+    color: var(--kc-text);
+    text-decoration: none;
+    font-weight: 800;
+    box-shadow: 0 8px 18px rgba(23, 32, 51, 0.06);
+    transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease, background-color 0.16s ease;
+}
+
+.attendance-page-link {
+    padding: 0 14px;
+    border-radius: 999px;
+}
+
+.attendance-page-number {
+    width: 36px;
+    border-radius: 50%;
+}
+
+    .attendance-page-link:hover,
+    .attendance-page-number:hover {
+        transform: translateY(-1px);
+        border-color: rgba(37, 99, 235, 0.35);
+        color: var(--kc-primary);
+        box-shadow: 0 12px 24px rgba(23, 32, 51, 0.1);
+    }
+
+    .attendance-page-number.active {
+        background: linear-gradient(135deg, var(--kc-primary), #16a3b8);
+        border-color: transparent;
+        color: #fff;
+        box-shadow: 0 12px 24px rgba(37, 99, 235, 0.24);
+    }
+
+.attendance-page-link.disabled {
+    pointer-events: none;
+    opacity: 0.45;
+}
+
+@media (max-width: 767px) {
+    .attendance-pager {
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding-bottom: 4px;
+    }
+
+    .attendance-page-link {
+        padding: 0 12px;
+    }
+
+    .attendance-page-number {
+        width: 34px;
+        min-height: 34px;
+    }
+}

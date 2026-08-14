@@ -71,7 +71,7 @@ else
 
 app.UseHttpsRedirection();
 
-app.UseStatusCodePagesWithReExecute("/Home/StatusCode", "?code={0}");
+app.UseStatusCodePagesWithReExecute("/Home/HandleStatusCode", "?code={0}");
 
 app.UseRouting();
 app.UseAuthentication();

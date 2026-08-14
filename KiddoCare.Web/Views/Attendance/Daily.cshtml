@@ -5,106 +5,143 @@
     ViewData["Title"] = "Daily Attendance";
 }
 
-<h1>Daily Attendance</h1>
-
-<form asp-action="Daily" method="get" class="row g-3 mb-4">
-    <div class="col-md-4">
-        <label asp-for="Date" class="form-label"></label>
-        <input asp-for="Date" type="date" class="form-control" />
+<div class="page-header">
+    <div>
+        <div class="page-kicker">Attendance</div>
+        <h1 class="page-title">Daily Attendance</h1>
+        <p class="page-subtitle">
+            Review and update attendance records for the selected day and group.
+        </p>
     </div>
+</div>
 
-    <div class="col-md-4">
-        <label asp-for="GroupId" class="form-label">Group</label>
-        <select asp-for="GroupId" asp-items="Model.Groups" class="form-select">
-            <option value="">All groups</option>
-        </select>
-    </div>
+<section class="section-panel">
+    <form asp-action="Daily" method="get" class="filter-form">
+        <div class="form-grid align-items-end">
+            <div class="mb-3">
+                <label asp-for="Date" class="form-label">Date</label>
+                <input asp-for="Date" type="date" class="form-control" />
+            </div>
 
-    <div class="col-md-4 d-flex align-items-end">
-        <button type="submit" class="btn btn-primary">Load</button>
-    </div>
-</form>
+            <div class="mb-3">
+                <label asp-for="GroupId" class="form-label">Group</label>
+                <select asp-for="GroupId" asp-items="Model.Groups" class="form-select">
+                    <option value="">All groups</option>
+                </select>
+            </div>
 
-<div class="row g-3 mb-4">
-    <div class="col-md-2">
-        <div class="border rounded p-3">
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Load Attendance</button>
+            </div>
+        </div>
+    </form>
+</section>
+
+<div class="row g-3 my-4">
+    <div class="col-sm-6 col-lg-2">
+        <div class="border rounded p-3 h-100">
             <div class="fw-bold">Present</div>
             <div class="fs-4">@Model.Summary.PresentCount</div>
         </div>
     </div>
 
-    <div class="col-md-2">
-        <div class="border rounded p-3">
+    <div class="col-sm-6 col-lg-2">
+        <div class="border rounded p-3 h-100">
             <div class="fw-bold">Absent</div>
             <div class="fs-4">@Model.Summary.AbsentCount</div>
         </div>
     </div>
 
-    <div class="col-md-2">
-        <div class="border rounded p-3">
+    <div class="col-sm-6 col-lg-2">
+        <div class="border rounded p-3 h-100">
             <div class="fw-bold">Sick</div>
             <div class="fs-4">@Model.Summary.SickCount</div>
         </div>
     </div>
 
-    <div class="col-md-2">
-        <div class="border rounded p-3">
+    <div class="col-sm-6 col-lg-2">
+        <div class="border rounded p-3 h-100">
             <div class="fw-bold">Vacation</div>
             <div class="fs-4">@Model.Summary.VacationCount</div>
         </div>
     </div>
 
-    <div class="col-md-2">
-        <div class="border rounded p-3">
+    <div class="col-sm-6 col-lg-2">
+        <div class="border rounded p-3 h-100">
             <div class="fw-bold">Late</div>
             <div class="fs-4">@Model.Summary.LateCount</div>
         </div>
     </div>
 
-    <div class="col-md-2">
-        <div class="border rounded p-3">
+    <div class="col-sm-6 col-lg-2">
+        <div class="border rounded p-3 h-100">
             <div class="fw-bold">Total</div>
             <div class="fs-4">@Model.Summary.TotalCount</div>
         </div>
     </div>
 </div>
 
-<form asp-action="Daily" method="post">
-    <input asp-for="Date" type="hidden" />
-    <input asp-for="GroupId" type="hidden" />
+<section class="section-panel">
+    <div class="section-panel-header">
+        <h2 class="section-panel-title">Children</h2>
+        <p class="section-panel-subtitle">
+            Set each child's attendance status and add an optional note.
+        </p>
+    </div>
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Child</th>
-                <th>Status</th>
-                <th>Note</th>
-            </tr>
-        </thead>
+    @if (!Model.Children.Any())
+    {
+        <section class="empty-state">
+            <div class="empty-state-icon">+</div>
+            <h2>No children found</h2>
+            <p>Choose another group or create child profiles first.</p>
+        </section>
+    }
+    else
+    {
+        <form asp-action="Daily" method="post">
+            <input asp-for="Date" type="hidden" />
+            <input asp-for="GroupId" type="hidden" />
 
-        <tbody>
+            <div class="table-responsive">
+                <table class="table table-striped align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Child</th>
+                            <th>Status</th>
+                            <th>Note</th>
+                        </tr>
+                    </thead>
 
-            @for (var i = 0; i < Model.Children.Count; i++)
-            {
-                <tr>
-                    <td>
-                        @Model.Children[i].FullName
-                        <input asp-for="Children[i].ChildId" type="hidden" />
-                        <input asp-for="Children[i].FullName" type="hidden" />
-                    </td>
-                    <td>
-                        <select asp-for="Children[i].Status"
-                                asp-items="Html.GetEnumSelectList<AttendanceStatus>()"
-                                class="form-select">
-                        </select>
-                    </td>
-                    <td>
-                        <input asp-for="Children[i].Note" class="form-control" />
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+                    <tbody>
+                        @for (var i = 0; i < Model.Children.Count; i++)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="fw-bold">@Model.Children[i].FullName</div>
+                                    <input asp-for="Children[i].ChildId" type="hidden" />
+                                    <input asp-for="Children[i].FullName" type="hidden" />
+                                </td>
+                                <td>
+                                    <select asp-for="Children[i].Status"
+                                            asp-items="Html.GetEnumSelectList<AttendanceStatus>()"
+                                            class="form-select">
+                                    </select>
+                                </td>
+                                <td>
+                                    <input asp-for="Children[i].Note"
+                                           class="form-control"
+                                           placeholder="Optional note..." />
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
 
-    <button type="submit" class="btn btn-success">Save Attendance</button>
-</form>
+            <div class="form-action-row">
+                <button type="submit" class="btn btn-success">Save Attendance</button>
+            </div>
+        </form>
+    }
+</section>

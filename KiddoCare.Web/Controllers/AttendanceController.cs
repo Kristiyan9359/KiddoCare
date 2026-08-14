@@ -86,4 +86,94 @@ public class AttendanceController : Controller
 
         return View(model);
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Edit(int id, string? returnUrl)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        var isAdmin = User.IsInRole(Admin);
+        var isTeacher = User.IsInRole(Teacher);
+
+        var model = await attendanceService.GetForEditAsync(
+            id,
+            userId,
+            isAdmin,
+            isTeacher);
+
+        if (model == null)
+        {
+            return NotFound();
+        }
+
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
+
+        return View(model);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Edit(AttendanceEditViewModel model)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        var isAdmin = User.IsInRole(Admin);
+        var isTeacher = User.IsInRole(Teacher);
+
+        if (!ModelState.IsValid)
+        {
+            var invalidModel = await attendanceService.GetForEditAsync(
+                model.Id,
+                userId,
+                isAdmin,
+                isTeacher);
+
+            if (invalidModel == null)
+            {
+                return NotFound();
+            }
+
+            invalidModel.Status = model.Status;
+            invalidModel.Note = model.Note;
+            invalidModel.ReturnUrl = model.ReturnUrl;
+
+            return View(invalidModel);
+        }
+
+        try
+        {
+            await attendanceService.EditAsync(
+                model,
+                userId,
+                isAdmin,
+                isTeacher);
+        }
+        catch (InvalidOperationException)
+        {
+            return NotFound();
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return Forbid();
+        }
+
+        return RedirectToLocalOrHistory(model.ReturnUrl);
+    }
+
+    private string? GetSafeReturnUrl(string? returnUrl)
+    {
+        if (string.IsNullOrWhiteSpace(returnUrl))
+        {
+            return null;
+        }
+
+        return Url.IsLocalUrl(returnUrl) ? returnUrl : null;
+    }
+
+    private IActionResult RedirectToLocalOrHistory(string? returnUrl)
+    {
+        if (!string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl))
+        {
+            return LocalRedirect(returnUrl);
+        }
+
+        return RedirectToAction(nameof(History));
+    }
 }

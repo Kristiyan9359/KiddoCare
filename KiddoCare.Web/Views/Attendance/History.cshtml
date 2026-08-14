@@ -5,59 +5,178 @@
     ViewData["Title"] = "Attendance History";
 }
 
-<h1>Attendance History</h1>
-
-<form asp-action="History" method="get" class="row g-3 mb-4">
-    <div class="col-md-3">
-        <label asp-for="FromDate" class="form-label">From</label>
-        <input asp-for="FromDate" type="date" class="form-control" />
+<div class="page-header">
+    <div>
+        <div class="page-kicker">Attendance</div>
+        <h1 class="page-title">Attendance History</h1>
+        <p class="page-subtitle">
+            Review attendance records by date range, group and status.
+        </p>
     </div>
+</div>
 
-    <div class="col-md-3">
-        <label asp-for="ToDate" class="form-label">To</label>
-        <input asp-for="ToDate" type="date" class="form-control" />
-    </div>
+<section class="section-panel">
+    <form asp-action="History" method="get" class="filter-form">
+        <div class="form-grid">
+            <div class="mb-3">
+                <label asp-for="FromDate" class="form-label">From</label>
+                <input asp-for="FromDate" type="date" class="form-control" />
+            </div>
 
-    <div class="col-md-3">
-        <label asp-for="GroupId" class="form-label">Group</label>
-        <select asp-for="GroupId" asp-items="Model.Groups" class="form-select">
-            <option value="">All groups</option>
-        </select>
-    </div>
+            <div class="mb-3">
+                <label asp-for="ToDate" class="form-label">To</label>
+                <input asp-for="ToDate" type="date" class="form-control" />
+            </div>
 
-    <div class="col-md-3">
-        <label asp-for="Status" class="form-label">Status</label>
-        <select asp-for="Status" asp-items="Html.GetEnumSelectList<AttendanceStatus>()" class="form-select">
-            <option value="">All statuses</option>
-        </select>
-    </div>
+            <div class="mb-3">
+                <label asp-for="GroupId" class="form-label">Group</label>
+                <select asp-for="GroupId" asp-items="Model.Groups" class="form-select">
+                    <option value="">All groups</option>
+                </select>
+            </div>
 
-    <div class="col-md-12">
-        <button type="submit" class="btn btn-primary">Filter</button>
-        <a asp-action="History" class="btn btn-secondary">Clear</a>
-    </div>
-</form>
+            <div class="mb-3">
+                <label asp-for="Status" class="form-label">Status</label>
+                <select asp-for="Status" asp-items="Html.GetEnumSelectList<AttendanceStatus>()" class="form-select">
+                    <option value="">All statuses</option>
+                </select>
+            </div>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Date</th>
-            <th>Child</th>
-            <th>Group</th>
-            <th>Status</th>
-            <th>Note</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var record in Model.Records)
+            <div class="mb-3">
+                <label asp-for="PageSize" class="form-label">Show</label>
+                <select asp-for="PageSize" class="form-select">
+                    <option value="10">10 records</option>
+                    <option value="15">15 records</option>
+                    <option value="20">20 records</option>
+                </select>
+            </div>
+        </div>
+
+        <input asp-for="Page" type="hidden" value="1" />
+
+        <div class="form-action-row">
+            <button type="submit" class="btn btn-primary">Filter</button>
+            <a asp-action="History" class="btn btn-secondary">Clear</a>
+        </div>
+    </form>
+</section>
+
+    <section id="attendance-records" class="section-panel mt-4">
+    <div class="section-panel-header">
+        <div>
+            <h2 class="section-panel-title">Records</h2>
+            <p class="section-panel-subtitle">
+                @Model.TotalRecords attendance records found.
+            </p>
+        </div>
+
+        @if (Model.TotalPages > 0)
         {
-            <tr>
-                <td>@record.Date.ToString("dd MMM yyyy")</td>
-                <td>@record.ChildName</td>
-                <td>@record.GroupName</td>
-                <td>@record.Status</td>
-                <td>@record.Note</td>
-            </tr>
+            <div class="text-muted">
+                Page @Model.Page of @Model.TotalPages
+            </div>
         }
-    </tbody>
-</table>
+    </div>
+
+    @if (!Model.Records.Any())
+    {
+        <section class="empty-state compact-empty-state">
+            <div class="empty-state-icon">+</div>
+            <h2>No attendance records</h2>
+            <p>Try changing the filters or save attendance for the selected period.</p>
+        </section>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-striped align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Child</th>
+                        <th>Group</th>
+                        <th>Status</th>
+                        <th>Note</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var record in Model.Records)
+                    {
+                        <tr>
+                            <td>@record.Date.ToString("dd MMM yyyy")</td>
+                            <td>
+                                <div class="fw-bold">@record.ChildName</div>
+                            </td>
+                            <td>@record.GroupName</td>
+                            <td>
+                                <span class="status-badge status-@record.Status.ToString().ToLowerInvariant()">
+                                    @record.Status
+                                </span>
+                            </td>
+                            <td>
+                                <div class="attendance-note">
+                                    @(string.IsNullOrWhiteSpace(record.Note) ? "No note" : record.Note)
+                                </div>
+                            </td>
+                            <td class="text-end">
+                                <a asp-action="Edit"
+                                   asp-route-id="@record.Id"
+                                   asp-route-returnUrl="@Context.Request.Path@Context.Request.QueryString"
+                                   class="btn btn-sm btn-outline-primary">
+                                    Edit
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        @if (Model.TotalPages > 1)
+        {
+            <nav class="attendance-pager" aria-label="Attendance history pages">
+                <a class="attendance-page-link @(Model.HasPreviousPage ? string.Empty : "disabled")"
+                   asp-action="History"
+                   asp-route-fromDate="@Model.FromDate?.ToString("yyyy-MM-dd")"
+                   asp-route-toDate="@Model.ToDate?.ToString("yyyy-MM-dd")"
+                   asp-route-groupId="@Model.GroupId"
+                   asp-route-status="@Model.Status"
+                   asp-route-page="@(Model.Page - 1)"
+                   asp-route-pageSize="@Model.PageSize"
+                   asp-fragment="attendance-records">
+                    Previous
+                </a>
+
+                <div class="attendance-page-numbers">
+                    @for (var pageNumber = 1; pageNumber <= Model.TotalPages; pageNumber++)
+                    {
+                        <a class="attendance-page-number @(pageNumber == Model.Page ? "active" : string.Empty)"
+                           asp-action="History"
+                           asp-route-fromDate="@Model.FromDate?.ToString("yyyy-MM-dd")"
+                           asp-route-toDate="@Model.ToDate?.ToString("yyyy-MM-dd")"
+                           asp-route-groupId="@Model.GroupId"
+                           asp-route-status="@Model.Status"
+                           asp-route-page="@pageNumber"
+                           asp-route-pageSize="@Model.PageSize"
+                           asp-fragment="attendance-records">
+                            @pageNumber
+                        </a>
+                    }
+                </div>
+
+                <a class="attendance-page-link @(Model.HasNextPage ? string.Empty : "disabled")"
+                   asp-action="History"
+                   asp-route-fromDate="@Model.FromDate?.ToString("yyyy-MM-dd")"
+                   asp-route-toDate="@Model.ToDate?.ToString("yyyy-MM-dd")"
+                   asp-route-groupId="@Model.GroupId"
+                   asp-route-status="@Model.Status"
+                   asp-route-page="@(Model.Page + 1)"
+                   asp-route-pageSize="@Model.PageSize"
+                   asp-fragment="attendance-records">
+                    Next
+                </a>
+            </nav>
+        }
+    }
+</section>

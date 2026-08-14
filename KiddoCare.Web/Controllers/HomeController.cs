@@ -23,7 +23,7 @@ namespace KiddoCare.Controllers
             return View();
         }
 
-        public IActionResult StatusCode(int code)
+        public IActionResult HandleStatusCode(int code)
         {
             Response.StatusCode = code;
 
@@ -42,7 +42,7 @@ namespace KiddoCare.Controllers
                 _ => "The request could not be completed."
             };
 
-            return View();
+            return View("StatusCode");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
