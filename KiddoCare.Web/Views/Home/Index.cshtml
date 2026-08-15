@@ -1,8 +1,68 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+@{
+    ViewData["Title"] = "Home";
+    bool isAuthenticated = User.Identity?.IsAuthenticated == true;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="home-hero">
+    <div class="home-hero-content">
+        <div class="page-kicker">Kindergarten care platform</div>
+        <h1 class="page-title">KiddoCare</h1>
+        <p class="page-subtitle">
+            A calm workspace for child records, attendance, daily reports, parent notices and kindergarten events.
+        </p>
+
+        <div class="home-hero-actions">
+            @if (isAuthenticated)
+            {
+                <a asp-controller="Dashboard" asp-action="Index" class="btn btn-primary">Open Dashboard</a>
+            }
+            else
+            {
+                <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-primary">Login</a>
+                <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-outline-primary">Create Account</a>
+            }
+        </div>
+    </div>
+
+    <div class="home-hero-panel">
+        <div class="home-status-row">
+            <span>Today</span>
+            <strong>Ready for care</strong>
+        </div>
+
+        <div class="home-preview-list">
+            <div>
+                <span class="home-preview-dot home-preview-dot-success"></span>
+                <span>Attendance records</span>
+            </div>
+            <div>
+                <span class="home-preview-dot home-preview-dot-primary"></span>
+                <span>Daily reports</span>
+            </div>
+            <div>
+                <span class="home-preview-dot home-preview-dot-warning"></span>
+                <span>Parent responses</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="home-feature-grid">
+    <article class="home-feature-card">
+        <span class="home-feature-kicker">Admin</span>
+        <h2>Overview and management</h2>
+        <p>Groups, children, staff, parents, documents and recent kindergarten activity in one place.</p>
+    </article>
+
+    <article class="home-feature-card">
+        <span class="home-feature-kicker">Teacher</span>
+        <h2>Daily classroom flow</h2>
+        <p>Attendance, reports, medical awareness, announcements and events for the assigned group.</p>
+    </article>
+
+    <article class="home-feature-card">
+        <span class="home-feature-kicker">Parent</span>
+        <h2>Child updates</h2>
+        <p>Daily care summaries, consent responses, absence notices, documents and upcoming activities.</p>
+    </article>
+</section>
