@@ -828,10 +828,12 @@ textarea.form-control {
     gap: 22px;
     align-items: stretch;
     margin-top: 24px;
+    min-height: 360px;
 }
 
 .home-hero-content,
 .home-hero-panel,
+.home-flow-card,
 .home-feature-card {
     border: 1px solid rgba(221, 229, 239, 0.78);
     border-radius: var(--kc-radius);
@@ -841,7 +843,14 @@ textarea.form-control {
 }
 
 .home-hero-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     padding: 34px;
+    background:
+        linear-gradient(135deg, rgba(37, 99, 235, 0.1), transparent 42%),
+        linear-gradient(315deg, rgba(22, 135, 93, 0.1), transparent 46%),
+        rgba(255, 255, 255, 0.86);
 }
 
 .home-hero-content .page-title {
@@ -863,6 +872,21 @@ textarea.form-control {
         linear-gradient(145deg, rgba(37, 99, 235, 0.12), transparent 45%),
         linear-gradient(315deg, rgba(22, 135, 93, 0.12), transparent 42%),
         rgba(255, 255, 255, 0.86);
+}
+
+.home-hero-panel::before {
+    content: "KC";
+    display: grid;
+    place-items: center;
+    width: 88px;
+    height: 88px;
+    margin-bottom: 22px;
+    border-radius: 24px;
+    color: #ffffff;
+    background: linear-gradient(135deg, var(--kc-primary), #14b8a6);
+    box-shadow: 0 18px 38px rgba(37, 99, 235, 0.24);
+    font-size: 1.6rem;
+    font-weight: 900;
 }
 
 .home-status-row {
@@ -902,6 +926,44 @@ textarea.form-control {
     border-radius: var(--kc-radius);
     background: rgba(255, 255, 255, 0.7);
     font-weight: 800;
+}
+
+.home-flow-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 18px;
+}
+
+.home-flow-card {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 18px;
+}
+
+.home-flow-card span {
+    display: grid;
+    flex: 0 0 38px;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    color: #ffffff;
+    background: var(--kc-primary);
+    box-shadow: 0 10px 22px rgba(37, 99, 235, 0.2);
+    font-weight: 900;
+}
+
+.home-flow-card h2 {
+    margin-bottom: 6px;
+    font-size: 1.05rem;
+}
+
+.home-flow-card p {
+    margin-bottom: 0;
+    color: var(--kc-muted);
+    line-height: 1.55;
 }
 
 .home-preview-dot {
@@ -1545,6 +1607,7 @@ textarea.form-control {
 
 @media (max-width: 991px) {
     .home-hero,
+    .home-flow-grid,
     .home-feature-grid {
         grid-template-columns: 1fr;
     }
@@ -1567,6 +1630,7 @@ textarea.form-control {
 @media (max-width: 575px) {
     .home-hero-content,
     .home-hero-panel,
+    .home-flow-card,
     .home-feature-card {
         padding: 18px;
     }

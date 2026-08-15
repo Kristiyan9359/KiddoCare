@@ -1,6 +1,6 @@
 @{
     ViewData["Title"] = "Home";
-    bool isAuthenticated = User.Identity?.IsAuthenticated == true;
+    var dashboardUrl = Url.Action("Index", "Dashboard") ?? "/Dashboard";
 }
 
 <section class="home-hero">
@@ -12,15 +12,14 @@
         </p>
 
         <div class="home-hero-actions">
-            @if (isAuthenticated)
-            {
-                <a asp-controller="Dashboard" asp-action="Index" class="btn btn-primary">Open Dashboard</a>
-            }
-            else
-            {
-                <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-primary">Login</a>
-                <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-outline-primary">Create Account</a>
-            }
+            <a asp-area="Identity"
+               asp-page="/Account/Login"
+               asp-route-returnUrl="@dashboardUrl"
+               class="btn btn-primary">
+                Login
+            </a>
+
+            <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-outline-primary">Create Account</a>
         </div>
     </div>
 
@@ -45,6 +44,32 @@
             </div>
         </div>
     </div>
+</section>
+
+<section class="home-flow-grid">
+    <article class="home-flow-card">
+        <span>1</span>
+        <div>
+            <h2>Record the day</h2>
+            <p>Teachers manage attendance and share clear daily reports.</p>
+        </div>
+    </article>
+
+    <article class="home-flow-card">
+        <span>2</span>
+        <div>
+            <h2>Keep parents close</h2>
+            <p>Parents follow updates, respond to requests and send absence notices.</p>
+        </div>
+    </article>
+
+    <article class="home-flow-card">
+        <span>3</span>
+        <div>
+            <h2>Stay organized</h2>
+            <p>Admins keep children, groups, documents and events connected.</p>
+        </div>
+    </article>
 </section>
 
 <section class="home-feature-grid">
