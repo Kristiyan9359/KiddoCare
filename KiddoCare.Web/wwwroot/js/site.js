@@ -1,4 +1,33 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const themeToggle = document.getElementById("themeToggle");
+    const themeToggleLabel = themeToggle?.querySelector(".theme-toggle-label");
+
+    const setTheme = (theme) => {
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.dataset.bsTheme = theme;
+        localStorage.setItem("kiddocare-theme", theme);
+
+        if (themeToggle instanceof HTMLButtonElement) {
+            themeToggle.setAttribute("aria-pressed", (theme === "dark").toString());
+            themeToggle.title = theme === "dark" ? "Switch to light theme" : "Switch to dark theme";
+        }
+
+        if (themeToggleLabel instanceof HTMLElement) {
+            themeToggleLabel.textContent = theme === "dark" ? "Dark" : "Light";
+        }
+    };
+
+    if (themeToggle instanceof HTMLButtonElement) {
+        const currentTheme = document.documentElement.dataset.theme === "dark" ? "dark" : "light";
+
+        setTheme(currentTheme);
+
+        themeToggle.addEventListener("click", () => {
+            const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+            setTheme(nextTheme);
+        });
+    }
+
     document.querySelectorAll("[data-remove-photo-button]").forEach((button) => {
         button.addEventListener("click", () => {
             const form = button.closest("form");
