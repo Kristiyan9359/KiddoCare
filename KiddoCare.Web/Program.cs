@@ -91,6 +91,11 @@ using (var scope = app.Services.CreateScope())
 {
     await DbSeeder.SeedRolesAsync(scope.ServiceProvider);
     await DbSeeder.SeedAdminAsync(scope.ServiceProvider);
+
+    if (app.Environment.IsDevelopment())
+    {
+        await DbSeeder.SeedDemoDataAsync(scope.ServiceProvider);
+    }
 }
 
 app.Run();
