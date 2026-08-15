@@ -201,7 +201,7 @@
     }
     else
     {
-        <table class="table table-striped mb-0">
+        <table class="table table-striped mb-0 mobile-card-table">
             <thead>
                 <tr>
                     <th>Child</th>
@@ -216,10 +216,10 @@
                 @foreach (var request in Model.RecentConsentRequests)
                 {
                     <tr>
-                        <td>@request.ChildFullName</td>
-                        <td>@request.Title</td>
-                        <td>@request.Type</td>
-                        <td>
+                        <td data-label="Child">@request.ChildFullName</td>
+                        <td data-label="Title">@request.Title</td>
+                        <td data-label="Type">@request.Type</td>
+                        <td data-label="Status">
                             @if (request.Status == RequestStatus.Pending)
                             {
                                 <span class="badge bg-warning text-dark">Pending</span>
@@ -230,11 +230,11 @@
                             }
                             else if (request.Status == RequestStatus.Rejected)
                             {
-                                <span class="badge bg-danger">Rejected</span>
+                                <span class="badge bg-danger">Declined</span>
                             }
                         </td>
-                        <td>@request.CreatedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
-                        <td class="text-end">
+                        <td data-label="Created On">@request.CreatedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
+                        <td class="text-end" data-label="Actions">
                             <a asp-controller="ConsentRequests"
                                asp-action="Details"
                                asp-route-id="@request.Id"
@@ -278,7 +278,7 @@
     }
     else
     {
-        <table class="table table-striped mb-0">
+        <table class="table table-striped mb-0 mobile-card-table">
             <thead>
                 <tr>
                     <th>Child</th>
@@ -293,10 +293,10 @@
                 @foreach (var document in Model.RecentDocuments)
                 {
                     <tr>
-                        <td>@document.ChildFullName</td>
-                        <td>@document.Title</td>
-                        <td>@document.Type</td>
-                        <td>
+                        <td data-label="Child">@document.ChildFullName</td>
+                        <td data-label="Title">@document.Title</td>
+                        <td data-label="Type">@document.Type</td>
+                        <td data-label="Status">
                             @if (document.Status == RequestStatus.Pending)
                             {
                                 <span class="badge bg-warning text-dark">Pending</span>
@@ -307,11 +307,11 @@
                             }
                             else if (document.Status == RequestStatus.Rejected)
                             {
-                                <span class="badge bg-danger">Rejected</span>
+                                <span class="badge bg-danger">Declined</span>
                             }
                         </td>
-                        <td>@document.UploadedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
-                        <td class="text-end">
+                        <td data-label="Uploaded On">@document.UploadedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
+                        <td class="text-end" data-label="Actions">
                             <a asp-controller="ChildDocuments"
                                asp-action="Details"
                                asp-route-id="@document.Id"
@@ -344,7 +344,7 @@
     }
     else
     {
-        <table class="table table-striped mb-0">
+        <table class="table table-striped mb-0 mobile-card-table">
             <thead>
                 <tr>
                     <th>Child</th>
@@ -358,14 +358,14 @@
                 @foreach (var request in Model.RecentAbsenceRequests)
                 {
                     <tr>
-                        <td>@request.ChildFullName</td>
-                        <td>
+                        <td data-label="Child">@request.ChildFullName</td>
+                        <td data-label="Period">
                             @request.StartDate.ToString("dd MMM yyyy")
                             -
                             @request.EndDate.ToString("dd MMM yyyy")
                         </td>
-                        <td>@request.Reason</td>
-                        <td>
+                        <td data-label="Reason">@request.Reason</td>
+                        <td data-label="Status">
                             @if (request.Status == RequestStatus.Pending)
                             {
                                 <span class="badge bg-warning text-dark">Pending</span>
@@ -375,7 +375,7 @@
                                 <span class="badge bg-success">Confirmed</span>
                             }
                         </td>
-                        <td class="text-end">
+                        <td class="text-end" data-label="Actions">
                             <a asp-controller="AbsenceRequests"
                                asp-action="Details"
                                asp-route-id="@request.Id"
@@ -408,7 +408,7 @@
     }
     else
     {
-        <table class="table table-striped mb-0">
+        <table class="table table-striped mb-0 mobile-card-table">
             <thead>
                 <tr>
                     <th>Title</th>
@@ -420,7 +420,7 @@
                 @foreach (var announcement in Model.RecentAnnouncements)
                 {
                     <tr>
-                        <td>
+                        <td data-label="Title">
                             <a asp-controller="Announcements"
                                asp-action="Details"
                                asp-route-id="@announcement.Id"
@@ -428,8 +428,8 @@
                                 @announcement.Title
                             </a>
                         </td>
-                        <td>@announcement.PublishedOn.ToString("dd MMM yyyy")</td>
-                        <td>@announcement.GroupName</td>
+                        <td data-label="Published On">@announcement.PublishedOn.ToString("dd MMM yyyy")</td>
+                        <td data-label="Group">@announcement.GroupName</td>
                     </tr>
                 }
             </tbody>
@@ -454,7 +454,7 @@
     }
     else
     {
-        <table class="table table-striped mb-0">
+        <table class="table table-striped mb-0 mobile-card-table">
             <thead>
                 <tr>
                     <th>Title</th>
@@ -468,7 +468,7 @@
                 @foreach (var eventItem in Model.UpcomingEvents)
                 {
                     <tr>
-                        <td>
+                        <td data-label="Title">
                             <a asp-controller="Events"
                                asp-action="Details"
                                asp-route-id="@eventItem.Id"
@@ -476,10 +476,10 @@
                                 @eventItem.Title
                             </a>
                         </td>
-                        <td>@eventItem.StartDateTime.ToString("dd MMM yyyy HH:mm")</td>
-                        <td>@eventItem.Type</td>
-                        <td>@eventItem.Location</td>
-                        <td>@eventItem.GroupName</td>
+                        <td data-label="Date">@eventItem.StartDateTime.ToString("dd MMM yyyy HH:mm")</td>
+                        <td data-label="Type">@eventItem.Type</td>
+                        <td data-label="Location">@eventItem.Location</td>
+                        <td data-label="Group">@eventItem.GroupName</td>
                     </tr>
                 }
             </tbody>
