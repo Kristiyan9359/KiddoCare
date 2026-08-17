@@ -85,7 +85,9 @@ body {
 }
 
 body.app-shell {
-    background: linear-gradient(135deg, var(--kc-bg) 0%, #eef7f3 48%, #f7f4ed 100%);
+    background:
+        linear-gradient(135deg, rgba(244, 247, 251, 0.96) 0%, rgba(238, 247, 243, 0.88) 48%, rgba(247, 244, 237, 0.96) 100%),
+        url("/images/home/kindergarten-hero.png") center center / cover no-repeat fixed;
     color: var(--kc-text);
     margin-bottom: 0;
     min-height: 100vh;
@@ -125,10 +127,11 @@ body.app-shell {
     }
 
 .app-main {
-    background: rgba(255, 255, 255, 0.92);
+    background: rgba(255, 255, 255, 0.94);
     border: 1px solid var(--kc-border);
     border-radius: var(--kc-radius);
     box-shadow: var(--kc-shadow);
+    backdrop-filter: blur(18px);
     padding: 28px;
     margin-bottom: 32px;
 }
@@ -2624,7 +2627,8 @@ textarea.form-control {
     background:
         radial-gradient(circle at top left, rgba(96, 165, 250, 0.18), transparent 34%),
         radial-gradient(circle at bottom right, rgba(20, 184, 166, 0.14), transparent 32%),
-        linear-gradient(135deg, #08111f 0%, #0f172a 52%, #111827 100%);
+        linear-gradient(135deg, rgba(8, 17, 31, 0.94) 0%, rgba(15, 23, 42, 0.9) 52%, rgba(17, 24, 39, 0.94) 100%),
+        url("/images/home/kindergarten-hero.png") center center / cover no-repeat fixed;
 }
 
 :root[data-theme="dark"] body.app-shell::before {
@@ -2632,6 +2636,12 @@ textarea.form-control {
     background-image:
         linear-gradient(30deg, rgba(96, 165, 250, 0.12) 12%, transparent 12.5%, transparent 87%, rgba(96, 165, 250, 0.12) 87.5%, rgba(96, 165, 250, 0.12)),
         linear-gradient(150deg, rgba(52, 211, 153, 0.08) 12%, transparent 12.5%, transparent 87%, rgba(52, 211, 153, 0.08) 87.5%, rgba(52, 211, 153, 0.08));
+}
+
+:root[data-theme="dark"] .app-main {
+    border-color: var(--kc-border);
+    background: rgba(8, 17, 31, 0.86);
+    box-shadow: var(--kc-shadow);
 }
 
 :root[data-theme="dark"] .app-navbar-inner,
