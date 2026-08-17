@@ -9,22 +9,22 @@
 
 <div class="list-page-header">
     <div>
-        <div class="page-kicker">Calendar</div>
-        <h1 class="page-title">Events</h1>
+        <div class="page-kicker">@T["Calendar"]</div>
+        <h1 class="page-title">@T["Events"]</h1>
         <p class="page-subtitle">
-            Upcoming kindergarten activities, trips, holidays and group events.
+            @T["Upcoming kindergarten activities, trips, holidays and group events."]
         </p>
     </div>
 
     <div class="page-actions">
         @if (!string.IsNullOrWhiteSpace(Model.ReturnUrl))
         {
-            <a href="@Model.ReturnUrl" class="btn btn-secondary">Back</a>
+            <a href="@Model.ReturnUrl" class="btn btn-secondary">@T["Back"]</a>
         }
 
         @if (canCreate)
         {
-            <a asp-action="Create" class="btn btn-primary">Create Event</a>
+            <a asp-action="Create" class="btn btn-primary">@T["Create Event"]</a>
         }
     </div>
 </div>
@@ -32,15 +32,15 @@
 <section id="events-list" class="section-panel">
     <div class="section-panel-header">
         <div>
-            <h2 class="section-panel-title">Event Records</h2>
+            <h2 class="section-panel-title">@T["Event Records"]</h2>
             <p class="section-panel-subtitle">
-                @Model.TotalEvents event records found.
+                @T["{0} event records found.", Model.TotalEvents]
             </p>
         </div>
 
         <div class="records-toolbar">
             <div class="records-page-size">
-                <label for="eventsPageSizeSelect" class="form-label mb-0">Show</label>
+                <label for="eventsPageSizeSelect" class="form-label mb-0">@T["Show"]</label>
                 <select id="eventsPageSizeSelect" class="form-select form-select-sm">
                     <option value="10" selected="@(Model.PageSize == 10)">10</option>
                     <option value="15" selected="@(Model.PageSize == 15)">15</option>
@@ -51,7 +51,7 @@
             @if (Model.TotalPages > 0)
             {
                 <div class="text-muted">
-                    Page @Model.Page of @Model.TotalPages
+                    @T["Page {0} of {1}", Model.Page, Model.TotalPages]
                 </div>
             }
         </div>
@@ -64,12 +64,12 @@
 
         <div class="form-grid align-items-end">
             <div class="mb-3 search-suggest-wrapper">
-                <label asp-for="SearchTerm" class="form-label">Search</label>
+                <label asp-for="SearchTerm" class="form-label">@T["Search"]</label>
                 <input asp-for="SearchTerm"
                        id="eventsSearchInput"
                        class="form-control"
                        autocomplete="off"
-                       placeholder="Search by title, location, group or type..." />
+                       placeholder="@T["Search by title, location, group or type..."]" />
 
                 <div id="eventsSearchSuggestions"
                      class="search-suggestions"
@@ -78,11 +78,11 @@
             </div>
 
             <div class="mb-3">
-                <button type="submit" class="btn btn-primary">Search</button>
+                <button type="submit" class="btn btn-primary">@T["Search"]</button>
                 <a asp-action="Index"
                    asp-route-returnUrl="@Model.ReturnUrl"
                    class="btn btn-secondary">
-                    Clear
+                    @T["Clear"]
                 </a>
             </div>
         </div>
@@ -91,12 +91,12 @@
     @if (!Model.Events.Any())
     {
         <section class="empty-state compact-empty-state">
-            <h2>No events found</h2>
-            <p>Try changing the search term.</p>
+            <h2>@T["No events found"]</h2>
+            <p>@T["Try changing the search term."]</p>
 
             @if (canCreate)
             {
-                <a asp-action="Create" class="btn btn-primary">Create Event</a>
+                <a asp-action="Create" class="btn btn-primary">@T["Create Event"]</a>
             }
         </section>
     }
@@ -129,7 +129,7 @@
                            asp-route-id="@eventItem.Id"
                            asp-route-returnUrl="@currentUrl"
                            class="btn btn-sm btn-outline-secondary">
-                            Details
+                            @T["Details"]
                         </a>
 
                         @if (eventItem.CanManage)
@@ -137,7 +137,7 @@
                             <a asp-action="Edit"
                                asp-route-id="@eventItem.Id"
                                class="btn btn-sm btn-outline-primary">
-                                Edit
+                                @T["Edit"]
                             </a>
 
                             <form asp-action="Delete"
@@ -145,8 +145,8 @@
                                   method="post">
                                 <button type="submit"
                                         class="btn btn-sm btn-outline-danger"
-                                        data-confirm-message="Are you sure you want to delete this event?">
-                                    Delete
+                                        data-confirm-message="@T["Are you sure you want to delete this event?"]">
+                                    @T["Delete"]
                                 </button>
                             </form>
                         }
@@ -157,7 +157,7 @@
 
         @if (Model.TotalPages > 1)
         {
-            <nav class="attendance-pager" aria-label="Events pages">
+            <nav class="attendance-pager" aria-label="@T["Events pages"]">
                 <a class="attendance-page-link @(Model.HasPreviousPage ? string.Empty : "disabled")"
                    asp-action="Index"
                    asp-route-searchTerm="@Model.SearchTerm"
@@ -165,7 +165,7 @@
                    asp-route-page="@(Model.Page - 1)"
                    asp-route-pageSize="@Model.PageSize"
                    asp-fragment="events-list">
-                    Previous
+                    @T["Previous"]
                 </a>
 
                 <div class="attendance-page-numbers">
@@ -190,7 +190,7 @@
                    asp-route-page="@(Model.Page + 1)"
                    asp-route-pageSize="@Model.PageSize"
                    asp-fragment="events-list">
-                    Next
+                    @T["Next"]
                 </a>
             </nav>
         }

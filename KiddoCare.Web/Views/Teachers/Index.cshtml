@@ -6,28 +6,28 @@
 
 <div class="list-page-header">
     <div>
-        <div class="page-kicker">Staff management</div>
-        <h1 class="page-title">Teachers</h1>
+        <div class="page-kicker">@T["Staff management"]</div>
+        <h1 class="page-title">@T["Teachers"]</h1>
         <p class="page-subtitle">
-            Manage teacher profiles and their assigned kindergarten groups.
+            @T["Manage teacher profiles and their assigned kindergarten groups."]
         </p>
     </div>
 
-    <a asp-action="Create" class="btn btn-primary">Create Teacher</a>
+    <a asp-action="Create" class="btn btn-primary">@T["Create Teacher"]</a>
 </div>
 
 <section id="teachers-list" class="section-panel">
     <div class="section-panel-header">
         <div>
-            <h2 class="section-panel-title">Teacher Profiles</h2>
+            <h2 class="section-panel-title">@T["Teacher Profiles"]</h2>
             <p class="section-panel-subtitle">
-                @Model.TotalTeachers teacher profiles found.
+                @T["{0} teacher profiles found.", Model.TotalTeachers]
             </p>
         </div>
 
         <div class="records-toolbar">
             <div class="records-page-size">
-                <label for="teachersPageSizeSelect" class="form-label mb-0">Show</label>
+                <label for="teachersPageSizeSelect" class="form-label mb-0">@T["Show"]</label>
                 <select id="teachersPageSizeSelect" class="form-select form-select-sm">
                     <option value="10" selected="@(Model.PageSize == 10)">10</option>
                     <option value="15" selected="@(Model.PageSize == 15)">15</option>
@@ -38,7 +38,7 @@
             @if (Model.TotalPages > 0)
             {
                 <div class="text-muted">
-                    Page @Model.Page of @Model.TotalPages
+                    @T["Page {0} of {1}", Model.Page, Model.TotalPages]
                 </div>
             }
         </div>
@@ -50,12 +50,12 @@
 
         <div class="form-grid align-items-end">
             <div class="mb-3 search-suggest-wrapper">
-                <label asp-for="SearchTerm" class="form-label">Search</label>
+                <label asp-for="SearchTerm" class="form-label">@T["Search"]</label>
                 <input asp-for="SearchTerm"
                        id="teachersSearchInput"
                        class="form-control"
                        autocomplete="off"
-                       placeholder="Search by name, email, phone or group..." />
+                       placeholder="@T["Search by name, email, phone or group..."]" />
 
                 <div id="teachersSearchSuggestions"
                      class="search-suggestions"
@@ -64,8 +64,8 @@
             </div>
 
             <div class="mb-3">
-                <button type="submit" class="btn btn-primary">Search</button>
-                <a asp-action="Index" class="btn btn-secondary">Clear</a>
+                <button type="submit" class="btn btn-primary">@T["Search"]</button>
+                <a asp-action="Index" class="btn btn-secondary">@T["Clear"]</a>
             </div>
         </div>
     </form>
@@ -73,9 +73,9 @@
     @if (!Model.Teachers.Any())
     {
         <section class="empty-state compact-empty-state">
-            <h2>No teachers found</h2>
-            <p>Try changing the search term or create a new teacher profile.</p>
-            <a asp-action="Create" class="btn btn-primary">Create Teacher</a>
+            <h2>@T["No teachers found"]</h2>
+            <p>@T["Try changing the search term or create a new teacher profile."]</p>
+            <a asp-action="Create" class="btn btn-primary">@T["Create Teacher"]</a>
         </section>
     }
     else
@@ -84,39 +84,39 @@
             <table class="table table-striped align-middle mb-0 mobile-card-table">
                 <thead>
                     <tr>
-                        <th>Full Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Group</th>
-                        <th class="text-end">Actions</th>
+                        <th>@T["Full Name"]</th>
+                        <th>@T["Email"]</th>
+                        <th>@T["Phone"]</th>
+                        <th>@T["Group"]</th>
+                        <th class="text-end">@T["Actions"]</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var teacher in Model.Teachers)
                     {
                         <tr>
-                            <td data-label="Full Name"><div class="fw-bold">@teacher.FullName</div></td>
-                            <td data-label="Email">@teacher.Email</td>
-                            <td data-label="Phone">@(string.IsNullOrWhiteSpace(teacher.PhoneNumber) ? "Not specified" : teacher.PhoneNumber)</td>
-                            <td data-label="Group">@teacher.GroupName</td>
-                            <td class="text-end" data-label="Actions">
+                            <td data-label='@T["Full Name"]'><div class="fw-bold">@teacher.FullName</div></td>
+                            <td data-label='@T["Email"]'>@teacher.Email</td>
+                            <td data-label='@T["Phone"]'>@(string.IsNullOrWhiteSpace(teacher.PhoneNumber) ? T["Not specified"] : teacher.PhoneNumber)</td>
+                            <td data-label='@T["Group"]'>@teacher.GroupName</td>
+                            <td class="text-end" data-label='@T["Actions"]'>
                                 <div class="action-buttons">
                                     <a asp-action="Details"
                                        asp-route-id="@teacher.Id"
                                        class="btn btn-sm btn-outline-secondary">
-                                        Details
+                                        @T["Details"]
                                     </a>
 
                                     <a asp-action="Edit"
                                        asp-route-id="@teacher.Id"
                                        class="btn btn-sm btn-outline-primary">
-                                        Edit
+                                        @T["Edit"]
                                     </a>
 
                                     <a asp-action="Delete"
                                        asp-route-id="@teacher.Id"
                                        class="btn btn-sm btn-outline-danger">
-                                        Delete
+                                        @T["Delete"]
                                     </a>
                                 </div>
                             </td>
@@ -128,14 +128,14 @@
 
         @if (Model.TotalPages > 1)
         {
-            <nav class="attendance-pager" aria-label="Teachers pages">
+            <nav class="attendance-pager" aria-label="@T["Teachers pages"]">
                 <a class="attendance-page-link @(Model.HasPreviousPage ? string.Empty : "disabled")"
                    asp-action="Index"
                    asp-route-searchTerm="@Model.SearchTerm"
                    asp-route-page="@(Model.Page - 1)"
                    asp-route-pageSize="@Model.PageSize"
                    asp-fragment="teachers-list">
-                    Previous
+                    @T["Previous"]
                 </a>
 
                 <div class="attendance-page-numbers">
@@ -158,7 +158,7 @@
                    asp-route-page="@(Model.Page + 1)"
                    asp-route-pageSize="@Model.PageSize"
                    asp-fragment="teachers-list">
-                    Next
+                    @T["Next"]
                 </a>
             </nav>
         }

@@ -6,28 +6,28 @@
 
 <div class="list-page-header">
     <div>
-        <div class="page-kicker">Kindergarten groups</div>
-        <h1 class="page-title">Groups</h1>
+        <div class="page-kicker">@T["Kindergarten groups"]</div>
+        <h1 class="page-title">@T["Groups"]</h1>
         <p class="page-subtitle">
-            Manage classroom groups and keep children, teachers, announcements and events organized.
+            @T["Manage classroom groups and keep children, teachers, announcements and events organized."]
         </p>
     </div>
 
-    <a asp-action="Create" class="btn btn-primary">Create Group</a>
+    <a asp-action="Create" class="btn btn-primary">@T["Create Group"]</a>
 </div>
 
 <section id="groups-list" class="section-panel">
     <div class="section-panel-header">
         <div>
-            <h2 class="section-panel-title">Group Records</h2>
+            <h2 class="section-panel-title">@T["Group Records"]</h2>
             <p class="section-panel-subtitle">
-                @Model.TotalGroups group records found.
+                @T["{0} group records found.", Model.TotalGroups]
             </p>
         </div>
 
         <div class="records-toolbar">
             <div class="records-page-size">
-                <label for="groupsPageSizeSelect" class="form-label mb-0">Show</label>
+                <label for="groupsPageSizeSelect" class="form-label mb-0">@T["Show"]</label>
                 <select id="groupsPageSizeSelect" class="form-select form-select-sm">
                     <option value="10" selected="@(Model.PageSize == 10)">10</option>
                     <option value="15" selected="@(Model.PageSize == 15)">15</option>
@@ -38,7 +38,7 @@
             @if (Model.TotalPages > 0)
             {
                 <div class="text-muted">
-                    Page @Model.Page of @Model.TotalPages
+                    @T["Page {0} of {1}", Model.Page, Model.TotalPages]
                 </div>
             }
         </div>
@@ -50,12 +50,12 @@
 
         <div class="form-grid align-items-end">
             <div class="mb-3 search-suggest-wrapper">
-                <label asp-for="SearchTerm" class="form-label">Search</label>
+                <label asp-for="SearchTerm" class="form-label">@T["Search"]</label>
                 <input asp-for="SearchTerm"
                        id="groupsSearchInput"
                        class="form-control"
                        autocomplete="off"
-                       placeholder="Search by group name or description..." />
+                       placeholder="@T["Search by group name or description..."]" />
 
                 <div id="groupsSearchSuggestions"
                      class="search-suggestions"
@@ -64,8 +64,8 @@
             </div>
 
             <div class="mb-3">
-                <button type="submit" class="btn btn-primary">Search</button>
-                <a asp-action="Index" class="btn btn-secondary">Clear</a>
+                <button type="submit" class="btn btn-primary">@T["Search"]</button>
+                <a asp-action="Index" class="btn btn-secondary">@T["Clear"]</a>
             </div>
         </div>
     </form>
@@ -73,9 +73,9 @@
     @if (!Model.Groups.Any())
     {
         <section class="empty-state compact-empty-state">
-            <h2>No groups found</h2>
-            <p>Try changing the search term or create a new group.</p>
-            <a asp-action="Create" class="btn btn-primary">Create Group</a>
+            <h2>@T["No groups found"]</h2>
+            <p>@T["Try changing the search term or create a new group."]</p>
+            <a asp-action="Create" class="btn btn-primary">@T["Create Group"]</a>
         </section>
     }
     else
@@ -84,46 +84,46 @@
             <table class="table table-striped align-middle mb-0 mobile-card-table">
                 <thead>
                     <tr>
-                        <th>Group Name</th>
-                        <th>Description</th>
-                        <th class="text-end">Actions</th>
+                        <th>@T["Group Name"]</th>
+                        <th>@T["Description"]</th>
+                        <th class="text-end">@T["Actions"]</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var group in Model.Groups)
                     {
                         <tr>
-                            <td data-label="Group Name">
+                            <td data-label='@T["Group Name"]'>
                                 <div class="fw-bold">@group.Name</div>
                             </td>
-                            <td data-label="Description">
+                            <td data-label='@T["Description"]'>
                                 @if (string.IsNullOrWhiteSpace(group.Description))
                                 {
-                                    <span class="text-muted">No description</span>
+                                    <span class="text-muted">@T["No description"]</span>
                                 }
                                 else
                                 {
                                     @group.Description
                                 }
                             </td>
-                            <td class="text-end" data-label="Actions">
+                            <td class="text-end" data-label='@T["Actions"]'>
                                 <div class="action-buttons">
                                     <a asp-action="Details"
                                        asp-route-id="@group.Id"
                                        class="btn btn-sm btn-outline-secondary">
-                                        Details
+                                        @T["Details"]
                                     </a>
 
                                     <a asp-action="Edit"
                                        asp-route-id="@group.Id"
                                        class="btn btn-sm btn-outline-primary">
-                                        Edit
+                                        @T["Edit"]
                                     </a>
 
                                     <a asp-action="Delete"
                                        asp-route-id="@group.Id"
                                        class="btn btn-sm btn-outline-danger">
-                                        Delete
+                                        @T["Delete"]
                                     </a>
                                 </div>
                             </td>
@@ -135,14 +135,14 @@
 
         @if (Model.TotalPages > 1)
         {
-            <nav class="attendance-pager" aria-label="Groups pages">
+            <nav class="attendance-pager" aria-label="@T["Groups pages"]">
                 <a class="attendance-page-link @(Model.HasPreviousPage ? string.Empty : "disabled")"
                    asp-action="Index"
                    asp-route-searchTerm="@Model.SearchTerm"
                    asp-route-page="@(Model.Page - 1)"
                    asp-route-pageSize="@Model.PageSize"
                    asp-fragment="groups-list">
-                    Previous
+                    @T["Previous"]
                 </a>
 
                 <div class="attendance-page-numbers">
@@ -165,7 +165,7 @@
                    asp-route-page="@(Model.Page + 1)"
                    asp-route-pageSize="@Model.PageSize"
                    asp-fragment="groups-list">
-                    Next
+                    @T["Next"]
                 </a>
             </nav>
         }

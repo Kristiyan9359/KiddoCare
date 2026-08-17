@@ -9,22 +9,22 @@
 
 <div class="list-page-header">
     <div>
-        <div class="page-kicker">Child records</div>
-        <h1>Children</h1>
+        <div class="page-kicker">@T["Child records"]</div>
+        <h1>@T["Children"]</h1>
         <p class="list-page-subtitle">
-            Browse children, groups, photos and important medical indicators.
+            @T["Browse children, groups, photos and important medical indicators."]
         </p>
     </div>
 
     <div class="page-actions">
         @if (!string.IsNullOrWhiteSpace(Model.ReturnUrl))
         {
-            <a href="@Model.ReturnUrl" class="btn btn-secondary">Back</a>
+            <a href="@Model.ReturnUrl" class="btn btn-secondary">@T["Back"]</a>
         }
 
         @if (isAdmin)
         {
-            <a asp-action="Create" class="btn btn-primary">Add Child</a>
+            <a asp-action="Create" class="btn btn-primary">@T["Add Child"]</a>
         }
     </div>
 </div>
@@ -41,7 +41,7 @@
                asp-route-returnUrl="@Model.ReturnUrl"
                asp-route-pageSize="@Model.PageSize"
                class="btn btn-sm @(Model.MedicalRecordsFilter == null ? "btn-primary" : "btn-outline-primary")">
-                All children
+                @T["All children"]
             </a>
 
             <a asp-action="Index"
@@ -50,7 +50,7 @@
                asp-route-returnUrl="@Model.ReturnUrl"
                asp-route-pageSize="@Model.PageSize"
                class="btn btn-sm @(Model.MedicalRecordsFilter == "with-records" ? "btn-primary" : "btn-outline-primary")">
-                With medical records
+                @T["With medical records"]
             </a>
 
             <a asp-action="Index"
@@ -59,7 +59,7 @@
                asp-route-returnUrl="@Model.ReturnUrl"
                asp-route-pageSize="@Model.PageSize"
                class="btn btn-sm @(Model.MedicalRecordsFilter == "with-allergies" ? "btn-primary" : "btn-outline-primary")">
-                With allergies
+                @T["With allergies"]
             </a>
         </div>
 
@@ -67,12 +67,12 @@
 
         <div class="form-grid align-items-end">
             <div class="mb-3 search-suggest-wrapper">
-                <label asp-for="SearchTerm" class="form-label">Search</label>
+                <label asp-for="SearchTerm" class="form-label">@T["Search"]</label>
                 <input asp-for="SearchTerm"
                        id="childrenSearchInput"
                        class="form-control"
                        autocomplete="off"
-                       placeholder="Search by child, group, parent or email..." />
+                       placeholder="@T["Search by child, group, parent or email..."]" />
 
                 <div id="childrenSearchSuggestions"
                      class="search-suggestions"
@@ -81,11 +81,11 @@
             </div>
 
             <div class="mb-3">
-                <button type="submit" class="btn btn-primary">Search</button>
+                <button type="submit" class="btn btn-primary">@T["Search"]</button>
                 <a asp-action="Index"
                    asp-route-returnUrl="@Model.ReturnUrl"
                    class="btn btn-secondary">
-                    Clear
+                    @T["Clear"]
                 </a>
             </div>
         </div>
@@ -95,15 +95,15 @@
 <section id="children-list" class="section-panel">
     <div class="section-panel-header">
         <div>
-            <h2 class="section-panel-title">Children</h2>
+            <h2 class="section-panel-title">@T["Children"]</h2>
             <p class="section-panel-subtitle">
-                @Model.TotalChildren child records found.
+                @T["{0} child records found.", Model.TotalChildren]
             </p>
         </div>
 
         <div class="records-toolbar">
             <div class="records-page-size">
-                <label for="childrenPageSizeSelect" class="form-label mb-0">Show</label>
+                <label for="childrenPageSizeSelect" class="form-label mb-0">@T["Show"]</label>
                 <select id="childrenPageSizeSelect" class="form-select form-select-sm">
                     <option value="10" selected="@(Model.PageSize == 10)">10</option>
                     <option value="15" selected="@(Model.PageSize == 15)">15</option>
@@ -114,7 +114,7 @@
             @if (Model.TotalPages > 0)
             {
                 <div class="text-muted">
-                    Page @Model.Page of @Model.TotalPages
+                    @T["Page {0} of {1}", Model.Page, Model.TotalPages]
                 </div>
             }
         </div>
@@ -123,8 +123,8 @@
     @if (!Model.Children.Any())
     {
         <section class="empty-state compact-empty-state">
-            <h2>No children found</h2>
-            <p>Try changing the search, medical filter or add a new child profile.</p>
+            <h2>@T["No children found"]</h2>
+            <p>@T["Try changing the search, medical filter or add a new child profile."]</p>
         </section>
     }
     else
@@ -133,21 +133,21 @@
             <table class="table table-striped align-middle mb-0 mobile-card-table">
                 <thead>
                     <tr>
-                        <th>Photo</th>
-                        <th>Full Name</th>
-                        <th>Date of Birth</th>
-                        <th>Gender</th>
-                        <th>Group</th>
-                        <th>Medical</th>
-                        <th>Allergies</th>
-                        <th class="text-end">Actions</th>
+                        <th>@T["Photo"]</th>
+                        <th>@T["Full Name"]</th>
+                        <th>@T["Date of Birth"]</th>
+                        <th>@T["Gender"]</th>
+                        <th>@T["Group"]</th>
+                        <th>@T["Medical"]</th>
+                        <th>@T["Allergies"]</th>
+                        <th class="text-end">@T["Actions"]</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var child in Model.Children)
                     {
                         <tr>
-                            <td data-label="Photo">
+                            <td data-label='@T["Photo"]'>
                                 @if (!string.IsNullOrWhiteSpace(child.PhotoUrl))
                                 {
                                     <img src="@Url.Action("Photo", "Children", new { id = child.Id })"
@@ -161,38 +161,38 @@
                                     </div>
                                 }
                             </td>
-                            <td data-label="Full Name">
+                            <td data-label='@T["Full Name"]'>
                                 <strong>@child.FullName</strong>
                             </td>
-                            <td data-label="Date of Birth">@child.DateOfBirth.ToString("dd MMM yyyy")</td>
-                            <td data-label="Gender">@child.Gender</td>
-                            <td data-label="Group">@child.GroupName</td>
-                            <td data-label="Medical">
+                            <td data-label='@T["Date of Birth"]'>@child.DateOfBirth.ToString("dd MMM yyyy")</td>
+                            <td data-label='@T["Gender"]'>@child.Gender</td>
+                            <td data-label='@T["Group"]'>@child.GroupName</td>
+                            <td data-label='@T["Medical"]'>
                                 @if (child.HasMedicalRecord)
                                 {
-                                    <span class="badge bg-info text-dark">Yes</span>
+                                    <span class="badge bg-info text-dark">@T["Yes"]</span>
                                 }
                                 else
                                 {
-                                    <span class="badge status-badge-muted">No</span>
+                                    <span class="badge status-badge-muted">@T["No"]</span>
                                 }
                             </td>
-                            <td data-label="Allergies">
+                            <td data-label='@T["Allergies"]'>
                                 @if (child.HasAllergies)
                                 {
-                                    <span class="badge bg-warning text-dark">Yes</span>
+                                    <span class="badge bg-warning text-dark">@T["Yes"]</span>
                                 }
                                 else
                                 {
-                                    <span class="badge status-badge-muted">No</span>
+                                    <span class="badge status-badge-muted">@T["No"]</span>
                                 }
                             </td>
-                            <td class="text-end" data-label="Actions">
+                            <td class="text-end" data-label='@T["Actions"]'>
                                 <a asp-action="Details"
                                    asp-route-id="@child.Id"
                                    asp-route-returnUrl="@currentUrl"
                                    class="btn btn-sm btn-outline-secondary">
-                                    Details
+                                    @T["Details"]
                                 </a>
 
                                 @if (isAdmin)
@@ -200,13 +200,13 @@
                                     <a asp-action="Edit"
                                        asp-route-id="@child.Id"
                                        class="btn btn-sm btn-outline-primary">
-                                        Edit
+                                        @T["Edit"]
                                     </a>
 
                                     <a asp-action="Delete"
                                        asp-route-id="@child.Id"
                                        class="btn btn-sm btn-outline-danger">
-                                        Delete
+                                        @T["Delete"]
                                     </a>
                                 }
                             </td>
@@ -218,7 +218,7 @@
 
         @if (Model.TotalPages > 1)
         {
-            <nav class="attendance-pager" aria-label="Children pages">
+            <nav class="attendance-pager" aria-label="@T["Children pages"]">
                 <a class="attendance-page-link @(Model.HasPreviousPage ? string.Empty : "disabled")"
                    asp-action="Index"
                    asp-route-searchTerm="@Model.SearchTerm"
@@ -227,7 +227,7 @@
                    asp-route-page="@(Model.Page - 1)"
                    asp-route-pageSize="@Model.PageSize"
                    asp-fragment="children-list">
-                    Previous
+                    @T["Previous"]
                 </a>
 
                 <div class="attendance-page-numbers">
@@ -254,7 +254,7 @@
                    asp-route-page="@(Model.Page + 1)"
                    asp-route-pageSize="@Model.PageSize"
                    asp-fragment="children-list">
-                    Next
+                    @T["Next"]
                 </a>
             </nav>
         }

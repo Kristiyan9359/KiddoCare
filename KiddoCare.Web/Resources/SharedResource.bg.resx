@@ -222,4 +222,253 @@
   <data name="Development demo data is fictional and exists only to test the application workflow. Real child photos, personal documents and production passwords should never be committed to source control." xml:space="preserve">
     <value>Демо данните за разработка са измислени и служат само за тестване на workflow-а. Реални снимки, лични документи и production пароли никога не трябва да се commit-ват.</value>
   </data>
+  <data name="Child records" xml:space="preserve">
+    <value>Детски профили</value>
+  </data>
+  <data name="Browse children, groups, photos and important medical indicators." xml:space="preserve">
+    <value>Преглед на деца, групи, снимки и важни медицински показатели.</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Назад</value>
+  </data>
+  <data name="Add Child" xml:space="preserve">
+    <value>Добави дете</value>
+  </data>
+  <data name="All children" xml:space="preserve">
+    <value>Всички деца</value>
+  </data>
+  <data name="With medical records" xml:space="preserve">
+    <value>С медицински запис</value>
+  </data>
+  <data name="With allergies" xml:space="preserve">
+    <value>С алергии</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Търсене</value>
+  </data>
+  <data name="Search by child, group, parent or email..." xml:space="preserve">
+    <value>Търси по дете, група, родител или имейл...</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Изчисти</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Покажи</value>
+  </data>
+  <data name="Page {0} of {1}" xml:space="preserve">
+    <value>Страница {0} от {1}</value>
+  </data>
+  <data name="{0} child records found." xml:space="preserve">
+    <value>Намерени детски профили: {0}.</value>
+  </data>
+  <data name="No children found" xml:space="preserve">
+    <value>Няма намерени деца</value>
+  </data>
+  <data name="Try changing the search, medical filter or add a new child profile." xml:space="preserve">
+    <value>Промени търсенето, медицинския филтър или добави нов детски профил.</value>
+  </data>
+  <data name="Photo" xml:space="preserve">
+    <value>Снимка</value>
+  </data>
+  <data name="Full Name" xml:space="preserve">
+    <value>Пълно име</value>
+  </data>
+  <data name="Date of Birth" xml:space="preserve">
+    <value>Дата на раждане</value>
+  </data>
+  <data name="Gender" xml:space="preserve">
+    <value>Пол</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Група</value>
+  </data>
+  <data name="Medical" xml:space="preserve">
+    <value>Медицински</value>
+  </data>
+  <data name="Allergies" xml:space="preserve">
+    <value>Алергии</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Действия</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Да</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Не</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Детайли</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Редакция</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Предишна</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Следваща</value>
+  </data>
+  <data name="Children pages" xml:space="preserve">
+    <value>Страници с деца</value>
+  </data>
+  <data name="Kindergarten groups" xml:space="preserve">
+    <value>Групи в детската градина</value>
+  </data>
+  <data name="Manage classroom groups and keep children, teachers, announcements and events organized." xml:space="preserve">
+    <value>Управлявай групите и поддържай децата, учителите, съобщенията и събитията подредени.</value>
+  </data>
+  <data name="Create Group" xml:space="preserve">
+    <value>Създай група</value>
+  </data>
+  <data name="Group Records" xml:space="preserve">
+    <value>Записи за групи</value>
+  </data>
+  <data name="{0} group records found." xml:space="preserve">
+    <value>Намерени групи: {0}.</value>
+  </data>
+  <data name="Search by group name or description..." xml:space="preserve">
+    <value>Търси по име или описание на група...</value>
+  </data>
+  <data name="No groups found" xml:space="preserve">
+    <value>Няма намерени групи</value>
+  </data>
+  <data name="Try changing the search term or create a new group." xml:space="preserve">
+    <value>Промени търсенето или създай нова група.</value>
+  </data>
+  <data name="Group Name" xml:space="preserve">
+    <value>Име на група</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Описание</value>
+  </data>
+  <data name="No description" xml:space="preserve">
+    <value>Няма описание</value>
+  </data>
+  <data name="Groups pages" xml:space="preserve">
+    <value>Страници с групи</value>
+  </data>
+  <data name="Family contacts" xml:space="preserve">
+    <value>Семейни контакти</value>
+  </data>
+  <data name="Manage parent profiles and keep child contact information connected." xml:space="preserve">
+    <value>Управлявай родителските профили и поддържай контактната информация свързана с децата.</value>
+  </data>
+  <data name="Create Parent" xml:space="preserve">
+    <value>Създай родител</value>
+  </data>
+  <data name="Parent Profiles" xml:space="preserve">
+    <value>Родителски профили</value>
+  </data>
+  <data name="{0} parent profiles found." xml:space="preserve">
+    <value>Намерени родителски профили: {0}.</value>
+  </data>
+  <data name="Search by name, email or phone..." xml:space="preserve">
+    <value>Търси по име, имейл или телефон...</value>
+  </data>
+  <data name="No parents found" xml:space="preserve">
+    <value>Няма намерени родители</value>
+  </data>
+  <data name="Try changing the search term or create a new parent profile." xml:space="preserve">
+    <value>Промени търсенето или създай нов родителски профил.</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Имейл</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Телефон</value>
+  </data>
+  <data name="Not specified" xml:space="preserve">
+    <value>Не е посочено</value>
+  </data>
+  <data name="Parents pages" xml:space="preserve">
+    <value>Страници с родители</value>
+  </data>
+  <data name="Staff management" xml:space="preserve">
+    <value>Управление на екипа</value>
+  </data>
+  <data name="Manage teacher profiles and their assigned kindergarten groups." xml:space="preserve">
+    <value>Управлявай учителските профили и поверените им групи.</value>
+  </data>
+  <data name="Create Teacher" xml:space="preserve">
+    <value>Създай учител</value>
+  </data>
+  <data name="Teacher Profiles" xml:space="preserve">
+    <value>Учителски профили</value>
+  </data>
+  <data name="{0} teacher profiles found." xml:space="preserve">
+    <value>Намерени учителски профили: {0}.</value>
+  </data>
+  <data name="Search by name, email, phone or group..." xml:space="preserve">
+    <value>Търси по име, имейл, телефон или група...</value>
+  </data>
+  <data name="No teachers found" xml:space="preserve">
+    <value>Няма намерени учители</value>
+  </data>
+  <data name="Try changing the search term or create a new teacher profile." xml:space="preserve">
+    <value>Промени търсенето или създай нов учителски профил.</value>
+  </data>
+  <data name="Teachers pages" xml:space="preserve">
+    <value>Страници с учители</value>
+  </data>
+  <data name="Calendar" xml:space="preserve">
+    <value>Календар</value>
+  </data>
+  <data name="Upcoming kindergarten activities, trips, holidays and group events." xml:space="preserve">
+    <value>Предстоящи активности, екскурзии, празници и събития по групи.</value>
+  </data>
+  <data name="Create Event" xml:space="preserve">
+    <value>Създай събитие</value>
+  </data>
+  <data name="Event Records" xml:space="preserve">
+    <value>Записи за събития</value>
+  </data>
+  <data name="{0} event records found." xml:space="preserve">
+    <value>Намерени събития: {0}.</value>
+  </data>
+  <data name="Search by title, location, group or type..." xml:space="preserve">
+    <value>Търси по заглавие, място, група или тип...</value>
+  </data>
+  <data name="No events found" xml:space="preserve">
+    <value>Няма намерени събития</value>
+  </data>
+  <data name="Try changing the search term." xml:space="preserve">
+    <value>Промени търсенето.</value>
+  </data>
+  <data name="Are you sure you want to delete this event?" xml:space="preserve">
+    <value>Сигурни ли сте, че искате да изтриете това събитие?</value>
+  </data>
+  <data name="Events pages" xml:space="preserve">
+    <value>Страници със събития</value>
+  </data>
+  <data name="Updates" xml:space="preserve">
+    <value>Новини</value>
+  </data>
+  <data name="Important kindergarten updates, group messages and staff notices." xml:space="preserve">
+    <value>Важни новини от детската градина, съобщения по групи и служебни известия.</value>
+  </data>
+  <data name="Create Announcement" xml:space="preserve">
+    <value>Създай съобщение</value>
+  </data>
+  <data name="Announcement Records" xml:space="preserve">
+    <value>Записи за съобщения</value>
+  </data>
+  <data name="{0} announcement records found." xml:space="preserve">
+    <value>Намерени съобщения: {0}.</value>
+  </data>
+  <data name="Search by title, message or group..." xml:space="preserve">
+    <value>Търси по заглавие, съобщение или група...</value>
+  </data>
+  <data name="No announcements found" xml:space="preserve">
+    <value>Няма намерени съобщения</value>
+  </data>
+  <data name="Try changing the search term or create an update." xml:space="preserve">
+    <value>Промени търсенето или създай ново съобщение.</value>
+  </data>
+  <data name="Are you sure you want to delete this announcement?" xml:space="preserve">
+    <value>Сигурни ли сте, че искате да изтриете това съобщение?</value>
+  </data>
+  <data name="Announcements pages" xml:space="preserve">
+    <value>Страници със съобщения</value>
+  </data>
 </root>

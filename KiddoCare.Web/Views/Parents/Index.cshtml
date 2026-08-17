@@ -6,28 +6,28 @@
 
 <div class="list-page-header">
     <div>
-        <div class="page-kicker">Family contacts</div>
-        <h1 class="page-title">Parents</h1>
+        <div class="page-kicker">@T["Family contacts"]</div>
+        <h1 class="page-title">@T["Parents"]</h1>
         <p class="page-subtitle">
-            Manage parent profiles and keep child contact information connected.
+            @T["Manage parent profiles and keep child contact information connected."]
         </p>
     </div>
 
-    <a asp-action="Create" class="btn btn-primary">Create Parent</a>
+    <a asp-action="Create" class="btn btn-primary">@T["Create Parent"]</a>
 </div>
 
 <section id="parents-list" class="section-panel">
     <div class="section-panel-header">
         <div>
-            <h2 class="section-panel-title">Parent Profiles</h2>
+            <h2 class="section-panel-title">@T["Parent Profiles"]</h2>
             <p class="section-panel-subtitle">
-                @Model.TotalParents parent profiles found.
+                @T["{0} parent profiles found.", Model.TotalParents]
             </p>
         </div>
 
         <div class="records-toolbar">
             <div class="records-page-size">
-                <label for="parentsPageSizeSelect" class="form-label mb-0">Show</label>
+                <label for="parentsPageSizeSelect" class="form-label mb-0">@T["Show"]</label>
                 <select id="parentsPageSizeSelect" class="form-select form-select-sm">
                     <option value="10" selected="@(Model.PageSize == 10)">10</option>
                     <option value="15" selected="@(Model.PageSize == 15)">15</option>
@@ -38,7 +38,7 @@
             @if (Model.TotalPages > 0)
             {
                 <div class="text-muted">
-                    Page @Model.Page of @Model.TotalPages
+                    @T["Page {0} of {1}", Model.Page, Model.TotalPages]
                 </div>
             }
         </div>
@@ -50,12 +50,12 @@
 
         <div class="form-grid align-items-end">
             <div class="mb-3 search-suggest-wrapper">
-                <label asp-for="SearchTerm" class="form-label">Search</label>
+                <label asp-for="SearchTerm" class="form-label">@T["Search"]</label>
                 <input asp-for="SearchTerm"
                        id="parentsSearchInput"
                        class="form-control"
                        autocomplete="off"
-                       placeholder="Search by name, email or phone..." />
+                       placeholder="@T["Search by name, email or phone..."]" />
 
                 <div id="parentsSearchSuggestions"
                      class="search-suggestions"
@@ -64,8 +64,8 @@
             </div>
 
             <div class="mb-3">
-                <button type="submit" class="btn btn-primary">Search</button>
-                <a asp-action="Index" class="btn btn-secondary">Clear</a>
+                <button type="submit" class="btn btn-primary">@T["Search"]</button>
+                <a asp-action="Index" class="btn btn-secondary">@T["Clear"]</a>
             </div>
         </div>
     </form>
@@ -73,9 +73,9 @@
     @if (!Model.Parents.Any())
     {
         <section class="empty-state compact-empty-state">
-            <h2>No parents found</h2>
-            <p>Try changing the search term or create a new parent profile.</p>
-            <a asp-action="Create" class="btn btn-primary">Create Parent</a>
+            <h2>@T["No parents found"]</h2>
+            <p>@T["Try changing the search term or create a new parent profile."]</p>
+            <a asp-action="Create" class="btn btn-primary">@T["Create Parent"]</a>
         </section>
     }
     else
@@ -84,41 +84,41 @@
             <table class="table table-striped align-middle mb-0 mobile-card-table">
                 <thead>
                     <tr>
-                        <th>Full Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Children</th>
-                        <th class="text-end">Actions</th>
+                        <th>@T["Full Name"]</th>
+                        <th>@T["Email"]</th>
+                        <th>@T["Phone"]</th>
+                        <th>@T["Children"]</th>
+                        <th class="text-end">@T["Actions"]</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var parent in Model.Parents)
                     {
                         <tr>
-                            <td data-label="Full Name"><div class="fw-bold">@parent.FullName</div></td>
-                            <td data-label="Email">@parent.Email</td>
-                            <td data-label="Phone">
-                                @(string.IsNullOrWhiteSpace(parent.PhoneNumber) ? "Not specified" : parent.PhoneNumber)
+                            <td data-label='@T["Full Name"]'><div class="fw-bold">@parent.FullName</div></td>
+                            <td data-label='@T["Email"]'>@parent.Email</td>
+                            <td data-label='@T["Phone"]'>
+                                @(string.IsNullOrWhiteSpace(parent.PhoneNumber) ? T["Not specified"] : parent.PhoneNumber)
                             </td>
-                            <td data-label="Children">@parent.ChildrenCount</td>
-                            <td class="text-end" data-label="Actions">
+                            <td data-label='@T["Children"]'>@parent.ChildrenCount</td>
+                            <td class="text-end" data-label='@T["Actions"]'>
                                 <div class="action-buttons">
                                     <a asp-action="Details"
                                        asp-route-id="@parent.Id"
                                        class="btn btn-sm btn-outline-secondary">
-                                        Details
+                                        @T["Details"]
                                     </a>
 
                                     <a asp-action="Edit"
                                        asp-route-id="@parent.Id"
                                        class="btn btn-sm btn-outline-primary">
-                                        Edit
+                                        @T["Edit"]
                                     </a>
 
                                     <a asp-action="Delete"
                                        asp-route-id="@parent.Id"
                                        class="btn btn-sm btn-outline-danger">
-                                        Delete
+                                        @T["Delete"]
                                     </a>
                                 </div>
                             </td>
@@ -130,14 +130,14 @@
 
         @if (Model.TotalPages > 1)
         {
-            <nav class="attendance-pager" aria-label="Parents pages">
+            <nav class="attendance-pager" aria-label="@T["Parents pages"]">
                 <a class="attendance-page-link @(Model.HasPreviousPage ? string.Empty : "disabled")"
                    asp-action="Index"
                    asp-route-searchTerm="@Model.SearchTerm"
                    asp-route-page="@(Model.Page - 1)"
                    asp-route-pageSize="@Model.PageSize"
                    asp-fragment="parents-list">
-                    Previous
+                    @T["Previous"]
                 </a>
 
                 <div class="attendance-page-numbers">
@@ -160,7 +160,7 @@
                    asp-route-page="@(Model.Page + 1)"
                    asp-route-pageSize="@Model.PageSize"
                    asp-fragment="parents-list">
-                    Next
+                    @T["Next"]
                 </a>
             </nav>
         }
