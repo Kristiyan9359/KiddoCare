@@ -2,15 +2,15 @@
 @model KiddoCare.ViewModels.Attendance.AttendanceFilterViewModel
 
 @{
-    ViewData["Title"] = "Attendance History";
+    ViewData["Title"] = T["Attendance History"];
 }
 
 <div class="page-header">
     <div>
-        <div class="page-kicker">Attendance</div>
-        <h1 class="page-title">Attendance History</h1>
+        <div class="page-kicker">@T["Attendance"]</div>
+        <h1 class="page-title">@T["Attendance History"]</h1>
         <p class="page-subtitle">
-            Review attendance records by date range, child, group and status.
+            @T["Review attendance records by date range, child, group and status."]
         </p>
     </div>
 </div>
@@ -22,37 +22,37 @@
 
         <div class="form-grid">
             <div class="mb-3">
-                <label asp-for="FromDate" class="form-label">From</label>
+                <label asp-for="FromDate" class="form-label">@T["From"]</label>
                 <input asp-for="FromDate" type="date" class="form-control" />
             </div>
 
             <div class="mb-3">
-                <label asp-for="ToDate" class="form-label">To</label>
+                <label asp-for="ToDate" class="form-label">@T["To"]</label>
                 <input asp-for="ToDate" type="date" class="form-control" />
             </div>
 
             <div class="mb-3">
-                <label asp-for="GroupId" class="form-label">Group</label>
+                <label asp-for="GroupId" class="form-label">@T["Group"]</label>
                 <select asp-for="GroupId" id="attendanceGroupSelect" asp-items="Model.Groups" class="form-select">
-                    <option value="">All groups</option>
+                    <option value="">@T["All groups"]</option>
                 </select>
             </div>
 
             <div class="mb-3">
-                <label asp-for="Status" class="form-label">Status</label>
+                <label asp-for="Status" class="form-label">@T["Status"]</label>
                 <select asp-for="Status" id="attendanceStatusSelect" asp-items="Html.GetEnumSelectList<AttendanceStatus>()" class="form-select">
-                    <option value="">All statuses</option>
+                    <option value="">@T["All statuses"]</option>
                 </select>
             </div>
         </div>
 
         <div class="mb-3 search-suggest-wrapper">
-            <label asp-for="SearchTerm" class="form-label">Search</label>
+            <label asp-for="SearchTerm" class="form-label">@T["Search"]</label>
             <input asp-for="SearchTerm"
                    id="attendanceHistorySearchInput"
                    class="form-control"
                    autocomplete="off"
-                   placeholder="Search by child, group or note..." />
+                   placeholder='@T["Search by child, group or note..."]' />
 
             <div id="attendanceHistorySearchSuggestions"
                  class="search-suggestions"
@@ -61,8 +61,8 @@
         </div>
 
         <div class="form-action-row">
-            <button type="submit" class="btn btn-primary">Search</button>
-            <a asp-action="History" class="btn btn-secondary">Clear</a>
+            <button type="submit" class="btn btn-primary">@T["Search"]</button>
+            <a asp-action="History" class="btn btn-secondary">@T["Clear"]</a>
         </div>
     </form>
 </section>
@@ -70,15 +70,15 @@
 <section id="attendance-records" class="section-panel mt-4">
     <div class="section-panel-header">
         <div>
-            <h2 class="section-panel-title">Records</h2>
+            <h2 class="section-panel-title">@T["Records"]</h2>
             <p class="section-panel-subtitle">
-                @Model.TotalRecords attendance records found.
+                @T["{0} attendance records found.", Model.TotalRecords]
             </p>
         </div>
 
         <div class="records-toolbar">
             <div class="records-page-size">
-                <label for="attendancePageSizeSelect" class="form-label mb-0">Show</label>
+                <label for="attendancePageSizeSelect" class="form-label mb-0">@T["Show"]</label>
                 <select id="attendancePageSizeSelect" class="form-select form-select-sm">
                     <option value="10" selected="@(Model.PageSize == 10)">10</option>
                     <option value="15" selected="@(Model.PageSize == 15)">15</option>
@@ -89,7 +89,7 @@
             @if (Model.TotalPages > 0)
             {
                 <div class="text-muted">
-                    Page @Model.Page of @Model.TotalPages
+                    @T["Page {0} of {1}", Model.Page, Model.TotalPages]
                 </div>
             }
         </div>
@@ -98,8 +98,8 @@
     @if (!Model.Records.Any())
     {
         <section class="empty-state compact-empty-state">
-            <h2>No attendance records</h2>
-            <p>Try changing the search or filters.</p>
+            <h2>@T["No attendance records"]</h2>
+            <p>@T["Try changing the search or filters."]</p>
         </section>
     }
     else
@@ -108,39 +108,39 @@
             <table class="table table-striped align-middle mb-0 mobile-card-table">
                 <thead>
                     <tr>
-                        <th>Date</th>
-                        <th>Child</th>
-                        <th>Group</th>
-                        <th>Status</th>
-                        <th>Note</th>
-                        <th class="text-end">Actions</th>
+                        <th>@T["Date"]</th>
+                        <th>@T["Child"]</th>
+                        <th>@T["Group"]</th>
+                        <th>@T["Status"]</th>
+                        <th>@T["Note"]</th>
+                        <th class="text-end">@T["Actions"]</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var record in Model.Records)
                     {
                         <tr>
-                            <td data-label="Date">@record.Date.ToString("dd MMM yyyy")</td>
-                            <td data-label="Child">
+                            <td data-label='@T["Date"]'>@record.Date.ToString("dd MMM yyyy")</td>
+                            <td data-label='@T["Child"]'>
                                 <div class="fw-bold">@record.ChildName</div>
                             </td>
-                            <td data-label="Group">@record.GroupName</td>
-                            <td data-label="Status">
+                            <td data-label='@T["Group"]'>@record.GroupName</td>
+                            <td data-label='@T["Status"]'>
                                 <span class="status-badge status-@record.Status.ToString().ToLowerInvariant()">
-                                    @record.Status
+                                    @T[record.Status.ToString()]
                                 </span>
                             </td>
-                            <td data-label="Note">
+                            <td data-label='@T["Note"]'>
                                 <div class="attendance-note">
-                                    @(string.IsNullOrWhiteSpace(record.Note) ? "No note" : record.Note)
+                                    @(string.IsNullOrWhiteSpace(record.Note) ? T["No note"] : record.Note)
                                 </div>
                             </td>
-                            <td class="text-end" data-label="Actions">
+                            <td class="text-end" data-label='@T["Actions"]'>
                                 <a asp-action="Edit"
                                    asp-route-id="@record.Id"
                                    asp-route-returnUrl="@Context.Request.Path@Context.Request.QueryString"
                                    class="btn btn-sm btn-outline-primary">
-                                    Edit
+                                    @T["Edit"]
                                 </a>
                             </td>
                         </tr>
@@ -151,7 +151,7 @@
 
         @if (Model.TotalPages > 1)
         {
-            <nav class="attendance-pager" aria-label="Attendance history pages">
+            <nav class="attendance-pager" aria-label='@T["Attendance history pages"]'>
                 <a class="attendance-page-link @(Model.HasPreviousPage ? string.Empty : "disabled")"
                    asp-action="History"
                    asp-route-searchTerm="@Model.SearchTerm"
@@ -162,7 +162,7 @@
                    asp-route-page="@(Model.Page - 1)"
                    asp-route-pageSize="@Model.PageSize"
                    asp-fragment="attendance-records">
-                    Previous
+                    @T["Previous"]
                 </a>
 
                 <div class="attendance-page-numbers">
@@ -193,7 +193,7 @@
                    asp-route-page="@(Model.Page + 1)"
                    asp-route-pageSize="@Model.PageSize"
                    asp-fragment="attendance-records">
-                    Next
+                    @T["Next"]
                 </a>
             </nav>
         }

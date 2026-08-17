@@ -2,7 +2,7 @@
 @model KiddoCare.ViewModels.DailyReports.DailyReportListViewModel
 
 @{
-    ViewData["Title"] = "Daily Reports";
+    ViewData["Title"] = T["Daily Reports"];
     bool canCreate = User.IsInRole(Admin) || User.IsInRole(Teacher);
     var currentUrl = Context.Request.Path + Context.Request.QueryString;
 }
@@ -19,17 +19,17 @@
 
 <div class="list-page-header">
     <div>
-        <div class="page-kicker">Daily care</div>
-        <h1 class="page-title">Daily Reports</h1>
+        <div class="page-kicker">@T["Daily care"]</div>
+        <h1 class="page-title">@T["Daily Reports"]</h1>
         <p class="page-subtitle">
-            Follow each child's day through mood, meals, sleep, activities and teacher notes.
+            @T["Follow each child's day through mood, meals, sleep, activities and teacher notes."]
         </p>
     </div>
 
     <div class="page-actions">
         @if (!string.IsNullOrWhiteSpace(Model.ReturnUrl))
         {
-            <a href="@Model.ReturnUrl" class="btn btn-secondary">Back</a>
+            <a href="@Model.ReturnUrl" class="btn btn-secondary">@T["Back"]</a>
         }
 
         @if (canCreate)
@@ -37,7 +37,7 @@
             <a asp-action="Create"
                asp-route-returnUrl="@currentUrl"
                class="btn btn-primary">
-                Create Daily Report
+                @T["Create Daily Report"]
             </a>
         }
     </div>
@@ -46,15 +46,15 @@
 <section id="daily-reports-list" class="section-panel">
     <div class="section-panel-header">
         <div>
-            <h2 class="section-panel-title">Report Records</h2>
+            <h2 class="section-panel-title">@T["Report Records"]</h2>
             <p class="section-panel-subtitle">
-                @Model.TotalDailyReports daily reports found.
+                @T["{0} daily reports found.", Model.TotalDailyReports]
             </p>
         </div>
 
         <div class="records-toolbar">
             <div class="records-page-size">
-                <label for="dailyReportsPageSizeSelect" class="form-label mb-0">Show</label>
+                <label for="dailyReportsPageSizeSelect" class="form-label mb-0">@T["Show"]</label>
                 <select id="dailyReportsPageSizeSelect" class="form-select form-select-sm">
                     <option value="10" selected="@(Model.PageSize == 10)">10</option>
                     <option value="15" selected="@(Model.PageSize == 15)">15</option>
@@ -65,7 +65,7 @@
             @if (Model.TotalPages > 0)
             {
                 <div class="text-muted">
-                    Page @Model.Page of @Model.TotalPages
+                    @T["Page {0} of {1}", Model.Page, Model.TotalPages]
                 </div>
             }
         </div>
@@ -78,12 +78,12 @@
 
         <div class="form-grid align-items-end">
             <div class="mb-3 search-suggest-wrapper">
-                <label asp-for="SearchTerm" class="form-label">Search</label>
+                <label asp-for="SearchTerm" class="form-label">@T["Search"]</label>
                 <input asp-for="SearchTerm"
                        id="dailyReportsSearchInput"
                        class="form-control"
                        autocomplete="off"
-                       placeholder="Search by child, group or mood..." />
+                       placeholder='@T["Search by child, group or mood..."]' />
 
                 <div id="dailyReportsSearchSuggestions"
                      class="search-suggestions"
@@ -92,11 +92,11 @@
             </div>
 
             <div class="mb-3">
-                <button type="submit" class="btn btn-primary">Search</button>
+                <button type="submit" class="btn btn-primary">@T["Search"]</button>
                 <a asp-action="Index"
                    asp-route-returnUrl="@Model.ReturnUrl"
                    class="btn btn-secondary">
-                    Clear
+                    @T["Clear"]
                 </a>
             </div>
         </div>
@@ -105,15 +105,15 @@
     @if (!Model.DailyReports.Any())
     {
         <section class="empty-state compact-empty-state">
-            <h2>No daily reports found</h2>
-            <p>Try changing the search, or create a report to share today's care summary with the parent.</p>
+            <h2>@T["No daily reports found"]</h2>
+            <p>@T["Try changing the search, or create a report to share today's care summary with the parent."]</p>
 
             @if (canCreate)
             {
                 <a asp-action="Create"
                    asp-route-returnUrl="@currentUrl"
                    class="btn btn-primary">
-                    Create Daily Report
+                    @T["Create Daily Report"]
                 </a>
             }
         </section>
@@ -124,34 +124,34 @@
             <table class="table table-striped align-middle mb-0 mobile-card-table">
                 <thead>
                     <tr>
-                        <th>Child</th>
-                        <th>Group</th>
-                        <th>Date</th>
-                        <th>Mood</th>
-                        <th>Meals</th>
-                        <th>Sleep</th>
-                        <th>Activities</th>
-                        <th class="text-end">Actions</th>
+                        <th>@T["Child"]</th>
+                        <th>@T["Group"]</th>
+                        <th>@T["Date"]</th>
+                        <th>@T["Mood"]</th>
+                        <th>@T["Meals"]</th>
+                        <th>@T["Sleep"]</th>
+                        <th>@T["Activities"]</th>
+                        <th class="text-end">@T["Actions"]</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var report in Model.DailyReports)
                     {
                         <tr>
-                            <td data-label="Child"><div class="fw-bold">@report.ChildFullName</div></td>
-                            <td data-label="Group">@report.GroupName</td>
-                            <td data-label="Date">@report.ReportDate.ToString("dd MMM yyyy")</td>
-                            <td data-label="Mood">@report.Mood</td>
-                            <td data-label="Meals"><span class="rating-stars">@Html.Raw(Stars(report.MealRating))</span></td>
-                            <td data-label="Sleep"><span class="rating-stars">@Html.Raw(Stars(report.SleepRating))</span></td>
-                            <td data-label="Activities"><span class="rating-stars">@Html.Raw(Stars(report.ActivityRating))</span></td>
-                            <td class="text-end" data-label="Actions">
+                            <td data-label='@T["Child"]'><div class="fw-bold">@report.ChildFullName</div></td>
+                            <td data-label='@T["Group"]'>@report.GroupName</td>
+                            <td data-label='@T["Date"]'>@report.ReportDate.ToString("dd MMM yyyy")</td>
+                            <td data-label='@T["Mood"]'>@T[report.Mood.ToString()]</td>
+                            <td data-label='@T["Meals"]'><span class="rating-stars">@Html.Raw(Stars(report.MealRating))</span></td>
+                            <td data-label='@T["Sleep"]'><span class="rating-stars">@Html.Raw(Stars(report.SleepRating))</span></td>
+                            <td data-label='@T["Activities"]'><span class="rating-stars">@Html.Raw(Stars(report.ActivityRating))</span></td>
+                            <td class="text-end" data-label='@T["Actions"]'>
                                 <div class="action-buttons">
                                     <a asp-action="Details"
                                        asp-route-id="@report.Id"
                                        asp-route-returnUrl="@currentUrl"
                                        class="btn btn-sm btn-outline-secondary">
-                                        Details
+                                        @T["Details"]
                                     </a>
 
                                     @if (report.CanManage)
@@ -160,14 +160,14 @@
                                            asp-route-id="@report.Id"
                                            asp-route-returnUrl="@currentUrl"
                                            class="btn btn-sm btn-outline-primary">
-                                            Edit
+                                            @T["Edit"]
                                         </a>
 
                                         <a asp-action="Delete"
                                            asp-route-id="@report.Id"
                                            asp-route-returnUrl="@currentUrl"
                                            class="btn btn-sm btn-outline-danger">
-                                            Delete
+                                            @T["Delete"]
                                         </a>
                                     }
                                 </div>
@@ -180,7 +180,7 @@
 
         @if (Model.TotalPages > 1)
         {
-            <nav class="attendance-pager" aria-label="Daily report pages">
+            <nav class="attendance-pager" aria-label='@T["Daily report pages"]'>
                 <a class="attendance-page-link @(Model.HasPreviousPage ? string.Empty : "disabled")"
                    asp-action="Index"
                    asp-route-searchTerm="@Model.SearchTerm"
@@ -188,7 +188,7 @@
                    asp-route-page="@(Model.Page - 1)"
                    asp-route-pageSize="@Model.PageSize"
                    asp-fragment="daily-reports-list">
-                    Previous
+                    @T["Previous"]
                 </a>
 
                 <div class="attendance-page-numbers">
@@ -213,7 +213,7 @@
                    asp-route-page="@(Model.Page + 1)"
                    asp-route-pageSize="@Model.PageSize"
                    asp-fragment="daily-reports-list">
-                    Next
+                    @T["Next"]
                 </a>
             </nav>
         }

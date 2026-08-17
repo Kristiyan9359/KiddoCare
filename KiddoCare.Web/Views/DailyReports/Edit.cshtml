@@ -2,7 +2,7 @@
 @model KiddoCare.ViewModels.DailyReports.DailyReportEditViewModel
 
 @{
-    ViewData["Title"] = "Edit Daily Report";
+    ViewData["Title"] = T["Edit Daily Report"];
     var maxReportDate = DateTime.Today.ToString("yyyy-MM-dd");
     var moodOptions = Html.GetEnumSelectList<ChildMood>()
         .Where(m => m.Value != "0");
@@ -11,10 +11,10 @@
 
 <div class="page-header">
     <div>
-        <div class="page-kicker">Daily care</div>
-        <h1 class="page-title">Edit Daily Report</h1>
+        <div class="page-kicker">@T["Daily care"]</div>
+        <h1 class="page-title">@T["Edit Daily Report"]</h1>
         <p class="page-subtitle">
-            Update ratings and the teacher note for @Model.ChildFullName.
+            @T["Update ratings and the teacher note for {0}.", Model.ChildFullName]
         </p>
     </div>
 </div>
@@ -29,7 +29,7 @@
 
         <div class="form-grid">
             <div class="mb-3">
-                <label asp-for="ReportDate" class="form-label"></label>
+                <label asp-for="ReportDate" class="form-label">@T["Report Date"]</label>
                 <input asp-for="ReportDate"
                        type="date"
                        max="@maxReportDate"
@@ -38,11 +38,11 @@
             </div>
 
             <div class="mb-3">
-                <label asp-for="Mood" class="form-label"></label>
+                <label asp-for="Mood" class="form-label">@T["Mood"]</label>
                 <select asp-for="Mood"
                         asp-items="moodOptions"
                         class="form-select">
-                    <option value="0">Select mood...</option>
+                    <option value="0">@T["Select mood..."]</option>
                 </select>
                 <span asp-validation-for="Mood" class="text-danger"></span>
             </div>
@@ -51,8 +51,8 @@
         <div class="rating-grid">
             <div class="rating-card">
                 <div>
-                    <label asp-for="MealRating" class="form-label"></label>
-                    <p class="form-help">How well did the child eat today?</p>
+                    <label asp-for="MealRating" class="form-label">@T["Meal Rating"]</label>
+                    <p class="form-help">@T["How well did the child eat today?"]</p>
                 </div>
 
                 <div class="rating-selector">
@@ -63,7 +63,7 @@
                                value="@rating"
                                id="MealRating_@rating"
                                class="rating-input" />
-                        <label for="MealRating_@rating" class="rating-option" title="@rating out of 5">
+                        <label for="MealRating_@rating" class="rating-option" title='@T["{0} out of 5", rating]'>
                             @rating
                         </label>
                     }
@@ -74,8 +74,8 @@
 
             <div class="rating-card">
                 <div>
-                    <label asp-for="SleepRating" class="form-label"></label>
-                    <p class="form-help">How restful was nap or quiet time?</p>
+                    <label asp-for="SleepRating" class="form-label">@T["Sleep Rating"]</label>
+                    <p class="form-help">@T["How restful was nap or quiet time?"]</p>
                 </div>
 
                 <div class="rating-selector">
@@ -86,7 +86,7 @@
                                value="@rating"
                                id="SleepRating_@rating"
                                class="rating-input" />
-                        <label for="SleepRating_@rating" class="rating-option" title="@rating out of 5">
+                        <label for="SleepRating_@rating" class="rating-option" title='@T["{0} out of 5", rating]'>
                             @rating
                         </label>
                     }
@@ -97,8 +97,8 @@
 
             <div class="rating-card">
                 <div>
-                    <label asp-for="ActivityRating" class="form-label"></label>
-                    <p class="form-help">How engaged was the child in activities?</p>
+                    <label asp-for="ActivityRating" class="form-label">@T["Activity Rating"]</label>
+                    <p class="form-help">@T["How engaged was the child in activities?"]</p>
                 </div>
 
                 <div class="rating-selector">
@@ -109,7 +109,7 @@
                                value="@rating"
                                id="ActivityRating_@rating"
                                class="rating-input" />
-                        <label for="ActivityRating_@rating" class="rating-option" title="@rating out of 5">
+                        <label for="ActivityRating_@rating" class="rating-option" title='@T["{0} out of 5", rating]'>
                             @rating
                         </label>
                     }
@@ -120,17 +120,17 @@
         </div>
 
         <div class="mb-3">
-            <label asp-for="TeacherNote" class="form-label"></label>
+            <label asp-for="TeacherNote" class="form-label">@T["Teacher Note"]</label>
             <textarea asp-for="TeacherNote"
                       class="form-control"
                       rows="5"
-                      placeholder="Optional note for the parent."></textarea>
+                      placeholder='@T["Optional note for the parent."]'></textarea>
             <span asp-validation-for="TeacherNote" class="text-danger"></span>
         </div>
 
         <div class="form-action-row">
-            <button type="submit" class="btn btn-primary">Save</button>
-            <a href="@backUrl" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary">@T["Save"]</button>
+            <a href="@backUrl" class="btn btn-secondary">@T["Cancel"]</a>
         </div>
     </form>
 </section>

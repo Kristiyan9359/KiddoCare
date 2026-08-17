@@ -2,16 +2,16 @@
 @model KiddoCare.ViewModels.Attendance.AttendanceEditViewModel
 
 @{
-    ViewData["Title"] = "Edit Attendance";
+    ViewData["Title"] = T["Edit Attendance"];
     var backUrl = Model.ReturnUrl ?? Url.Action("History");
 }
 
 <div class="page-header">
     <div>
-        <div class="page-kicker">Attendance</div>
-        <h1 class="page-title">Edit Attendance</h1>
+        <div class="page-kicker">@T["Attendance"]</div>
+        <h1 class="page-title">@T["Edit Attendance"]</h1>
         <p class="page-subtitle">
-            Update an existing attendance record.
+            @T["Update an existing attendance record."]
         </p>
     </div>
 </div>
@@ -34,7 +34,7 @@
 
         <div class="form-grid">
             <div class="mb-3">
-                <label asp-for="Status" class="form-label">Status</label>
+                <label asp-for="Status" class="form-label">@T["Status"]</label>
                 <select asp-for="Status"
                         asp-items="Html.GetEnumSelectList<AttendanceStatus>()"
                         class="form-select">
@@ -43,15 +43,15 @@
             </div>
 
             <div class="mb-3">
-                <label asp-for="Note" class="form-label">Note</label>
-                <input asp-for="Note" class="form-control" placeholder="Optional note..." />
+                <label asp-for="Note" class="form-label">@T["Note"]</label>
+                <input asp-for="Note" class="form-control" placeholder='@T["Optional note..."]' />
                 <span asp-validation-for="Note" class="text-danger"></span>
             </div>
         </div>
 
         <div class="form-action-row">
-            <button type="submit" class="btn btn-primary">Save</button>
-            <a href="@backUrl" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary">@T["Save"]</button>
+            <a href="@backUrl" class="btn btn-secondary">@T["Cancel"]</a>
         </div>
     </form>
 </section>

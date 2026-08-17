@@ -1,30 +1,30 @@
 @model KiddoCare.ViewModels.DailyReports.DailyReportDeleteViewModel
 
 @{
-    ViewData["Title"] = "Delete Daily Report";
+    ViewData["Title"] = T["Delete Daily Report"];
     var backUrl = Model.ReturnUrl ?? Url.Action("Index");
 }
 
 <section class="delete-page">
     <div class="delete-card">
-        <div class="delete-kicker">Permanent action</div>
-        <h1>Delete Daily Report</h1>
+        <div class="delete-kicker">@T["Permanent action"]</div>
+        <h1>@T["Delete Daily Report"]</h1>
         <p>
-            Are you sure you want to delete this daily report? This action cannot be undone.
+            @T["Are you sure you want to delete this daily report? This action cannot be undone."]
         </p>
 
         <dl class="info-list delete-info-list">
             <div>
-                <dt>Child</dt>
+                <dt>@T["Child"]</dt>
                 <dd>@Model.ChildFullName</dd>
             </div>
             <div>
-                <dt>Report Date</dt>
+                <dt>@T["Report Date"]</dt>
                 <dd>@Model.ReportDate.ToString("dd MMM yyyy")</dd>
             </div>
             <div>
-                <dt>Mood</dt>
-                <dd>@Model.Mood</dd>
+                <dt>@T["Mood"]</dt>
+                <dd>@T[Model.Mood.ToString()]</dd>
             </div>
         </dl>
 
@@ -32,8 +32,8 @@
             <input asp-for="Id" type="hidden" />
             <input asp-for="ReturnUrl" type="hidden" />
 
-            <button type="submit" class="btn btn-danger">Delete</button>
-            <a href="@backUrl" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-danger">@T["Delete"]</button>
+            <a href="@backUrl" class="btn btn-secondary">@T["Cancel"]</a>
         </form>
     </div>
 </section>

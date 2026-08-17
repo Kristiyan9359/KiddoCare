@@ -708,4 +708,214 @@
   <data name="Confirmed" xml:space="preserve">
     <value>Потвърдено</value>
   </data>
+  <data name="Daily Attendance" xml:space="preserve">
+    <value>Дневни присъствия</value>
+  </data>
+  <data name="Review and update attendance records for the selected day and group." xml:space="preserve">
+    <value>Преглеждай и обновявай присъствията за избрания ден и група.</value>
+  </data>
+  <data name="All groups" xml:space="preserve">
+    <value>Всички групи</value>
+  </data>
+  <data name="Load Attendance" xml:space="preserve">
+    <value>Зареди присъствия</value>
+  </data>
+  <data name="Present" xml:space="preserve">
+    <value>Присъства</value>
+  </data>
+  <data name="Absent" xml:space="preserve">
+    <value>Отсъства</value>
+  </data>
+  <data name="Sick" xml:space="preserve">
+    <value>Болно</value>
+  </data>
+  <data name="Vacation" xml:space="preserve">
+    <value>Почивка</value>
+  </data>
+  <data name="Late" xml:space="preserve">
+    <value>Закъсняло</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Общо</value>
+  </data>
+  <data name="Set each child's attendance status and add an optional note." xml:space="preserve">
+    <value>Отбележи статуса на всяко дете и добави бележка при нужда.</value>
+  </data>
+  <data name="Choose another group or create child profiles first." xml:space="preserve">
+    <value>Избери друга група или първо създай профили на деца.</value>
+  </data>
+  <data name="Note" xml:space="preserve">
+    <value>Бележка</value>
+  </data>
+  <data name="Optional note..." xml:space="preserve">
+    <value>Бележка по желание...</value>
+  </data>
+  <data name="Save Attendance" xml:space="preserve">
+    <value>Запази присъствията</value>
+  </data>
+  <data name="Review attendance records by date range, child, group and status." xml:space="preserve">
+    <value>Преглеждай присъствия по период, дете, група и статус.</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>От</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>До</value>
+  </data>
+  <data name="All statuses" xml:space="preserve">
+    <value>Всички статуси</value>
+  </data>
+  <data name="Search by child, group or note..." xml:space="preserve">
+    <value>Търси по дете, група или бележка...</value>
+  </data>
+  <data name="Records" xml:space="preserve">
+    <value>Записи</value>
+  </data>
+  <data name="{0} attendance records found." xml:space="preserve">
+    <value>Намерени са {0} записа за присъствие.</value>
+  </data>
+  <data name="No attendance records" xml:space="preserve">
+    <value>Няма записи за присъствие</value>
+  </data>
+  <data name="Try changing the search or filters." xml:space="preserve">
+    <value>Пробвай да промениш търсенето или филтрите.</value>
+  </data>
+  <data name="No note" xml:space="preserve">
+    <value>Няма бележка</value>
+  </data>
+  <data name="Attendance history pages" xml:space="preserve">
+    <value>Страници с история на присъствията</value>
+  </data>
+  <data name="Edit Attendance" xml:space="preserve">
+    <value>Редактирай присъствие</value>
+  </data>
+  <data name="Update an existing attendance record." xml:space="preserve">
+    <value>Обнови съществуващ запис за присъствие.</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Запази</value>
+  </data>
+  <data name="Daily care" xml:space="preserve">
+    <value>Дневна грижа</value>
+  </data>
+  <data name="Follow each child's day through mood, meals, sleep, activities and teacher notes." xml:space="preserve">
+    <value>Следи деня на всяко дете чрез настроение, хранене, сън, активности и бележки от учителя.</value>
+  </data>
+  <data name="Report Records" xml:space="preserve">
+    <value>Записи с отчети</value>
+  </data>
+  <data name="{0} daily reports found." xml:space="preserve">
+    <value>Намерени са {0} дневни отчета.</value>
+  </data>
+  <data name="Search by child, group or mood..." xml:space="preserve">
+    <value>Търси по дете, група или настроение...</value>
+  </data>
+  <data name="No daily reports found" xml:space="preserve">
+    <value>Няма намерени дневни отчети</value>
+  </data>
+  <data name="Try changing the search, or create a report to share today's care summary with the parent." xml:space="preserve">
+    <value>Пробвай да промениш търсенето или създай отчет, за да споделиш дневната грижа с родителя.</value>
+  </data>
+  <data name="Daily report pages" xml:space="preserve">
+    <value>Страници с дневни отчети</value>
+  </data>
+  <data name="Capture the child's day with quick ratings and one clear teacher note." xml:space="preserve">
+    <value>Опиши деня на детето с бързи оценки и ясна бележка от учителя.</value>
+  </data>
+  <data name="Select a child..." xml:space="preserve">
+    <value>Избери дете...</value>
+  </data>
+  <data name="Report Date" xml:space="preserve">
+    <value>Дата на отчета</value>
+  </data>
+  <data name="Select mood..." xml:space="preserve">
+    <value>Избери настроение...</value>
+  </data>
+  <data name="Meal Rating" xml:space="preserve">
+    <value>Оценка за хранене</value>
+  </data>
+  <data name="Sleep Rating" xml:space="preserve">
+    <value>Оценка за сън</value>
+  </data>
+  <data name="Activity Rating" xml:space="preserve">
+    <value>Оценка за активност</value>
+  </data>
+  <data name="How well did the child eat today?" xml:space="preserve">
+    <value>Колко добре се храни детето днес?</value>
+  </data>
+  <data name="How restful was nap or quiet time?" xml:space="preserve">
+    <value>Колко спокоен беше сънят или тихото време?</value>
+  </data>
+  <data name="How engaged was the child in activities?" xml:space="preserve">
+    <value>Колко активно участва детето в заниманията?</value>
+  </data>
+  <data name="{0} out of 5" xml:space="preserve">
+    <value>{0} от 5</value>
+  </data>
+  <data name="Teacher Note" xml:space="preserve">
+    <value>Бележка от учителя</value>
+  </data>
+  <data name="Optional note for the parent." xml:space="preserve">
+    <value>Бележка за родителя по желание.</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Създай</value>
+  </data>
+  <data name="Edit Daily Report" xml:space="preserve">
+    <value>Редактирай дневен отчет</value>
+  </data>
+  <data name="Update ratings and the teacher note for {0}." xml:space="preserve">
+    <value>Обнови оценките и бележката от учителя за {0}.</value>
+  </data>
+  <data name="Daily Report Details" xml:space="preserve">
+    <value>Детайли за дневен отчет</value>
+  </data>
+  <data name="Daily Report" xml:space="preserve">
+    <value>Дневен отчет</value>
+  </data>
+  <data name="{0} on {1}" xml:space="preserve">
+    <value>{0} на {1}</value>
+  </data>
+  <data name="Report Summary" xml:space="preserve">
+    <value>Обобщение на отчета</value>
+  </data>
+  <data name="Mood and report metadata." xml:space="preserve">
+    <value>Настроение и основна информация за отчета.</value>
+  </data>
+  <data name="Care Ratings" xml:space="preserve">
+    <value>Оценки за грижа</value>
+  </data>
+  <data name="Quick view of the child's day." xml:space="preserve">
+    <value>Бърз преглед на деня на детето.</value>
+  </data>
+  <data name="Additional context for the parent." xml:space="preserve">
+    <value>Допълнителен контекст за родителя.</value>
+  </data>
+  <data name="No additional note" xml:space="preserve">
+    <value>Няма допълнителна бележка</value>
+  </data>
+  <data name="Delete Daily Report" xml:space="preserve">
+    <value>Изтрий дневен отчет</value>
+  </data>
+  <data name="Permanent action" xml:space="preserve">
+    <value>Постоянно действие</value>
+  </data>
+  <data name="Are you sure you want to delete this daily report? This action cannot be undone." xml:space="preserve">
+    <value>Сигурен ли си, че искаш да изтриеш този дневен отчет? Това действие не може да бъде отменено.</value>
+  </data>
+  <data name="Happy" xml:space="preserve">
+    <value>Щастливо</value>
+  </data>
+  <data name="Calm" xml:space="preserve">
+    <value>Спокойно</value>
+  </data>
+  <data name="Tired" xml:space="preserve">
+    <value>Уморено</value>
+  </data>
+  <data name="Sad" xml:space="preserve">
+    <value>Тъжно</value>
+  </data>
+  <data name="Upset" xml:space="preserve">
+    <value>Разстроено</value>
+  </data>
 </root>

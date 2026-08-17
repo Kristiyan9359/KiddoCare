@@ -1,7 +1,7 @@
 @model KiddoCare.ViewModels.DailyReports.DailyReportDetailsViewModel
 
 @{
-    ViewData["Title"] = "Daily Report Details";
+    ViewData["Title"] = T["Daily Report Details"];
     var currentUrl = Context.Request.Path + Context.Request.QueryString;
     var backUrl = Model.ReturnUrl ?? Url.Action("Index");
 }
@@ -15,10 +15,10 @@
 
 <div class="page-header">
     <div>
-        <div class="page-kicker">Daily care</div>
-        <h1 class="page-title">Daily Report</h1>
+        <div class="page-kicker">@T["Daily care"]</div>
+        <h1 class="page-title">@T["Daily Report"]</h1>
         <p class="page-subtitle">
-            @Model.ChildFullName on @Model.ReportDate.ToString("dd MMM yyyy")
+            @T["{0} on {1}", Model.ChildFullName, Model.ReportDate.ToString("dd MMM yyyy")]
         </p>
     </div>
 
@@ -29,18 +29,18 @@
                asp-route-id="@Model.Id"
                asp-route-returnUrl="@currentUrl"
                class="btn btn-primary">
-                Edit
+                @T["Edit"]
             </a>
 
             <a asp-action="Delete"
                asp-route-id="@Model.Id"
                asp-route-returnUrl="@backUrl"
                class="btn btn-outline-danger">
-                Delete
+                @T["Delete"]
             </a>
         }
 
-        <a href="@backUrl" class="btn btn-secondary">Back</a>
+        <a href="@backUrl" class="btn btn-secondary">@T["Back"]</a>
     </div>
 </div>
 
@@ -48,26 +48,26 @@
     <section class="info-panel">
         <div class="section-heading-row">
             <div>
-                <h2>Report Summary</h2>
-                <p>Mood and report metadata.</p>
+                <h2>@T["Report Summary"]</h2>
+                <p>@T["Mood and report metadata."]</p>
             </div>
         </div>
 
         <dl class="info-list">
             <div>
-                <dt>Child</dt>
+                <dt>@T["Child"]</dt>
                 <dd>@Model.ChildFullName</dd>
             </div>
             <div>
-                <dt>Report Date</dt>
+                <dt>@T["Report Date"]</dt>
                 <dd>@Model.ReportDate.ToString("dd MMM yyyy")</dd>
             </div>
             <div>
-                <dt>Mood</dt>
-                <dd>@Model.Mood</dd>
+                <dt>@T["Mood"]</dt>
+                <dd>@T[Model.Mood.ToString()]</dd>
             </div>
             <div>
-                <dt>Created On</dt>
+                <dt>@T["Created On"]</dt>
                 <dd>@Model.CreatedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</dd>
             </div>
         </dl>
@@ -76,22 +76,22 @@
     <section class="info-panel">
         <div class="section-heading-row">
             <div>
-                <h2>Care Ratings</h2>
-                <p>Quick view of the child's day.</p>
+                <h2>@T["Care Ratings"]</h2>
+                <p>@T["Quick view of the child's day."]</p>
             </div>
         </div>
 
         <div class="rating-summary-list">
             <div>
-                <span>Meals</span>
+                <span>@T["Meals"]</span>
                 <strong class="rating-stars">@Stars(Model.MealRating)</strong>
             </div>
             <div>
-                <span>Sleep</span>
+                <span>@T["Sleep"]</span>
                 <strong class="rating-stars">@Stars(Model.SleepRating)</strong>
             </div>
             <div>
-                <span>Activities</span>
+                <span>@T["Activities"]</span>
                 <strong class="rating-stars">@Stars(Model.ActivityRating)</strong>
             </div>
         </div>
@@ -101,12 +101,12 @@
 <section class="info-panel mt-3">
     <div class="section-heading-row">
         <div>
-            <h2>Teacher Note</h2>
-            <p>Additional context for the parent.</p>
+            <h2>@T["Teacher Note"]</h2>
+            <p>@T["Additional context for the parent."]</p>
         </div>
     </div>
 
     <p class="announcement-message">
-        @(Model.TeacherNote ?? "No additional note.")
+        @(Model.TeacherNote ?? T["No additional note"].Value)
     </p>
 </section>

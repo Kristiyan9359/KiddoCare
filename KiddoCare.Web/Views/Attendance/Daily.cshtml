@@ -2,15 +2,15 @@
 @model KiddoCare.ViewModels.Attendance.AttendanceDailyViewModel
 
 @{
-    ViewData["Title"] = "Daily Attendance";
+    ViewData["Title"] = T["Daily Attendance"];
 }
 
 <div class="page-header">
     <div>
-        <div class="page-kicker">Attendance</div>
-        <h1 class="page-title">Daily Attendance</h1>
+        <div class="page-kicker">@T["Attendance"]</div>
+        <h1 class="page-title">@T["Daily Attendance"]</h1>
         <p class="page-subtitle">
-            Review and update attendance records for the selected day and group.
+            @T["Review and update attendance records for the selected day and group."]
         </p>
     </div>
 </div>
@@ -19,19 +19,19 @@
     <form asp-action="Daily" method="get" class="filter-form">
         <div class="form-grid align-items-end">
             <div class="mb-3">
-                <label asp-for="Date" class="form-label">Date</label>
+                <label asp-for="Date" class="form-label">@T["Date"]</label>
                 <input asp-for="Date" type="date" class="form-control" />
             </div>
 
             <div class="mb-3">
-                <label asp-for="GroupId" class="form-label">Group</label>
+                <label asp-for="GroupId" class="form-label">@T["Group"]</label>
                 <select asp-for="GroupId" asp-items="Model.Groups" class="form-select">
-                    <option value="">All groups</option>
+                    <option value="">@T["All groups"]</option>
                 </select>
             </div>
 
             <div class="mb-3">
-                <button type="submit" class="btn btn-primary">Load Attendance</button>
+                <button type="submit" class="btn btn-primary">@T["Load Attendance"]</button>
             </div>
         </div>
     </form>
@@ -40,42 +40,42 @@
 <div class="row g-3 my-4">
     <div class="col-sm-6 col-lg-2">
         <div class="border rounded p-3 h-100">
-            <div class="fw-bold">Present</div>
+            <div class="fw-bold">@T["Present"]</div>
             <div class="fs-4">@Model.Summary.PresentCount</div>
         </div>
     </div>
 
     <div class="col-sm-6 col-lg-2">
         <div class="border rounded p-3 h-100">
-            <div class="fw-bold">Absent</div>
+            <div class="fw-bold">@T["Absent"]</div>
             <div class="fs-4">@Model.Summary.AbsentCount</div>
         </div>
     </div>
 
     <div class="col-sm-6 col-lg-2">
         <div class="border rounded p-3 h-100">
-            <div class="fw-bold">Sick</div>
+            <div class="fw-bold">@T["Sick"]</div>
             <div class="fs-4">@Model.Summary.SickCount</div>
         </div>
     </div>
 
     <div class="col-sm-6 col-lg-2">
         <div class="border rounded p-3 h-100">
-            <div class="fw-bold">Vacation</div>
+            <div class="fw-bold">@T["Vacation"]</div>
             <div class="fs-4">@Model.Summary.VacationCount</div>
         </div>
     </div>
 
     <div class="col-sm-6 col-lg-2">
         <div class="border rounded p-3 h-100">
-            <div class="fw-bold">Late</div>
+            <div class="fw-bold">@T["Late"]</div>
             <div class="fs-4">@Model.Summary.LateCount</div>
         </div>
     </div>
 
     <div class="col-sm-6 col-lg-2">
         <div class="border rounded p-3 h-100">
-            <div class="fw-bold">Total</div>
+            <div class="fw-bold">@T["Total"]</div>
             <div class="fs-4">@Model.Summary.TotalCount</div>
         </div>
     </div>
@@ -83,17 +83,17 @@
 
 <section class="section-panel">
     <div class="section-panel-header">
-        <h2 class="section-panel-title">Children</h2>
+        <h2 class="section-panel-title">@T["Children"]</h2>
         <p class="section-panel-subtitle">
-            Set each child's attendance status and add an optional note.
+            @T["Set each child's attendance status and add an optional note."]
         </p>
     </div>
 
     @if (!Model.Children.Any())
     {
         <section class="empty-state">
-            <h2>No children found</h2>
-            <p>Choose another group or create child profiles first.</p>
+            <h2>@T["No children found"]</h2>
+            <p>@T["Choose another group or create child profiles first."]</p>
         </section>
     }
     else
@@ -106,9 +106,9 @@
                 <table class="table table-striped align-middle mb-0 mobile-card-table">
                     <thead>
                         <tr>
-                            <th>Child</th>
-                            <th>Status</th>
-                            <th>Note</th>
+                            <th>@T["Child"]</th>
+                            <th>@T["Status"]</th>
+                            <th>@T["Note"]</th>
                         </tr>
                     </thead>
 
@@ -116,21 +116,21 @@
                         @for (var i = 0; i < Model.Children.Count; i++)
                         {
                             <tr>
-                                <td data-label="Child">
+                                <td data-label='@T["Child"]'>
                                     <div class="fw-bold">@Model.Children[i].FullName</div>
                                     <input asp-for="Children[i].ChildId" type="hidden" />
                                     <input asp-for="Children[i].FullName" type="hidden" />
                                 </td>
-                                <td data-label="Status">
+                                <td data-label='@T["Status"]'>
                                     <select asp-for="Children[i].Status"
                                             asp-items="Html.GetEnumSelectList<AttendanceStatus>()"
                                             class="form-select">
                                     </select>
                                 </td>
-                                <td data-label="Note">
+                                <td data-label='@T["Note"]'>
                                     <input asp-for="Children[i].Note"
                                            class="form-control"
-                                           placeholder="Optional note..." />
+                                           placeholder='@T["Optional note..."]' />
                                 </td>
                             </tr>
                         }
@@ -139,7 +139,7 @@
             </div>
 
             <div class="form-action-row">
-                <button type="submit" class="btn btn-success">Save Attendance</button>
+                <button type="submit" class="btn btn-success">@T["Save Attendance"]</button>
             </div>
         </form>
     }
