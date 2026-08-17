@@ -2,7 +2,7 @@
 @model KiddoCare.ViewModels.Announcements.AnnouncementListViewModel
 
 @{
-    ViewData["Title"] = "Announcements";
+    ViewData["Title"] = T["Announcements"];
     bool canCreate = User.IsInRole(Admin) || User.IsInRole(Teacher);
     var currentUrl = Context.Request.Path + Context.Request.QueryString;
 }

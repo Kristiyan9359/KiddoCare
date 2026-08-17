@@ -1,16 +1,16 @@
 ﻿@model KiddoCare.ViewModels.MedicalRecords.MedicalRecordCreateViewModel
 
 @{
-    ViewData["Title"] = "Create Medical Record";
+    ViewData["Title"] = T["Create Medical Record"];
     var backUrl = Model.ReturnUrl ?? Url.Action("Index", "Children");
 }
 
 <div class="page-header">
     <div>
-        <div class="page-kicker">Health records</div>
-        <h1 class="page-title">Create Medical Record</h1>
+        <div class="page-kicker">@T["Health records"]</div>
+        <h1 class="page-title">@T["Create Medical Record"]</h1>
         <p class="page-subtitle">
-            Add important health information, emergency contacts and doctor details.
+            @T["Add important health information, emergency contacts and doctor details."]
         </p>
     </div>
 </div>
@@ -23,59 +23,59 @@
 
         <div class="form-grid">
             <div class="mb-3">
-                <label asp-for="ChildId" class="form-label">Child</label>
+                <label asp-for="ChildId" class="form-label">@T["Child"]</label>
                 <select asp-for="ChildId" asp-items="Model.Children" class="form-select">
-                    <option value="">Select child...</option>
+                    <option value="">@T["Select child..."]</option>
                 </select>
                 <span asp-validation-for="ChildId" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="DoctorName" class="form-label">Doctor Name</label>
+                <label asp-for="DoctorName" class="form-label">@T["Doctor Name"]</label>
                 <input asp-for="DoctorName" class="form-control" />
                 <span asp-validation-for="DoctorName" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="DoctorPhone" class="form-label">Doctor Phone</label>
+                <label asp-for="DoctorPhone" class="form-label">@T["Doctor Phone"]</label>
                 <input asp-for="DoctorPhone" class="form-control" />
                 <span asp-validation-for="DoctorPhone" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="EmergencyContactName" class="form-label">Emergency Contact Name</label>
+                <label asp-for="EmergencyContactName" class="form-label">@T["Emergency Contact Name"]</label>
                 <input asp-for="EmergencyContactName" class="form-control" />
                 <span asp-validation-for="EmergencyContactName" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="EmergencyContactPhone" class="form-label">Emergency Contact Phone</label>
+                <label asp-for="EmergencyContactPhone" class="form-label">@T["Emergency Contact Phone"]</label>
                 <input asp-for="EmergencyContactPhone" class="form-control" />
                 <span asp-validation-for="EmergencyContactPhone" class="text-danger"></span>
             </div>
         </div>
 
         <div class="mb-3">
-            <label asp-for="Allergies" class="form-label">Allergies</label>
+            <label asp-for="Allergies" class="form-label">@T["Allergies"]</label>
             <textarea asp-for="Allergies" class="form-control" rows="3"></textarea>
             <span asp-validation-for="Allergies" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
-            <label asp-for="ChronicConditions" class="form-label">Chronic Conditions</label>
+            <label asp-for="ChronicConditions" class="form-label">@T["Chronic Conditions"]</label>
             <textarea asp-for="ChronicConditions" class="form-control" rows="3"></textarea>
             <span asp-validation-for="ChronicConditions" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
-            <label asp-for="Notes" class="form-label">Medical Notes</label>
+            <label asp-for="Notes" class="form-label">@T["Medical Notes"]</label>
             <textarea asp-for="Notes" class="form-control" rows="4"></textarea>
             <span asp-validation-for="Notes" class="text-danger"></span>
         </div>
 
         <div class="form-action-row">
-            <button type="submit" class="btn btn-primary">Create</button>
-            <a href="@backUrl" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary">@T["Create"]</button>
+            <a href="@backUrl" class="btn btn-secondary">@T["Cancel"]</a>
         </div>
     </form>
 </section>

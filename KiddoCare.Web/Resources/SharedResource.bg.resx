@@ -1536,4 +1536,226 @@
   <data name="Female" xml:space="preserve">
     <value>Момиче</value>
   </data>
+  <data name="Add a trip, celebration, holiday or classroom activity." xml:space="preserve">
+    <value>Добави екскурзия, празник, почивен ден или активност в групата.</value>
+  </data>
+  <data name="Example: Zoo trip" xml:space="preserve">
+    <value>Пример: посещение в зоопарк</value>
+  </data>
+  <data name="Starts On" xml:space="preserve">
+    <value>Започва на</value>
+  </data>
+  <data name="Ends On" xml:space="preserve">
+    <value>Завършва на</value>
+  </data>
+  <data name="Optional location" xml:space="preserve">
+    <value>Локация по желание</value>
+  </data>
+  <data name="Optional details for teachers and parents." xml:space="preserve">
+    <value>Допълнителни детайли за учители и родители по желание.</value>
+  </data>
+  <data name="Visible to parents" xml:space="preserve">
+    <value>Видимо за родители</value>
+  </data>
+  <data name="When enabled, parents can see this event in their dashboard." xml:space="preserve">
+    <value>Когато е включено, родителите ще виждат това събитие в таблото си.</value>
+  </data>
+  <data name="Edit Event" xml:space="preserve">
+    <value>Редактирай събитие</value>
+  </data>
+  <data name="Update event details, timing, audience and location." xml:space="preserve">
+    <value>Обнови детайлите, времето, аудиторията и локацията на събитието.</value>
+  </data>
+  <data name="Event Details" xml:space="preserve">
+    <value>Детайли за събитие</value>
+  </data>
+  <data name="Event details, schedule and audience." xml:space="preserve">
+    <value>Детайли, график и аудитория на събитието.</value>
+  </data>
+  <data name="Event Summary" xml:space="preserve">
+    <value>Обобщение на събитието</value>
+  </data>
+  <data name="{0} event for {1}." xml:space="preserve">
+    <value>{0} за {1}.</value>
+  </data>
+  <data name="Visibility" xml:space="preserve">
+    <value>Видимост</value>
+  </data>
+  <data name="Staff only" xml:space="preserve">
+    <value>Само за екипа</value>
+  </data>
+  <data name="Schedule" xml:space="preserve">
+    <value>График</value>
+  </data>
+  <data name="When and where the event takes place." xml:space="preserve">
+    <value>Кога и къде ще се проведе събитието.</value>
+  </data>
+  <data name="Additional event information." xml:space="preserve">
+    <value>Допълнителна информация за събитието.</value>
+  </data>
+  <data name="No description added." xml:space="preserve">
+    <value>Няма добавено описание.</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>Общо</value>
+  </data>
+  <data name="ParentMeeting" xml:space="preserve">
+    <value>Родителска среща</value>
+  </data>
+  <data name="Celebration" xml:space="preserve">
+    <value>Празник</value>
+  </data>
+  <data name="Trip" xml:space="preserve">
+    <value>Екскурзия</value>
+  </data>
+  <data name="Birthday" xml:space="preserve">
+    <value>Рожден ден</value>
+  </data>
+  <data name="Holiday" xml:space="preserve">
+    <value>Почивен ден</value>
+  </data>
+  <data name="Share an update with parents, teachers or a specific group." xml:space="preserve">
+    <value>Сподели новина с родители, учители или конкретна група.</value>
+  </data>
+  <data name="Example: Tomorrow is a working day" xml:space="preserve">
+    <value>Пример: Утре е работен ден</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Съобщение</value>
+  </data>
+  <data name="Write the announcement message here." xml:space="preserve">
+    <value>Напиши съобщението тук.</value>
+  </data>
+  <data name="When enabled, parents can see this announcement in their dashboard." xml:space="preserve">
+    <value>Когато е включено, родителите ще виждат това съобщение в таблото си.</value>
+  </data>
+  <data name="Edit Announcement" xml:space="preserve">
+    <value>Редактирай съобщение</value>
+  </data>
+  <data name="Update the message, audience or visibility." xml:space="preserve">
+    <value>Обнови съобщението, аудиторията или видимостта.</value>
+  </data>
+  <data name="Announcement Details" xml:space="preserve">
+    <value>Детайли за съобщение</value>
+  </data>
+  <data name="Announcement details, audience and message content." xml:space="preserve">
+    <value>Детайли, аудитория и съдържание на съобщението.</value>
+  </data>
+  <data name="Announcement Summary" xml:space="preserve">
+    <value>Обобщение на съобщението</value>
+  </data>
+  <data name="Where and when this update is visible." xml:space="preserve">
+    <value>Къде и кога това съобщение е видимо.</value>
+  </data>
+  <data name="Published" xml:space="preserve">
+    <value>Публикувано</value>
+  </data>
+  <data name="Health records" xml:space="preserve">
+    <value>Здравни записи</value>
+  </data>
+  <data name="Create Medical Record" xml:space="preserve">
+    <value>Създай медицински запис</value>
+  </data>
+  <data name="Add important health information, emergency contacts and doctor details." xml:space="preserve">
+    <value>Добави важна здравна информация, спешни контакти и данни за лекар.</value>
+  </data>
+  <data name="Doctor Name" xml:space="preserve">
+    <value>Име на лекар</value>
+  </data>
+  <data name="Doctor Phone" xml:space="preserve">
+    <value>Телефон на лекар</value>
+  </data>
+  <data name="Emergency Contact Name" xml:space="preserve">
+    <value>Име на спешен контакт</value>
+  </data>
+  <data name="Emergency Contact Phone" xml:space="preserve">
+    <value>Телефон на спешен контакт</value>
+  </data>
+  <data name="Medical Notes" xml:space="preserve">
+    <value>Медицински бележки</value>
+  </data>
+  <data name="Edit Medical Record" xml:space="preserve">
+    <value>Редактирай медицински запис</value>
+  </data>
+  <data name="Update health details for {0}." xml:space="preserve">
+    <value>Обнови здравните данни за {0}.</value>
+  </data>
+  <data name="Health summary and emergency information for {0}." xml:space="preserve">
+    <value>Здравно обобщение и спешна информация за {0}.</value>
+  </data>
+  <data name="Health Summary" xml:space="preserve">
+    <value>Здравно обобщение</value>
+  </data>
+  <data name="Main medical information for this child." xml:space="preserve">
+    <value>Основна медицинска информация за това дете.</value>
+  </data>
+  <data name="No allergies recorded" xml:space="preserve">
+    <value>Няма записани алергии</value>
+  </data>
+  <data name="No chronic conditions recorded" xml:space="preserve">
+    <value>Няма записани хронични състояния</value>
+  </data>
+  <data name="Emergency Contacts" xml:space="preserve">
+    <value>Спешни контакти</value>
+  </data>
+  <data name="Who to contact if immediate support is needed." xml:space="preserve">
+    <value>С кого да се свържете при нужда от незабавна помощ.</value>
+  </data>
+  <data name="Emergency Phone" xml:space="preserve">
+    <value>Спешен телефон</value>
+  </data>
+  <data name="Additional information useful for teachers and staff." xml:space="preserve">
+    <value>Допълнителна информация, полезна за учители и екипа.</value>
+  </data>
+  <data name="No additional notes." xml:space="preserve">
+    <value>Няма допълнителни бележки.</value>
+  </data>
+  <data name="Delete Medical Record" xml:space="preserve">
+    <value>Изтрий медицински запис</value>
+  </data>
+  <data name="Are you sure you want to delete the medical record for this child? This action cannot be undone." xml:space="preserve">
+    <value>Сигурен ли си, че искаш да изтриеш медицинския запис за това дете? Това действие не може да бъде отменено.</value>
+  </data>
+  <data name="Child timeline" xml:space="preserve">
+    <value>Хронология на детето</value>
+  </data>
+  <data name="A clear timeline of reports, attendance updates, notices, events and parent permissions." xml:space="preserve">
+    <value>Ясна хронология на отчети, присъствия, уведомления, събития и родителски разрешения.</value>
+  </data>
+  <data name="Total activity" xml:space="preserve">
+    <value>Обща активност</value>
+  </data>
+  <data name="Activity Timeline" xml:space="preserve">
+    <value>Хронология на активността</value>
+  </data>
+  <data name="Newest updates appear first." xml:space="preserve">
+    <value>Най-новите записи са най-отгоре.</value>
+  </data>
+  <data name="No activity yet" xml:space="preserve">
+    <value>Все още няма активност</value>
+  </data>
+  <data name="Updates for this child will appear here when reports, attendance records, notices or events are created." xml:space="preserve">
+    <value>Тук ще се появят записи за това дете, когато бъдат създадени отчети, присъствия, уведомления или събития.</value>
+  </data>
+  <data name="View history" xml:space="preserve">
+    <value>Виж история</value>
+  </data>
+  <data name="View notice" xml:space="preserve">
+    <value>Виж уведомление</value>
+  </data>
+  <data name="View request" xml:space="preserve">
+    <value>Виж искане</value>
+  </data>
+  <data name="View event" xml:space="preserve">
+    <value>Виж събитие</value>
+  </data>
+  <data name="View announcement" xml:space="preserve">
+    <value>Виж съобщение</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>Виж</value>
+  </data>
+  <data name="Announcement" xml:space="preserve">
+    <value>Съобщение</value>
+  </data>
 </root>

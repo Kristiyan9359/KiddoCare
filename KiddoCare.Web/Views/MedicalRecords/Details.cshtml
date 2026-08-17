@@ -1,17 +1,17 @@
 ﻿@model KiddoCare.ViewModels.MedicalRecords.MedicalRecordDetailsViewModel
 
 @{
-    ViewData["Title"] = "Medical Record";
+    ViewData["Title"] = T["Medical Record"];
     var currentUrl = Context.Request.Path + Context.Request.QueryString;
     var backUrl = Model.ReturnUrl ?? Url.Action("Details", "Children", new { id = Model.ChildId });
 }
 
 <div class="page-header">
     <div>
-        <div class="page-kicker">Health records</div>
-        <h1 class="page-title">Medical Record</h1>
+        <div class="page-kicker">@T["Health records"]</div>
+        <h1 class="page-title">@T["Medical Record"]</h1>
         <p class="page-subtitle">
-            Health summary and emergency information for @Model.ChildFullName.
+            @T["Health summary and emergency information for {0}.", Model.ChildFullName]
         </p>
     </div>
 
@@ -22,18 +22,18 @@
                asp-route-id="@Model.Id"
                asp-route-returnUrl="@currentUrl"
                class="btn btn-primary">
-                Edit
+                @T["Edit"]
             </a>
 
             <a asp-action="Delete"
                asp-route-id="@Model.Id"
                asp-route-returnUrl="@backUrl"
                class="btn btn-outline-danger">
-                Delete
+                @T["Delete"]
             </a>
         }
 
-        <a href="@backUrl" class="btn btn-secondary">Back</a>
+        <a href="@backUrl" class="btn btn-secondary">@T["Back"]</a>
     </div>
 </div>
 
@@ -41,23 +41,23 @@
     <section class="info-panel">
         <div class="section-heading-row">
             <div>
-                <h2>Health Summary</h2>
-                <p>Main medical information for this child.</p>
+                <h2>@T["Health Summary"]</h2>
+                <p>@T["Main medical information for this child."]</p>
             </div>
         </div>
 
         <dl class="info-list">
             <div>
-                <dt>Child</dt>
+                <dt>@T["Child"]</dt>
                 <dd>@Model.ChildFullName</dd>
             </div>
             <div>
-                <dt>Allergies</dt>
-                <dd>@(string.IsNullOrWhiteSpace(Model.Allergies) ? "No allergies recorded" : Model.Allergies)</dd>
+                <dt>@T["Allergies"]</dt>
+                <dd>@(string.IsNullOrWhiteSpace(Model.Allergies) ? T["No allergies recorded"].Value : Model.Allergies)</dd>
             </div>
             <div>
-                <dt>Chronic Conditions</dt>
-                <dd>@(string.IsNullOrWhiteSpace(Model.ChronicConditions) ? "No chronic conditions recorded" : Model.ChronicConditions)</dd>
+                <dt>@T["Chronic Conditions"]</dt>
+                <dd>@(string.IsNullOrWhiteSpace(Model.ChronicConditions) ? T["No chronic conditions recorded"].Value : Model.ChronicConditions)</dd>
             </div>
         </dl>
     </section>
@@ -65,27 +65,27 @@
     <section class="info-panel">
         <div class="section-heading-row">
             <div>
-                <h2>Emergency Contacts</h2>
-                <p>Who to contact if immediate support is needed.</p>
+                <h2>@T["Emergency Contacts"]</h2>
+                <p>@T["Who to contact if immediate support is needed."]</p>
             </div>
         </div>
 
         <dl class="info-list">
             <div>
-                <dt>Doctor Name</dt>
-                <dd>@(string.IsNullOrWhiteSpace(Model.DoctorName) ? "Not specified" : Model.DoctorName)</dd>
+                <dt>@T["Doctor Name"]</dt>
+                <dd>@(string.IsNullOrWhiteSpace(Model.DoctorName) ? T["Not specified"].Value : Model.DoctorName)</dd>
             </div>
             <div>
-                <dt>Doctor Phone</dt>
-                <dd>@(string.IsNullOrWhiteSpace(Model.DoctorPhone) ? "Not specified" : Model.DoctorPhone)</dd>
+                <dt>@T["Doctor Phone"]</dt>
+                <dd>@(string.IsNullOrWhiteSpace(Model.DoctorPhone) ? T["Not specified"].Value : Model.DoctorPhone)</dd>
             </div>
             <div>
-                <dt>Emergency Contact</dt>
-                <dd>@(string.IsNullOrWhiteSpace(Model.EmergencyContactName) ? "Not specified" : Model.EmergencyContactName)</dd>
+                <dt>@T["Emergency Contact"]</dt>
+                <dd>@(string.IsNullOrWhiteSpace(Model.EmergencyContactName) ? T["Not specified"].Value : Model.EmergencyContactName)</dd>
             </div>
             <div>
-                <dt>Emergency Phone</dt>
-                <dd>@(string.IsNullOrWhiteSpace(Model.EmergencyContactPhone) ? "Not specified" : Model.EmergencyContactPhone)</dd>
+                <dt>@T["Emergency Phone"]</dt>
+                <dd>@(string.IsNullOrWhiteSpace(Model.EmergencyContactPhone) ? T["Not specified"].Value : Model.EmergencyContactPhone)</dd>
             </div>
         </dl>
     </section>
@@ -94,12 +94,12 @@
 <section class="info-panel mt-3">
     <div class="section-heading-row">
         <div>
-            <h2>Medical Notes</h2>
-            <p>Additional information useful for teachers and staff.</p>
+            <h2>@T["Medical Notes"]</h2>
+            <p>@T["Additional information useful for teachers and staff."]</p>
         </div>
     </div>
 
     <p class="mb-0" style="white-space: pre-line">
-        @(string.IsNullOrWhiteSpace(Model.Notes) ? "No additional notes." : Model.Notes)
+        @(string.IsNullOrWhiteSpace(Model.Notes) ? T["No additional notes."].Value : Model.Notes)
     </p>
 </section>

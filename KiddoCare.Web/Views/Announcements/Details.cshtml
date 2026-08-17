@@ -1,21 +1,21 @@
 ﻿@model KiddoCare.ViewModels.Announcements.AnnouncementDetailsViewModel
 
 @{
-    ViewData["Title"] = "Announcement Details";
+    ViewData["Title"] = T["Announcement Details"];
     var backUrl = Model.ReturnUrl ?? Url.Action("Index");
 }
 
 <div class="page-header">
     <div>
-        <div class="page-kicker">Updates</div>
+        <div class="page-kicker">@T["Updates"]</div>
         <h1 class="page-title">@Model.Title</h1>
         <p class="page-subtitle">
-            Announcement details, audience and message content.
+            @T["Announcement details, audience and message content."]
         </p>
     </div>
 
     <div class="page-actions">
-        <a href="@backUrl" class="btn btn-secondary">Back</a>
+        <a href="@backUrl" class="btn btn-secondary">@T["Back"]</a>
     </div>
 </div>
 
@@ -23,27 +23,27 @@
     <section class="info-panel">
         <div class="section-heading-row">
             <div>
-                <h2>Announcement Summary</h2>
-                <p>Where and when this update is visible.</p>
+                <h2>@T["Announcement Summary"]</h2>
+                <p>@T["Where and when this update is visible."]</p>
             </div>
         </div>
 
         <dl class="info-list">
             <div>
-                <dt>Title</dt>
+                <dt>@T["Title"]</dt>
                 <dd>@Model.Title</dd>
             </div>
             <div>
-                <dt>Group</dt>
+                <dt>@T["Group"]</dt>
                 <dd>@Model.GroupName</dd>
             </div>
             <div>
-                <dt>Published</dt>
+                <dt>@T["Published"]</dt>
                 <dd>@Model.PublishedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</dd>
             </div>
             <div>
-                <dt>Visibility</dt>
-                <dd>@(Model.IsPublic ? "Visible to parents" : "Staff only")</dd>
+                <dt>@T["Visibility"]</dt>
+                <dd>@(Model.IsPublic ? T["Visible to parents"].Value : T["Staff only"].Value)</dd>
             </div>
         </dl>
     </section>
@@ -51,7 +51,7 @@
     <section class="info-panel">
         <div class="section-heading-row">
             <div>
-                <h2>Message</h2>
+                <h2>@T["Message"]</h2>
             </div>
         </div>
 

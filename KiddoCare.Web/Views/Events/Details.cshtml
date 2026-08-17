@@ -1,21 +1,21 @@
 ﻿@model KiddoCare.ViewModels.Events.EventDetailsViewModel
 
 @{
-    ViewData["Title"] = "Event Details";
+    ViewData["Title"] = T["Event Details"];
     var backUrl = Model.ReturnUrl ?? Url.Action("Index");
 }
 
 <div class="page-header">
     <div>
-        <div class="page-kicker">Calendar</div>
+        <div class="page-kicker">@T["Calendar"]</div>
         <h1 class="page-title">@Model.Title</h1>
         <p class="page-subtitle">
-            Event details, schedule and audience.
+            @T["Event details, schedule and audience."]
         </p>
     </div>
 
     <div class="page-actions">
-        <a href="@backUrl" class="btn btn-secondary">Back</a>
+        <a href="@backUrl" class="btn btn-secondary">@T["Back"]</a>
     </div>
 </div>
 
@@ -23,27 +23,27 @@
     <section class="info-panel">
         <div class="section-heading-row">
             <div>
-                <h2>Event Summary</h2>
-                <p>@Model.Type event for @Model.GroupName.</p>
+                <h2>@T["Event Summary"]</h2>
+                <p>@T["{0} event for {1}.", T[Model.Type.ToString()], Model.GroupName]</p>
             </div>
         </div>
 
         <dl class="info-list">
             <div>
-                <dt>Title</dt>
+                <dt>@T["Title"]</dt>
                 <dd>@Model.Title</dd>
             </div>
             <div>
-                <dt>Type</dt>
-                <dd>@Model.Type</dd>
+                <dt>@T["Type"]</dt>
+                <dd>@T[Model.Type.ToString()]</dd>
             </div>
             <div>
-                <dt>Group</dt>
+                <dt>@T["Group"]</dt>
                 <dd>@Model.GroupName</dd>
             </div>
             <div>
-                <dt>Visibility</dt>
-                <dd>@(Model.IsPublic ? "Visible to parents" : "Staff only")</dd>
+                <dt>@T["Visibility"]</dt>
+                <dd>@(Model.IsPublic ? T["Visible to parents"].Value : T["Staff only"].Value)</dd>
             </div>
         </dl>
     </section>
@@ -51,23 +51,23 @@
     <section class="info-panel">
         <div class="section-heading-row">
             <div>
-                <h2>Schedule</h2>
-                <p>When and where the event takes place.</p>
+                <h2>@T["Schedule"]</h2>
+                <p>@T["When and where the event takes place."]</p>
             </div>
         </div>
 
         <dl class="info-list">
             <div>
-                <dt>Starts On</dt>
+                <dt>@T["Starts On"]</dt>
                 <dd>@Model.StartDateTime.ToString("dd MMM yyyy HH:mm")</dd>
             </div>
             <div>
-                <dt>Ends On</dt>
-                <dd>@(Model.EndDateTime.HasValue ? Model.EndDateTime.Value.ToString("dd MMM yyyy HH:mm") : "Not specified")</dd>
+                <dt>@T["Ends On"]</dt>
+                <dd>@(Model.EndDateTime.HasValue ? Model.EndDateTime.Value.ToString("dd MMM yyyy HH:mm") : T["Not specified"].Value)</dd>
             </div>
             <div>
-                <dt>Location</dt>
-                <dd>@(string.IsNullOrWhiteSpace(Model.Location) ? "Not specified" : Model.Location)</dd>
+                <dt>@T["Location"]</dt>
+                <dd>@(string.IsNullOrWhiteSpace(Model.Location) ? T["Not specified"].Value : Model.Location)</dd>
             </div>
         </dl>
     </section>
@@ -76,12 +76,12 @@
 <section class="info-panel mt-3">
     <div class="section-heading-row">
         <div>
-            <h2>Description</h2>
-            <p>Additional event information.</p>
+            <h2>@T["Description"]</h2>
+            <p>@T["Additional event information."]</p>
         </div>
     </div>
 
     <p class="mb-0">
-        @(string.IsNullOrWhiteSpace(Model.Description) ? "No description added." : Model.Description)
+        @(string.IsNullOrWhiteSpace(Model.Description) ? T["No description added."].Value : Model.Description)
     </p>
 </section>

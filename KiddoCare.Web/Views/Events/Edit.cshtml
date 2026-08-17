@@ -2,15 +2,15 @@
 @model KiddoCare.ViewModels.Events.EventEditViewModel
 
 @{
-    ViewData["Title"] = "Edit Event";
+    ViewData["Title"] = T["Edit Event"];
 }
 
 <div class="page-header">
     <div>
-        <div class="page-kicker">Calendar</div>
-        <h1 class="page-title">Edit Event</h1>
+        <div class="page-kicker">@T["Calendar"]</div>
+        <h1 class="page-title">@T["Edit Event"]</h1>
         <p class="page-subtitle">
-            Update event details, timing, audience and location.
+            @T["Update event details, timing, audience and location."]
         </p>
     </div>
 </div>
@@ -23,61 +23,61 @@
 
         <div class="form-grid">
             <div class="mb-3">
-                <label asp-for="Title" class="form-label"></label>
+                <label asp-for="Title" class="form-label">@T["Title"]</label>
                 <input asp-for="Title" class="form-control" />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="Type" class="form-label"></label>
+                <label asp-for="Type" class="form-label">@T["Type"]</label>
                 <select asp-for="Type" asp-items="Html.GetEnumSelectList<EventType>()" class="form-select"></select>
                 <span asp-validation-for="Type" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="StartDateTime" class="form-label"></label>
+                <label asp-for="StartDateTime" class="form-label">@T["Starts On"]</label>
                 <input asp-for="StartDateTime" type="datetime-local" class="form-control" />
                 <span asp-validation-for="StartDateTime" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="EndDateTime" class="form-label"></label>
+                <label asp-for="EndDateTime" class="form-label">@T["Ends On"]</label>
                 <input asp-for="EndDateTime" type="datetime-local" class="form-control" />
                 <span asp-validation-for="EndDateTime" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="Location" class="form-label"></label>
+                <label asp-for="Location" class="form-label">@T["Location"]</label>
                 <input asp-for="Location" class="form-control" />
                 <span asp-validation-for="Location" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="GroupId" class="form-label"></label>
+                <label asp-for="GroupId" class="form-label">@T["Group"]</label>
                 <select asp-for="GroupId" asp-items="Model.Groups" class="form-select">
-                    <option value="">All groups</option>
+                    <option value="">@T["All groups"]</option>
                 </select>
                 <span asp-validation-for="GroupId" class="text-danger"></span>
             </div>
         </div>
 
         <div class="mb-3">
-            <label asp-for="Description" class="form-label"></label>
+            <label asp-for="Description" class="form-label">@T["Description"]</label>
             <textarea asp-for="Description" class="form-control" rows="4"></textarea>
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
 
         <div class="form-check mb-3">
             <input asp-for="IsPublic" class="form-check-input" />
-            <label asp-for="IsPublic" class="form-check-label"></label>
+            <label asp-for="IsPublic" class="form-check-label">@T["Visible to parents"]</label>
             <div class="form-text">
-                When enabled, parents can see this event in their dashboard.
+                @T["When enabled, parents can see this event in their dashboard."]
             </div>
         </div>
 
         <div class="form-action-row">
-            <button type="submit" class="btn btn-primary">Save</button>
-            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary">@T["Save"]</button>
+            <a asp-action="Index" class="btn btn-secondary">@T["Cancel"]</a>
         </div>
     </form>
 </section>
