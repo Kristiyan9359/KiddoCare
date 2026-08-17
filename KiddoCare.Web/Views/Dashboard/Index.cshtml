@@ -2,7 +2,7 @@
 @model KiddoCare.ViewModels.Dashboard.DashboardViewModel
 
 @{
-    ViewData["Title"] = "Dashboard";
+    ViewData["Title"] = T["Dashboard"];
     var today = DateTime.Today.ToString("yyyy-MM-dd");
     var currentUrl = Context.Request.Path + Context.Request.QueryString;
 }

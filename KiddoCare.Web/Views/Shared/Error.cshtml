@@ -1,25 +1,25 @@
 ﻿@model ErrorViewModel
 
 @{
-    ViewData["Title"] = "Error";
+    ViewData["Title"] = T["Error"];
 }
 
 <section class="error-page">
     <div class="error-card">
         <div class="error-code">500</div>
-        <h1>Something went wrong</h1>
-        <p>An unexpected error occurred while processing your request.</p>
+        <h1>@T["Something went wrong"]</h1>
+        <p>@T["An unexpected error occurred while processing your request."]</p>
 
         @if (Model.ShowRequestId)
         {
             <p class="error-request-id">
-                Request ID: <code>@Model.RequestId</code>
+                @T["Request ID"]: <code>@Model.RequestId</code>
             </p>
         }
 
         <div class="error-actions">
-            <a asp-controller="Dashboard" asp-action="Index" class="btn btn-primary">Go to Dashboard</a>
-            <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">Home</a>
+            <a asp-controller="Dashboard" asp-action="Index" class="btn btn-primary">@T["Go to Dashboard"]</a>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">@T["Home"]</a>
         </div>
     </div>
 </section>

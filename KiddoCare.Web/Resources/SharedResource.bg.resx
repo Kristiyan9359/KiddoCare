@@ -1758,4 +1758,25 @@
   <data name="Announcement" xml:space="preserve">
     <value>Съобщение</value>
   </data>
+  <data name="Access Denied" xml:space="preserve">
+    <value>Достъпът е отказан</value>
+  </data>
+  <data name="You do not have permission to access this page." xml:space="preserve">
+    <value>Нямаш права за достъп до тази страница.</value>
+  </data>
+  <data name="Go to Dashboard" xml:space="preserve">
+    <value>Към таблото</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Грешка</value>
+  </data>
+  <data name="Something went wrong" xml:space="preserve">
+    <value>Нещо се обърка</value>
+  </data>
+  <data name="An unexpected error occurred while processing your request." xml:space="preserve">
+    <value>Възникна неочаквана грешка при обработката на заявката.</value>
+  </data>
+  <data name="Request ID" xml:space="preserve">
+    <value>Номер на заявка</value>
+  </data>
 </root>
