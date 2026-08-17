@@ -1,28 +1,28 @@
 @model KiddoCare.ViewModels.Children.ChildDeleteViewModel
 
 @{
-    ViewData["Title"] = "Delete Child";
+    ViewData["Title"] = T["Delete Child"];
 }
 
 <section class="delete-page">
     <div class="delete-card">
-        <div class="delete-kicker">Permanent action</div>
-        <h1>Delete Child</h1>
+        <div class="delete-kicker">@T["Permanent action"]</div>
+        <h1>@T["Delete Child"]</h1>
         <p>
-            Are you sure you want to delete this child profile? This action cannot be undone.
+            @T["Are you sure you want to delete this child profile? This action cannot be undone."]
         </p>
 
         <dl class="info-list delete-info-list">
             <div>
-                <dt>Full Name</dt>
+                <dt>@T["Full Name"]</dt>
                 <dd>@Model.FullName</dd>
             </div>
             <div>
-                <dt>Group</dt>
+                <dt>@T["Group"]</dt>
                 <dd>@Model.GroupName</dd>
             </div>
             <div>
-                <dt>Date of Birth</dt>
+                <dt>@T["Date of Birth"]</dt>
                 <dd>@Model.DateOfBirth.ToString("dd MMM yyyy")</dd>
             </div>
         </dl>
@@ -30,8 +30,8 @@
         <form asp-action="Delete" method="post" class="form-action-row justify-content-center">
             <input asp-for="Id" type="hidden" />
 
-            <button type="submit" class="btn btn-danger">Delete</button>
-            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-danger">@T["Delete"]</button>
+            <a asp-action="Index" class="btn btn-secondary">@T["Cancel"]</a>
         </form>
     </div>
 </section>

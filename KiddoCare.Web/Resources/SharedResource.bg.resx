@@ -1434,4 +1434,106 @@
   <data name="Are you sure you want to delete this teacher profile? This action cannot be undone." xml:space="preserve">
     <value>Сигурен ли си, че искаш да изтриеш този учителски профил? Това действие не може да бъде отменено.</value>
   </data>
+  <data name="Create a child profile with group, parent link and optional profile photo." xml:space="preserve">
+    <value>Създай профил на дете с група, връзка към родител и снимка по желание.</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>Име</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>Фамилия</value>
+  </data>
+  <data name="Select gender..." xml:space="preserve">
+    <value>Избери пол...</value>
+  </data>
+  <data name="No parent linked" xml:space="preserve">
+    <value>Няма свързан родител</value>
+  </data>
+  <data name="Upload a clear child profile photo. JPG and PNG files work best." xml:space="preserve">
+    <value>Качи ясна профилна снимка на детето. JPG и PNG файловете са най-подходящи.</value>
+  </data>
+  <data name="Edit Child" xml:space="preserve">
+    <value>Редактирай дете</value>
+  </data>
+  <data name="Update profile details, group assignment, parent link and profile photo." xml:space="preserve">
+    <value>Обнови данните на профила, групата, връзката към родител и снимката.</value>
+  </data>
+  <data name="Remove current photo" xml:space="preserve">
+    <value>Премахни текущата снимка</value>
+  </data>
+  <data name="Current photo" xml:space="preserve">
+    <value>Текуща снимка</value>
+  </data>
+  <data name="Upload a new photo only if you want to replace the current one." xml:space="preserve">
+    <value>Качи нова снимка само ако искаш да замениш текущата.</value>
+  </data>
+  <data name="The current photo will be removed after you save." xml:space="preserve">
+    <value>Текущата снимка ще бъде премахната след запазване.</value>
+  </data>
+  <data name="Delete Child" xml:space="preserve">
+    <value>Изтрий дете</value>
+  </data>
+  <data name="Are you sure you want to delete this child profile? This action cannot be undone." xml:space="preserve">
+    <value>Сигурен ли си, че искаш да изтриеш този профил на дете? Това действие не може да бъде отменено.</value>
+  </data>
+  <data name="Child Details" xml:space="preserve">
+    <value>Детайли за дете</value>
+  </data>
+  <data name="Child profile" xml:space="preserve">
+    <value>Профил на дете</value>
+  </data>
+  <data name="Group, family contact, medical notes and recent activity for this child." xml:space="preserve">
+    <value>Група, семеен контакт, медицински бележки и последна активност за това дете.</value>
+  </data>
+  <data name="Medical Record" xml:space="preserve">
+    <value>Медицински запис</value>
+  </data>
+  <data name="Add Medical Record" xml:space="preserve">
+    <value>Добави медицински запис</value>
+  </data>
+  <data name="Child Information" xml:space="preserve">
+    <value>Информация за детето</value>
+  </data>
+  <data name="Parent Contact" xml:space="preserve">
+    <value>Контакт с родител</value>
+  </data>
+  <data name="No parent linked." xml:space="preserve">
+    <value>Няма свързан родител.</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Име</value>
+  </data>
+  <data name="No phone number" xml:space="preserve">
+    <value>Няма телефонен номер</value>
+  </data>
+  <data name="Medical Summary" xml:space="preserve">
+    <value>Медицинско обобщение</value>
+  </data>
+  <data name="View Full Record" xml:space="preserve">
+    <value>Виж пълния запис</value>
+  </data>
+  <data name="No allergies recorded." xml:space="preserve">
+    <value>Няма записани алергии.</value>
+  </data>
+  <data name="Chronic Conditions" xml:space="preserve">
+    <value>Хронични състояния</value>
+  </data>
+  <data name="No chronic conditions recorded." xml:space="preserve">
+    <value>Няма записани хронични състояния.</value>
+  </data>
+  <data name="Emergency Contact" xml:space="preserve">
+    <value>Спешен контакт</value>
+  </data>
+  <data name="No emergency contact recorded." xml:space="preserve">
+    <value>Няма записан спешен контакт.</value>
+  </data>
+  <data name="No medical record added yet." xml:space="preserve">
+    <value>Все още няма добавен медицински запис.</value>
+  </data>
+  <data name="Male" xml:space="preserve">
+    <value>Момче</value>
+  </data>
+  <data name="Female" xml:space="preserve">
+    <value>Момиче</value>
+  </data>
 </root>

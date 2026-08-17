@@ -2,7 +2,7 @@
 @model KiddoCare.ViewModels.Children.ChildDetailsViewModel
 
 @{
-    ViewData["Title"] = "Child Details";
+    ViewData["Title"] = T["Child Details"];
     var currentUrl = Context.Request.Path + Context.Request.QueryString;
     var backUrl = Model.ReturnUrl ?? (User.IsInRole("Parent")
         ? Url.Action("Index", "Dashboard")
@@ -26,10 +26,10 @@
         </div>
 
         <div class="profile-summary">
-            <div class="page-kicker">Child profile</div>
+            <div class="page-kicker">@T["Child profile"]</div>
             <h1 class="page-title">@Model.FullName</h1>
             <p class="page-subtitle">
-                Group, family contact, medical notes and recent activity for this child.
+                @T["Group, family contact, medical notes and recent activity for this child."]
             </p>
 
             <div class="profile-action-row">
@@ -38,7 +38,7 @@
                    asp-route-childId="@Model.Id"
                    asp-route-returnUrl="@currentUrl"
                    class="btn btn-outline-primary">
-                    Activity Feed
+                    @T["Activity Feed"]
                 </a>
 
                 @if (Model.HasMedicalRecord)
@@ -48,7 +48,7 @@
                        asp-route-childId="@Model.Id"
                        asp-route-returnUrl="@currentUrl"
                        class="btn btn-outline-secondary">
-                        Medical Record
+                        @T["Medical Record"]
                     </a>
                 }
                 else if (User.IsInRole("Admin"))
@@ -58,11 +58,11 @@
                        asp-route-childId="@Model.Id"
                        asp-route-returnUrl="@currentUrl"
                        class="btn btn-outline-secondary">
-                        Add Medical Record
+                        @T["Add Medical Record"]
                     </a>
                 }
 
-                <a href="@backUrl" class="btn btn-secondary">Back</a>
+                <a href="@backUrl" class="btn btn-secondary">@T["Back"]</a>
             </div>
         </div>
     </div>
@@ -71,20 +71,20 @@
 <div class="profile-info-grid">
     <section class="info-panel">
         <div class="info-panel-header">
-            <h2>Child Information</h2>
+            <h2>@T["Child Information"]</h2>
         </div>
 
         <dl class="info-list">
             <div>
-                <dt>Date of Birth</dt>
+                <dt>@T["Date of Birth"]</dt>
                 <dd>@Model.DateOfBirth.ToString("dd MMM yyyy")</dd>
             </div>
             <div>
-                <dt>Gender</dt>
-                <dd>@Model.Gender</dd>
+                <dt>@T["Gender"]</dt>
+                <dd>@T[Model.Gender.ToString()]</dd>
             </div>
             <div>
-                <dt>Group</dt>
+                <dt>@T["Group"]</dt>
                 <dd>@Model.GroupName</dd>
             </div>
         </dl>
@@ -92,27 +92,27 @@
 
     <section class="info-panel">
         <div class="info-panel-header">
-            <h2>Parent Contact</h2>
+            <h2>@T["Parent Contact"]</h2>
         </div>
 
         @if (string.IsNullOrWhiteSpace(Model.ParentName))
         {
-            <p class="empty-state">No parent linked.</p>
+            <p class="empty-state">@T["No parent linked."]</p>
         }
         else
         {
             <dl class="info-list">
                 <div>
-                    <dt>Name</dt>
+                    <dt>@T["Name"]</dt>
                     <dd>@Model.ParentName</dd>
                 </div>
                 <div>
-                    <dt>Email</dt>
+                    <dt>@T["Email"]</dt>
                     <dd>@Model.ParentEmail</dd>
                 </div>
                 <div>
-                    <dt>Phone</dt>
-                    <dd>@(string.IsNullOrWhiteSpace(Model.ParentPhoneNumber) ? "No phone number" : Model.ParentPhoneNumber)</dd>
+                    <dt>@T["Phone"]</dt>
+                    <dd>@(string.IsNullOrWhiteSpace(Model.ParentPhoneNumber) ? T["No phone number"].Value : Model.ParentPhoneNumber)</dd>
                 </div>
             </dl>
         }
@@ -121,7 +121,7 @@
 
 <section class="section-panel">
     <div class="section-panel-header">
-        <h2 class="section-panel-title">Medical Summary</h2>
+        <h2 class="section-panel-title">@T["Medical Summary"]</h2>
 
         @if (Model.HasMedicalRecord)
         {
@@ -130,7 +130,7 @@
                asp-route-childId="@Model.Id"
                asp-route-returnUrl="@currentUrl"
                class="btn btn-sm btn-outline-secondary">
-                View Full Record
+                @T["View Full Record"]
             </a>
         }
     </div>
@@ -139,17 +139,17 @@
     {
         <div class="medical-summary-grid">
             <div class="medical-summary-item">
-                <span>Allergies</span>
-                <strong>@(Model.MedicalAllergies ?? "No allergies recorded.")</strong>
+                <span>@T["Allergies"]</span>
+                <strong>@(Model.MedicalAllergies ?? T["No allergies recorded."].Value)</strong>
             </div>
 
             <div class="medical-summary-item">
-                <span>Chronic Conditions</span>
-                <strong>@(Model.MedicalChronicConditions ?? "No chronic conditions recorded.")</strong>
+                <span>@T["Chronic Conditions"]</span>
+                <strong>@(Model.MedicalChronicConditions ?? T["No chronic conditions recorded."].Value)</strong>
             </div>
 
             <div class="medical-summary-item">
-                <span>Emergency Contact</span>
+                <span>@T["Emergency Contact"]</span>
                 @if (!string.IsNullOrWhiteSpace(Model.MedicalEmergencyContactName) ||
                     !string.IsNullOrWhiteSpace(Model.MedicalEmergencyContactPhone))
                 {
@@ -158,35 +158,35 @@
                 }
                 else
                 {
-                    <strong>No emergency contact recorded.</strong>
+                    <strong>@T["No emergency contact recorded."]</strong>
                 }
             </div>
         </div>
     }
     else
     {
-        <p class="empty-state">No medical record added yet.</p>
+        <p class="empty-state">@T["No medical record added yet."]</p>
     }
 </section>
 
 <section class="section-panel">
     <div class="section-panel-header">
-        <h2 class="section-panel-title">Recent Absence Notices</h2>
+        <h2 class="section-panel-title">@T["Recent Absence Notices"]</h2>
     </div>
 
     @if (!Model.RecentAbsenceRequests.Any())
     {
-        <p class="empty-state">No absence notices yet.</p>
+        <p class="empty-state">@T["No absence notices yet."]</p>
     }
     else
     {
         <table class="table table-striped mb-0">
             <thead>
                 <tr>
-                    <th>Period</th>
-                    <th>Reason</th>
-                    <th>Status</th>
-                    <th class="text-end">Actions</th>
+                    <th>@T["Period"]</th>
+                    <th>@T["Reason"]</th>
+                    <th>@T["Status"]</th>
+                    <th class="text-end">@T["Actions"]</th>
                 </tr>
             </thead>
             <tbody>
@@ -198,15 +198,15 @@
                             -
                             @request.EndDate.ToString("dd MMM yyyy")
                         </td>
-                        <td>@request.Reason</td>
+                        <td>@T[request.Reason.ToString()]</td>
                         <td>
                             @if (request.Status == RequestStatus.Pending)
                             {
-                                <span class="badge bg-warning text-dark">Pending</span>
+                                <span class="badge bg-warning text-dark">@T["Pending"]</span>
                             }
                             else if (request.Status == RequestStatus.Approved)
                             {
-                                <span class="badge bg-success">Confirmed</span>
+                                <span class="badge bg-success">@T["Confirmed"]</span>
                             }
                         </td>
                         <td class="text-end">
@@ -215,7 +215,7 @@
                                asp-route-id="@request.Id"
                                asp-route-returnUrl="@currentUrl"
                                class="btn btn-sm btn-outline-secondary">
-                                Details
+                                @T["Details"]
                             </a>
                         </td>
                     </tr>
@@ -227,23 +227,23 @@
 
 <section class="section-panel">
     <div class="section-panel-header">
-        <h2 class="section-panel-title">Recent Consent Requests</h2>
+        <h2 class="section-panel-title">@T["Recent Consent Requests"]</h2>
     </div>
 
     @if (!Model.RecentConsentRequests.Any())
     {
-        <p class="empty-state">No consent requests yet.</p>
+        <p class="empty-state">@T["No consent requests yet."]</p>
     }
     else
     {
         <table class="table table-striped mb-0">
             <thead>
                 <tr>
-                    <th>Title</th>
-                    <th>Type</th>
-                    <th>Status</th>
-                    <th>Created On</th>
-                    <th class="text-end">Actions</th>
+                    <th>@T["Title"]</th>
+                    <th>@T["Type"]</th>
+                    <th>@T["Status"]</th>
+                    <th>@T["Created On"]</th>
+                    <th class="text-end">@T["Actions"]</th>
                 </tr>
             </thead>
             <tbody>
@@ -251,19 +251,19 @@
                 {
                     <tr>
                         <td>@request.Title</td>
-                        <td>@request.Type</td>
+                        <td>@T[request.Type.ToString()]</td>
                         <td>
                             @if (request.Status == RequestStatus.Pending)
                             {
-                                <span class="badge bg-warning text-dark">Pending</span>
+                                <span class="badge bg-warning text-dark">@T["Pending"]</span>
                             }
                             else if (request.Status == RequestStatus.Approved)
                             {
-                                <span class="badge bg-success">Approved</span>
+                                <span class="badge bg-success">@T["Approved"]</span>
                             }
                             else if (request.Status == RequestStatus.Rejected)
                             {
-                                <span class="badge bg-danger">Rejected</span>
+                                <span class="badge bg-danger">@T["Rejected"]</span>
                             }
                         </td>
                         <td>@request.CreatedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
@@ -273,7 +273,7 @@
                                asp-route-id="@request.Id"
                                asp-route-returnUrl="@currentUrl"
                                class="btn btn-sm btn-outline-secondary">
-                                Details
+                                @T["Details"]
                             </a>
                         </td>
                     </tr>
@@ -285,23 +285,23 @@
 
 <section class="section-panel">
     <div class="section-panel-header">
-        <h2 class="section-panel-title">Recent Documents</h2>
+        <h2 class="section-panel-title">@T["Recent Documents"]</h2>
     </div>
 
     @if (!Model.RecentDocuments.Any())
     {
-        <p class="empty-state">No documents uploaded yet.</p>
+        <p class="empty-state">@T["No documents uploaded yet."]</p>
     }
     else
     {
         <table class="table table-striped mb-0">
             <thead>
                 <tr>
-                    <th>Title</th>
-                    <th>Type</th>
-                    <th>Status</th>
-                    <th>Uploaded On</th>
-                    <th class="text-end">Actions</th>
+                    <th>@T["Title"]</th>
+                    <th>@T["Type"]</th>
+                    <th>@T["Status"]</th>
+                    <th>@T["Uploaded On"]</th>
+                    <th class="text-end">@T["Actions"]</th>
                 </tr>
             </thead>
             <tbody>
@@ -309,19 +309,19 @@
                 {
                     <tr>
                         <td>@document.Title</td>
-                        <td>@document.Type</td>
+                        <td>@T[document.Type.ToString()]</td>
                         <td>
                             @if (document.Status == RequestStatus.Pending)
                             {
-                                <span class="badge bg-warning text-dark">Pending</span>
+                                <span class="badge bg-warning text-dark">@T["Pending"]</span>
                             }
                             else if (document.Status == RequestStatus.Approved)
                             {
-                                <span class="badge bg-success">Approved</span>
+                                <span class="badge bg-success">@T["Approved"]</span>
                             }
                             else if (document.Status == RequestStatus.Rejected)
                             {
-                                <span class="badge bg-danger">Rejected</span>
+                                <span class="badge bg-danger">@T["Rejected"]</span>
                             }
                         </td>
                         <td>@document.UploadedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
@@ -331,7 +331,7 @@
                                asp-route-id="@document.Id"
                                asp-route-returnUrl="@currentUrl"
                                class="btn btn-sm btn-outline-secondary">
-                                Details
+                                @T["Details"]
                             </a>
                         </td>
                     </tr>

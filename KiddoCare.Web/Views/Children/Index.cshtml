@@ -2,7 +2,7 @@
 @model KiddoCare.ViewModels.Children.ChildListViewModel
 
 @{
-    ViewData["Title"] = "Children";
+    ViewData["Title"] = T["Children"];
     var currentUrl = Context.Request.Path + Context.Request.QueryString;
     bool isAdmin = User.IsInRole(Admin);
 }
