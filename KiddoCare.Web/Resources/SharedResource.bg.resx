@@ -1758,6 +1758,24 @@
   <data name="Announcement" xml:space="preserve">
     <value>Съобщение</value>
   </data>
+  <data name="Event" xml:space="preserve">
+    <value>Събитие</value>
+  </data>
+  <data name="Consent Request" xml:space="preserve">
+    <value>Искане за съгласие</value>
+  </data>
+  <data name="Attendance marked" xml:space="preserve">
+    <value>Присъствието е отбелязано</value>
+  </data>
+  <data name="Daily report added" xml:space="preserve">
+    <value>Добавен е дневен отчет</value>
+  </data>
+  <data name="Absence notice submitted" xml:space="preserve">
+    <value>Подадено е уведомление за отсъствие</value>
+  </data>
+  <data name="Mood: {0}" xml:space="preserve">
+    <value>Настроение: {0}</value>
+  </data>
   <data name="Access Denied" xml:space="preserve">
     <value>Достъпът е отказан</value>
   </data>

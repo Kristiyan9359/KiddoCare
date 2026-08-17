@@ -108,8 +108,8 @@
                 <article class="content-list-item">
                     <div>
                         <div class="item-meta mb-2">
-                            <span>@eventItem.Type</span>
-                            <span>@eventItem.GroupName</span>
+                            <span>@T[eventItem.Type.ToString()]</span>
+                            <span>@(eventItem.GroupName == "All groups" ? T["All groups"] : eventItem.GroupName)</span>
                         </div>
 
                         <h2 class="item-title">@eventItem.Title</h2>

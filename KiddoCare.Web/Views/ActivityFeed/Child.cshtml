@@ -1,3 +1,4 @@
+@using KiddoCare.ViewModels.ActivityFeed
 @model KiddoCare.ViewModels.ActivityFeed.ChildActivityFeedViewModel
 
 @{
@@ -49,13 +50,50 @@
         return type switch
         {
             "Attendance" => "View history",
-            "Daily Report" => "View report",
+            "Daily Report" => "View Report",
             "Absence Notice" => "View notice",
             "Consent Request" => "View request",
             "Event" => "View event",
             "Announcement" => "View announcement",
             _ => "View"
         };
+    }
+
+    private string LocalizedDescription(ActivityFeedItemViewModel item)
+    {
+        if (string.IsNullOrWhiteSpace(item.Description))
+        {
+            return string.Empty;
+        }
+
+        if (item.Type == "Daily Report")
+        {
+            return T["Mood: {0}", T[item.Description]].Value;
+        }
+
+        if (item.Type == "Attendance")
+        {
+            return T[item.Description].Value;
+        }
+
+        if (item.Type is "Absence Notice" or "Consent Request")
+        {
+            var parts = item.Description.Split(" - ", 2, StringSplitOptions.TrimEntries);
+
+            if (parts.Length == 2)
+            {
+                return $"{T[parts[0]]} - {T[parts[1]]}";
+            }
+
+            return T[item.Description].Value;
+        }
+
+        if (item.Description == "All groups")
+        {
+            return T["All groups"].Value;
+        }
+
+        return item.Description;
     }
 }
 
@@ -133,7 +171,7 @@
                                     <div class="activity-card-header">
                                         <div>
                                             <span class="activity-type-pill">@T[item.Type]</span>
-                                            <h3>@item.Title</h3>
+                                            <h3>@T[item.Title]</h3>
                                         </div>
 
                                         <time datetime="@item.Date.ToString("O")">
@@ -143,7 +181,7 @@
 
                                     @if (!string.IsNullOrWhiteSpace(item.Description))
                                     {
-                                        <p class="activity-description">@item.Description</p>
+                                        <p class="activity-description">@LocalizedDescription(item)</p>
                                     }
 
                                     @if (!string.IsNullOrWhiteSpace(item.ActionController) &&

@@ -68,7 +68,7 @@ public class ActivityFeedService : IActivityFeedService
                 Date = r.ReportDate,
                 Type = "Daily Report",
                 Title = "Daily report added",
-                Description = "Mood: " + r.Mood,
+                Description = r.Mood.ToString(),
                 ActionController = "DailyReports",
                 ActionName = "Details",
                 RouteId = r.Id
