@@ -1,93 +1,11 @@
 @{
     ViewData["Title"] = T["Home"];
-    var dashboardUrl = Url.Action("Index", "Dashboard") ?? "/Dashboard";
 }
 
-<section class="home-hero">
-    <div class="home-hero-content">
-        <div class="page-kicker">@T["Kindergarten care platform"]</div>
-        <h1 class="page-title">KiddoCare</h1>
-        <p class="page-subtitle">
-            @T["A calm workspace for child records, attendance, daily reports, parent notices and kindergarten events."]
-        </p>
-
-        <div class="home-hero-actions">
-            <a asp-area="Identity"
-               asp-page="/Account/Login"
-               asp-route-returnUrl="@dashboardUrl"
-               class="btn btn-primary">
-                @T["Login"]
-            </a>
-
-            <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-outline-primary">@T["Create Account"]</a>
-        </div>
+<section class="home-minimal-hero" aria-label="KiddoCare">
+    <div class="home-minimal-content">
+        <span class="home-minimal-kicker">@T["Kindergarten care platform"]</span>
+        <h1>KiddoCare</h1>
+        <p>@T["Care that keeps every little day connected."]</p>
     </div>
-
-    <div class="home-hero-panel">
-        <div class="home-status-row">
-            <span>@T["Today"]</span>
-            <strong>@T["Ready for care"]</strong>
-        </div>
-
-        <div class="home-preview-list">
-            <div>
-                <span class="home-preview-dot home-preview-dot-success"></span>
-                <span>@T["Attendance records"]</span>
-            </div>
-            <div>
-                <span class="home-preview-dot home-preview-dot-primary"></span>
-                <span>@T["Daily Reports"]</span>
-            </div>
-            <div>
-                <span class="home-preview-dot home-preview-dot-warning"></span>
-                <span>@T["Parent responses"]</span>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="home-flow-grid">
-    <article class="home-flow-card">
-        <span>1</span>
-        <div>
-            <h2>@T["Record the day"]</h2>
-            <p>@T["Teachers manage attendance and share clear daily reports."]</p>
-        </div>
-    </article>
-
-    <article class="home-flow-card">
-        <span>2</span>
-        <div>
-            <h2>@T["Keep parents close"]</h2>
-            <p>@T["Parents follow updates, respond to requests and send absence notices."]</p>
-        </div>
-    </article>
-
-    <article class="home-flow-card">
-        <span>3</span>
-        <div>
-            <h2>@T["Stay organized"]</h2>
-            <p>@T["Admins keep children, groups, documents and events connected."]</p>
-        </div>
-    </article>
-</section>
-
-<section class="home-feature-grid">
-    <article class="home-feature-card">
-        <span class="home-feature-kicker">@T["Admin"]</span>
-        <h2>@T["Overview and management"]</h2>
-        <p>@T["Groups, children, staff, parents, documents and recent kindergarten activity in one place."]</p>
-    </article>
-
-    <article class="home-feature-card">
-        <span class="home-feature-kicker">@T["Teacher"]</span>
-        <h2>@T["Daily classroom flow"]</h2>
-        <p>@T["Attendance, reports, medical awareness, announcements and events for the assigned group."]</p>
-    </article>
-
-    <article class="home-feature-card">
-        <span class="home-feature-kicker">@T["Parent"]</span>
-        <h2>@T["Child updates"]</h2>
-        <p>@T["Daily care summaries, consent responses, absence notices, documents and upcoming activities."]</p>
-    </article>
 </section>

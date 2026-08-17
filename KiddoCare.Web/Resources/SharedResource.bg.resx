@@ -2112,4 +2112,61 @@
   <data name="KiddoCare accounts are created only by the kindergarten administrator." xml:space="preserve">
     <value>KiddoCare акаунтите се създават само от администратора на детската градина.</value>
   </data>
+  <data name="Secure kindergarten communication" xml:space="preserve">
+    <value>Сигурна връзка с детската градина</value>
+  </data>
+  <data name="Daily care, attendance, documents and parent communication in one calm workspace." xml:space="preserve">
+    <value>Дневна грижа, присъствия, документи и комуникация с родители в едно спокойно работно пространство.</value>
+  </data>
+  <data name="Closed access" xml:space="preserve">
+    <value>Затворен достъп</value>
+  </data>
+  <data name="Warm kindergarten classroom illustration" xml:space="preserve">
+    <value>Топла илюстрация на детска стая</value>
+  </data>
+  <data name="Morning check-in" xml:space="preserve">
+    <value>Сутрешно отбелязване</value>
+  </data>
+  <data name="12 children present" xml:space="preserve">
+    <value>12 деца присъстват</value>
+  </data>
+  <data name="Daily note ready" xml:space="preserve">
+    <value>Дневната бележка е готова</value>
+  </data>
+  <data name="Shared with parents" xml:space="preserve">
+    <value>Споделено с родителите</value>
+  </data>
+  <data name="Parent permission" xml:space="preserve">
+    <value>Родителско разрешение</value>
+  </data>
+  <data name="Photo consent reviewed" xml:space="preserve">
+    <value>Съгласието за снимки е прегледано</value>
+  </data>
+  <data name="Built for kindergarten routines" xml:space="preserve">
+    <value>Създадено за ежедневието в детската градина</value>
+  </data>
+  <data name="Teachers manage attendance, reports and classroom updates without losing the daily rhythm." xml:space="preserve">
+    <value>Учителите управляват присъствия, отчети и групови съобщения, без да се губи ритъмът на деня.</value>
+  </data>
+  <data name="Parents follow child updates, documents, consent requests and upcoming events from one place." xml:space="preserve">
+    <value>Родителите следят информация за детето, документи, искания за съгласие и предстоящи събития от едно място.</value>
+  </data>
+  <data name="Administrators keep groups, staff, parents and child records organized with role-based access." xml:space="preserve">
+    <value>Администраторите поддържат групи, екип, родители и детски профили подредени с достъп според ролята.</value>
+  </data>
+  <data name="A safer first screen" xml:space="preserve">
+    <value>По-сигурен първи екран</value>
+  </data>
+  <data name="Closed by design" xml:space="preserve">
+    <value>Затворено по замисъл</value>
+  </data>
+  <data name="KiddoCare is a closed system. New accounts are created by administrators, not by public registration." xml:space="preserve">
+    <value>KiddoCare е затворена система. Новите акаунти се създават от администратори, а не чрез публична регистрация.</value>
+  </data>
+  <data name="Go to login" xml:space="preserve">
+    <value>Към входа</value>
+  </data>
+  <data name="Care that keeps every little day connected." xml:space="preserve">
+    <value>Грижа, която свързва всеки малък ден.</value>
+  </data>
 </root>

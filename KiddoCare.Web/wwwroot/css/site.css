@@ -977,151 +977,242 @@ textarea.form-control {
     color: var(--kc-muted);
 }
 
+.home-minimal-hero {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    min-height: calc(100vh - 178px);
+    width: 100vw;
+    margin: 18px 0 0 calc(50% - 50vw);
+    place-items: center;
+    overflow: hidden;
+    background:
+        linear-gradient(90deg, rgba(8, 17, 31, 0.78), rgba(8, 17, 31, 0.34) 48%, rgba(8, 17, 31, 0.12)),
+        linear-gradient(0deg, rgba(8, 17, 31, 0.7), rgba(8, 17, 31, 0.08) 52%, rgba(8, 17, 31, 0.34)),
+        url("/images/home/kindergarten-hero.png") center / cover no-repeat;
+}
+
+.home-minimal-hero::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background:
+        linear-gradient(30deg, rgba(96, 165, 250, 0.12) 12%, transparent 12.5%, transparent 87%, rgba(96, 165, 250, 0.12) 87.5%, rgba(96, 165, 250, 0.12)),
+        linear-gradient(150deg, rgba(52, 211, 153, 0.08) 12%, transparent 12.5%, transparent 87%, rgba(52, 211, 153, 0.08) 87.5%, rgba(52, 211, 153, 0.08));
+    background-size: 86px 50px;
+    opacity: 0.18;
+}
+
+.home-minimal-content {
+    width: min(1040px, calc(100% - 40px));
+    padding: clamp(46px, 8vw, 90px) 0;
+    color: #f8fafc;
+}
+
+.home-minimal-kicker {
+    display: inline-block;
+    margin-bottom: 12px;
+    color: #93c5fd;
+    font-size: 0.82rem;
+    font-weight: 900;
+    letter-spacing: 0;
+    text-transform: uppercase;
+}
+
+.home-minimal-content h1 {
+    margin: 0;
+    color: #ffffff;
+    font-size: clamp(4.2rem, 12vw, 10.5rem);
+    font-weight: 900;
+    line-height: 0.88;
+    text-shadow: 0 20px 46px rgba(8, 17, 31, 0.45);
+}
+
+.home-minimal-content p {
+    max-width: 720px;
+    margin: 24px 0 0;
+    color: #e2e8f0;
+    font-size: clamp(1.2rem, 2.4vw, 2rem);
+    font-weight: 800;
+    line-height: 1.24;
+    text-shadow: 0 12px 30px rgba(8, 17, 31, 0.48);
+}
+
+.home-landing {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    gap: 18px;
+    margin-top: 24px;
+    padding: 22px;
+    border-radius: calc(var(--kc-radius) + 8px);
+    overflow: hidden;
+}
+
+.home-landing::before {
+    content: "";
+    position: absolute;
+    z-index: -2;
+    inset: 0;
+    background:
+        linear-gradient(90deg, rgba(248, 250, 252, 0.92), rgba(248, 250, 252, 0.72) 46%, rgba(15, 23, 42, 0.18)),
+        linear-gradient(0deg, rgba(248, 250, 252, 0.86), rgba(248, 250, 252, 0.36)),
+        url("/images/home/kindergarten-hero.png") center / cover no-repeat;
+}
+
+.home-landing::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background:
+        radial-gradient(circle at 16% 12%, rgba(37, 99, 235, 0.16), transparent 30%),
+        radial-gradient(circle at 86% 72%, rgba(20, 184, 166, 0.14), transparent 34%);
+    pointer-events: none;
+}
+
 .home-hero {
     display: grid;
-    grid-template-columns: minmax(0, 1.18fr) minmax(280px, 0.82fr);
-    gap: 22px;
+    grid-template-columns: minmax(0, 0.92fr) minmax(420px, 1.08fr);
+    gap: 18px;
     align-items: stretch;
-    margin-top: 24px;
-    min-height: 360px;
+    min-height: 560px;
 }
 
 .home-hero-content,
-.home-hero-panel,
-.home-flow-card,
-.home-feature-card {
+.home-role-card,
+.home-access-panel,
+.home-showcase-panel,
+.home-preview-card {
     border: 1px solid rgba(221, 229, 239, 0.78);
     border-radius: var(--kc-radius);
     background: rgba(255, 255, 255, 0.84);
-    box-shadow: 0 14px 34px rgba(23, 32, 51, 0.08);
-    backdrop-filter: blur(16px);
+    box-shadow: 0 18px 44px rgba(23, 32, 51, 0.1);
+    backdrop-filter: blur(18px);
 }
 
 .home-hero-content {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 34px;
+    padding: clamp(28px, 5vw, 56px);
     background:
-        linear-gradient(135deg, rgba(37, 99, 235, 0.1), transparent 42%),
-        linear-gradient(315deg, rgba(22, 135, 93, 0.1), transparent 46%),
-        rgba(255, 255, 255, 0.86);
+        linear-gradient(135deg, rgba(37, 99, 235, 0.13), transparent 42%),
+        linear-gradient(315deg, rgba(20, 184, 166, 0.13), transparent 46%),
+        rgba(255, 255, 255, 0.88);
 }
 
 .home-hero-content .page-title {
-    margin-bottom: 12px;
+    max-width: 680px;
+    margin-bottom: 14px;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 0.98;
+}
+
+.home-hero-content .page-subtitle {
+    max-width: 620px;
+    font-size: 1.08rem;
 }
 
 .home-hero-actions {
     display: flex;
-    gap: 10px;
+    gap: 12px;
     flex-wrap: wrap;
-    margin-top: 24px;
+    align-items: center;
+    margin-top: 26px;
 }
 
-.home-hero-panel {
+.home-access-pill {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    padding: 0 18px;
+    border: 1px solid rgba(96, 165, 250, 0.35);
+    border-radius: 999px;
+    color: var(--kc-primary);
+    background: rgba(219, 234, 254, 0.72);
+    font-weight: 900;
+}
+
+.home-access-text {
+    max-width: 520px;
+    margin: 18px 0 0;
+    color: var(--kc-muted);
+}
+
+.home-showcase-panel {
     display: grid;
-    align-content: space-between;
-    padding: 24px;
+    align-content: end;
+    gap: 18px;
+    min-height: 520px;
+    padding: clamp(22px, 4vw, 34px);
     background:
-        linear-gradient(145deg, rgba(37, 99, 235, 0.12), transparent 45%),
-        linear-gradient(315deg, rgba(22, 135, 93, 0.12), transparent 42%),
-        rgba(255, 255, 255, 0.86);
+        linear-gradient(145deg, rgba(15, 23, 42, 0.82), rgba(30, 41, 59, 0.62)),
+        linear-gradient(315deg, rgba(96, 165, 250, 0.16), transparent 52%);
+    color: #f8fafc;
 }
 
-.home-hero-panel::before {
-    content: "KC";
+.home-showcase-logo {
     display: grid;
     place-items: center;
-    width: 88px;
-    height: 88px;
-    margin-bottom: 22px;
+    width: 82px;
+    height: 82px;
     border-radius: 24px;
     color: #ffffff;
     background: linear-gradient(135deg, var(--kc-primary), #14b8a6);
-    box-shadow: 0 18px 38px rgba(37, 99, 235, 0.24);
-    font-size: 1.6rem;
+    box-shadow: 0 18px 38px rgba(37, 99, 235, 0.28);
+    font-size: 1.55rem;
     font-weight: 900;
 }
 
-.home-status-row {
+.home-preview-card {
+    padding: 18px;
+    background: rgba(8, 17, 31, 0.58);
+    color: #f8fafc;
+}
+
+.home-preview-header {
     display: flex;
     justify-content: space-between;
-    gap: 16px;
+    gap: 14px;
     align-items: center;
-    padding-bottom: 18px;
-    border-bottom: 1px solid rgba(221, 229, 239, 0.88);
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.2);
 }
 
-.home-status-row span,
-.home-feature-kicker {
-    color: var(--kc-muted);
-    font-size: 0.78rem;
+.home-preview-header span {
+    color: #93c5fd;
     font-weight: 900;
-    text-transform: uppercase;
 }
 
-.home-status-row strong {
-    color: var(--kc-primary);
-    font-size: 1.1rem;
-}
-
-.home-preview-list {
-    display: grid;
-    gap: 12px;
-    margin-top: 22px;
-}
-
-.home-preview-list div {
+.home-preview-item {
     display: flex;
-    gap: 10px;
+    gap: 12px;
     align-items: center;
     padding: 12px;
-    border: 1px solid rgba(221, 229, 239, 0.82);
-    border-radius: var(--kc-radius);
-    background: rgba(255, 255, 255, 0.7);
-    font-weight: 800;
+    border: 1px solid rgba(226, 232, 240, 0.18);
+    border-radius: 14px;
+    background: rgba(15, 23, 42, 0.54);
 }
 
-.home-flow-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
-    margin-top: 18px;
+.home-preview-item + .home-preview-item {
+    margin-top: 10px;
 }
 
-.home-flow-card {
-    display: flex;
-    gap: 14px;
-    align-items: flex-start;
-    padding: 18px;
+.home-preview-item strong,
+.home-preview-item small {
+    display: block;
 }
 
-.home-flow-card span {
-    display: grid;
-    flex: 0 0 38px;
-    place-items: center;
-    width: 38px;
-    height: 38px;
-    border-radius: 12px;
-    color: #ffffff;
-    background: var(--kc-primary);
-    box-shadow: 0 10px 22px rgba(37, 99, 235, 0.2);
-    font-weight: 900;
-}
-
-.home-flow-card h2 {
-    margin-bottom: 6px;
-    font-size: 1.05rem;
-}
-
-.home-flow-card p {
-    margin-bottom: 0;
-    color: var(--kc-muted);
-    line-height: 1.55;
+.home-preview-item small {
+    margin-top: 2px;
+    color: #cbd5e1;
 }
 
 .home-preview-dot {
+    flex: 0 0 10px;
     width: 10px;
     height: 10px;
     border-radius: 50%;
@@ -1139,27 +1230,84 @@ textarea.form-control {
     background: var(--kc-warning);
 }
 
-.home-feature-grid {
+.home-showcase-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.home-showcase-metrics div {
+    padding: 14px;
+    border: 1px solid rgba(226, 232, 240, 0.18);
+    border-radius: 14px;
+    background: rgba(15, 23, 42, 0.48);
+}
+
+.home-showcase-metrics strong,
+.home-showcase-metrics span {
+    display: block;
+}
+
+.home-showcase-metrics strong {
+    color: #93c5fd;
+    font-size: 1.55rem;
+    line-height: 1;
+}
+
+.home-showcase-metrics span {
+    margin-top: 6px;
+    color: #cbd5e1;
+    font-size: 0.82rem;
+    font-weight: 800;
+}
+
+.home-role-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 16px;
-    margin-top: 18px;
 }
 
-.home-feature-card {
-    padding: 20px;
+.home-role-card {
+    padding: 22px;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
 }
 
-.home-feature-card h2 {
+.home-role-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(96, 165, 250, 0.42);
+    box-shadow: 0 24px 50px rgba(23, 32, 51, 0.13);
+}
+
+.home-feature-kicker {
+    color: var(--kc-primary);
+    font-size: 0.78rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.home-role-card h2,
+.home-access-panel h2 {
     margin: 8px 0 10px;
-    font-size: 1.2rem;
+    font-size: 1.25rem;
 }
 
-.home-feature-card p,
+.home-role-card p,
+.home-access-panel p,
 .privacy-panel p {
     margin-bottom: 0;
     color: var(--kc-muted);
     line-height: 1.7;
+}
+
+.home-access-panel {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px;
+    background:
+        linear-gradient(120deg, rgba(37, 99, 235, 0.1), transparent 42%),
+        rgba(255, 255, 255, 0.84);
 }
 
 .privacy-panel {
@@ -1762,9 +1910,12 @@ textarea.form-control {
 
 @media (max-width: 991px) {
     .home-hero,
-    .home-flow-grid,
-    .home-feature-grid {
+    .home-role-grid {
         grid-template-columns: 1fr;
+    }
+
+    .home-hero {
+        min-height: 0;
     }
 
     .profile-hero-card {
@@ -1784,13 +1935,34 @@ textarea.form-control {
 
 @media (max-width: 575px) {
     .home-hero-content,
-    .home-hero-panel,
-    .home-flow-card,
-    .home-feature-card {
+    .home-role-card,
+    .home-access-panel {
         padding: 18px;
     }
 
     .home-hero-actions .btn {
+        width: 100%;
+    }
+
+    .home-access-pill {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .home-showcase-panel {
+        min-height: 420px;
+        padding: 18px;
+    }
+
+    .home-showcase-metrics {
+        grid-template-columns: 1fr;
+    }
+
+    .home-access-panel {
+        display: grid;
+    }
+
+    .home-access-panel .btn {
         width: 100%;
     }
 
@@ -2465,9 +2637,9 @@ textarea.form-control {
 :root[data-theme="dark"] .app-navbar-inner,
 :root[data-theme="dark"] .section-panel,
 :root[data-theme="dark"] .home-hero-content,
-:root[data-theme="dark"] .home-hero-panel,
-:root[data-theme="dark"] .home-flow-card,
-:root[data-theme="dark"] .home-feature-card,
+:root[data-theme="dark"] .home-showcase-panel,
+:root[data-theme="dark"] .home-role-card,
+:root[data-theme="dark"] .home-access-panel,
 :root[data-theme="dark"] .child-card,
 :root[data-theme="dark"] .rating-card,
 :root[data-theme="dark"] .profile-hero-card,
@@ -2479,6 +2651,30 @@ textarea.form-control {
     border-color: var(--kc-border);
     background: var(--kc-card-bg);
     box-shadow: var(--kc-shadow);
+}
+
+:root[data-theme="dark"] .home-landing::before {
+    background:
+        linear-gradient(90deg, rgba(8, 17, 31, 0.94), rgba(8, 17, 31, 0.74) 48%, rgba(15, 23, 42, 0.52)),
+        linear-gradient(0deg, rgba(8, 17, 31, 0.9), rgba(8, 17, 31, 0.38)),
+        url("/images/home/kindergarten-hero.png") center / cover no-repeat;
+}
+
+:root[data-theme="dark"] .home-showcase-panel {
+    background:
+        linear-gradient(145deg, rgba(8, 17, 31, 0.84), rgba(15, 23, 42, 0.64)),
+        linear-gradient(315deg, rgba(96, 165, 250, 0.16), transparent 52%);
+}
+
+:root[data-theme="dark"] .home-access-pill {
+    border-color: rgba(96, 165, 250, 0.42);
+    background: rgba(37, 99, 235, 0.18);
+    color: #bfdbfe;
+}
+
+:root[data-theme="dark"] .home-preview-card {
+    border-color: rgba(148, 163, 184, 0.35);
+    background: rgba(8, 17, 31, 0.82);
 }
 
 :root[data-theme="dark"] .metric-card,
@@ -2849,8 +3045,9 @@ textarea.form-control {
 :root[data-theme="dark"] .section-panel-subtitle,
 :root[data-theme="dark"] .metric-note,
 :root[data-theme="dark"] .activity-description,
-:root[data-theme="dark"] .home-feature-card p,
-:root[data-theme="dark"] .home-flow-card p,
+:root[data-theme="dark"] .home-role-card p,
+:root[data-theme="dark"] .home-access-panel p,
+:root[data-theme="dark"] .home-access-text,
 :root[data-theme="dark"] .privacy-panel p {
     color: var(--kc-muted) !important;
 }
