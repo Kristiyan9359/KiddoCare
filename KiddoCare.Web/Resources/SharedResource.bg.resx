@@ -2103,4 +2103,13 @@
   <data name="Teacher note cannot be longer than {1} characters." xml:space="preserve">
     <value>Бележката от учителя не може да бъде по-дълга от {1} символа.</value>
   </data>
+  <data name="Accounts are created by the kindergarten administrator." xml:space="preserve">
+    <value>Акаунтите се създават от администратора на детската градина.</value>
+  </data>
+  <data name="Registration unavailable" xml:space="preserve">
+    <value>Регистрацията не е достъпна</value>
+  </data>
+  <data name="KiddoCare accounts are created only by the kindergarten administrator." xml:space="preserve">
+    <value>KiddoCare акаунтите се създават само от администратора на детската градина.</value>
+  </data>
 </root>

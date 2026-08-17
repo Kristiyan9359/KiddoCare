@@ -1,0 +1,18 @@
+@page
+@model KiddoCare.Web.Areas.Identity.Pages.Account.RegisterModel
+
+@{
+    ViewData["Title"] = T["Registration unavailable"];
+}
+
+<section class="error-page">
+    <div class="error-card">
+        <div class="error-code">403</div>
+        <h1>@T["Registration unavailable"]</h1>
+        <p>@T["KiddoCare accounts are created only by the kindergarten administrator."]</p>
+
+        <div class="error-actions">
+            <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-primary">@T["Login"]</a>
+        </div>
+    </div>
+</section>

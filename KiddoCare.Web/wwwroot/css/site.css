@@ -3166,6 +3166,14 @@ textarea.form-control {
     text-decoration: underline;
 }
 
+.auth-access-note {
+    margin: 18px 0 0;
+    color: var(--kc-muted);
+    font-size: 0.84rem;
+    font-weight: 700;
+    text-align: center;
+}
+
 :root[data-theme="dark"] .auth-badge {
     border-color: rgba(148, 163, 184, 0.24);
     background:
