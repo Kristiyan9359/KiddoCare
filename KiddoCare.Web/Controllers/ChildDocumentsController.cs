@@ -3,6 +3,7 @@ using KiddoCare.Services.Core.Contracts;
 using KiddoCare.ViewModels.ChildDocuments;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using static KiddoCare.Common.RoleConstants;
 
 namespace KiddoCare.Web.Controllers;
@@ -22,11 +23,13 @@ public class ChildDocumentsController : Controller
 
     private readonly IChildDocumentService childDocumentService;
     private readonly IWebHostEnvironment webHostEnvironment;
+    private readonly IStringLocalizer<SharedResource> localizer;
 
-    public ChildDocumentsController(IChildDocumentService childDocumentService, IWebHostEnvironment webHostEnvironment)
+    public ChildDocumentsController(IChildDocumentService childDocumentService, IWebHostEnvironment webHostEnvironment, IStringLocalizer<SharedResource> localizer)
     {
         this.childDocumentService = childDocumentService;
         this.webHostEnvironment = webHostEnvironment;
+        this.localizer = localizer;
     }
 
     [HttpGet]
@@ -164,19 +167,19 @@ public class ChildDocumentsController : Controller
     {
         if (file.Length == 0)
         {
-            throw new InvalidOperationException("Document file is required.");
+            throw new InvalidOperationException(this.localizer["Document file is required."]);
         }
 
         if (file.Length > MaxFileSize)
         {
-            throw new InvalidOperationException("Document file cannot be larger than 5 MB.");
+            throw new InvalidOperationException(this.localizer["Document file cannot be larger than 5 MB."]);
         }
 
         var extension = Path.GetExtension(file.FileName);
 
         if (!AllowedFileExtensions.Contains(extension))
         {
-            throw new InvalidOperationException("Allowed document formats are PDF, JPG and PNG.");
+            throw new InvalidOperationException(this.localizer["Allowed document formats are PDF, JPG and PNG."]);
         }
 
         var uploadsFolder = Path.Combine(

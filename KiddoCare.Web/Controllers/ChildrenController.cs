@@ -3,6 +3,7 @@ using KiddoCare.Services.Core.Contracts;
 using KiddoCare.ViewModels.Children;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using static KiddoCare.Common.RoleConstants;
 
 namespace KiddoCare.Web.Controllers;
@@ -21,11 +22,13 @@ public class ChildrenController : Controller
 
     private readonly IChildService childService;
     private readonly IWebHostEnvironment webHostEnvironment;
+    private readonly IStringLocalizer<SharedResource> localizer;
 
-    public ChildrenController(IChildService childService, IWebHostEnvironment webHostEnvironment)
+    public ChildrenController(IChildService childService, IWebHostEnvironment webHostEnvironment, IStringLocalizer<SharedResource> localizer)
     {
         this.childService = childService;
         this.webHostEnvironment = webHostEnvironment;
+        this.localizer = localizer;
     }
 
     [HttpGet]
@@ -281,19 +284,19 @@ public class ChildrenController : Controller
     {
         if (photo.Length == 0)
         {
-            throw new InvalidOperationException("Photo file is required.");
+            throw new InvalidOperationException(this.localizer["Photo file is required."]);
         }
 
         if (photo.Length > MaxPhotoSize)
         {
-            throw new InvalidOperationException("Photo file cannot be larger than 5 MB.");
+            throw new InvalidOperationException(this.localizer["Photo file cannot be larger than 5 MB."]);
         }
 
         var extension = Path.GetExtension(photo.FileName);
 
         if (!AllowedPhotoExtensions.Contains(extension))
         {
-            throw new InvalidOperationException("Allowed photo formats are JPG and PNG.");
+            throw new InvalidOperationException(this.localizer["Allowed photo formats are JPG and PNG."]);
         }
 
         var uploadsFolder = Path.Combine(

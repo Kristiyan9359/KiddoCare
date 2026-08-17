@@ -1788,6 +1788,24 @@
   <data name="The request could not be completed." xml:space="preserve">
     <value>Заявката не можа да бъде изпълнена.</value>
   </data>
+  <data name="Document file is required." xml:space="preserve">
+    <value>Файлът на документа е задължителен.</value>
+  </data>
+  <data name="Document file cannot be larger than 5 MB." xml:space="preserve">
+    <value>Файлът на документа не може да бъде по-голям от 5 MB.</value>
+  </data>
+  <data name="Allowed document formats are PDF, JPG and PNG." xml:space="preserve">
+    <value>Позволените формати за документ са PDF, JPG и PNG.</value>
+  </data>
+  <data name="Photo file is required." xml:space="preserve">
+    <value>Файлът със снимката е задължителен.</value>
+  </data>
+  <data name="Photo file cannot be larger than 5 MB." xml:space="preserve">
+    <value>Снимката не може да бъде по-голяма от 5 MB.</value>
+  </data>
+  <data name="Allowed photo formats are JPG and PNG." xml:space="preserve">
+    <value>Позволените формати за снимка са JPG и PNG.</value>
+  </data>
   <data name="Announcement title" xml:space="preserve">
     <value>Заглавие на съобщение</value>
   </data>
