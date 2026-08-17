@@ -1305,4 +1305,133 @@
   <data name="Contract" xml:space="preserve">
     <value>Договор</value>
   </data>
+  <data name="Add a new classroom group and use it later for children, teachers, events and announcements." xml:space="preserve">
+    <value>Добави нова група и я използвай по-късно за деца, учители, събития и съобщения.</value>
+  </data>
+  <data name="Example: Sunshine" xml:space="preserve">
+    <value>Пример: Слънчице</value>
+  </data>
+  <data name="Optional short note about this group." xml:space="preserve">
+    <value>Кратка бележка за тази група по желание.</value>
+  </data>
+  <data name="Edit Group" xml:space="preserve">
+    <value>Редактирай група</value>
+  </data>
+  <data name="Update the group name or description." xml:space="preserve">
+    <value>Обнови името или описанието на групата.</value>
+  </data>
+  <data name="Group Details" xml:space="preserve">
+    <value>Детайли за група</value>
+  </data>
+  <data name="Review group information and the children currently assigned to this classroom." xml:space="preserve">
+    <value>Прегледай информацията за групата и децата, които са записани в нея.</value>
+  </data>
+  <data name="Group Summary" xml:space="preserve">
+    <value>Обобщение на групата</value>
+  </data>
+  <data name="Basic classroom information." xml:space="preserve">
+    <value>Основна информация за групата.</value>
+  </data>
+  <data name="Children currently assigned to this group." xml:space="preserve">
+    <value>Деца, които в момента са записани в тази група.</value>
+  </data>
+  <data name="No children in this group" xml:space="preserve">
+    <value>Няма деца в тази група</value>
+  </data>
+  <data name="Assign children to this group from the child edit page." xml:space="preserve">
+    <value>Запиши деца в тази група от страницата за редакция на дете.</value>
+  </data>
+  <data name="Delete Group" xml:space="preserve">
+    <value>Изтрий група</value>
+  </data>
+  <data name="Are you sure you want to delete this group? This action cannot be undone." xml:space="preserve">
+    <value>Сигурен ли си, че искаш да изтриеш тази група? Това действие не може да бъде отменено.</value>
+  </data>
+  <data name="Active Children" xml:space="preserve">
+    <value>Активни деца</value>
+  </data>
+  <data name="Add a parent profile that can later be linked to one or more children." xml:space="preserve">
+    <value>Добави родителски профил, който по-късно може да бъде свързан с едно или повече деца.</value>
+  </data>
+  <data name="Example: Maria Ivanova" xml:space="preserve">
+    <value>Пример: Мария Иванова</value>
+  </data>
+  <data name="Optional phone number" xml:space="preserve">
+    <value>Телефон по желание</value>
+  </data>
+  <data name="Edit Parent" xml:space="preserve">
+    <value>Редактирай родител</value>
+  </data>
+  <data name="Update the parent's contact details." xml:space="preserve">
+    <value>Обнови контактните данни на родителя.</value>
+  </data>
+  <data name="Parent Details" xml:space="preserve">
+    <value>Детайли за родител</value>
+  </data>
+  <data name="Review contact details and linked children." xml:space="preserve">
+    <value>Прегледай контактните данни и свързаните деца.</value>
+  </data>
+  <data name="Contact Summary" xml:space="preserve">
+    <value>Обобщение на контакта</value>
+  </data>
+  <data name="Primary parent contact information." xml:space="preserve">
+    <value>Основна контактна информация за родителя.</value>
+  </data>
+  <data name="Linked Children" xml:space="preserve">
+    <value>Свързани деца</value>
+  </data>
+  <data name="Children connected to this parent profile." xml:space="preserve">
+    <value>Деца, свързани с този родителски профил.</value>
+  </data>
+  <data name="No linked children" xml:space="preserve">
+    <value>Няма свързани деца</value>
+  </data>
+  <data name="Link a child to this parent from the child edit page." xml:space="preserve">
+    <value>Свържи дете с този родител от страницата за редакция на дете.</value>
+  </data>
+  <data name="Delete Parent" xml:space="preserve">
+    <value>Изтрий родител</value>
+  </data>
+  <data name="Are you sure you want to delete this parent profile? This action cannot be undone." xml:space="preserve">
+    <value>Сигурен ли си, че искаш да изтриеш този родителски профил? Това действие не може да бъде отменено.</value>
+  </data>
+  <data name="Add a teacher profile and assign it to a kindergarten group." xml:space="preserve">
+    <value>Добави учителски профил и го назначи към група.</value>
+  </data>
+  <data name="Example: Elena Petrova" xml:space="preserve">
+    <value>Пример: Елена Петрова</value>
+  </data>
+  <data name="Assigned Group" xml:space="preserve">
+    <value>Назначена група</value>
+  </data>
+  <data name="Select group..." xml:space="preserve">
+    <value>Избери група...</value>
+  </data>
+  <data name="Edit Teacher" xml:space="preserve">
+    <value>Редактирай учител</value>
+  </data>
+  <data name="Update the teacher's contact details and assigned group." xml:space="preserve">
+    <value>Обнови контактните данни на учителя и назначената му група.</value>
+  </data>
+  <data name="Teacher Details" xml:space="preserve">
+    <value>Детайли за учител</value>
+  </data>
+  <data name="Review teacher contact details and classroom assignment." xml:space="preserve">
+    <value>Прегледай контактните данни на учителя и назначението му към група.</value>
+  </data>
+  <data name="Primary teacher contact information." xml:space="preserve">
+    <value>Основна контактна информация за учителя.</value>
+  </data>
+  <data name="Classroom Assignment" xml:space="preserve">
+    <value>Назначение към група</value>
+  </data>
+  <data name="The group this teacher can manage." xml:space="preserve">
+    <value>Групата, която този учител може да управлява.</value>
+  </data>
+  <data name="Delete Teacher" xml:space="preserve">
+    <value>Изтрий учител</value>
+  </data>
+  <data name="Are you sure you want to delete this teacher profile? This action cannot be undone." xml:space="preserve">
+    <value>Сигурен ли си, че искаш да изтриеш този учителски профил? Това действие не може да бъде отменено.</value>
+  </data>
 </root>

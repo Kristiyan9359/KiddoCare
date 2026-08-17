@@ -1,15 +1,15 @@
 ﻿@model KiddoCare.ViewModels.Groups.GroupEditViewModel
 
 @{
-    ViewData["Title"] = "Edit Group";
+    ViewData["Title"] = T["Edit Group"];
 }
 
 <div class="page-header">
     <div>
-        <div class="page-kicker">Kindergarten groups</div>
-        <h1 class="page-title">Edit Group</h1>
+        <div class="page-kicker">@T["Kindergarten groups"]</div>
+        <h1 class="page-title">@T["Edit Group"]</h1>
         <p class="page-subtitle">
-            Update the group name or description.
+            @T["Update the group name or description."]
         </p>
     </div>
 </div>
@@ -22,21 +22,21 @@
 
         <div class="form-grid">
             <div class="mb-3">
-                <label asp-for="Name" class="form-label"></label>
+                <label asp-for="Name" class="form-label">@T["Group Name"]</label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="Description" class="form-label"></label>
+                <label asp-for="Description" class="form-label">@T["Description"]</label>
                 <textarea asp-for="Description" class="form-control" rows="4"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
         </div>
 
         <div class="form-action-row">
-            <button type="submit" class="btn btn-primary">Save</button>
-            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary">@T["Save"]</button>
+            <a asp-action="Index" class="btn btn-secondary">@T["Cancel"]</a>
         </div>
     </form>
 </section>

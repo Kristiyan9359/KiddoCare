@@ -1,15 +1,15 @@
 ﻿@model KiddoCare.ViewModels.Teachers.TeacherEditViewModel
 
 @{
-    ViewData["Title"] = "Edit Teacher";
+    ViewData["Title"] = T["Edit Teacher"];
 }
 
 <div class="page-header">
     <div>
-        <div class="page-kicker">Staff management</div>
-        <h1 class="page-title">Edit Teacher</h1>
+        <div class="page-kicker">@T["Staff management"]</div>
+        <h1 class="page-title">@T["Edit Teacher"]</h1>
         <p class="page-subtitle">
-            Update the teacher's contact details and assigned group.
+            @T["Update the teacher's contact details and assigned group."]
         </p>
     </div>
 </div>
@@ -22,29 +22,29 @@
 
         <div class="form-grid">
             <div class="mb-3">
-                <label asp-for="FullName" class="form-label"></label>
+                <label asp-for="FullName" class="form-label">@T["Full Name"]</label>
                 <input asp-for="FullName" class="form-control" />
                 <span asp-validation-for="FullName" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="PhoneNumber" class="form-label"></label>
+                <label asp-for="PhoneNumber" class="form-label">@T["Phone"]</label>
                 <input asp-for="PhoneNumber" class="form-control" />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="GroupId" class="form-label"></label>
+                <label asp-for="GroupId" class="form-label">@T["Assigned Group"]</label>
                 <select asp-for="GroupId" asp-items="Model.Groups" class="form-select">
-                    <option value="">Select group...</option>
+                    <option value="">@T["Select group..."]</option>
                 </select>
                 <span asp-validation-for="GroupId" class="text-danger"></span>
             </div>
         </div>
 
         <div class="form-action-row">
-            <button type="submit" class="btn btn-primary">Save</button>
-            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary">@T["Save"]</button>
+            <a asp-action="Index" class="btn btn-secondary">@T["Cancel"]</a>
         </div>
     </form>
 </section>

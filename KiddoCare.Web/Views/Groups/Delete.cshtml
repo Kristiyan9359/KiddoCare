@@ -1,26 +1,26 @@
 ﻿@model KiddoCare.ViewModels.Groups.GroupDeleteViewModel
 
 @{
-    ViewData["Title"] = "Delete Group";
+    ViewData["Title"] = T["Delete Group"];
 }
 
 <section class="delete-page">
     <div class="delete-card">
-        <div class="delete-kicker">Permanent action</div>
-        <h1>Delete Group</h1>
+        <div class="delete-kicker">@T["Permanent action"]</div>
+        <h1>@T["Delete Group"]</h1>
         <p>
-            Are you sure you want to delete this group? This action cannot be undone.
+            @T["Are you sure you want to delete this group? This action cannot be undone."]
         </p>
 
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <dl class="info-list delete-info-list">
             <div>
-                <dt>Group Name</dt>
+                <dt>@T["Group Name"]</dt>
                 <dd>@Model.Name</dd>
             </div>
             <div>
-                <dt>Active Children</dt>
+                <dt>@T["Active Children"]</dt>
                 <dd>@Model.ChildrenCount</dd>
             </div>
         </dl>
@@ -28,8 +28,8 @@
         <form asp-action="Delete" method="post" class="form-action-row justify-content-center">
             <input asp-for="Id" type="hidden" />
 
-            <button type="submit" class="btn btn-danger">Delete</button>
-            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-danger">@T["Delete"]</button>
+            <a asp-action="Index" class="btn btn-secondary">@T["Cancel"]</a>
         </form>
     </div>
 </section>

@@ -1,15 +1,15 @@
 ﻿@model KiddoCare.ViewModels.Parents.ParentCreateViewModel
 
 @{
-    ViewData["Title"] = "Create Parent";
+    ViewData["Title"] = T["Create Parent"];
 }
 
 <div class="page-header">
     <div>
-        <div class="page-kicker">Family contacts</div>
-        <h1 class="page-title">Create Parent</h1>
+        <div class="page-kicker">@T["Family contacts"]</div>
+        <h1 class="page-title">@T["Create Parent"]</h1>
         <p class="page-subtitle">
-            Add a parent profile that can later be linked to one or more children.
+            @T["Add a parent profile that can later be linked to one or more children."]
         </p>
     </div>
 </div>
@@ -20,27 +20,27 @@
 
         <div class="form-grid">
             <div class="mb-3">
-                <label asp-for="FullName" class="form-label"></label>
-                <input asp-for="FullName" class="form-control" placeholder="Example: Maria Ivanova" />
+                <label asp-for="FullName" class="form-label">@T["Full Name"]</label>
+                <input asp-for="FullName" class="form-control" placeholder='@T["Example: Maria Ivanova"]' />
                 <span asp-validation-for="FullName" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="Email" class="form-label"></label>
-                <input asp-for="Email" class="form-control" placeholder="parent@example.com" />
+                <label asp-for="Email" class="form-label">@T["Email"]</label>
+                <input asp-for="Email" class="form-control" placeholder='@T["parent@example.com"]' />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="PhoneNumber" class="form-label"></label>
-                <input asp-for="PhoneNumber" class="form-control" placeholder="Optional phone number" />
+                <label asp-for="PhoneNumber" class="form-label">@T["Phone"]</label>
+                <input asp-for="PhoneNumber" class="form-control" placeholder='@T["Optional phone number"]' />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
         </div>
 
         <div class="form-action-row">
-            <button type="submit" class="btn btn-primary">Create</button>
-            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary">@T["Create"]</button>
+            <a asp-action="Index" class="btn btn-secondary">@T["Cancel"]</a>
         </div>
     </form>
 </section>

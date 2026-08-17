@@ -1,21 +1,21 @@
 ﻿@model KiddoCare.ViewModels.Groups.GroupDetailsViewModel
 
 @{
-    ViewData["Title"] = "Group Details";
+    ViewData["Title"] = T["Group Details"];
 }
 
 <div class="page-header">
     <div>
-        <div class="page-kicker">Kindergarten groups</div>
+        <div class="page-kicker">@T["Kindergarten groups"]</div>
         <h1 class="page-title">@Model.Name</h1>
         <p class="page-subtitle">
-            Review group information and the children currently assigned to this classroom.
+            @T["Review group information and the children currently assigned to this classroom."]
         </p>
     </div>
 
     <div class="page-actions">
-        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
-        <a asp-action="Index" class="btn btn-secondary">Back</a>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">@T["Edit"]</a>
+        <a asp-action="Index" class="btn btn-secondary">@T["Back"]</a>
     </div>
 </div>
 
@@ -23,24 +23,24 @@
     <section class="info-panel">
         <div class="section-heading-row">
             <div>
-                <h2>Group Summary</h2>
-                <p>Basic classroom information.</p>
+                <h2>@T["Group Summary"]</h2>
+                <p>@T["Basic classroom information."]</p>
             </div>
         </div>
 
         <dl class="info-list">
             <div>
-                <dt>Group Name</dt>
+                <dt>@T["Group Name"]</dt>
                 <dd>@Model.Name</dd>
             </div>
             <div>
-                <dt>Description</dt>
+                <dt>@T["Description"]</dt>
                 <dd>
-                    @(string.IsNullOrWhiteSpace(Model.Description) ? "No description" : Model.Description)
+                    @(string.IsNullOrWhiteSpace(Model.Description) ? T["No description"].Value : Model.Description)
                 </dd>
             </div>
             <div>
-                <dt>Children</dt>
+                <dt>@T["Children"]</dt>
                 <dd>@Model.Children.Count()</dd>
             </div>
         </dl>
@@ -49,16 +49,16 @@
     <section class="info-panel">
         <div class="section-heading-row">
             <div>
-                <h2>Children</h2>
-                <p>Children currently assigned to this group.</p>
+                <h2>@T["Children"]</h2>
+                <p>@T["Children currently assigned to this group."]</p>
             </div>
         </div>
 
         @if (!Model.Children.Any())
         {
             <div class="empty-state compact-empty-state">
-                <h3>No children in this group</h3>
-                <p>Assign children to this group from the child edit page.</p>
+                <h3>@T["No children in this group"]</h3>
+                <p>@T["Assign children to this group from the child edit page."]</p>
             </div>
         }
         else
@@ -67,9 +67,9 @@
                 <table class="table table-striped align-middle mb-0">
                     <thead>
                         <tr>
-                            <th>Full Name</th>
-                            <th>Date of Birth</th>
-                            <th class="text-end">Actions</th>
+                            <th>@T["Full Name"]</th>
+                            <th>@T["Date of Birth"]</th>
+                            <th class="text-end">@T["Actions"]</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -84,7 +84,7 @@
                                        asp-route-id="@child.Id"
                                        asp-route-returnUrl="@Context.Request.Path"
                                        class="btn btn-sm btn-outline-secondary">
-                                        View Child
+                                        @T["View Child"]
                                     </a>
                                 </td>
                             </tr>

@@ -1,21 +1,21 @@
 ﻿@model KiddoCare.ViewModels.Parents.ParentDetailsViewModel
 
 @{
-    ViewData["Title"] = "Parent Details";
+    ViewData["Title"] = T["Parent Details"];
 }
 
 <div class="page-header">
     <div>
-        <div class="page-kicker">Family contacts</div>
+        <div class="page-kicker">@T["Family contacts"]</div>
         <h1 class="page-title">@Model.FullName</h1>
         <p class="page-subtitle">
-            Review contact details and linked children.
+            @T["Review contact details and linked children."]
         </p>
     </div>
 
     <div class="page-actions">
-        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
-        <a asp-action="Index" class="btn btn-secondary">Back</a>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">@T["Edit"]</a>
+        <a asp-action="Index" class="btn btn-secondary">@T["Back"]</a>
     </div>
 </div>
 
@@ -23,26 +23,26 @@
     <section class="info-panel">
         <div class="section-heading-row">
             <div>
-                <h2>Contact Summary</h2>
-                <p>Primary parent contact information.</p>
+                <h2>@T["Contact Summary"]</h2>
+                <p>@T["Primary parent contact information."]</p>
             </div>
         </div>
 
         <dl class="info-list">
             <div>
-                <dt>Full Name</dt>
+                <dt>@T["Full Name"]</dt>
                 <dd>@Model.FullName</dd>
             </div>
             <div>
-                <dt>Email</dt>
+                <dt>@T["Email"]</dt>
                 <dd>@Model.Email</dd>
             </div>
             <div>
-                <dt>Phone</dt>
-                <dd>@(string.IsNullOrWhiteSpace(Model.PhoneNumber) ? "Not specified" : Model.PhoneNumber)</dd>
+                <dt>@T["Phone"]</dt>
+                <dd>@(string.IsNullOrWhiteSpace(Model.PhoneNumber) ? T["Not specified"].Value : Model.PhoneNumber)</dd>
             </div>
             <div>
-                <dt>Linked Children</dt>
+                <dt>@T["Linked Children"]</dt>
                 <dd>@Model.Children.Count()</dd>
             </div>
         </dl>
@@ -51,16 +51,16 @@
     <section class="info-panel">
         <div class="section-heading-row">
             <div>
-                <h2>Linked Children</h2>
-                <p>Children connected to this parent profile.</p>
+                <h2>@T["Linked Children"]</h2>
+                <p>@T["Children connected to this parent profile."]</p>
             </div>
         </div>
 
         @if (!Model.Children.Any())
         {
             <div class="empty-state compact-empty-state">
-                <h3>No linked children</h3>
-                <p>Link a child to this parent from the child edit page.</p>
+                <h3>@T["No linked children"]</h3>
+                <p>@T["Link a child to this parent from the child edit page."]</p>
             </div>
         }
         else
@@ -69,8 +69,8 @@
                 <table class="table table-striped align-middle mb-0">
                     <thead>
                         <tr>
-                            <th>Child</th>
-                            <th class="text-end">Actions</th>
+                            <th>@T["Child"]</th>
+                            <th class="text-end">@T["Actions"]</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -84,7 +84,7 @@
                                        asp-route-id="@child.Id"
                                        asp-route-returnUrl="@Context.Request.Path"
                                        class="btn btn-sm btn-outline-secondary">
-                                        View Child
+                                        @T["View Child"]
                                     </a>
                                 </td>
                             </tr>
