@@ -530,11 +530,27 @@ textarea.form-control {
 }
 
 .app-navbar-inner {
+    width: min(100%, 1720px);
+    max-width: calc(100vw - 24px);
     background: rgba(255, 255, 255, 0.96);
     border: 1px solid var(--kc-border);
     border-radius: var(--kc-radius);
     box-shadow: var(--kc-shadow);
     padding: 12px 18px;
+}
+
+.navbar-collapse {
+    min-width: 0;
+    gap: 12px;
+}
+
+.navbar-nav {
+    align-items: center;
+}
+
+.nav-link {
+    border-radius: 7px;
+    font-weight: 800;
 }
 
 .navbar-toggler {
@@ -563,7 +579,23 @@ textarea.form-control {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-left: 18px;
+    margin-left: auto;
+    white-space: nowrap;
+}
+
+.app-login .navbar-nav {
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+}
+
+.app-login .user-link {
+    max-width: 270px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.app-login .logout-link {
     white-space: nowrap;
 }
 
@@ -641,13 +673,14 @@ textarea.form-control {
     color: #fff;
 }
 
-@media (max-width: 1199px) {
+@media (max-width: 1399px) {
     .app-navbar-inner {
         align-items: flex-start;
     }
 
     .navbar-collapse {
         padding-top: 14px;
+        width: 100%;
     }
 
     .navbar-nav {
@@ -665,12 +698,17 @@ textarea.form-control {
     }
 
     .app-login {
+        flex-wrap: wrap;
         align-items: flex-start;
         margin-left: 0;
         margin-top: 12px;
         padding-top: 12px;
         border-top: 1px solid var(--kc-border);
         white-space: normal;
+    }
+
+    .app-login .user-link {
+        max-width: min(100%, 320px);
     }
 }
 
