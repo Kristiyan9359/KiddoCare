@@ -9,11 +9,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (themeToggle instanceof HTMLButtonElement) {
             themeToggle.setAttribute("aria-pressed", (theme === "dark").toString());
-            themeToggle.title = theme === "dark" ? "Switch to light theme" : "Switch to dark theme";
+            themeToggle.title = theme === "dark"
+                ? themeToggle.dataset.switchToLightTitle || "Switch to light theme"
+                : themeToggle.dataset.switchToDarkTitle || "Switch to dark theme";
         }
 
         if (themeToggleLabel instanceof HTMLElement) {
-            themeToggleLabel.textContent = theme === "dark" ? "Dark" : "Light";
+            themeToggleLabel.textContent = theme === "dark"
+                ? themeToggle.dataset.darkLabel || "Dark"
+                : themeToggle.dataset.lightLabel || "Light";
         }
     };
 
@@ -80,7 +84,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         pendingForm = form;
         pendingSubmitter = submitter;
-        messageElement.textContent = submitter.dataset.confirmMessage || "Are you sure you want to continue?";
+        messageElement.textContent = submitter.dataset.confirmMessage ||
+            modalElement.dataset.defaultConfirmMessage ||
+            "Are you sure you want to continue?";
         confirmModal.show();
     });
 

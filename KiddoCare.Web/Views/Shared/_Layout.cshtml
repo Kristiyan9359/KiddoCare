@@ -1,4 +1,5 @@
-﻿@using static KiddoCare.Common.RoleConstants
+@using static KiddoCare.Common.RoleConstants
+@using System.Globalization
 
 @{
     bool isAuthenticated = User.Identity?.IsAuthenticated == true;
@@ -6,14 +7,16 @@
     bool isTeacher = User.IsInRole(Teacher);
     bool isParent = User.IsInRole(Parent);
     bool isStaff = isAdmin || isTeacher;
+    string currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+    string returnUrl = string.Concat(Context.Request.PathBase, Context.Request.Path, Context.Request.QueryString);
 }
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="@currentCulture">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - KiddoCare</title>
+    <title>@T[ViewData["Title"]?.ToString() ?? "KiddoCare"] - KiddoCare</title>
     <script type="importmap"></script>
     <script>
         (() => {
@@ -43,7 +46,7 @@
                         data-bs-target="#mainNavbar"
                         aria-controls="mainNavbar"
                         aria-expanded="false"
-                        aria-label="Toggle navigation">
+                        aria-label="@T["Toggle navigation"]">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -52,20 +55,20 @@
                         @if (!isAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">@T["Home"]</a>
                             </li>
                         }
 
                         @if (isAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+                                <a class="nav-link" asp-controller="Dashboard" asp-action="Index">@T["Dashboard"]</a>
                             </li>
 
                             @if (isStaff)
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-controller="Children" asp-action="Index">Children</a>
+                                    <a class="nav-link" asp-controller="Children" asp-action="Index">@T["Children"]</a>
                                 </li>
 
                                 <li class="nav-item dropdown">
@@ -74,22 +77,22 @@
                                        role="button"
                                        data-bs-toggle="dropdown"
                                        aria-expanded="false">
-                                        Attendance
+                                        @T["Attendance"]
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li>
                                             <a class="dropdown-item" asp-controller="Attendance" asp-action="Daily">
-                                                Manage Attendance
+                                                @T["Manage Attendance"]
                                             </a>
                                         </li>
                                         <li>
                                             <a class="dropdown-item" asp-controller="Attendance" asp-action="History">
-                                                Attendance History
+                                                @T["Attendance History"]
                                             </a>
                                         </li>
                                         <li>
                                             <a class="dropdown-item" asp-controller="DailyReports" asp-action="Index">
-                                                Daily Reports
+                                                @T["Daily Reports"]
                                             </a>
                                         </li>
                                     </ul>
@@ -102,33 +105,33 @@
                                    role="button"
                                    data-bs-toggle="dropdown"
                                    aria-expanded="false">
-                                    Requests
+                                    @T["Requests"]
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
                                         <a class="dropdown-item" asp-controller="AbsenceRequests" asp-action="Index">
-                                            Absence Notices
+                                            @T["Absence Notices"]
                                         </a>
                                     </li>
                                     <li>
                                         <a class="dropdown-item" asp-controller="ConsentRequests" asp-action="Index">
-                                            Consent Requests
+                                            @T["Consent Requests"]
                                         </a>
                                     </li>
                                     <li>
                                         <a class="dropdown-item" asp-controller="ChildDocuments" asp-action="Index">
-                                            Child Documents
+                                            @T["Child Documents"]
                                         </a>
                                     </li>
                                 </ul>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="Events" asp-action="Index">Events</a>
+                                <a class="nav-link" asp-controller="Events" asp-action="Index">@T["Events"]</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="Announcements" asp-action="Index">Announcements</a>
+                                <a class="nav-link" asp-controller="Announcements" asp-action="Index">@T["Announcements"]</a>
                             </li>
 
                             @if (isAdmin)
@@ -139,17 +142,17 @@
                                        role="button"
                                        data-bs-toggle="dropdown"
                                        aria-expanded="false">
-                                        Admin
+                                        @T["Admin"]
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a class="dropdown-item" asp-controller="Groups" asp-action="Index">Groups</a>
+                                            <a class="dropdown-item" asp-controller="Groups" asp-action="Index">@T["Groups"]</a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" asp-controller="Parents" asp-action="Index">Parents</a>
+                                            <a class="dropdown-item" asp-controller="Parents" asp-action="Index">@T["Parents"]</a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" asp-controller="Teachers" asp-action="Index">Teachers</a>
+                                            <a class="dropdown-item" asp-controller="Teachers" asp-action="Index">@T["Teachers"]</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -157,18 +160,46 @@
                         }
 
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">@T["Privacy"]</a>
                         </li>
                     </ul>
 
                     <div class="app-login">
+                        <form class="language-switcher"
+                              asp-controller="Home"
+                              asp-action="SetLanguage"
+                              method="post">
+                            <input type="hidden" name="returnUrl" value="@returnUrl" />
+                            <button type="submit"
+                                    name="culture"
+                                    value="en"
+                                    class="language-option @(currentCulture == "en" ? "active" : string.Empty)"
+                                    aria-label="@T["Switch to English"]"
+                                    aria-pressed="@(currentCulture == "en")">
+                                EN
+                            </button>
+                            <span aria-hidden="true"></span>
+                            <button type="submit"
+                                    name="culture"
+                                    value="bg"
+                                    class="language-option @(currentCulture == "bg" ? "active" : string.Empty)"
+                                    aria-label="@T["Switch to Bulgarian"]"
+                                    aria-pressed="@(currentCulture == "bg")">
+                                BG
+                            </button>
+                        </form>
+
                         <button type="button"
                                 class="theme-toggle"
                                 id="themeToggle"
-                                aria-label="Toggle color theme"
-                                aria-pressed="false">
+                                aria-label="@T["Toggle color theme"]"
+                                aria-pressed="false"
+                                data-light-label="@T["Light"]"
+                                data-dark-label="@T["Dark"]"
+                                data-switch-to-light-title="@T["Switch to light theme"]"
+                                data-switch-to-dark-title="@T["Switch to dark theme"]">
                             <span class="theme-toggle-icon" aria-hidden="true"></span>
-                            <span class="theme-toggle-label">Theme</span>
+                            <span class="theme-toggle-label">@T["Theme"]</span>
                         </button>
 
                         <partial name="_LoginPartial" />
@@ -185,7 +216,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2026 - KiddoCare - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2026 - KiddoCare - <a asp-area="" asp-controller="Home" asp-action="Privacy">@T["Privacy"]</a>
         </div>
     </footer>
 
@@ -193,34 +224,35 @@
          id="confirmActionModal"
          tabindex="-1"
          aria-labelledby="confirmActionModalTitle"
+         data-default-confirm-message="@T["Are you sure you want to continue?"]"
          aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <div>
-                        <div class="modal-kicker">Please confirm</div>
-                        <h5 class="modal-title" id="confirmActionModalTitle">Delete item</h5>
+                        <div class="modal-kicker">@T["Please confirm"]</div>
+                        <h5 class="modal-title" id="confirmActionModalTitle">@T["Delete item"]</h5>
                     </div>
                     <button type="button"
                             class="btn-close"
                             data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                            aria-label="@T["Close"]"></button>
                 </div>
                 <div class="modal-body">
                     <p id="confirmActionModalMessage" class="mb-0">
-                        Are you sure you want to continue?
+                        @T["Are you sure you want to continue?"]
                     </p>
                 </div>
                 <div class="modal-footer">
                     <button type="button"
                             class="btn btn-outline-secondary"
                             data-bs-dismiss="modal">
-                        Cancel
+                        @T["Cancel"]
                     </button>
                     <button type="button"
                             id="confirmActionModalButton"
                             class="btn btn-danger">
-                        Delete
+                        @T["Delete"]
                     </button>
                 </div>
             </div>

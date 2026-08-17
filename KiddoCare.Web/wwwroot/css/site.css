@@ -600,6 +600,47 @@ textarea.form-control {
     font-size: 0.86rem;
 }
 
+.language-switcher {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    min-height: 38px;
+    padding: 4px;
+    border: 1px solid var(--kc-border);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.72);
+    box-shadow: 0 8px 18px rgba(23, 32, 51, 0.06);
+}
+
+.language-switcher span {
+    width: 1px;
+    height: 18px;
+    background: var(--kc-border);
+}
+
+.language-option {
+    min-width: 38px;
+    min-height: 28px;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--kc-muted);
+    font-size: 0.78rem;
+    font-weight: 900;
+    letter-spacing: 0;
+    transition: background-color 0.16s ease, color 0.16s ease, transform 0.16s ease;
+}
+
+.language-option:hover {
+    color: var(--kc-primary);
+    transform: translateY(-1px);
+}
+
+.language-option.active {
+    background: linear-gradient(135deg, var(--kc-primary), #16a3b8);
+    color: #fff;
+}
+
 @media (max-width: 1199px) {
     .app-navbar-inner {
         align-items: flex-start;
@@ -2426,11 +2467,20 @@ textarea.form-control {
 }
 
 :root[data-theme="dark"] .theme-toggle,
+:root[data-theme="dark"] .language-switcher,
 :root[data-theme="dark"] .dropdown-menu {
     border-color: var(--kc-border);
     background: rgba(15, 23, 42, 0.94);
     color: var(--kc-text);
     box-shadow: var(--kc-shadow);
+}
+
+:root[data-theme="dark"] .language-option {
+    color: #a8b6cc;
+}
+
+:root[data-theme="dark"] .language-option:hover {
+    color: #bfdbfe;
 }
 
 :root[data-theme="dark"] .dropdown-item {

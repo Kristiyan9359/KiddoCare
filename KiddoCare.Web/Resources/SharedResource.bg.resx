@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Home" xml:space="preserve">
+    <value>Начало</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Табло</value>
+  </data>
+  <data name="Children" xml:space="preserve">
+    <value>Деца</value>
+  </data>
+  <data name="Attendance" xml:space="preserve">
+    <value>Присъствия</value>
+  </data>
+  <data name="Manage Attendance" xml:space="preserve">
+    <value>Управление на присъствия</value>
+  </data>
+  <data name="Attendance History" xml:space="preserve">
+    <value>История на присъствията</value>
+  </data>
+  <data name="Daily Reports" xml:space="preserve">
+    <value>Дневни отчети</value>
+  </data>
+  <data name="Requests" xml:space="preserve">
+    <value>Заявки</value>
+  </data>
+  <data name="Absence Notices" xml:space="preserve">
+    <value>Уведомления за отсъствие</value>
+  </data>
+  <data name="Consent Requests" xml:space="preserve">
+    <value>Искания за съгласие</value>
+  </data>
+  <data name="Child Documents" xml:space="preserve">
+    <value>Документи на дете</value>
+  </data>
+  <data name="Events" xml:space="preserve">
+    <value>Събития</value>
+  </data>
+  <data name="Announcements" xml:space="preserve">
+    <value>Съобщения</value>
+  </data>
+  <data name="Admin" xml:space="preserve">
+    <value>Админ</value>
+  </data>
+  <data name="Groups" xml:space="preserve">
+    <value>Групи</value>
+  </data>
+  <data name="Parents" xml:space="preserve">
+    <value>Родители</value>
+  </data>
+  <data name="Teachers" xml:space="preserve">
+    <value>Учители</value>
+  </data>
+  <data name="Privacy" xml:space="preserve">
+    <value>Поверителност</value>
+  </data>
+  <data name="Toggle navigation" xml:space="preserve">
+    <value>Отвори навигацията</value>
+  </data>
+  <data name="Switch to English" xml:space="preserve">
+    <value>Смени на английски</value>
+  </data>
+  <data name="Switch to Bulgarian" xml:space="preserve">
+    <value>Смени на български</value>
+  </data>
+  <data name="Toggle color theme" xml:space="preserve">
+    <value>Смени цветовата тема</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Тема</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Светла</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Тъмна</value>
+  </data>
+  <data name="Switch to light theme" xml:space="preserve">
+    <value>Смени към светла тема</value>
+  </data>
+  <data name="Switch to dark theme" xml:space="preserve">
+    <value>Смени към тъмна тема</value>
+  </data>
+  <data name="Please confirm" xml:space="preserve">
+    <value>Потвърждение</value>
+  </data>
+  <data name="Delete item" xml:space="preserve">
+    <value>Изтриване</value>
+  </data>
+  <data name="Are you sure you want to continue?" xml:space="preserve">
+    <value>Сигурни ли сте, че искате да продължите?</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Отказ</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Изтрий</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Затвори</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Регистрация</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Вход</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Изход</value>
+  </data>
+  <data name="Hello" xml:space="preserve">
+    <value>Здравей,</value>
+  </data>
+  <data name="Manage" xml:space="preserve">
+    <value>Управление</value>
+  </data>
+  <data name="Create Account" xml:space="preserve">
+    <value>Създай профил</value>
+  </data>
+  <data name="Kindergarten care platform" xml:space="preserve">
+    <value>Платформа за детска градина</value>
+  </data>
+  <data name="A calm workspace for child records, attendance, daily reports, parent notices and kindergarten events." xml:space="preserve">
+    <value>Подредено работно пространство за детски досиета, присъствия, дневни отчети, родителски уведомления и събития.</value>
+  </data>
+  <data name="Today" xml:space="preserve">
+    <value>Днес</value>
+  </data>
+  <data name="Ready for care" xml:space="preserve">
+    <value>Готови за грижа</value>
+  </data>
+  <data name="Attendance records" xml:space="preserve">
+    <value>Записи за присъствие</value>
+  </data>
+  <data name="Parent responses" xml:space="preserve">
+    <value>Отговори от родители</value>
+  </data>
+  <data name="Record the day" xml:space="preserve">
+    <value>Отрази деня</value>
+  </data>
+  <data name="Teachers manage attendance and share clear daily reports." xml:space="preserve">
+    <value>Учителите управляват присъствията и споделят ясни дневни отчети.</value>
+  </data>
+  <data name="Keep parents close" xml:space="preserve">
+    <value>Дръж родителите информирани</value>
+  </data>
+  <data name="Parents follow updates, respond to requests and send absence notices." xml:space="preserve">
+    <value>Родителите следят новостите, отговарят на заявки и изпращат уведомления за отсъствие.</value>
+  </data>
+  <data name="Stay organized" xml:space="preserve">
+    <value>Остани организиран</value>
+  </data>
+  <data name="Admins keep children, groups, documents and events connected." xml:space="preserve">
+    <value>Администраторите поддържат децата, групите, документите и събитията свързани.</value>
+  </data>
+  <data name="Teacher" xml:space="preserve">
+    <value>Учител</value>
+  </data>
+  <data name="Parent" xml:space="preserve">
+    <value>Родител</value>
+  </data>
+  <data name="Overview and management" xml:space="preserve">
+    <value>Преглед и управление</value>
+  </data>
+  <data name="Groups, children, staff, parents, documents and recent kindergarten activity in one place." xml:space="preserve">
+    <value>Групи, деца, екип, родители, документи и последна активност на едно място.</value>
+  </data>
+  <data name="Daily classroom flow" xml:space="preserve">
+    <value>Ежедневен ритъм в групата</value>
+  </data>
+  <data name="Attendance, reports, medical awareness, announcements and events for the assigned group." xml:space="preserve">
+    <value>Присъствия, отчети, медицинска информация, съобщения и събития за поверената група.</value>
+  </data>
+  <data name="Child updates" xml:space="preserve">
+    <value>Новини за детето</value>
+  </data>
+  <data name="Daily care summaries, consent responses, absence notices, documents and upcoming activities." xml:space="preserve">
+    <value>Дневни обобщения, съгласия, уведомления за отсъствие, документи и предстоящи активности.</value>
+  </data>
+  <data name="Privacy and data care" xml:space="preserve">
+    <value>Поверителност и грижа за данните</value>
+  </data>
+  <data name="Privacy Policy" xml:space="preserve">
+    <value>Политика за поверителност</value>
+  </data>
+  <data name="KiddoCare handles child, parent and kindergarten information with clear role-based access and careful file storage." xml:space="preserve">
+    <value>KiddoCare обработва информация за деца, родители и детската градина с ясен достъп според ролята и внимателно съхранение на файловете.</value>
+  </data>
+  <data name="Information Stored" xml:space="preserve">
+    <value>Съхранявана информация</value>
+  </data>
+  <data name="The application stores child profiles, parent and teacher contact details, attendance records, daily reports, medical notes, absence notices, consent requests, announcements, events and uploaded child documents." xml:space="preserve">
+    <value>Приложението съхранява профили на деца, контакти на родители и учители, присъствия, дневни отчети, медицински бележки, уведомления за отсъствие, искания за съгласие, съобщения, събития и качени документи.</value>
+  </data>
+  <data name="Access Control" xml:space="preserve">
+    <value>Контрол на достъпа</value>
+  </data>
+  <data name="Access is role-based. Administrators manage kindergarten data, teachers work with their assigned group, and parents can view information connected to their own children." xml:space="preserve">
+    <value>Достъпът е според ролята. Администраторите управляват данните, учителите работят със своята група, а родителите виждат информация за собствените си деца.</value>
+  </data>
+  <data name="Uploaded Files" xml:space="preserve">
+    <value>Качени файлове</value>
+  </data>
+  <data name="Uploaded photos and documents are stored outside the public Git repository. Local development files are kept under protected application storage and should be moved to a dedicated cloud storage provider before production deployment." xml:space="preserve">
+    <value>Качените снимки и документи се съхраняват извън публичното Git repository. Локалните файлове за разработка са в защитено приложение хранилище и преди production deployment трябва да се преместят в cloud storage.</value>
+  </data>
+  <data name="Demo Data" xml:space="preserve">
+    <value>Демо данни</value>
+  </data>
+  <data name="Development demo data is fictional and exists only to test the application workflow. Real child photos, personal documents and production passwords should never be committed to source control." xml:space="preserve">
+    <value>Демо данните за разработка са измислени и служат само за тестване на workflow-а. Реални снимки, лични документи и production пароли никога не трябва да се commit-ват.</value>
+  </data>
+</root>
