@@ -2,16 +2,16 @@
 @model KiddoCare.ViewModels.ChildDocuments.ChildDocumentReviewViewModel
 
 @{
-    ViewData["Title"] = "Review Child Document";
+    ViewData["Title"] = T["Review Child Document"];
     var backUrl = Model.ReturnUrl ?? Url.Action("Index");
 }
 
 <div class="page-header">
     <div>
-        <div class="page-kicker">Documents</div>
-        <h1 class="page-title">Review Child Document</h1>
+        <div class="page-kicker">@T["Documents"]</div>
+        <h1 class="page-title">@T["Review Child Document"]</h1>
         <p class="page-subtitle">
-            Approve or decline a document uploaded for a child.
+            @T["Approve or decline a document uploaded for a child."]
         </p>
     </div>
 </div>
@@ -20,31 +20,31 @@
     <section class="info-panel">
         <div class="section-heading-row">
             <div>
-                <h2>Document Summary</h2>
-                <p>Open the file before saving your decision.</p>
+                <h2>@T["Document Summary"]</h2>
+                <p>@T["Open the file before saving your decision."]</p>
             </div>
         </div>
 
         <dl class="info-list">
             <div>
-                <dt>Child</dt>
+                <dt>@T["Child"]</dt>
                 <dd>@Model.ChildFullName</dd>
             </div>
             <div>
-                <dt>Title</dt>
+                <dt>@T["Title"]</dt>
                 <dd>@Model.Title</dd>
             </div>
             <div>
-                <dt>Type</dt>
-                <dd>@Model.Type</dd>
+                <dt>@T["Type"]</dt>
+                <dd>@T[Model.Type.ToString()]</dd>
             </div>
             <div>
-                <dt>File</dt>
+                <dt>@T["File"]</dt>
                 <dd>
                     <a asp-action="Download"
                        asp-route-id="@Model.Id"
                        class="btn btn-sm btn-outline-secondary">
-                        Open document
+                        @T["Open document"]
                     </a>
                 </dd>
             </div>
@@ -54,8 +54,8 @@
     <section class="info-panel">
         <div class="section-heading-row">
             <div>
-                <h2>Review Decision</h2>
-                <p>Select the final status for this document.</p>
+                <h2>@T["Review Decision"]</h2>
+                <p>@T["Select the final status for this document."]</p>
             </div>
         </div>
 
@@ -66,27 +66,27 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="mb-3">
-                <label asp-for="Status" class="form-label"></label>
+                <label asp-for="Status" class="form-label">@T["Status"]</label>
                 <select asp-for="Status" class="form-select">
-                    <option value="0">Select decision...</option>
-                    <option value="@((int)RequestStatus.Approved)">Approve document</option>
-                    <option value="@((int)RequestStatus.Rejected)">Decline document</option>
+                    <option value="0">@T["Select decision..."]</option>
+                    <option value="@((int)RequestStatus.Approved)">@T["Approve document"]</option>
+                    <option value="@((int)RequestStatus.Rejected)">@T["Decline document"]</option>
                 </select>
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="ReviewNote" class="form-label"></label>
+                <label asp-for="ReviewNote" class="form-label">@T["Review Note"]</label>
                 <textarea asp-for="ReviewNote"
                           class="form-control"
                           rows="5"
-                          placeholder="Optional note about the review decision."></textarea>
+                          placeholder='@T["Optional note about the review decision."]'></textarea>
                 <span asp-validation-for="ReviewNote" class="text-danger"></span>
             </div>
 
             <div class="form-action-row">
-                <button type="submit" class="btn btn-primary">Save Review</button>
-                <a href="@backUrl" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-primary">@T["Save Review"]</button>
+                <a href="@backUrl" class="btn btn-secondary">@T["Cancel"]</a>
             </div>
         </form>
     </section>

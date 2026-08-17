@@ -2,16 +2,16 @@
 @model KiddoCare.ViewModels.ChildDocuments.ChildDocumentCreateViewModel
 
 @{
-    ViewData["Title"] = "Upload Child Document";
+    ViewData["Title"] = T["Upload Child Document"];
     var backUrl = Model.ReturnUrl ?? Url.Action("Index");
 }
 
 <div class="page-header">
     <div>
-        <div class="page-kicker">Documents</div>
-        <h1 class="page-title">Upload Child Document</h1>
+        <div class="page-kicker">@T["Documents"]</div>
+        <h1 class="page-title">@T["Upload Child Document"]</h1>
         <p class="page-subtitle">
-            Add a PDF, JPG or PNG document to a child profile.
+            @T["Add a PDF, JPG or PNG document to a child profile."]
         </p>
     </div>
 </div>
@@ -24,15 +24,15 @@
 
         <div class="form-grid">
             <div class="mb-3">
-                <label asp-for="ChildId" class="form-label"></label>
+                <label asp-for="ChildId" class="form-label">@T["Child"]</label>
                 <select asp-for="ChildId" asp-items="Model.Children" class="form-select">
-                    <option value="">Select child...</option>
+                    <option value="">@T["Select child..."]</option>
                 </select>
                 <span asp-validation-for="ChildId" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="Type" class="form-label"></label>
+                <label asp-for="Type" class="form-label">@T["Type"]</label>
                 <select asp-for="Type"
                         asp-items="Html.GetEnumSelectList<ChildDocumentType>()"
                         class="form-select">
@@ -41,18 +41,18 @@
             </div>
 
             <div class="mb-3">
-                <label asp-for="Title" class="form-label"></label>
+                <label asp-for="Title" class="form-label">@T["Title"]</label>
                 <input asp-for="Title"
                        class="form-control"
-                       placeholder="Example: Medical declaration" />
+                       placeholder='@T["Example: Medical declaration"]' />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
         </div>
 
         <div class="file-upload-panel">
             <div>
-                <label asp-for="File" class="form-label"></label>
-                <p class="form-help">Allowed formats: PDF, JPG and PNG. Maximum size: 5 MB.</p>
+                <label asp-for="File" class="form-label">@T["File"]</label>
+                <p class="form-help">@T["Allowed formats: PDF, JPG and PNG. Maximum size: 5 MB."]</p>
             </div>
 
             <div class="flex-grow-1">
@@ -62,8 +62,8 @@
         </div>
 
         <div class="form-action-row">
-            <button type="submit" class="btn btn-primary">Upload</button>
-            <a href="@backUrl" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary">@T["Upload"]</button>
+            <a href="@backUrl" class="btn btn-secondary">@T["Cancel"]</a>
         </div>
     </form>
 </section>

@@ -1,16 +1,16 @@
 @model KiddoCare.ViewModels.AbsenceRequests.AbsenceRequestReviewViewModel
 
 @{
-    ViewData["Title"] = "Confirm Absence Notice";
+    ViewData["Title"] = T["Confirm Absence Notice"];
     var backUrl = Model.ReturnUrl ?? Url.Action("Index");
 }
 
 <div class="page-header">
     <div>
-        <div class="page-kicker">Attendance</div>
-        <h1 class="page-title">Confirm Absence Notice</h1>
+        <div class="page-kicker">@T["Attendance"]</div>
+        <h1 class="page-title">@T["Confirm Absence Notice"]</h1>
         <p class="page-subtitle">
-            Confirm that the kindergarten has reviewed this absence notice.
+            @T["Confirm that the kindergarten has reviewed this absence notice."]
         </p>
     </div>
 </div>
@@ -19,18 +19,18 @@
     <section class="info-panel">
         <div class="section-heading-row">
             <div>
-                <h2>Notice Summary</h2>
-                <p>Review the details before saving confirmation.</p>
+                <h2>@T["Notice Summary"]</h2>
+                <p>@T["Review the details before saving confirmation."]</p>
             </div>
         </div>
 
         <dl class="info-list">
             <div>
-                <dt>Child</dt>
+                <dt>@T["Child"]</dt>
                 <dd>@Model.ChildFullName</dd>
             </div>
             <div>
-                <dt>Period</dt>
+                <dt>@T["Period"]</dt>
                 <dd>
                     @Model.StartDate.ToString("dd MMM yyyy")
                     -
@@ -38,13 +38,13 @@
                 </dd>
             </div>
             <div>
-                <dt>Reason</dt>
-                <dd>@Model.Reason</dd>
+                <dt>@T["Reason"]</dt>
+                <dd>@T[Model.Reason.ToString()]</dd>
             </div>
             <div>
-                <dt>Note</dt>
+                <dt>@T["Note"]</dt>
                 <dd style="white-space: pre-line">
-                    @(Model.ParentNote ?? "No note provided.")
+                    @(Model.ParentNote ?? T["No note provided."].Value)
                 </dd>
             </div>
         </dl>
@@ -53,8 +53,8 @@
     <section class="info-panel">
         <div class="section-heading-row">
             <div>
-                <h2>Confirmation</h2>
-                <p>Add an optional staff note.</p>
+                <h2>@T["Confirmation"]</h2>
+                <p>@T["Add an optional staff note."]</p>
             </div>
         </div>
 
@@ -69,13 +69,13 @@
                 <textarea asp-for="ReviewNote"
                           class="form-control"
                           rows="5"
-                          placeholder="Optional confirmation note."></textarea>
+                          placeholder='@T["Optional confirmation note."]'></textarea>
                 <span asp-validation-for="ReviewNote" class="text-danger"></span>
             </div>
 
             <div class="form-action-row">
-                <button type="submit" class="btn btn-primary">Save Confirmation</button>
-                <a href="@backUrl" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-primary">@T["Save Confirmation"]</button>
+                <a href="@backUrl" class="btn btn-secondary">@T["Cancel"]</a>
             </div>
         </form>
     </section>

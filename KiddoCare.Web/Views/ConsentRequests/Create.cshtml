@@ -2,15 +2,15 @@
 @model KiddoCare.ViewModels.ConsentRequests.ConsentRequestCreateViewModel
 
 @{
-    ViewData["Title"] = "Create Consent Request";
+    ViewData["Title"] = T["Create Consent Request"];
 }
 
 <div class="page-header">
     <div>
-        <div class="page-kicker">Parent permissions</div>
-        <h1 class="page-title">Create Consent Request</h1>
+        <div class="page-kicker">@T["Parent permissions"]</div>
+        <h1 class="page-title">@T["Create Consent Request"]</h1>
         <p class="page-subtitle">
-            Ask a parent to approve or decline a specific permission for their child.
+            @T["Ask a parent to approve or decline a specific permission for their child."]
         </p>
     </div>
 </div>
@@ -21,15 +21,15 @@
 
         <div class="form-grid">
             <div class="mb-3">
-                <label asp-for="ChildId" class="form-label"></label>
+                <label asp-for="ChildId" class="form-label">@T["Child"]</label>
                 <select asp-for="ChildId" asp-items="Model.Children" class="form-select">
-                    <option value="">Select child...</option>
+                    <option value="">@T["Select child..."]</option>
                 </select>
                 <span asp-validation-for="ChildId" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="Type" class="form-label"></label>
+                <label asp-for="Type" class="form-label">@T["Type"]</label>
                 <select asp-for="Type"
                         asp-items="Html.GetEnumSelectList<ConsentRequestType>()"
                         class="form-select">
@@ -38,26 +38,26 @@
             </div>
 
             <div class="mb-3">
-                <label asp-for="Title" class="form-label"></label>
+                <label asp-for="Title" class="form-label">@T["Title"]</label>
                 <input asp-for="Title"
                        class="form-control"
-                       placeholder="Example: Photo permission" />
+                       placeholder='@T["Example: Photo permission"]' />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
         </div>
 
         <div class="mb-3">
-            <label asp-for="Description" class="form-label"></label>
+            <label asp-for="Description" class="form-label">@T["Description"]</label>
             <textarea asp-for="Description"
                       class="form-control"
                       rows="5"
-                      placeholder="Explain clearly what the parent is approving or declining."></textarea>
+                      placeholder='@T["Explain clearly what the parent is approving or declining."]'></textarea>
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
 
         <div class="form-action-row">
-            <button type="submit" class="btn btn-primary">Create Request</button>
-            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary">@T["Create Request"]</button>
+            <a asp-action="Index" class="btn btn-secondary">@T["Cancel"]</a>
         </div>
     </form>
 </section>

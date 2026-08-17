@@ -2,16 +2,16 @@
 @model KiddoCare.ViewModels.AbsenceRequests.AbsenceRequestCreateViewModel
 
 @{
-    ViewData["Title"] = "Create Absence Notice";
+    ViewData["Title"] = T["Create Absence Notice"];
     var backUrl = Model.ReturnUrl ?? Url.Action("Index");
 }
 
 <div class="page-header">
     <div>
-        <div class="page-kicker">Attendance</div>
-        <h1 class="page-title">Create Absence Notice</h1>
+        <div class="page-kicker">@T["Attendance"]</div>
+        <h1 class="page-title">@T["Create Absence Notice"]</h1>
         <p class="page-subtitle">
-            Register when a child will be away and why.
+            @T["Register when a child will be away and why."]
         </p>
     </div>
 </div>
@@ -24,15 +24,15 @@
 
         <div class="form-grid">
             <div class="mb-3">
-                <label asp-for="ChildId" class="form-label"></label>
+                <label asp-for="ChildId" class="form-label">@T["Child"]</label>
                 <select asp-for="ChildId" asp-items="Model.Children" class="form-select">
-                    <option value="">Select child...</option>
+                    <option value="">@T["Select child..."]</option>
                 </select>
                 <span asp-validation-for="ChildId" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="Reason" class="form-label"></label>
+                <label asp-for="Reason" class="form-label">@T["Reason"]</label>
                 <select asp-for="Reason"
                         asp-items="Html.GetEnumSelectList<AbsenceReason>()"
                         class="form-select">
@@ -41,7 +41,7 @@
             </div>
 
             <div class="mb-3">
-                <label asp-for="StartDate" class="form-label"></label>
+                <label asp-for="StartDate" class="form-label">@T["Start Date"]</label>
                 <input asp-for="StartDate"
                        type="date"
                        min="@DateTime.Today.ToString("yyyy-MM-dd")"
@@ -50,7 +50,7 @@
             </div>
 
             <div class="mb-3">
-                <label asp-for="EndDate" class="form-label"></label>
+                <label asp-for="EndDate" class="form-label">@T["End Date"]</label>
                 <input asp-for="EndDate"
                        type="date"
                        min="@DateTime.Today.ToString("yyyy-MM-dd")"
@@ -60,17 +60,17 @@
         </div>
 
         <div class="mb-3">
-            <label asp-for="ParentNote" class="form-label"></label>
+            <label asp-for="ParentNote" class="form-label">@T["Parent Note"]</label>
             <textarea asp-for="ParentNote"
                       class="form-control"
                       rows="4"
-                      placeholder="Optional note for the kindergarten staff."></textarea>
+                      placeholder='@T["Optional note for the kindergarten staff."]'></textarea>
             <span asp-validation-for="ParentNote" class="text-danger"></span>
         </div>
 
         <div class="form-action-row">
-            <button type="submit" class="btn btn-primary">Create Notice</button>
-            <a href="@backUrl" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary">@T["Create Notice"]</button>
+            <a href="@backUrl" class="btn btn-secondary">@T["Cancel"]</a>
         </div>
     </form>
 </section>

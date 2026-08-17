@@ -2,17 +2,17 @@
 @model KiddoCare.ViewModels.ChildDocuments.ChildDocumentDetailsViewModel
 
 @{
-    ViewData["Title"] = "Child Document Details";
+    ViewData["Title"] = T["Child Document Details"];
     var currentUrl = Context.Request.Path + Context.Request.QueryString;
     var backUrl = Model.ReturnUrl ?? Url.Action("Index");
 }
 
 <div class="page-header">
     <div>
-        <div class="page-kicker">Documents</div>
+        <div class="page-kicker">@T["Documents"]</div>
         <h1 class="page-title">@Model.Title</h1>
         <p class="page-subtitle">
-            Review document details, upload information and review status.
+            @T["Review document details, upload information and review status."]
         </p>
     </div>
 
@@ -20,7 +20,7 @@
         <a asp-action="Download"
            asp-route-id="@Model.Id"
            class="btn btn-primary">
-            Download
+            @T["Download"]
         </a>
 
         @if (Model.CanReview)
@@ -29,11 +29,11 @@
                asp-route-id="@Model.Id"
                asp-route-returnUrl="@currentUrl"
                class="btn btn-outline-primary">
-                Review
+                @T["Review"]
             </a>
         }
 
-        <a href="@backUrl" class="btn btn-secondary">Back</a>
+        <a href="@backUrl" class="btn btn-secondary">@T["Back"]</a>
     </div>
 </div>
 
@@ -41,38 +41,38 @@
     <section class="info-panel">
         <div class="section-heading-row">
             <div>
-                <h2>Document Summary</h2>
-                <p>@Model.Type document for @Model.ChildFullName.</p>
+                <h2>@T["Document Summary"]</h2>
+                <p>@T["{0} document for {1}.", T[Model.Type.ToString()], Model.ChildFullName]</p>
             </div>
         </div>
 
         <dl class="info-list">
             <div>
-                <dt>Child</dt>
+                <dt>@T["Child"]</dt>
                 <dd>@Model.ChildFullName</dd>
             </div>
             <div>
-                <dt>Group</dt>
+                <dt>@T["Group"]</dt>
                 <dd>@Model.GroupName</dd>
             </div>
             <div>
-                <dt>Type</dt>
-                <dd>@Model.Type</dd>
+                <dt>@T["Type"]</dt>
+                <dd>@T[Model.Type.ToString()]</dd>
             </div>
             <div>
-                <dt>Status</dt>
+                <dt>@T["Status"]</dt>
                 <dd>
                     @if (Model.Status == RequestStatus.Pending)
                     {
-                        <span class="badge bg-warning text-dark">Pending</span>
+                        <span class="badge bg-warning text-dark">@T["Pending"]</span>
                     }
                     else if (Model.Status == RequestStatus.Approved)
                     {
-                        <span class="badge bg-success">Approved</span>
+                        <span class="badge bg-success">@T["Approved"]</span>
                     }
                     else if (Model.Status == RequestStatus.Rejected)
                     {
-                        <span class="badge bg-danger">Declined</span>
+                        <span class="badge bg-danger">@T["Declined"]</span>
                     }
                 </dd>
             </div>
@@ -82,26 +82,26 @@
     <section class="info-panel">
         <div class="section-heading-row">
             <div>
-                <h2>Upload And Review</h2>
-                <p>Audit information for this document.</p>
+                <h2>@T["Upload And Review"]</h2>
+                <p>@T["Audit information for this document."]</p>
             </div>
         </div>
 
         <dl class="info-list">
             <div>
-                <dt>Uploaded By</dt>
+                <dt>@T["Uploaded By"]</dt>
                 <dd>@Model.UploadedByEmail</dd>
             </div>
             <div>
-                <dt>Uploaded On</dt>
+                <dt>@T["Uploaded On"]</dt>
                 <dd>@Model.UploadedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</dd>
             </div>
             <div>
-                <dt>Reviewed On</dt>
+                <dt>@T["Reviewed On"]</dt>
                 <dd>
                     @(Model.ReviewedOn.HasValue
                         ? Model.ReviewedOn.Value.ToLocalTime().ToString("dd MMM yyyy, HH:mm")
-                        : "Not reviewed yet")
+                        : T["Not reviewed yet"].Value)
                 </dd>
             </div>
         </dl>
@@ -111,12 +111,12 @@
 <section class="info-panel mt-3">
     <div class="section-heading-row">
         <div>
-            <h2>Review Note</h2>
-            <p>Optional note from the reviewer.</p>
+            <h2>@T["Review Note"]</h2>
+            <p>@T["Optional note from the reviewer."]</p>
         </div>
     </div>
 
     <p class="mb-0" style="white-space: pre-line">
-        @(Model.ReviewNote ?? "No review note.")
+        @(Model.ReviewNote ?? T["No review note."].Value)
     </p>
 </section>

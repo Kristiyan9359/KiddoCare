@@ -2,29 +2,29 @@
 @model KiddoCare.ViewModels.AbsenceRequests.AbsenceRequestListViewModel
 
 @{
-    ViewData["Title"] = "Absence Notices";
+    ViewData["Title"] = T["Absence Notices"];
     var currentUrl = Context.Request.Path + Context.Request.QueryString;
 }
 
 <div class="list-page-header">
     <div>
-        <div class="page-kicker">Attendance</div>
-        <h1 class="page-title">Absence Notices</h1>
+        <div class="page-kicker">@T["Attendance"]</div>
+        <h1 class="page-title">@T["Absence Notices"]</h1>
         <p class="page-subtitle">
-            Track planned absences, sickness notices and family-submitted attendance updates.
+            @T["Track planned absences, sickness notices and family-submitted attendance updates."]
         </p>
     </div>
 
     <div class="page-actions">
         @if (!string.IsNullOrWhiteSpace(Model.ReturnUrl))
         {
-            <a href="@Model.ReturnUrl" class="btn btn-secondary">Back</a>
+            <a href="@Model.ReturnUrl" class="btn btn-secondary">@T["Back"]</a>
         }
 
         <a asp-action="Create"
            asp-route-returnUrl="@currentUrl"
            class="btn btn-primary">
-            Create Notice
+            @T["Create Notice"]
         </a>
     </div>
 </div>
@@ -32,15 +32,15 @@
 <section id="absence-notices-list" class="section-panel">
     <div class="section-panel-header">
         <div>
-            <h2 class="section-panel-title">Notice Records</h2>
+            <h2 class="section-panel-title">@T["Notice Records"]</h2>
             <p class="section-panel-subtitle">
-                @Model.TotalAbsenceRequests absence notices found.
+                @T["{0} absence notices found.", Model.TotalAbsenceRequests]
             </p>
         </div>
 
         <div class="records-toolbar">
             <div class="records-page-size">
-                <label for="absencePageSizeSelect" class="form-label mb-0">Show</label>
+                <label for="absencePageSizeSelect" class="form-label mb-0">@T["Show"]</label>
                 <select id="absencePageSizeSelect" class="form-select form-select-sm">
                     <option value="10" selected="@(Model.PageSize == 10)">10</option>
                     <option value="15" selected="@(Model.PageSize == 15)">15</option>
@@ -51,7 +51,7 @@
             @if (Model.TotalPages > 0)
             {
                 <div class="text-muted">
-                    Page @Model.Page of @Model.TotalPages
+                    @T["Page {0} of {1}", Model.Page, Model.TotalPages]
                 </div>
             }
         </div>
@@ -65,8 +65,8 @@
 
         <div class="filter-bar mb-3">
             <div>
-                <strong>Filter notices</strong>
-                <span>Review all notices or focus on pending confirmations.</span>
+                <strong>@T["Filter notices"]</strong>
+                <span>@T["Review all notices or focus on pending confirmations."]</span>
             </div>
 
             <div class="action-buttons">
@@ -75,7 +75,7 @@
                    asp-route-returnUrl="@Model.ReturnUrl"
                    asp-route-pageSize="@Model.PageSize"
                    class="btn btn-sm @(Model.StatusFilter == null ? "btn-primary" : "btn-outline-primary")">
-                    All
+                    @T["All"]
                 </a>
 
                 <a asp-action="Index"
@@ -84,7 +84,7 @@
                    asp-route-returnUrl="@Model.ReturnUrl"
                    asp-route-pageSize="@Model.PageSize"
                    class="btn btn-sm @(Model.StatusFilter == "pending" ? "btn-primary" : "btn-outline-primary")">
-                    Pending
+                    @T["Pending"]
                 </a>
 
                 <a asp-action="Index"
@@ -93,19 +93,19 @@
                    asp-route-returnUrl="@Model.ReturnUrl"
                    asp-route-pageSize="@Model.PageSize"
                    class="btn btn-sm @(Model.StatusFilter == "confirmed" || Model.StatusFilter == "approved" ? "btn-primary" : "btn-outline-primary")">
-                    Confirmed
+                    @T["Confirmed"]
                 </a>
             </div>
         </div>
 
         <div class="form-grid align-items-end">
             <div class="mb-3 search-suggest-wrapper">
-                <label asp-for="SearchTerm" class="form-label">Search</label>
+                <label asp-for="SearchTerm" class="form-label">@T["Search"]</label>
                 <input asp-for="SearchTerm"
                        id="absenceSearchInput"
                        class="form-control"
                        autocomplete="off"
-                       placeholder="Search by child, group or reason..." />
+                       placeholder='@T["Search by child, group or reason..."]' />
 
                 <div id="absenceSearchSuggestions"
                      class="search-suggestions"
@@ -114,11 +114,11 @@
             </div>
 
             <div class="mb-3">
-                <button type="submit" class="btn btn-primary">Search</button>
+                <button type="submit" class="btn btn-primary">@T["Search"]</button>
                 <a asp-action="Index"
                    asp-route-returnUrl="@Model.ReturnUrl"
                    class="btn btn-secondary">
-                    Clear
+                    @T["Clear"]
                 </a>
             </div>
         </div>
@@ -127,12 +127,12 @@
     @if (!Model.AbsenceRequests.Any())
     {
         <section class="empty-state compact-empty-state">
-            <h2>No absence notices found</h2>
-            <p>Try changing the search or status filter, or create a notice when a child will be away from kindergarten.</p>
+            <h2>@T["No absence notices found"]</h2>
+            <p>@T["Try changing the search or status filter, or create a notice when a child will be away from kindergarten."]</p>
             <a asp-action="Create"
                asp-route-returnUrl="@currentUrl"
                class="btn btn-primary">
-                Create Notice
+                @T["Create Notice"]
             </a>
         </section>
     }
@@ -142,47 +142,47 @@
             <table class="table table-striped align-middle mb-0 mobile-card-table">
                 <thead>
                     <tr>
-                        <th>Child</th>
-                        <th>Group</th>
-                        <th>Period</th>
-                        <th>Reason</th>
-                        <th>Status</th>
-                        <th class="text-end">Actions</th>
+                        <th>@T["Child"]</th>
+                        <th>@T["Group"]</th>
+                        <th>@T["Period"]</th>
+                        <th>@T["Reason"]</th>
+                        <th>@T["Status"]</th>
+                        <th class="text-end">@T["Actions"]</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var request in Model.AbsenceRequests)
                     {
                         <tr>
-                            <td data-label="Child"><div class="fw-bold">@request.ChildFullName</div></td>
-                            <td data-label="Group">@request.GroupName</td>
-                            <td data-label="Period">
+                            <td data-label='@T["Child"]'><div class="fw-bold">@request.ChildFullName</div></td>
+                            <td data-label='@T["Group"]'>@request.GroupName</td>
+                            <td data-label='@T["Period"]'>
                                 @request.StartDate.ToString("dd MMM yyyy")
                                 -
                                 @request.EndDate.ToString("dd MMM yyyy")
                             </td>
-                            <td data-label="Reason">@request.Reason</td>
-                            <td data-label="Status">
+                            <td data-label='@T["Reason"]'>@T[request.Reason.ToString()]</td>
+                            <td data-label='@T["Status"]'>
                                 @if (request.Status == RequestStatus.Pending)
                                 {
-                                    <span class="badge bg-warning text-dark">Pending</span>
+                                    <span class="badge bg-warning text-dark">@T["Pending"]</span>
                                 }
                                 else if (request.Status == RequestStatus.Approved)
                                 {
-                                    <span class="badge bg-success">Confirmed</span>
+                                    <span class="badge bg-success">@T["Confirmed"]</span>
                                 }
                                 else
                                 {
-                                    <span class="badge bg-secondary">@request.Status</span>
+                                    <span class="badge bg-secondary">@T[request.Status.ToString()]</span>
                                 }
                             </td>
-                            <td class="text-end" data-label="Actions">
+                            <td class="text-end" data-label='@T["Actions"]'>
                                 <div class="action-buttons">
                                     <a asp-action="Details"
                                        asp-route-id="@request.Id"
                                        asp-route-returnUrl="@currentUrl"
                                        class="btn btn-sm btn-outline-secondary">
-                                        Details
+                                        @T["Details"]
                                     </a>
 
                                     @if (request.CanReview)
@@ -191,7 +191,7 @@
                                            asp-route-id="@request.Id"
                                            asp-route-returnUrl="@currentUrl"
                                            class="btn btn-sm btn-outline-primary">
-                                            Confirm
+                                            @T["Confirm"]
                                         </a>
                                     }
                                 </div>
@@ -204,7 +204,7 @@
 
         @if (Model.TotalPages > 1)
         {
-            <nav class="attendance-pager" aria-label="Absence notice pages">
+            <nav class="attendance-pager" aria-label='@T["Absence notice pages"]'>
                 <a class="attendance-page-link @(Model.HasPreviousPage ? string.Empty : "disabled")"
                    asp-action="Index"
                    asp-route-searchTerm="@Model.SearchTerm"
@@ -213,7 +213,7 @@
                    asp-route-page="@(Model.Page - 1)"
                    asp-route-pageSize="@Model.PageSize"
                    asp-fragment="absence-notices-list">
-                    Previous
+                    @T["Previous"]
                 </a>
 
                 <div class="attendance-page-numbers">
@@ -240,7 +240,7 @@
                    asp-route-page="@(Model.Page + 1)"
                    asp-route-pageSize="@Model.PageSize"
                    asp-fragment="absence-notices-list">
-                    Next
+                    @T["Next"]
                 </a>
             </nav>
         }

@@ -3,29 +3,29 @@
 @model KiddoCare.ViewModels.ConsentRequests.ConsentRequestListViewModel
 
 @{
-    ViewData["Title"] = "Consent Requests";
+    ViewData["Title"] = T["Consent Requests"];
     bool canCreate = User.IsInRole(Admin) || User.IsInRole(Teacher);
     var currentUrl = Context.Request.Path + Context.Request.QueryString;
 }
 
 <div class="list-page-header">
     <div>
-        <div class="page-kicker">Parent permissions</div>
-        <h1 class="page-title">Consent Requests</h1>
+        <div class="page-kicker">@T["Parent permissions"]</div>
+        <h1 class="page-title">@T["Consent Requests"]</h1>
         <p class="page-subtitle">
-            Manage parent permissions for photos, trips, activities and special care situations.
+            @T["Manage parent permissions for photos, trips, activities and special care situations."]
         </p>
     </div>
 
     <div class="page-actions">
         @if (!string.IsNullOrWhiteSpace(Model.ReturnUrl))
         {
-            <a href="@Model.ReturnUrl" class="btn btn-secondary">Back</a>
+            <a href="@Model.ReturnUrl" class="btn btn-secondary">@T["Back"]</a>
         }
 
         @if (canCreate)
         {
-            <a asp-action="Create" class="btn btn-primary">Create Consent Request</a>
+            <a asp-action="Create" class="btn btn-primary">@T["Create Consent Request"]</a>
         }
     </div>
 </div>
@@ -33,15 +33,15 @@
 <section id="consent-requests-list" class="section-panel">
     <div class="section-panel-header">
         <div>
-            <h2 class="section-panel-title">Consent Records</h2>
+            <h2 class="section-panel-title">@T["Consent Records"]</h2>
             <p class="section-panel-subtitle">
-                @Model.TotalConsentRequests consent requests found.
+                @T["{0} consent requests found.", Model.TotalConsentRequests]
             </p>
         </div>
 
         <div class="records-toolbar">
             <div class="records-page-size">
-                <label for="consentPageSizeSelect" class="form-label mb-0">Show</label>
+                <label for="consentPageSizeSelect" class="form-label mb-0">@T["Show"]</label>
                 <select id="consentPageSizeSelect" class="form-select form-select-sm">
                     <option value="10" selected="@(Model.PageSize == 10)">10</option>
                     <option value="15" selected="@(Model.PageSize == 15)">15</option>
@@ -52,7 +52,7 @@
             @if (Model.TotalPages > 0)
             {
                 <div class="text-muted">
-                    Page @Model.Page of @Model.TotalPages
+                    @T["Page {0} of {1}", Model.Page, Model.TotalPages]
                 </div>
             }
         </div>
@@ -66,8 +66,8 @@
 
         <div class="filter-bar mb-3">
             <div>
-                <strong>Filter requests</strong>
-                <span>Review pending, approved or declined parent responses.</span>
+                <strong>@T["Filter requests"]</strong>
+                <span>@T["Review pending, approved or declined parent responses."]</span>
             </div>
 
             <div class="action-buttons">
@@ -76,7 +76,7 @@
                    asp-route-returnUrl="@Model.ReturnUrl"
                    asp-route-pageSize="@Model.PageSize"
                    class="btn btn-sm @(Model.StatusFilter == null ? "btn-primary" : "btn-outline-primary")">
-                    All
+                    @T["All"]
                 </a>
 
                 <a asp-action="Index"
@@ -85,7 +85,7 @@
                    asp-route-returnUrl="@Model.ReturnUrl"
                    asp-route-pageSize="@Model.PageSize"
                    class="btn btn-sm @(Model.StatusFilter == "pending" ? "btn-primary" : "btn-outline-primary")">
-                    Pending
+                    @T["Pending"]
                 </a>
 
                 <a asp-action="Index"
@@ -94,7 +94,7 @@
                    asp-route-returnUrl="@Model.ReturnUrl"
                    asp-route-pageSize="@Model.PageSize"
                    class="btn btn-sm @(Model.StatusFilter == "approved" ? "btn-primary" : "btn-outline-primary")">
-                    Approved
+                    @T["Approved"]
                 </a>
 
                 <a asp-action="Index"
@@ -103,19 +103,19 @@
                    asp-route-returnUrl="@Model.ReturnUrl"
                    asp-route-pageSize="@Model.PageSize"
                    class="btn btn-sm @(Model.StatusFilter == "rejected" ? "btn-primary" : "btn-outline-primary")">
-                    Declined
+                    @T["Declined"]
                 </a>
             </div>
         </div>
 
         <div class="form-grid align-items-end">
             <div class="mb-3 search-suggest-wrapper">
-                <label asp-for="SearchTerm" class="form-label">Search</label>
+                <label asp-for="SearchTerm" class="form-label">@T["Search"]</label>
                 <input asp-for="SearchTerm"
                        id="consentSearchInput"
                        class="form-control"
                        autocomplete="off"
-                       placeholder="Search by child, title, group or type..." />
+                       placeholder='@T["Search by child, title, group or type..."]' />
 
                 <div id="consentSearchSuggestions"
                      class="search-suggestions"
@@ -124,11 +124,11 @@
             </div>
 
             <div class="mb-3">
-                <button type="submit" class="btn btn-primary">Search</button>
+                <button type="submit" class="btn btn-primary">@T["Search"]</button>
                 <a asp-action="Index"
                    asp-route-returnUrl="@Model.ReturnUrl"
                    class="btn btn-secondary">
-                    Clear
+                    @T["Clear"]
                 </a>
             </div>
         </div>
@@ -137,12 +137,12 @@
     @if (!Model.ConsentRequests.Any())
     {
         <section class="empty-state compact-empty-state">
-            <h2>No consent requests found</h2>
-            <p>Try changing the search or status filter, or create a request when parent permission is needed.</p>
+            <h2>@T["No consent requests found"]</h2>
+            <p>@T["Try changing the search or status filter, or create a request when parent permission is needed."]</p>
 
             @if (canCreate)
             {
-                <a asp-action="Create" class="btn btn-primary">Create Consent Request</a>
+                <a asp-action="Create" class="btn btn-primary">@T["Create Consent Request"]</a>
             }
         </section>
     }
@@ -152,45 +152,45 @@
             <table class="table table-striped align-middle mb-0 mobile-card-table">
                 <thead>
                     <tr>
-                        <th>Child</th>
-                        <th>Group</th>
-                        <th>Title</th>
-                        <th>Type</th>
-                        <th>Status</th>
-                        <th>Created On</th>
-                        <th class="text-end">Actions</th>
+                        <th>@T["Child"]</th>
+                        <th>@T["Group"]</th>
+                        <th>@T["Title"]</th>
+                        <th>@T["Type"]</th>
+                        <th>@T["Status"]</th>
+                        <th>@T["Created On"]</th>
+                        <th class="text-end">@T["Actions"]</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var request in Model.ConsentRequests)
                     {
                         <tr>
-                            <td data-label="Child"><div class="fw-bold">@request.ChildFullName</div></td>
-                            <td data-label="Group">@request.GroupName</td>
-                            <td data-label="Title">@request.Title</td>
-                            <td data-label="Type">@request.Type</td>
-                            <td data-label="Status">
+                            <td data-label='@T["Child"]'><div class="fw-bold">@request.ChildFullName</div></td>
+                            <td data-label='@T["Group"]'>@request.GroupName</td>
+                            <td data-label='@T["Title"]'>@request.Title</td>
+                            <td data-label='@T["Type"]'>@T[request.Type.ToString()]</td>
+                            <td data-label='@T["Status"]'>
                                 @if (request.Status == RequestStatus.Pending)
                                 {
-                                    <span class="badge bg-warning text-dark">Pending</span>
+                                    <span class="badge bg-warning text-dark">@T["Pending"]</span>
                                 }
                                 else if (request.Status == RequestStatus.Approved)
                                 {
-                                    <span class="badge bg-success">Approved</span>
+                                    <span class="badge bg-success">@T["Approved"]</span>
                                 }
                                 else if (request.Status == RequestStatus.Rejected)
                                 {
-                                    <span class="badge bg-danger">Declined</span>
+                                    <span class="badge bg-danger">@T["Declined"]</span>
                                 }
                             </td>
-                            <td data-label="Created On">@request.CreatedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
-                            <td class="text-end" data-label="Actions">
+                            <td data-label='@T["Created On"]'>@request.CreatedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
+                            <td class="text-end" data-label='@T["Actions"]'>
                                 <div class="action-buttons">
                                     <a asp-action="Details"
                                        asp-route-id="@request.Id"
                                        asp-route-returnUrl="@currentUrl"
                                        class="btn btn-sm btn-outline-secondary">
-                                        Details
+                                        @T["Details"]
                                     </a>
 
                                     @if (request.CanRespond)
@@ -199,7 +199,7 @@
                                            asp-route-id="@request.Id"
                                            asp-route-returnUrl="@currentUrl"
                                            class="btn btn-sm btn-outline-primary">
-                                            Respond
+                                            @T["Respond"]
                                         </a>
                                     }
                                 </div>
@@ -212,7 +212,7 @@
 
         @if (Model.TotalPages > 1)
         {
-            <nav class="attendance-pager" aria-label="Consent request pages">
+            <nav class="attendance-pager" aria-label='@T["Consent request pages"]'>
                 <a class="attendance-page-link @(Model.HasPreviousPage ? string.Empty : "disabled")"
                    asp-action="Index"
                    asp-route-searchTerm="@Model.SearchTerm"
@@ -221,7 +221,7 @@
                    asp-route-page="@(Model.Page - 1)"
                    asp-route-pageSize="@Model.PageSize"
                    asp-fragment="consent-requests-list">
-                    Previous
+                    @T["Previous"]
                 </a>
 
                 <div class="attendance-page-numbers">
@@ -248,7 +248,7 @@
                    asp-route-page="@(Model.Page + 1)"
                    asp-route-pageSize="@Model.PageSize"
                    asp-fragment="consent-requests-list">
-                    Next
+                    @T["Next"]
                 </a>
             </nav>
         }

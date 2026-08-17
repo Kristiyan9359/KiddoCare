@@ -918,4 +918,391 @@
   <data name="Upset" xml:space="preserve">
     <value>Разстроено</value>
   </data>
+  <data name="Track planned absences, sickness notices and family-submitted attendance updates." xml:space="preserve">
+    <value>Следи планирани отсъствия, болнични уведомления и подадени от семейството промени в присъствието.</value>
+  </data>
+  <data name="Create Notice" xml:space="preserve">
+    <value>Създай уведомление</value>
+  </data>
+  <data name="Notice Records" xml:space="preserve">
+    <value>Записи с уведомления</value>
+  </data>
+  <data name="{0} absence notices found." xml:space="preserve">
+    <value>Намерени са {0} уведомления за отсъствие.</value>
+  </data>
+  <data name="Filter notices" xml:space="preserve">
+    <value>Филтрирай уведомления</value>
+  </data>
+  <data name="Review all notices or focus on pending confirmations." xml:space="preserve">
+    <value>Прегледай всички уведомления или се фокусирай върху чакащите потвърждение.</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>Всички</value>
+  </data>
+  <data name="Search by child, group or reason..." xml:space="preserve">
+    <value>Търси по дете, група или причина...</value>
+  </data>
+  <data name="No absence notices found" xml:space="preserve">
+    <value>Няма намерени уведомления за отсъствие</value>
+  </data>
+  <data name="Try changing the search or status filter, or create a notice when a child will be away from kindergarten." xml:space="preserve">
+    <value>Пробвай да промениш търсенето или статуса, или създай уведомление, когато дете ще отсъства от детската градина.</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Потвърди</value>
+  </data>
+  <data name="Absence notice pages" xml:space="preserve">
+    <value>Страници с уведомления за отсъствие</value>
+  </data>
+  <data name="Register when a child will be away and why." xml:space="preserve">
+    <value>Отбележи кога детето ще отсъства и защо.</value>
+  </data>
+  <data name="Select child..." xml:space="preserve">
+    <value>Избери дете...</value>
+  </data>
+  <data name="Start Date" xml:space="preserve">
+    <value>Начална дата</value>
+  </data>
+  <data name="End Date" xml:space="preserve">
+    <value>Крайна дата</value>
+  </data>
+  <data name="Parent Note" xml:space="preserve">
+    <value>Бележка от родителя</value>
+  </data>
+  <data name="Optional note for the kindergarten staff." xml:space="preserve">
+    <value>Бележка към екипа на детската градина по желание.</value>
+  </data>
+  <data name="Absence Notice Details" xml:space="preserve">
+    <value>Детайли за уведомление за отсъствие</value>
+  </data>
+  <data name="Absence Notice" xml:space="preserve">
+    <value>Уведомление за отсъствие</value>
+  </data>
+  <data name="Review the child, absence period and confirmation details." xml:space="preserve">
+    <value>Прегледай детето, периода на отсъствие и детайлите за потвърждение.</value>
+  </data>
+  <data name="Notice Summary" xml:space="preserve">
+    <value>Обобщение на уведомлението</value>
+  </data>
+  <data name="{0} from {1}." xml:space="preserve">
+    <value>{0} от група {1}.</value>
+  </data>
+  <data name="Submission" xml:space="preserve">
+    <value>Подаване</value>
+  </data>
+  <data name="Who submitted the notice and when." xml:space="preserve">
+    <value>Кой е подал уведомлението и кога.</value>
+  </data>
+  <data name="Submitted By" xml:space="preserve">
+    <value>Подадено от</value>
+  </data>
+  <data name="Submitted On" xml:space="preserve">
+    <value>Подадено на</value>
+  </data>
+  <data name="Confirmed On" xml:space="preserve">
+    <value>Потвърдено на</value>
+  </data>
+  <data name="Not confirmed yet" xml:space="preserve">
+    <value>Все още не е потвърдено</value>
+  </data>
+  <data name="Additional information from the submitter." xml:space="preserve">
+    <value>Допълнителна информация от подателя.</value>
+  </data>
+  <data name="No note provided." xml:space="preserve">
+    <value>Няма добавена бележка.</value>
+  </data>
+  <data name="Confirmation Note" xml:space="preserve">
+    <value>Бележка за потвърждение</value>
+  </data>
+  <data name="Internal confirmation note from staff." xml:space="preserve">
+    <value>Вътрешна бележка за потвърждение от екипа.</value>
+  </data>
+  <data name="No confirmation note." xml:space="preserve">
+    <value>Няма бележка за потвърждение.</value>
+  </data>
+  <data name="Confirm Absence Notice" xml:space="preserve">
+    <value>Потвърди уведомление за отсъствие</value>
+  </data>
+  <data name="Confirm that the kindergarten has reviewed this absence notice." xml:space="preserve">
+    <value>Потвърди, че детската градина е прегледала това уведомление за отсъствие.</value>
+  </data>
+  <data name="Review the details before saving confirmation." xml:space="preserve">
+    <value>Прегледай детайлите преди да запазиш потвърждението.</value>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>Потвърждение</value>
+  </data>
+  <data name="Add an optional staff note." xml:space="preserve">
+    <value>Добави бележка от екипа по желание.</value>
+  </data>
+  <data name="Optional confirmation note." xml:space="preserve">
+    <value>Бележка за потвърждение по желание.</value>
+  </data>
+  <data name="Save Confirmation" xml:space="preserve">
+    <value>Запази потвърждение</value>
+  </data>
+  <data name="Other" xml:space="preserve">
+    <value>Друго</value>
+  </data>
+  <data name="FamilyReason" xml:space="preserve">
+    <value>Семейна причина</value>
+  </data>
+  <data name="Rejected" xml:space="preserve">
+    <value>Отказано</value>
+  </data>
+  <data name="Parent permissions" xml:space="preserve">
+    <value>Родителски разрешения</value>
+  </data>
+  <data name="Manage parent permissions for photos, trips, activities and special care situations." xml:space="preserve">
+    <value>Управлявай родителски разрешения за снимки, екскурзии, активности и специални грижи.</value>
+  </data>
+  <data name="Create Consent Request" xml:space="preserve">
+    <value>Създай искане за съгласие</value>
+  </data>
+  <data name="Consent Records" xml:space="preserve">
+    <value>Записи със съгласия</value>
+  </data>
+  <data name="{0} consent requests found." xml:space="preserve">
+    <value>Намерени са {0} искания за съгласие.</value>
+  </data>
+  <data name="Filter requests" xml:space="preserve">
+    <value>Филтрирай искания</value>
+  </data>
+  <data name="Review pending, approved or declined parent responses." xml:space="preserve">
+    <value>Прегледай чакащи, одобрени или отказани родителски отговори.</value>
+  </data>
+  <data name="Search by child, title, group or type..." xml:space="preserve">
+    <value>Търси по дете, заглавие, група или тип...</value>
+  </data>
+  <data name="No consent requests found" xml:space="preserve">
+    <value>Няма намерени искания за съгласие</value>
+  </data>
+  <data name="Try changing the search or status filter, or create a request when parent permission is needed." xml:space="preserve">
+    <value>Пробвай да промениш търсенето или статуса, или създай искане, когато е нужно родителско разрешение.</value>
+  </data>
+  <data name="Ask a parent to approve or decline a specific permission for their child." xml:space="preserve">
+    <value>Помоли родител да одобри или откаже конкретно разрешение за детето си.</value>
+  </data>
+  <data name="Example: Photo permission" xml:space="preserve">
+    <value>Пример: разрешение за снимки</value>
+  </data>
+  <data name="Explain clearly what the parent is approving or declining." xml:space="preserve">
+    <value>Обясни ясно какво родителят одобрява или отказва.</value>
+  </data>
+  <data name="Create Request" xml:space="preserve">
+    <value>Създай искане</value>
+  </data>
+  <data name="Consent Request Details" xml:space="preserve">
+    <value>Детайли за искане за съгласие</value>
+  </data>
+  <data name="Review consent details and parent response." xml:space="preserve">
+    <value>Прегледай детайлите за съгласие и отговора на родителя.</value>
+  </data>
+  <data name="Request Summary" xml:space="preserve">
+    <value>Обобщение на искането</value>
+  </data>
+  <data name="{0} consent for {1}." xml:space="preserve">
+    <value>{0} за {1}.</value>
+  </data>
+  <data name="Audit" xml:space="preserve">
+    <value>История</value>
+  </data>
+  <data name="Creation and response information." xml:space="preserve">
+    <value>Информация за създаване и отговор.</value>
+  </data>
+  <data name="Created By" xml:space="preserve">
+    <value>Създадено от</value>
+  </data>
+  <data name="Responded On" xml:space="preserve">
+    <value>Отговорено на</value>
+  </data>
+  <data name="Not responded yet" xml:space="preserve">
+    <value>Все още няма отговор</value>
+  </data>
+  <data name="What the parent is being asked to approve." xml:space="preserve">
+    <value>Какво се иска родителят да одобри.</value>
+  </data>
+  <data name="No description provided." xml:space="preserve">
+    <value>Няма добавено описание.</value>
+  </data>
+  <data name="Optional note submitted with the response." xml:space="preserve">
+    <value>Бележка по желание, подадена с отговора.</value>
+  </data>
+  <data name="No parent note." xml:space="preserve">
+    <value>Няма бележка от родителя.</value>
+  </data>
+  <data name="Respond Consent Request" xml:space="preserve">
+    <value>Отговори на искане за съгласие</value>
+  </data>
+  <data name="Choose whether you give permission for this request." xml:space="preserve">
+    <value>Избери дали даваш разрешение за това искане.</value>
+  </data>
+  <data name="Read the details before submitting your response." xml:space="preserve">
+    <value>Прочети детайлите преди да изпратиш отговора си.</value>
+  </data>
+  <data name="Your Response" xml:space="preserve">
+    <value>Твоят отговор</value>
+  </data>
+  <data name="Approve or decline this consent request." xml:space="preserve">
+    <value>Одобри или откажи това искане за съгласие.</value>
+  </data>
+  <data name="Select response..." xml:space="preserve">
+    <value>Избери отговор...</value>
+  </data>
+  <data name="Give consent" xml:space="preserve">
+    <value>Дай съгласие</value>
+  </data>
+  <data name="Decline" xml:space="preserve">
+    <value>Откажи</value>
+  </data>
+  <data name="Save Response" xml:space="preserve">
+    <value>Запази отговора</value>
+  </data>
+  <data name="PhotoPermission" xml:space="preserve">
+    <value>Разрешение за снимки</value>
+  </data>
+  <data name="FieldTrip" xml:space="preserve">
+    <value>Екскурзия</value>
+  </data>
+  <data name="MedicalAssistance" xml:space="preserve">
+    <value>Медицинска помощ</value>
+  </data>
+  <data name="EventParticipation" xml:space="preserve">
+    <value>Участие в събитие</value>
+  </data>
+  <data name="Documents" xml:space="preserve">
+    <value>Документи</value>
+  </data>
+  <data name="Upload, review and manage documents connected to children." xml:space="preserve">
+    <value>Качвай, преглеждай и управлявай документи, свързани с децата.</value>
+  </data>
+  <data name="Document Records" xml:space="preserve">
+    <value>Записи с документи</value>
+  </data>
+  <data name="{0} document records found." xml:space="preserve">
+    <value>Намерени са {0} документа.</value>
+  </data>
+  <data name="Filter documents" xml:space="preserve">
+    <value>Филтрирай документи</value>
+  </data>
+  <data name="Review pending, approved or declined uploads." xml:space="preserve">
+    <value>Прегледай чакащи, одобрени или отказани качвания.</value>
+  </data>
+  <data name="No documents found" xml:space="preserve">
+    <value>Няма намерени документи</value>
+  </data>
+  <data name="Try changing the search or status filter, or upload a child document." xml:space="preserve">
+    <value>Пробвай да промениш търсенето или статуса, или качи документ за дете.</value>
+  </data>
+  <data name="Review" xml:space="preserve">
+    <value>Преглед</value>
+  </data>
+  <data name="Child document pages" xml:space="preserve">
+    <value>Страници с документи на дете</value>
+  </data>
+  <data name="Upload Child Document" xml:space="preserve">
+    <value>Качи документ на дете</value>
+  </data>
+  <data name="Add a PDF, JPG or PNG document to a child profile." xml:space="preserve">
+    <value>Добави PDF, JPG или PNG документ към профила на детето.</value>
+  </data>
+  <data name="Example: Medical declaration" xml:space="preserve">
+    <value>Пример: медицинска декларация</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>Файл</value>
+  </data>
+  <data name="Allowed formats: PDF, JPG and PNG. Maximum size: 5 MB." xml:space="preserve">
+    <value>Разрешени формати: PDF, JPG и PNG. Максимален размер: 5 MB.</value>
+  </data>
+  <data name="Upload" xml:space="preserve">
+    <value>Качи</value>
+  </data>
+  <data name="Child Document Details" xml:space="preserve">
+    <value>Детайли за документ на дете</value>
+  </data>
+  <data name="Review document details, upload information and review status." xml:space="preserve">
+    <value>Прегледай детайлите на документа, информацията за качване и статуса.</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>Изтегли</value>
+  </data>
+  <data name="Document Summary" xml:space="preserve">
+    <value>Обобщение на документа</value>
+  </data>
+  <data name="{0} document for {1}." xml:space="preserve">
+    <value>{0} за {1}.</value>
+  </data>
+  <data name="Upload And Review" xml:space="preserve">
+    <value>Качване и преглед</value>
+  </data>
+  <data name="Audit information for this document." xml:space="preserve">
+    <value>История и информация за този документ.</value>
+  </data>
+  <data name="Uploaded By" xml:space="preserve">
+    <value>Качено от</value>
+  </data>
+  <data name="Reviewed On" xml:space="preserve">
+    <value>Прегледано на</value>
+  </data>
+  <data name="Not reviewed yet" xml:space="preserve">
+    <value>Все още не е прегледано</value>
+  </data>
+  <data name="Review Note" xml:space="preserve">
+    <value>Бележка от прегледа</value>
+  </data>
+  <data name="Optional note from the reviewer." xml:space="preserve">
+    <value>Бележка от проверяващия по желание.</value>
+  </data>
+  <data name="No review note." xml:space="preserve">
+    <value>Няма бележка от прегледа.</value>
+  </data>
+  <data name="Review Child Document" xml:space="preserve">
+    <value>Прегледай документ на дете</value>
+  </data>
+  <data name="Approve or decline a document uploaded for a child." xml:space="preserve">
+    <value>Одобри или откажи документ, качен за дете.</value>
+  </data>
+  <data name="Open the file before saving your decision." xml:space="preserve">
+    <value>Отвори файла преди да запазиш решението си.</value>
+  </data>
+  <data name="Open document" xml:space="preserve">
+    <value>Отвори документа</value>
+  </data>
+  <data name="Review Decision" xml:space="preserve">
+    <value>Решение от прегледа</value>
+  </data>
+  <data name="Select the final status for this document." xml:space="preserve">
+    <value>Избери крайния статус за този документ.</value>
+  </data>
+  <data name="Select decision..." xml:space="preserve">
+    <value>Избери решение...</value>
+  </data>
+  <data name="Approve document" xml:space="preserve">
+    <value>Одобри документа</value>
+  </data>
+  <data name="Decline document" xml:space="preserve">
+    <value>Откажи документа</value>
+  </data>
+  <data name="Optional note about the review decision." xml:space="preserve">
+    <value>Бележка по желание за решението от прегледа.</value>
+  </data>
+  <data name="Save Review" xml:space="preserve">
+    <value>Запази прегледа</value>
+  </data>
+  <data name="BirthCertificate" xml:space="preserve">
+    <value>Акт за раждане</value>
+  </data>
+  <data name="MedicalNote" xml:space="preserve">
+    <value>Медицинска бележка</value>
+  </data>
+  <data name="AllergyDeclaration" xml:space="preserve">
+    <value>Декларация за алергии</value>
+  </data>
+  <data name="ParentConsent" xml:space="preserve">
+    <value>Родителско съгласие</value>
+  </data>
+  <data name="Contract" xml:space="preserve">
+    <value>Договор</value>
+  </data>
 </root>

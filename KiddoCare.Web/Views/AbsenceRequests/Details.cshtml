@@ -2,17 +2,17 @@
 @model KiddoCare.ViewModels.AbsenceRequests.AbsenceRequestDetailsViewModel
 
 @{
-    ViewData["Title"] = "Absence Notice Details";
+    ViewData["Title"] = T["Absence Notice Details"];
     var currentUrl = Context.Request.Path + Context.Request.QueryString;
     var backUrl = Model.ReturnUrl ?? Url.Action("Index");
 }
 
 <div class="page-header">
     <div>
-        <div class="page-kicker">Attendance</div>
-        <h1 class="page-title">Absence Notice</h1>
+        <div class="page-kicker">@T["Attendance"]</div>
+        <h1 class="page-title">@T["Absence Notice"]</h1>
         <p class="page-subtitle">
-            Review the child, absence period and confirmation details.
+            @T["Review the child, absence period and confirmation details."]
         </p>
     </div>
 
@@ -23,11 +23,11 @@
                asp-route-id="@Model.Id"
                asp-route-returnUrl="@currentUrl"
                class="btn btn-primary">
-                Confirm
+                @T["Confirm"]
             </a>
         }
 
-        <a href="@backUrl" class="btn btn-secondary">Back</a>
+        <a href="@backUrl" class="btn btn-secondary">@T["Back"]</a>
     </div>
 </div>
 
@@ -35,22 +35,22 @@
     <section class="info-panel">
         <div class="section-heading-row">
             <div>
-                <h2>Notice Summary</h2>
-                <p>@Model.ChildFullName from @Model.GroupName.</p>
+                <h2>@T["Notice Summary"]</h2>
+                <p>@T["{0} from {1}.", Model.ChildFullName, Model.GroupName]</p>
             </div>
         </div>
 
         <dl class="info-list">
             <div>
-                <dt>Child</dt>
+                <dt>@T["Child"]</dt>
                 <dd>@Model.ChildFullName</dd>
             </div>
             <div>
-                <dt>Group</dt>
+                <dt>@T["Group"]</dt>
                 <dd>@Model.GroupName</dd>
             </div>
             <div>
-                <dt>Period</dt>
+                <dt>@T["Period"]</dt>
                 <dd>
                     @Model.StartDate.ToString("dd MMM yyyy")
                     -
@@ -58,23 +58,23 @@
                 </dd>
             </div>
             <div>
-                <dt>Reason</dt>
-                <dd>@Model.Reason</dd>
+                <dt>@T["Reason"]</dt>
+                <dd>@T[Model.Reason.ToString()]</dd>
             </div>
             <div>
-                <dt>Status</dt>
+                <dt>@T["Status"]</dt>
                 <dd>
                     @if (Model.Status == RequestStatus.Pending)
                     {
-                        <span class="badge bg-warning text-dark">Pending</span>
+                        <span class="badge bg-warning text-dark">@T["Pending"]</span>
                     }
                     else if (Model.Status == RequestStatus.Approved)
                     {
-                        <span class="badge bg-success">Confirmed</span>
+                        <span class="badge bg-success">@T["Confirmed"]</span>
                     }
                     else
                     {
-                        <span class="badge bg-secondary">@Model.Status</span>
+                        <span class="badge bg-secondary">@T[Model.Status.ToString()]</span>
                     }
                 </dd>
             </div>
@@ -84,26 +84,26 @@
     <section class="info-panel">
         <div class="section-heading-row">
             <div>
-                <h2>Submission</h2>
-                <p>Who submitted the notice and when.</p>
+                <h2>@T["Submission"]</h2>
+                <p>@T["Who submitted the notice and when."]</p>
             </div>
         </div>
 
         <dl class="info-list">
             <div>
-                <dt>Submitted By</dt>
+                <dt>@T["Submitted By"]</dt>
                 <dd>@Model.RequestedByEmail</dd>
             </div>
             <div>
-                <dt>Submitted On</dt>
+                <dt>@T["Submitted On"]</dt>
                 <dd>@Model.RequestedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</dd>
             </div>
             <div>
-                <dt>Confirmed On</dt>
+                <dt>@T["Confirmed On"]</dt>
                 <dd>
                     @(Model.ReviewedOn.HasValue
                         ? Model.ReviewedOn.Value.ToLocalTime().ToString("dd MMM yyyy, HH:mm")
-                        : "Not confirmed yet")
+                        : T["Not confirmed yet"].Value)
                 </dd>
             </div>
         </dl>
@@ -114,26 +114,26 @@
     <section class="info-panel">
         <div class="section-heading-row">
             <div>
-                <h2>Note</h2>
-                <p>Additional information from the submitter.</p>
+                <h2>@T["Note"]</h2>
+                <p>@T["Additional information from the submitter."]</p>
             </div>
         </div>
 
         <p class="mb-0" style="white-space: pre-line">
-            @(Model.ParentNote ?? "No note provided.")
+            @(Model.ParentNote ?? T["No note provided."].Value)
         </p>
     </section>
 
     <section class="info-panel">
         <div class="section-heading-row">
             <div>
-                <h2>Confirmation Note</h2>
-                <p>Internal confirmation note from staff.</p>
+                <h2>@T["Confirmation Note"]</h2>
+                <p>@T["Internal confirmation note from staff."]</p>
             </div>
         </div>
 
         <p class="mb-0" style="white-space: pre-line">
-            @(Model.ReviewNote ?? "No confirmation note.")
+            @(Model.ReviewNote ?? T["No confirmation note."].Value)
         </p>
     </section>
 </div>

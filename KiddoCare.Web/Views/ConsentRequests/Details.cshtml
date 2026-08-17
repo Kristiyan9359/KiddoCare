@@ -2,17 +2,17 @@
 @model KiddoCare.ViewModels.ConsentRequests.ConsentRequestDetailsViewModel
 
 @{
-    ViewData["Title"] = "Consent Request Details";
+    ViewData["Title"] = T["Consent Request Details"];
     var currentUrl = Context.Request.Path + Context.Request.QueryString;
     var backUrl = Model.ReturnUrl ?? Url.Action("Index");
 }
 
 <div class="page-header">
     <div>
-        <div class="page-kicker">Parent permissions</div>
+        <div class="page-kicker">@T["Parent permissions"]</div>
         <h1 class="page-title">@Model.Title</h1>
         <p class="page-subtitle">
-            Review consent details and parent response.
+            @T["Review consent details and parent response."]
         </p>
     </div>
 
@@ -23,11 +23,11 @@
                asp-route-id="@Model.Id"
                asp-route-returnUrl="@currentUrl"
                class="btn btn-primary">
-                Respond
+                @T["Respond"]
             </a>
         }
 
-        <a href="@backUrl" class="btn btn-secondary">Back</a>
+        <a href="@backUrl" class="btn btn-secondary">@T["Back"]</a>
     </div>
 </div>
 
@@ -35,38 +35,38 @@
     <section class="info-panel">
         <div class="section-heading-row">
             <div>
-                <h2>Request Summary</h2>
-                <p>@Model.Type consent for @Model.ChildFullName.</p>
+                <h2>@T["Request Summary"]</h2>
+                <p>@T["{0} consent for {1}.", T[Model.Type.ToString()], Model.ChildFullName]</p>
             </div>
         </div>
 
         <dl class="info-list">
             <div>
-                <dt>Child</dt>
+                <dt>@T["Child"]</dt>
                 <dd>@Model.ChildFullName</dd>
             </div>
             <div>
-                <dt>Group</dt>
+                <dt>@T["Group"]</dt>
                 <dd>@Model.GroupName</dd>
             </div>
             <div>
-                <dt>Type</dt>
-                <dd>@Model.Type</dd>
+                <dt>@T["Type"]</dt>
+                <dd>@T[Model.Type.ToString()]</dd>
             </div>
             <div>
-                <dt>Status</dt>
+                <dt>@T["Status"]</dt>
                 <dd>
                     @if (Model.Status == RequestStatus.Pending)
                     {
-                        <span class="badge bg-warning text-dark">Pending</span>
+                        <span class="badge bg-warning text-dark">@T["Pending"]</span>
                     }
                     else if (Model.Status == RequestStatus.Approved)
                     {
-                        <span class="badge bg-success">Approved</span>
+                        <span class="badge bg-success">@T["Approved"]</span>
                     }
                     else if (Model.Status == RequestStatus.Rejected)
                     {
-                        <span class="badge bg-danger">Declined</span>
+                        <span class="badge bg-danger">@T["Declined"]</span>
                     }
                 </dd>
             </div>
@@ -76,26 +76,26 @@
     <section class="info-panel">
         <div class="section-heading-row">
             <div>
-                <h2>Audit</h2>
-                <p>Creation and response information.</p>
+                <h2>@T["Audit"]</h2>
+                <p>@T["Creation and response information."]</p>
             </div>
         </div>
 
         <dl class="info-list">
             <div>
-                <dt>Created By</dt>
+                <dt>@T["Created By"]</dt>
                 <dd>@Model.CreatedByEmail</dd>
             </div>
             <div>
-                <dt>Created On</dt>
+                <dt>@T["Created On"]</dt>
                 <dd>@Model.CreatedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</dd>
             </div>
             <div>
-                <dt>Responded On</dt>
+                <dt>@T["Responded On"]</dt>
                 <dd>
                     @(Model.RespondedOn.HasValue
                         ? Model.RespondedOn.Value.ToLocalTime().ToString("dd MMM yyyy, HH:mm")
-                        : "Not responded yet")
+                        : T["Not responded yet"].Value)
                 </dd>
             </div>
         </dl>
@@ -106,26 +106,26 @@
     <section class="info-panel">
         <div class="section-heading-row">
             <div>
-                <h2>Description</h2>
-                <p>What the parent is being asked to approve.</p>
+                <h2>@T["Description"]</h2>
+                <p>@T["What the parent is being asked to approve."]</p>
             </div>
         </div>
 
         <p class="announcement-message">
-            @(Model.Description ?? "No description provided.")
+            @(Model.Description ?? T["No description provided."].Value)
         </p>
     </section>
 
     <section class="info-panel">
         <div class="section-heading-row">
             <div>
-                <h2>Parent Note</h2>
-                <p>Optional note submitted with the response.</p>
+                <h2>@T["Parent Note"]</h2>
+                <p>@T["Optional note submitted with the response."]</p>
             </div>
         </div>
 
         <p class="mb-0" style="white-space: pre-line">
-            @(Model.ParentNote ?? "No parent note.")
+            @(Model.ParentNote ?? T["No parent note."].Value)
         </p>
     </section>
 </div>

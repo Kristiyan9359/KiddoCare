@@ -3,24 +3,24 @@
 @model KiddoCare.ViewModels.ChildDocuments.ChildDocumentListViewModel
 
 @{
-    ViewData["Title"] = "Child Documents";
+    ViewData["Title"] = T["Child Documents"];
     bool canUpload = User.IsInRole(Admin) || User.IsInRole(Parent);
     var currentUrl = Context.Request.Path + Context.Request.QueryString;
 }
 
 <div class="list-page-header">
     <div>
-        <div class="page-kicker">Documents</div>
-        <h1 class="page-title">Child Documents</h1>
+        <div class="page-kicker">@T["Documents"]</div>
+        <h1 class="page-title">@T["Child Documents"]</h1>
         <p class="page-subtitle">
-            Upload, review and manage documents connected to children.
+            @T["Upload, review and manage documents connected to children."]
         </p>
     </div>
 
     <div class="page-actions">
         @if (!string.IsNullOrWhiteSpace(Model.ReturnUrl))
         {
-            <a href="@Model.ReturnUrl" class="btn btn-secondary">Back</a>
+            <a href="@Model.ReturnUrl" class="btn btn-secondary">@T["Back"]</a>
         }
 
         @if (canUpload)
@@ -28,7 +28,7 @@
             <a asp-action="Create"
                asp-route-returnUrl="@currentUrl"
                class="btn btn-primary">
-                Upload Document
+                @T["Upload Document"]
             </a>
         }
     </div>
@@ -37,15 +37,15 @@
 <section id="documents-list" class="section-panel">
     <div class="section-panel-header">
         <div>
-            <h2 class="section-panel-title">Document Records</h2>
+            <h2 class="section-panel-title">@T["Document Records"]</h2>
             <p class="section-panel-subtitle">
-                @Model.TotalDocuments document records found.
+                @T["{0} document records found.", Model.TotalDocuments]
             </p>
         </div>
 
         <div class="records-toolbar">
             <div class="records-page-size">
-                <label for="documentsPageSizeSelect" class="form-label mb-0">Show</label>
+                <label for="documentsPageSizeSelect" class="form-label mb-0">@T["Show"]</label>
                 <select id="documentsPageSizeSelect" class="form-select form-select-sm">
                     <option value="10" selected="@(Model.PageSize == 10)">10</option>
                     <option value="15" selected="@(Model.PageSize == 15)">15</option>
@@ -56,7 +56,7 @@
             @if (Model.TotalPages > 0)
             {
                 <div class="text-muted">
-                    Page @Model.Page of @Model.TotalPages
+                    @T["Page {0} of {1}", Model.Page, Model.TotalPages]
                 </div>
             }
         </div>
@@ -70,8 +70,8 @@
 
         <div class="filter-bar mb-3">
             <div>
-                <strong>Filter documents</strong>
-                <span>Review pending, approved or declined uploads.</span>
+                <strong>@T["Filter documents"]</strong>
+                <span>@T["Review pending, approved or declined uploads."]</span>
             </div>
 
             <div class="action-buttons">
@@ -80,7 +80,7 @@
                    asp-route-returnUrl="@Model.ReturnUrl"
                    asp-route-pageSize="@Model.PageSize"
                    class="btn btn-sm @(Model.StatusFilter == null ? "btn-primary" : "btn-outline-primary")">
-                    All
+                    @T["All"]
                 </a>
 
                 <a asp-action="Index"
@@ -89,7 +89,7 @@
                    asp-route-returnUrl="@Model.ReturnUrl"
                    asp-route-pageSize="@Model.PageSize"
                    class="btn btn-sm @(Model.StatusFilter == "pending" ? "btn-primary" : "btn-outline-primary")">
-                    Pending
+                    @T["Pending"]
                 </a>
 
                 <a asp-action="Index"
@@ -98,7 +98,7 @@
                    asp-route-returnUrl="@Model.ReturnUrl"
                    asp-route-pageSize="@Model.PageSize"
                    class="btn btn-sm @(Model.StatusFilter == "approved" ? "btn-primary" : "btn-outline-primary")">
-                    Approved
+                    @T["Approved"]
                 </a>
 
                 <a asp-action="Index"
@@ -107,19 +107,19 @@
                    asp-route-returnUrl="@Model.ReturnUrl"
                    asp-route-pageSize="@Model.PageSize"
                    class="btn btn-sm @(Model.StatusFilter == "rejected" ? "btn-primary" : "btn-outline-primary")">
-                    Declined
+                    @T["Declined"]
                 </a>
             </div>
         </div>
 
         <div class="form-grid align-items-end">
             <div class="mb-3 search-suggest-wrapper">
-                <label asp-for="SearchTerm" class="form-label">Search</label>
+                <label asp-for="SearchTerm" class="form-label">@T["Search"]</label>
                 <input asp-for="SearchTerm"
                        id="documentsSearchInput"
                        class="form-control"
                        autocomplete="off"
-                       placeholder="Search by child, title, group or type..." />
+                       placeholder='@T["Search by child, title, group or type..."]' />
 
                 <div id="documentsSearchSuggestions"
                      class="search-suggestions"
@@ -128,11 +128,11 @@
             </div>
 
             <div class="mb-3">
-                <button type="submit" class="btn btn-primary">Search</button>
+                <button type="submit" class="btn btn-primary">@T["Search"]</button>
                 <a asp-action="Index"
                    asp-route-returnUrl="@Model.ReturnUrl"
                    class="btn btn-secondary">
-                    Clear
+                    @T["Clear"]
                 </a>
             </div>
         </div>
@@ -141,15 +141,15 @@
     @if (!Model.Documents.Any())
     {
         <section class="empty-state compact-empty-state">
-            <h2>No documents found</h2>
-            <p>Try changing the search or status filter, or upload a child document.</p>
+            <h2>@T["No documents found"]</h2>
+            <p>@T["Try changing the search or status filter, or upload a child document."]</p>
 
             @if (canUpload)
             {
                 <a asp-action="Create"
                    asp-route-returnUrl="@currentUrl"
                    class="btn btn-primary">
-                    Upload Document
+                    @T["Upload Document"]
                 </a>
             }
         </section>
@@ -160,45 +160,45 @@
             <table class="table table-striped align-middle mb-0 mobile-card-table">
                 <thead>
                     <tr>
-                        <th>Child</th>
-                        <th>Group</th>
-                        <th>Type</th>
-                        <th>Title</th>
-                        <th>Status</th>
-                        <th>Uploaded On</th>
-                        <th class="text-end">Actions</th>
+                        <th>@T["Child"]</th>
+                        <th>@T["Group"]</th>
+                        <th>@T["Type"]</th>
+                        <th>@T["Title"]</th>
+                        <th>@T["Status"]</th>
+                        <th>@T["Uploaded On"]</th>
+                        <th class="text-end">@T["Actions"]</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var document in Model.Documents)
                     {
                         <tr>
-                            <td data-label="Child"><div class="fw-bold">@document.ChildFullName</div></td>
-                            <td data-label="Group">@document.GroupName</td>
-                            <td data-label="Type">@document.Type</td>
-                            <td data-label="Title">@document.Title</td>
-                            <td data-label="Status">
+                            <td data-label='@T["Child"]'><div class="fw-bold">@document.ChildFullName</div></td>
+                            <td data-label='@T["Group"]'>@document.GroupName</td>
+                            <td data-label='@T["Type"]'>@T[document.Type.ToString()]</td>
+                            <td data-label='@T["Title"]'>@document.Title</td>
+                            <td data-label='@T["Status"]'>
                                 @if (document.Status == RequestStatus.Pending)
                                 {
-                                    <span class="badge bg-warning text-dark">Pending</span>
+                                    <span class="badge bg-warning text-dark">@T["Pending"]</span>
                                 }
                                 else if (document.Status == RequestStatus.Approved)
                                 {
-                                    <span class="badge bg-success">Approved</span>
+                                    <span class="badge bg-success">@T["Approved"]</span>
                                 }
                                 else if (document.Status == RequestStatus.Rejected)
                                 {
-                                    <span class="badge bg-danger">Declined</span>
+                                    <span class="badge bg-danger">@T["Declined"]</span>
                                 }
                             </td>
-                            <td data-label="Uploaded On">@document.UploadedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
-                            <td class="text-end" data-label="Actions">
+                            <td data-label='@T["Uploaded On"]'>@document.UploadedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
+                            <td class="text-end" data-label='@T["Actions"]'>
                                 <div class="action-buttons">
                                     <a asp-action="Details"
                                        asp-route-id="@document.Id"
                                        asp-route-returnUrl="@currentUrl"
                                        class="btn btn-sm btn-outline-secondary">
-                                        Details
+                                        @T["Details"]
                                     </a>
 
                                     @if (document.CanReview)
@@ -207,7 +207,7 @@
                                            asp-route-id="@document.Id"
                                            asp-route-returnUrl="@currentUrl"
                                            class="btn btn-sm btn-outline-primary">
-                                            Review
+                                            @T["Review"]
                                         </a>
                                     }
                                 </div>
@@ -220,7 +220,7 @@
 
         @if (Model.TotalPages > 1)
         {
-            <nav class="attendance-pager" aria-label="Child document pages">
+            <nav class="attendance-pager" aria-label='@T["Child document pages"]'>
                 <a class="attendance-page-link @(Model.HasPreviousPage ? string.Empty : "disabled")"
                    asp-action="Index"
                    asp-route-searchTerm="@Model.SearchTerm"
@@ -229,7 +229,7 @@
                    asp-route-page="@(Model.Page - 1)"
                    asp-route-pageSize="@Model.PageSize"
                    asp-fragment="documents-list">
-                    Previous
+                    @T["Previous"]
                 </a>
 
                 <div class="attendance-page-numbers">
@@ -256,7 +256,7 @@
                    asp-route-page="@(Model.Page + 1)"
                    asp-route-pageSize="@Model.PageSize"
                    asp-fragment="documents-list">
-                    Next
+                    @T["Next"]
                 </a>
             </nav>
         }
