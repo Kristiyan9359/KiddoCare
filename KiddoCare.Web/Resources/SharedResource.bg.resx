@@ -2169,4 +2169,10 @@
   <data name="Care that keeps every little day connected." xml:space="preserve">
     <value>Грижа, която свързва всеки малък ден.</value>
   </data>
+  <data name="Show password" xml:space="preserve">
+    <value>Покажи паролата</value>
+  </data>
+  <data name="Hide password" xml:space="preserve">
+    <value>Скрий паролата</value>
+  </data>
 </root>

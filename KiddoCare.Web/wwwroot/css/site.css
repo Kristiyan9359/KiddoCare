@@ -3261,6 +3261,47 @@ textarea.form-control {
     box-shadow: 0 0 0 0.25rem var(--kc-focus-ring), inset 3px 3px 10px rgba(96, 165, 250, 0.14);
 }
 
+.auth-input-group:has(.auth-password-toggle) .auth-input {
+    padding-right: 58px;
+}
+
+.auth-password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 41px;
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border: 1px solid rgba(96, 165, 250, 0.25);
+    border-radius: 12px;
+    background: rgba(219, 234, 254, 0.72);
+    color: var(--kc-primary);
+    transition: transform 0.18s ease, background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+}
+
+.auth-password-toggle:hover,
+.auth-password-toggle:focus {
+    transform: translateY(-1px);
+    border-color: rgba(37, 99, 235, 0.42);
+    background: var(--kc-primary);
+    color: #ffffff;
+}
+
+.auth-password-eye {
+    width: 19px;
+    height: 19px;
+}
+
+.auth-password-eye-slash {
+    opacity: 0;
+    transition: opacity 0.18s ease;
+}
+
+.auth-password-toggle.is-visible .auth-password-eye-slash {
+    opacity: 1;
+}
+
 .auth-options {
     display: flex;
     justify-content: space-between;
@@ -3398,6 +3439,19 @@ textarea.form-control {
 
 :root[data-theme="dark"] .auth-input:focus {
     background: rgba(15, 23, 42, 0.92);
+}
+
+:root[data-theme="dark"] .auth-password-toggle {
+    border-color: rgba(96, 165, 250, 0.34);
+    background: rgba(37, 99, 235, 0.18);
+    color: #bfdbfe;
+}
+
+:root[data-theme="dark"] .auth-password-toggle:hover,
+:root[data-theme="dark"] .auth-password-toggle:focus {
+    border-color: rgba(147, 197, 253, 0.58);
+    background: #60a5fa;
+    color: #08111f;
 }
 
 :root[data-theme="dark"] .auth-switch {

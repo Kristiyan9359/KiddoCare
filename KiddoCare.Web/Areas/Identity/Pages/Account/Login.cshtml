@@ -40,9 +40,38 @@
                 <span class="auth-input-icon" aria-hidden="true">*</span>
                 <input asp-for="Input.Password"
                        class="auth-input"
+                       id="login-password"
                        autocomplete="current-password"
                        aria-required="true"
                        placeholder='@T["Password"]' />
+                <button type="button"
+                        class="auth-password-toggle"
+                        aria-controls="login-password"
+                        aria-label="@T["Show password"]"
+                        data-show-label="@T["Show password"]"
+                        data-hide-label="@T["Hide password"]">
+                    <svg class="auth-password-eye"
+                         aria-hidden="true"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round" />
+                        <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round" />
+                        <path class="auth-password-eye-slash"
+                              d="M4 4l16 16"
+                              stroke="currentColor"
+                              stroke-width="2.2"
+                              stroke-linecap="round" />
+                    </svg>
+                </button>
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
 
@@ -71,4 +100,24 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        (() => {
+            const passwordInput = document.getElementById("login-password");
+            const toggleButton = document.querySelector(".auth-password-toggle");
+
+            if (!passwordInput || !toggleButton) {
+                return;
+            }
+
+            toggleButton.addEventListener("click", () => {
+                const shouldShowPassword = passwordInput.type === "password";
+
+                passwordInput.type = shouldShowPassword ? "text" : "password";
+                toggleButton.classList.toggle("is-visible", shouldShowPassword);
+                toggleButton.setAttribute(
+                    "aria-label",
+                    shouldShowPassword ? toggleButton.dataset.hideLabel : toggleButton.dataset.showLabel);
+            });
+        })();
+    </script>
 }
