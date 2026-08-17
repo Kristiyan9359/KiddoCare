@@ -1899,6 +1899,36 @@
   <data name="There is already an active absence notice for this child in the selected period." xml:space="preserve">
     <value>Вече има активно уведомление за отсъствие за това дете в избрания период.</value>
   </data>
+  <data name="Welcome back" xml:space="preserve">
+    <value>Добре дошъл отново</value>
+  </data>
+  <data name="Sign in to continue to KiddoCare." xml:space="preserve">
+    <value>Влез в профила си, за да продължиш към KiddoCare.</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Парола</value>
+  </data>
+  <data name="Remember me" xml:space="preserve">
+    <value>Запомни ме</value>
+  </data>
+  <data name="Sign In" xml:space="preserve">
+    <value>Вход</value>
+  </data>
+  <data name="Forgot your password?" xml:space="preserve">
+    <value>Забравена парола?</value>
+  </data>
+  <data name="Please enter your email address." xml:space="preserve">
+    <value>Въведи имейл адреса си.</value>
+  </data>
+  <data name="Please enter your password." xml:space="preserve">
+    <value>Въведи паролата си.</value>
+  </data>
+  <data name="Invalid login attempt." xml:space="preserve">
+    <value>Невалиден опит за вход.</value>
+  </data>
+  <data name="This account is locked. Please try again later." xml:space="preserve">
+    <value>Този профил е заключен. Опитай отново по-късно.</value>
+  </data>
   <data name="Announcement title" xml:space="preserve">
     <value>Заглавие на съобщение</value>
   </data>

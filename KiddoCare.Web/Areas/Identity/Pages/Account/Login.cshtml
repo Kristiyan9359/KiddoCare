@@ -1,0 +1,70 @@
+@page
+@model KiddoCare.Web.Areas.Identity.Pages.Account.LoginModel
+
+@{
+    ViewData["Title"] = T["Login"];
+}
+
+<section class="auth-page">
+    <div class="auth-visual" aria-hidden="true">
+        <div class="auth-orbit auth-orbit-one"></div>
+        <div class="auth-orbit auth-orbit-two"></div>
+        <div class="auth-badge">
+            <span>KC</span>
+        </div>
+    </div>
+
+    <div class="auth-card">
+        <div class="auth-card-ring"></div>
+
+        <form id="account" method="post" class="auth-form">
+            <div class="auth-kicker">@T["Welcome back"]</div>
+            <h1>@T["Login"]</h1>
+            <p class="auth-subtitle">@T["Sign in to continue to KiddoCare."]</p>
+
+            <div asp-validation-summary="ModelOnly" class="text-danger auth-validation-summary" role="alert"></div>
+
+            <div class="auth-input-group">
+                <label asp-for="Input.Email">@T["Email"]</label>
+                <span class="auth-input-icon" aria-hidden="true">@@</span>
+                <input asp-for="Input.Email"
+                       class="auth-input"
+                       autocomplete="username"
+                       aria-required="true"
+                       placeholder='@T["Email"]' />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+
+            <div class="auth-input-group">
+                <label asp-for="Input.Password">@T["Password"]</label>
+                <span class="auth-input-icon" aria-hidden="true">*</span>
+                <input asp-for="Input.Password"
+                       class="auth-input"
+                       autocomplete="current-password"
+                       aria-required="true"
+                       placeholder='@T["Password"]' />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+
+            <div class="auth-options">
+                <label class="auth-remember">
+                    <input asp-for="Input.RememberMe" />
+                    <span class="auth-switch" aria-hidden="true"></span>
+                    <span>@T["Remember me"]</span>
+                </label>
+            </div>
+
+            <button id="login-submit" type="submit" class="auth-submit">
+                @T["Sign In"]
+            </button>
+
+            <div class="auth-help">
+                <a asp-page="./ForgotPassword">@T["Forgot your password?"]</a>
+            </div>
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
