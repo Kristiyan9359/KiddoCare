@@ -9,10 +9,10 @@
 
 <div class="page-header">
     <div>
-        <div class="page-kicker">Admin overview</div>
-        <h1 class="page-title">Dashboard</h1>
+        <div class="page-kicker">@T["Admin overview"]</div>
+        <h1 class="page-title">@T["Dashboard"]</h1>
         <p class="page-subtitle">
-            Track kindergarten activity, attendance, pending notices and recent updates from one place.
+            @T["Track kindergarten activity, attendance, pending notices and recent updates from one place."]
         </p>
     </div>
 </div>
@@ -21,18 +21,18 @@
     <a asp-controller="Groups"
        asp-action="Index"
        class="metric-card">
-        <div class="metric-label">Groups</div>
+        <div class="metric-label">@T["Groups"]</div>
         <div class="metric-value">@Model.GroupsCount</div>
-        <div class="metric-note">Active kindergarten groups</div>
+        <div class="metric-note">@T["Active kindergarten groups"]</div>
     </a>
 
     <a asp-controller="Children"
        asp-action="Index"
        asp-route-returnUrl="@currentUrl"
        class="metric-card">
-        <div class="metric-label">Children</div>
+        <div class="metric-label">@T["Children"]</div>
         <div class="metric-value">@Model.ChildrenCount</div>
-        <div class="metric-note">Registered children</div>
+        <div class="metric-note">@T["Registered children"]</div>
     </a>
 
     <a asp-controller="Attendance"
@@ -41,9 +41,9 @@
        asp-route-toDate="@today"
        asp-route-status="Present"
        class="metric-card">
-        <div class="metric-label">Present Today</div>
+        <div class="metric-label">@T["Present Today"]</div>
         <div class="metric-value">@Model.PresentTodayCount</div>
-        <div class="metric-note">Checked in today</div>
+        <div class="metric-note">@T["Checked in today"]</div>
     </a>
 
     <a asp-controller="Attendance"
@@ -52,9 +52,9 @@
        asp-route-toDate="@today"
        asp-route-status="Absent"
        class="metric-card">
-        <div class="metric-label">Absent Today</div>
+        <div class="metric-label">@T["Absent Today"]</div>
         <div class="metric-value">@Model.AbsentTodayCount</div>
-        <div class="metric-note">Marked absent today</div>
+        <div class="metric-note">@T["Marked absent today"]</div>
     </a>
 </div>
 
@@ -65,9 +65,9 @@
        asp-route-toDate="@today"
        asp-route-status="Sick"
        class="metric-card">
-        <div class="metric-label">Sick Today</div>
+        <div class="metric-label">@T["Sick Today"]</div>
         <div class="metric-value">@Model.SickTodayCount</div>
-        <div class="metric-note">Health-related absences</div>
+        <div class="metric-note">@T["Health-related absences"]</div>
     </a>
 
     <a asp-controller="Attendance"
@@ -76,9 +76,9 @@
        asp-route-toDate="@today"
        asp-route-status="Late"
        class="metric-card">
-        <div class="metric-label">Late Today</div>
+        <div class="metric-label">@T["Late Today"]</div>
         <div class="metric-value">@Model.LateTodayCount</div>
-        <div class="metric-note">Late arrivals</div>
+        <div class="metric-note">@T["Late arrivals"]</div>
     </a>
 
     <a asp-controller="Attendance"
@@ -87,9 +87,9 @@
        asp-route-toDate="@today"
        asp-route-status="Vacation"
        class="metric-card">
-        <div class="metric-label">Vacation Today</div>
+        <div class="metric-label">@T["Vacation Today"]</div>
         <div class="metric-value">@Model.VacationTodayCount</div>
-        <div class="metric-note">Vacation notices</div>
+        <div class="metric-note">@T["Vacation notices"]</div>
     </a>
 </div>
 
@@ -99,9 +99,9 @@
        asp-route-statusFilter="pending"
        asp-route-returnUrl="@currentUrl"
        class="metric-card">
-        <div class="metric-label">Pending Absence Notices</div>
+        <div class="metric-label">@T["Pending Absence Notices"]</div>
         <div class="metric-value">@Model.PendingAbsenceRequestsCount</div>
-        <div class="metric-note">Waiting for confirmation</div>
+        <div class="metric-note">@T["Waiting for confirmation"]</div>
     </a>
 
     <a asp-controller="ConsentRequests"
@@ -109,9 +109,9 @@
        asp-route-statusFilter="pending"
        asp-route-returnUrl="@currentUrl"
        class="metric-card">
-        <div class="metric-label">Pending Consent Requests</div>
+        <div class="metric-label">@T["Pending Consent Requests"]</div>
         <div class="metric-value">@Model.PendingConsentRequestsCount</div>
-        <div class="metric-note">Parent responses needed</div>
+        <div class="metric-note">@T["Parent responses needed"]</div>
     </a>
 
     <a asp-controller="ChildDocuments"
@@ -119,37 +119,37 @@
        asp-route-statusFilter="pending"
        asp-route-returnUrl="@currentUrl"
        class="metric-card">
-        <div class="metric-label">Pending Documents</div>
+        <div class="metric-label">@T["Pending Documents"]</div>
         <div class="metric-value">@Model.PendingChildDocumentsCount</div>
-        <div class="metric-note">Waiting for review</div>
+        <div class="metric-note">@T["Waiting for review"]</div>
     </a>
 </div>
 
 <section class="section-panel">
     <div class="section-panel-header">
-        <h2 class="section-panel-title">Recent Announcements</h2>
-        <a asp-controller="Announcements" asp-action="Index" asp-route-returnUrl="@currentUrl" class="btn btn-sm btn-outline-secondary">View All</a>
+        <h2 class="section-panel-title">@T["Recent Announcements"]</h2>
+        <a asp-controller="Announcements" asp-action="Index" asp-route-returnUrl="@currentUrl" class="btn btn-sm btn-outline-secondary">@T["View All"]</a>
     </div>
 
     @if (!Model.RecentAnnouncements.Any())
     {
-        <p class="empty-state">No announcements yet.</p>
+        <p class="empty-state">@T["No announcements yet."]</p>
     }
     else
     {
         <table class="table table-striped mb-0 mobile-card-table">
             <thead>
                 <tr>
-                    <th>Title</th>
-                    <th>Published On</th>
-                    <th>Group</th>
+                    <th>@T["Title"]</th>
+                    <th>@T["Published On"]</th>
+                    <th>@T["Group"]</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var announcement in Model.RecentAnnouncements)
                 {
                     <tr>
-                        <td data-label="Title">
+                        <td data-label='@T["Title"]'>
                             <a asp-controller="Announcements"
                                asp-action="Details"
                                asp-route-id="@announcement.Id"
@@ -157,8 +157,8 @@
                                 @announcement.Title
                             </a>
                         </td>
-                        <td data-label="Published On">@announcement.PublishedOn.ToString("dd MMM yyyy")</td>
-                        <td data-label="Group">@announcement.GroupName</td>
+                        <td data-label='@T["Published On"]'>@announcement.PublishedOn.ToString("dd MMM yyyy")</td>
+                        <td data-label='@T["Group"]'>@announcement.GroupName</td>
                     </tr>
                 }
             </tbody>
@@ -168,58 +168,58 @@
 
 <section class="section-panel">
     <div class="section-panel-header">
-        <h2 class="section-panel-title">Recent Documents</h2>
-        <a asp-controller="ChildDocuments" asp-action="Index" asp-route-returnUrl="@currentUrl" class="btn btn-sm btn-outline-secondary">View All</a>
+        <h2 class="section-panel-title">@T["Recent Documents"]</h2>
+        <a asp-controller="ChildDocuments" asp-action="Index" asp-route-returnUrl="@currentUrl" class="btn btn-sm btn-outline-secondary">@T["View All"]</a>
     </div>
 
     @if (!Model.RecentDocuments.Any())
     {
-        <p class="empty-state">No documents uploaded yet.</p>
+        <p class="empty-state">@T["No documents uploaded yet."]</p>
     }
     else
     {
         <table class="table table-striped mb-0 mobile-card-table">
             <thead>
                 <tr>
-                    <th>Child</th>
-                    <th>Group</th>
-                    <th>Title</th>
-                    <th>Type</th>
-                    <th>Status</th>
-                    <th>Uploaded On</th>
-                    <th class="text-end">Actions</th>
+                    <th>@T["Child"]</th>
+                    <th>@T["Group"]</th>
+                    <th>@T["Title"]</th>
+                    <th>@T["Type"]</th>
+                    <th>@T["Status"]</th>
+                    <th>@T["Uploaded On"]</th>
+                    <th class="text-end">@T["Actions"]</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var document in Model.RecentDocuments)
                 {
                     <tr>
-                        <td data-label="Child">@document.ChildFullName</td>
-                        <td data-label="Group">@document.GroupName</td>
-                        <td data-label="Title">@document.Title</td>
-                        <td data-label="Type">@document.Type</td>
-                        <td data-label="Status">
+                        <td data-label='@T["Child"]'>@document.ChildFullName</td>
+                        <td data-label='@T["Group"]'>@document.GroupName</td>
+                        <td data-label='@T["Title"]'>@document.Title</td>
+                        <td data-label='@T["Type"]'>@document.Type</td>
+                        <td data-label='@T["Status"]'>
                             @if (document.Status == RequestStatus.Pending)
                             {
-                                <span class="badge bg-warning text-dark">Pending</span>
+                                <span class="badge bg-warning text-dark">@T["Pending"]</span>
                             }
                             else if (document.Status == RequestStatus.Approved)
                             {
-                                <span class="badge bg-success">Approved</span>
+                                <span class="badge bg-success">@T["Approved"]</span>
                             }
                             else if (document.Status == RequestStatus.Rejected)
                             {
-                                <span class="badge bg-danger">Declined</span>
+                                <span class="badge bg-danger">@T["Declined"]</span>
                             }
                         </td>
-                        <td data-label="Uploaded On">@document.UploadedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
-                        <td class="text-end" data-label="Actions">
+                        <td data-label='@T["Uploaded On"]'>@document.UploadedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
+                        <td class="text-end" data-label='@T["Actions"]'>
                             <a asp-controller="ChildDocuments"
                                asp-action="Details"
                                asp-route-id="@document.Id"
                                asp-route-returnUrl="@currentUrl"
                                class="btn btn-sm btn-outline-secondary">
-                                Details
+                                @T["Details"]
                             </a>
                         </td>
                     </tr>
@@ -231,31 +231,31 @@
 
 <section class="section-panel">
     <div class="section-panel-header">
-        <h2 class="section-panel-title">Upcoming Events</h2>
-        <a asp-controller="Events" asp-action="Index" asp-route-returnUrl="@currentUrl" class="btn btn-sm btn-outline-secondary">View All</a>
+        <h2 class="section-panel-title">@T["Upcoming Events"]</h2>
+        <a asp-controller="Events" asp-action="Index" asp-route-returnUrl="@currentUrl" class="btn btn-sm btn-outline-secondary">@T["View All"]</a>
     </div>
 
     @if (!Model.UpcomingEvents.Any())
     {
-        <p class="empty-state">No upcoming events.</p>
+        <p class="empty-state">@T["No upcoming events."]</p>
     }
     else
     {
         <table class="table table-striped mb-0 mobile-card-table">
             <thead>
                 <tr>
-                    <th>Title</th>
-                    <th>Date</th>
-                    <th>Type</th>
-                    <th>Location</th>
-                    <th>Group</th>
+                    <th>@T["Title"]</th>
+                    <th>@T["Date"]</th>
+                    <th>@T["Type"]</th>
+                    <th>@T["Location"]</th>
+                    <th>@T["Group"]</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var eventItem in Model.UpcomingEvents)
                 {
                     <tr>
-                        <td data-label="Title">
+                        <td data-label='@T["Title"]'>
                             <a asp-controller="Events"
                                asp-action="Details"
                                asp-route-id="@eventItem.Id"
@@ -263,10 +263,10 @@
                                 @eventItem.Title
                             </a>
                         </td>
-                        <td data-label="Date">@eventItem.StartDateTime.ToString("dd MMM yyyy HH:mm")</td>
-                        <td data-label="Type">@eventItem.Type</td>
-                        <td data-label="Location">@eventItem.Location</td>
-                        <td data-label="Group">@eventItem.GroupName</td>
+                        <td data-label='@T["Date"]'>@eventItem.StartDateTime.ToString("dd MMM yyyy HH:mm")</td>
+                        <td data-label='@T["Type"]'>@eventItem.Type</td>
+                        <td data-label='@T["Location"]'>@eventItem.Location</td>
+                        <td data-label='@T["Group"]'>@eventItem.GroupName</td>
                     </tr>
                 }
             </tbody>

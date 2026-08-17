@@ -471,4 +471,241 @@
   <data name="Announcements pages" xml:space="preserve">
     <value>Страници със съобщения</value>
   </data>
+  <data name="Admin overview" xml:space="preserve">
+    <value>Админ преглед</value>
+  </data>
+  <data name="Track kindergarten activity, attendance, pending notices and recent updates from one place." xml:space="preserve">
+    <value>Следи активността, присъствията, чакащите уведомления и последните новини от едно място.</value>
+  </data>
+  <data name="Active kindergarten groups" xml:space="preserve">
+    <value>Активни групи</value>
+  </data>
+  <data name="Registered children" xml:space="preserve">
+    <value>Регистрирани деца</value>
+  </data>
+  <data name="Present Today" xml:space="preserve">
+    <value>Присъстващи днес</value>
+  </data>
+  <data name="Checked in today" xml:space="preserve">
+    <value>Отбелязани като присъстващи</value>
+  </data>
+  <data name="Absent Today" xml:space="preserve">
+    <value>Отсъстващи днес</value>
+  </data>
+  <data name="Marked absent today" xml:space="preserve">
+    <value>Отбелязани като отсъстващи</value>
+  </data>
+  <data name="Sick Today" xml:space="preserve">
+    <value>Болни днес</value>
+  </data>
+  <data name="Health-related absences" xml:space="preserve">
+    <value>Отсъствия по здравословни причини</value>
+  </data>
+  <data name="Late Today" xml:space="preserve">
+    <value>Закъснели днес</value>
+  </data>
+  <data name="Late arrivals" xml:space="preserve">
+    <value>Закъснели пристигания</value>
+  </data>
+  <data name="Vacation Today" xml:space="preserve">
+    <value>В почивка днес</value>
+  </data>
+  <data name="Vacation notices" xml:space="preserve">
+    <value>Уведомления за почивка</value>
+  </data>
+  <data name="Pending Absence Notices" xml:space="preserve">
+    <value>Чакащи уведомления за отсъствие</value>
+  </data>
+  <data name="Waiting for confirmation" xml:space="preserve">
+    <value>Очакват потвърждение</value>
+  </data>
+  <data name="Pending Consent Requests" xml:space="preserve">
+    <value>Чакащи искания за съгласие</value>
+  </data>
+  <data name="Parent responses needed" xml:space="preserve">
+    <value>Нужен е отговор от родител</value>
+  </data>
+  <data name="Pending Documents" xml:space="preserve">
+    <value>Чакащи документи</value>
+  </data>
+  <data name="Waiting for review" xml:space="preserve">
+    <value>Очакват преглед</value>
+  </data>
+  <data name="Recent Announcements" xml:space="preserve">
+    <value>Последни съобщения</value>
+  </data>
+  <data name="View All" xml:space="preserve">
+    <value>Виж всички</value>
+  </data>
+  <data name="No announcements yet." xml:space="preserve">
+    <value>Все още няма съобщения.</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Заглавие</value>
+  </data>
+  <data name="Published On" xml:space="preserve">
+    <value>Публикувано на</value>
+  </data>
+  <data name="Recent Documents" xml:space="preserve">
+    <value>Последни документи</value>
+  </data>
+  <data name="No documents uploaded yet." xml:space="preserve">
+    <value>Все още няма качени документи.</value>
+  </data>
+  <data name="Child" xml:space="preserve">
+    <value>Дете</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Статус</value>
+  </data>
+  <data name="Uploaded On" xml:space="preserve">
+    <value>Качено на</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Чака</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>Одобрено</value>
+  </data>
+  <data name="Declined" xml:space="preserve">
+    <value>Отказано</value>
+  </data>
+  <data name="Upcoming Events" xml:space="preserve">
+    <value>Предстоящи събития</value>
+  </data>
+  <data name="No upcoming events." xml:space="preserve">
+    <value>Няма предстоящи събития.</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Дата</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Място</value>
+  </data>
+  <data name="Teacher workspace" xml:space="preserve">
+    <value>Работно място на учителя</value>
+  </data>
+  <data name="Manage today's attendance, daily reports, child health notes and group updates from one focused workspace." xml:space="preserve">
+    <value>Управлявай присъствията, дневните отчети, здравните бележки и новините за групата от едно фокусирано табло.</value>
+  </data>
+  <data name="Create Daily Report" xml:space="preserve">
+    <value>Създай дневен отчет</value>
+  </data>
+  <data name="View Children" xml:space="preserve">
+    <value>Виж децата</value>
+  </data>
+  <data name="Children in your group" xml:space="preserve">
+    <value>Деца във вашата група</value>
+  </data>
+  <data name="Checked in for today" xml:space="preserve">
+    <value>Отбелязани за днес</value>
+  </data>
+  <data name="Children needing allergy awareness" xml:space="preserve">
+    <value>Деца, изискващи внимание за алергии</value>
+  </data>
+  <data name="Medical Records" xml:space="preserve">
+    <value>Медицински записи</value>
+  </data>
+  <data name="Children with medical notes" xml:space="preserve">
+    <value>Деца с медицински бележки</value>
+  </data>
+  <data name="Recent Daily Reports" xml:space="preserve">
+    <value>Последни дневни отчети</value>
+  </data>
+  <data name="Create Report" xml:space="preserve">
+    <value>Създай отчет</value>
+  </data>
+  <data name="No daily reports created yet." xml:space="preserve">
+    <value>Все още няма създадени дневни отчети.</value>
+  </data>
+  <data name="Mood" xml:space="preserve">
+    <value>Настроение</value>
+  </data>
+  <data name="Family overview" xml:space="preserve">
+    <value>Семеен преглед</value>
+  </data>
+  <data name="Parent Dashboard" xml:space="preserve">
+    <value>Родителско табло</value>
+  </data>
+  <data name="Follow your child's day, review requests, documents, notices and upcoming kindergarten events." xml:space="preserve">
+    <value>Следи деня на детето, преглеждай искания, документи, уведомления и предстоящи събития.</value>
+  </data>
+  <data name="Create Absence Notice" xml:space="preserve">
+    <value>Създай уведомление за отсъствие</value>
+  </data>
+  <data name="Upload Document" xml:space="preserve">
+    <value>Качи документ</value>
+  </data>
+  <data name="My Children" xml:space="preserve">
+    <value>Моите деца</value>
+  </data>
+  <data name="No children linked to your profile yet." xml:space="preserve">
+    <value>Все още няма деца, свързани с вашия профил.</value>
+  </data>
+  <data name="Last report" xml:space="preserve">
+    <value>Последен отчет</value>
+  </data>
+  <data name="Meals" xml:space="preserve">
+    <value>Хранене</value>
+  </data>
+  <data name="Sleep" xml:space="preserve">
+    <value>Сън</value>
+  </data>
+  <data name="Activities" xml:space="preserve">
+    <value>Активности</value>
+  </data>
+  <data name="No rating" xml:space="preserve">
+    <value>Няма оценка</value>
+  </data>
+  <data name="No daily report yet." xml:space="preserve">
+    <value>Все още няма дневен отчет.</value>
+  </data>
+  <data name="View Child" xml:space="preserve">
+    <value>Виж детето</value>
+  </data>
+  <data name="Activity Feed" xml:space="preserve">
+    <value>Активност</value>
+  </data>
+  <data name="View Report" xml:space="preserve">
+    <value>Виж отчета</value>
+  </data>
+  <data name="Waiting for your response" xml:space="preserve">
+    <value>Очаква вашия отговор</value>
+  </data>
+  <data name="Uploaded documents under review" xml:space="preserve">
+    <value>Качени документи в процес на преглед</value>
+  </data>
+  <data name="Recent absence updates" xml:space="preserve">
+    <value>Последни отсъствия</value>
+  </data>
+  <data name="Recent Consent Requests" xml:space="preserve">
+    <value>Последни искания за съгласие</value>
+  </data>
+  <data name="No consent requests yet." xml:space="preserve">
+    <value>Все още няма искания за съгласие.</value>
+  </data>
+  <data name="Created On" xml:space="preserve">
+    <value>Създадено на</value>
+  </data>
+  <data name="Respond" xml:space="preserve">
+    <value>Отговори</value>
+  </data>
+  <data name="Recent Absence Notices" xml:space="preserve">
+    <value>Последни уведомления за отсъствие</value>
+  </data>
+  <data name="No absence notices yet." xml:space="preserve">
+    <value>Все още няма уведомления за отсъствие.</value>
+  </data>
+  <data name="Period" xml:space="preserve">
+    <value>Период</value>
+  </data>
+  <data name="Reason" xml:space="preserve">
+    <value>Причина</value>
+  </data>
+  <data name="Confirmed" xml:space="preserve">
+    <value>Потвърдено</value>
+  </data>
 </root>
