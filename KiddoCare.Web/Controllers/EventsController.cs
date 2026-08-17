@@ -2,6 +2,7 @@
 using KiddoCare.ViewModels.Events;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using System.Security.Claims;
 using static KiddoCare.Common.RoleConstants;
 
@@ -11,10 +12,12 @@ namespace KiddoCare.Web.Controllers;
 public class EventsController : Controller
 {
     private readonly IEventService eventService;
+    private readonly IStringLocalizer<SharedResource> localizer;
 
-    public EventsController(IEventService eventService)
+    public EventsController(IEventService eventService, IStringLocalizer<SharedResource> localizer)
     {
         this.eventService = eventService;
+        this.localizer = localizer;
     }
 
     [HttpGet]
@@ -113,7 +116,7 @@ public class EventsController : Controller
         }
         catch (InvalidOperationException ex)
         {
-            ModelState.AddModelError(string.Empty, ex.Message);
+            ModelState.AddModelError(string.Empty, this.localizer[ex.Message]);
 
             var createModel = await eventService.GetCreateModelAsync(userId, isAdmin, isTeacher);
             model.Groups = createModel.Groups;

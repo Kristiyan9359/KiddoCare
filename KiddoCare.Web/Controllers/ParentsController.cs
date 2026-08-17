@@ -2,6 +2,7 @@
 using KiddoCare.ViewModels.Parents;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using static KiddoCare.Common.RoleConstants;
 
 namespace KiddoCare.Web.Controllers;
@@ -10,10 +11,12 @@ namespace KiddoCare.Web.Controllers;
 public class ParentsController : Controller
 {
     private readonly IParentService parentService;
+    private readonly IStringLocalizer<SharedResource> localizer;
 
-    public ParentsController(IParentService parentService)
+    public ParentsController(IParentService parentService, IStringLocalizer<SharedResource> localizer)
     {
         this.parentService = parentService;
+        this.localizer = localizer;
     }
 
     [HttpGet]
@@ -59,7 +62,7 @@ public class ParentsController : Controller
         }
         catch (InvalidOperationException ex)
         {
-            ModelState.AddModelError(string.Empty, ex.Message);
+            ModelState.AddModelError(string.Empty, this.localizer[ex.Message]);
             return View(model);
         }
 

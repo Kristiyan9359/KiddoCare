@@ -2,6 +2,7 @@
 using KiddoCare.ViewModels.Teachers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using static KiddoCare.Common.RoleConstants;
 
 namespace KiddoCare.Web.Controllers;
@@ -10,10 +11,12 @@ namespace KiddoCare.Web.Controllers;
 public class TeachersController : Controller
 {
     private readonly ITeacherService teacherService;
+    private readonly IStringLocalizer<SharedResource> localizer;
 
-    public TeachersController(ITeacherService teacherService)
+    public TeachersController(ITeacherService teacherService, IStringLocalizer<SharedResource> localizer)
     {
         this.teacherService = teacherService;
+        this.localizer = localizer;
     }
 
     [HttpGet]
@@ -60,7 +63,7 @@ public class TeachersController : Controller
         }
         catch (InvalidOperationException ex)
         {
-            ModelState.AddModelError(string.Empty, ex.Message);
+            ModelState.AddModelError(string.Empty, this.localizer[ex.Message]);
             model.Groups = (await teacherService.GetCreateModelAsync()).Groups;
             return View(model);
         }

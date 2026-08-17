@@ -3,6 +3,7 @@ using KiddoCare.Services.Core.Contracts;
 using KiddoCare.ViewModels.ConsentRequests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using static KiddoCare.Common.RoleConstants;
 
 namespace KiddoCare.Web.Controllers;
@@ -11,10 +12,12 @@ namespace KiddoCare.Web.Controllers;
 public class ConsentRequestsController : Controller
 {
     private readonly IConsentRequestService consentRequestService;
+    private readonly IStringLocalizer<SharedResource> localizer;
 
-    public ConsentRequestsController(IConsentRequestService consentRequestService)
+    public ConsentRequestsController(IConsentRequestService consentRequestService, IStringLocalizer<SharedResource> localizer)
     {
         this.consentRequestService = consentRequestService;
+        this.localizer = localizer;
     }
 
     [HttpGet]
@@ -96,7 +99,7 @@ public class ConsentRequestsController : Controller
         }
         catch (InvalidOperationException ex)
         {
-            ModelState.AddModelError(string.Empty, ex.Message);
+            ModelState.AddModelError(string.Empty, this.localizer[ex.Message]);
 
             var createModel = await consentRequestService.GetCreateModelAsync(userId, isAdmin, isTeacher);
             model.Children = createModel.Children;
@@ -154,7 +157,7 @@ public class ConsentRequestsController : Controller
         }
         catch (InvalidOperationException ex)
         {
-            ModelState.AddModelError(string.Empty, ex.Message);
+            ModelState.AddModelError(string.Empty, this.localizer[ex.Message]);
 
             var respondModel = await consentRequestService.GetForRespondAsync(model.Id, userId);
 

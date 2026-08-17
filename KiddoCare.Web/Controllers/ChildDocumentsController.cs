@@ -151,7 +151,7 @@ public class ChildDocumentsController : Controller
         }
         catch (InvalidOperationException ex)
         {
-            ModelState.AddModelError(string.Empty, ex.Message);
+            ModelState.AddModelError(string.Empty, this.localizer[ex.Message]);
 
             var createModel = await childDocumentService.GetCreateModelAsync(userId, isAdmin, isTeacher);
             model.Children = createModel.Children;
@@ -274,7 +274,7 @@ public class ChildDocumentsController : Controller
         }
         catch (InvalidOperationException ex)
         {
-            ModelState.AddModelError(string.Empty, ex.Message);
+            ModelState.AddModelError(string.Empty, this.localizer[ex.Message]);
 
             var reviewModel = await childDocumentService.GetForReviewAsync(model.Id, userId, isAdmin, isTeacher);
 

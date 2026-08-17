@@ -3,6 +3,7 @@ using KiddoCare.Services.Core.Contracts;
 using KiddoCare.ViewModels.DailyReports;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using static KiddoCare.Common.RoleConstants;
 
 namespace KiddoCare.Web.Controllers;
@@ -11,10 +12,12 @@ namespace KiddoCare.Web.Controllers;
 public class DailyReportsController : Controller
 {
     private readonly IDailyReportService dailyReportService;
+    private readonly IStringLocalizer<SharedResource> localizer;
 
-    public DailyReportsController(IDailyReportService dailyReportService)
+    public DailyReportsController(IDailyReportService dailyReportService, IStringLocalizer<SharedResource> localizer)
     {
         this.dailyReportService = dailyReportService;
+        this.localizer = localizer;
     }
 
     [HttpGet]
@@ -105,7 +108,7 @@ public class DailyReportsController : Controller
         }
         catch (InvalidOperationException ex)
         {
-            ModelState.AddModelError(string.Empty, ex.Message);
+            ModelState.AddModelError(string.Empty, this.localizer[ex.Message]);
 
             var createModel = await dailyReportService.GetCreateModelAsync(userId, isAdmin, isTeacher);
             model.Children = createModel.Children;
@@ -166,7 +169,7 @@ public class DailyReportsController : Controller
         }
         catch (InvalidOperationException ex)
         {
-            ModelState.AddModelError(string.Empty, ex.Message);
+            ModelState.AddModelError(string.Empty, this.localizer[ex.Message]);
 
             var editModel = await dailyReportService.GetForEditAsync(model.Id, userId, isAdmin, isTeacher);
 

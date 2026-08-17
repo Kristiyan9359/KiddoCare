@@ -3,6 +3,7 @@ using KiddoCare.Services.Core.Contracts;
 using KiddoCare.ViewModels.MedicalRecords;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using static KiddoCare.Common.RoleConstants;
 
 namespace KiddoCare.Web.Controllers;
@@ -11,10 +12,12 @@ namespace KiddoCare.Web.Controllers;
 public class MedicalRecordsController : Controller
 {
     private readonly IMedicalRecordService medicalRecordService;
+    private readonly IStringLocalizer<SharedResource> localizer;
 
-    public MedicalRecordsController(IMedicalRecordService medicalRecordService)
+    public MedicalRecordsController(IMedicalRecordService medicalRecordService, IStringLocalizer<SharedResource> localizer)
     {
         this.medicalRecordService = medicalRecordService;
+        this.localizer = localizer;
     }
 
     [HttpGet]
@@ -79,7 +82,7 @@ public class MedicalRecordsController : Controller
         }
         catch (InvalidOperationException ex)
         {
-            ModelState.AddModelError(string.Empty, ex.Message);
+            ModelState.AddModelError(string.Empty, this.localizer[ex.Message]);
 
             var createModel = await medicalRecordService.GetCreateModelAsync(userId, isAdmin, isTeacher);
             model.Children = createModel.Children;

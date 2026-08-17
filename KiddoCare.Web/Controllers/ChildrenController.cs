@@ -78,7 +78,7 @@ public class ChildrenController : Controller
         }
         catch (InvalidOperationException ex)
         {
-            ModelState.AddModelError(string.Empty, ex.Message);
+            ModelState.AddModelError(string.Empty, this.localizer[ex.Message]);
 
             var createModel = await childService.GetCreateModelAsync();
             model.Groups = createModel.Groups;
@@ -150,7 +150,7 @@ public class ChildrenController : Controller
         {
             DeletePhotoFile(uploadedPhotoUrl);
 
-            ModelState.AddModelError(string.Empty, ex.Message);
+            ModelState.AddModelError(string.Empty, this.localizer[ex.Message]);
 
             var editModel = await childService.GetForEditAsync(model.Id);
 

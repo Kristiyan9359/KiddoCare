@@ -1815,6 +1815,90 @@
   <data name="The field {0} must be a string or array type with a maximum length of '{1}'." xml:space="preserve">
     <value>Полето {0} не може да бъде по-дълго от {1} символа.</value>
   </data>
+  <data name="A daily report cannot be created for a future date." xml:space="preserve">
+    <value>Дневен отчет не може да бъде създаден за бъдеща дата.</value>
+  </data>
+  <data name="A daily report for this child and date already exists." xml:space="preserve">
+    <value>Вече има дневен отчет за това дете и тази дата.</value>
+  </data>
+  <data name="A user with this email already exists." xml:space="preserve">
+    <value>Вече съществува потребител с този имейл.</value>
+  </data>
+  <data name="Absence notice not found." xml:space="preserve">
+    <value>Уведомлението за отсъствие не е намерено.</value>
+  </data>
+  <data name="Announcement not found." xml:space="preserve">
+    <value>Съобщението не е намерено.</value>
+  </data>
+  <data name="Attendance record not found." xml:space="preserve">
+    <value>Записът за присъствие не е намерен.</value>
+  </data>
+  <data name="Cannot delete a group that has active children." xml:space="preserve">
+    <value>Не можеш да изтриеш група, в която има активни деца.</value>
+  </data>
+  <data name="Child document not found." xml:space="preserve">
+    <value>Документът на детето не е намерен.</value>
+  </data>
+  <data name="Child is required." xml:space="preserve">
+    <value>Избери дете.</value>
+  </data>
+  <data name="Child mood is required." xml:space="preserve">
+    <value>Избери настроението на детето.</value>
+  </data>
+  <data name="Child not found." xml:space="preserve">
+    <value>Детето не е намерено.</value>
+  </data>
+  <data name="Consent request not found." xml:space="preserve">
+    <value>Искането за съгласие не е намерено.</value>
+  </data>
+  <data name="Daily report not found." xml:space="preserve">
+    <value>Дневният отчет не е намерен.</value>
+  </data>
+  <data name="Daily report ratings must be between 1 and 5." xml:space="preserve">
+    <value>Оценките в дневния отчет трябва да бъдат между 1 и 5.</value>
+  </data>
+  <data name="Description is required when type is Other." xml:space="preserve">
+    <value>Описанието е задължително, когато типът е „Друго“.</value>
+  </data>
+  <data name="End date cannot be before start date." xml:space="preserve">
+    <value>Крайната дата не може да бъде преди началната дата.</value>
+  </data>
+  <data name="Event not found." xml:space="preserve">
+    <value>Събитието не е намерено.</value>
+  </data>
+  <data name="Group not found." xml:space="preserve">
+    <value>Групата не е намерена.</value>
+  </data>
+  <data name="Medical record already exists for this child." xml:space="preserve">
+    <value>Вече има медицински запис за това дете.</value>
+  </data>
+  <data name="Medical record not found." xml:space="preserve">
+    <value>Медицинският запис не е намерен.</value>
+  </data>
+  <data name="Only pending consent requests can be responded to." xml:space="preserve">
+    <value>Може да се отговаря само на чакащи искания за съгласие.</value>
+  </data>
+  <data name="Only pending documents can be reviewed." xml:space="preserve">
+    <value>Може да се преглеждат само чакащи документи.</value>
+  </data>
+  <data name="Only pending notices can be confirmed." xml:space="preserve">
+    <value>Може да се потвърждават само чакащи уведомления.</value>
+  </data>
+  <data name="Parent profile not found." xml:space="preserve">
+    <value>Профилът на родителя не е намерен.</value>
+  </data>
+  <data name="Start date cannot be in the past." xml:space="preserve">
+    <value>Началната дата не може да бъде в миналото.</value>
+  </data>
+  <data name="Teacher group not found." xml:space="preserve">
+    <value>Групата на учителя не е намерена.</value>
+  </data>
+  <data name="Teacher profile not found." xml:space="preserve">
+    <value>Профилът на учителя не е намерен.</value>
+  </data>
+  <data name="There is already an active absence notice for this child in the selected period." xml:space="preserve">
+    <value>Вече има активно уведомление за отсъствие за това дете в избрания период.</value>
+  </data>
   <data name="Announcement title" xml:space="preserve">
     <value>Заглавие на съобщение</value>
   </data>

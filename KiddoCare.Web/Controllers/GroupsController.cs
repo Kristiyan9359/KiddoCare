@@ -2,6 +2,7 @@
 using KiddoCare.ViewModels.Groups;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using static KiddoCare.Common.RoleConstants;
 
 namespace KiddoCare.Web.Controllers;
@@ -10,10 +11,12 @@ namespace KiddoCare.Web.Controllers;
 public class GroupsController : Controller
 {
     private readonly IGroupService groupService;
+    private readonly IStringLocalizer<SharedResource> localizer;
 
-    public GroupsController(IGroupService groupService)
+    public GroupsController(IGroupService groupService, IStringLocalizer<SharedResource> localizer)
     {
         this.groupService = groupService;
+        this.localizer = localizer;
     }
 
     [HttpGet]
@@ -112,7 +115,7 @@ public class GroupsController : Controller
         }
         catch (InvalidOperationException ex)
         {
-            ModelState.AddModelError(string.Empty, ex.Message);
+            ModelState.AddModelError(string.Empty, this.localizer[ex.Message]);
 
             var model = await groupService.GetForDeleteAsync(id);
 
