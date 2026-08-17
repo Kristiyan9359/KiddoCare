@@ -1,12 +1,21 @@
 using KiddoCare.Models;
+using KiddoCare.Web;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using System.Diagnostics;
 
 namespace KiddoCare.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IStringLocalizer<SharedResource> localizer;
+
+        public HomeController(IStringLocalizer<SharedResource> localizer)
+        {
+            this.localizer = localizer;
+        }
+
         public IActionResult Index()
         {
             if (User.Identity?.IsAuthenticated == true)
@@ -61,16 +70,16 @@ namespace KiddoCare.Controllers
             ViewBag.StatusCode = code;
             ViewBag.Title = code switch
             {
-                404 => "Page not found",
-                403 => "Access denied",
-                _ => "Something went wrong"
+                404 => this.localizer["Page not found"],
+                403 => this.localizer["Access Denied"],
+                _ => this.localizer["Something went wrong"]
             };
 
             ViewBag.Message = code switch
             {
-                404 => "The page you are looking for does not exist or has been moved.",
-                403 => "You do not have permission to access this page.",
-                _ => "The request could not be completed."
+                404 => this.localizer["The page you are looking for does not exist or has been moved."],
+                403 => this.localizer["You do not have permission to access this page."],
+                _ => this.localizer["The request could not be completed."]
             };
 
             return View("StatusCode");

@@ -34,7 +34,7 @@
             <div class="mb-3">
                 <label asp-for="Reason" class="form-label">@T["Reason"]</label>
                 <select asp-for="Reason"
-                        asp-items="Html.GetEnumSelectList<AbsenceReason>()"
+                        asp-items="Html.GetLocalizedEnumSelectList<AbsenceReason>(T)"
                         class="form-select">
                 </select>
                 <span asp-validation-for="Reason" class="text-danger"></span>

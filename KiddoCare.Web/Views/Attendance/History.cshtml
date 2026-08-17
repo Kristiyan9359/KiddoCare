@@ -40,7 +40,7 @@
 
             <div class="mb-3">
                 <label asp-for="Status" class="form-label">@T["Status"]</label>
-                <select asp-for="Status" id="attendanceStatusSelect" asp-items="Html.GetEnumSelectList<AttendanceStatus>()" class="form-select">
+                <select asp-for="Status" id="attendanceStatusSelect" asp-items="Html.GetLocalizedEnumSelectList<AttendanceStatus>(T)" class="form-select">
                     <option value="">@T["All statuses"]</option>
                 </select>
             </div>

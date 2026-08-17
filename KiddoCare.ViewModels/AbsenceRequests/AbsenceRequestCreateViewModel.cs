@@ -11,11 +11,11 @@ public class AbsenceRequestCreateViewModel
     [Required(ErrorMessage = "Please select a child.")]
     public int? ChildId { get; set; }
 
-    [Display(Name = "Start date")]
+    [Display(Name = "Start Date")]
     [Required(ErrorMessage = "Please select the first absence date.")]
     public DateTime StartDate { get; set; } = DateTime.Today;
 
-    [Display(Name = "End date")]
+    [Display(Name = "End Date")]
     [Required(ErrorMessage = "Please select the last absence date.")]
     public DateTime EndDate { get; set; } = DateTime.Today;
 

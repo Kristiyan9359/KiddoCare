@@ -16,11 +16,11 @@ public class EventCreateViewModel
     [MaxLength(EventDescriptionMaxLength, ErrorMessage = "Description cannot be longer than {1} characters.")]
     public string? Description { get; set; }
 
-    [Display(Name = "Starts on")]
+    [Display(Name = "Starts On")]
     [Required(ErrorMessage = "Please select when the event starts.")]
     public DateTime StartDateTime { get; set; } = DateTime.Now.AddDays(1);
 
-    [Display(Name = "Ends on")]
+    [Display(Name = "Ends On")]
     public DateTime? EndDateTime { get; set; }
 
     [Display(Name = "Event type")]

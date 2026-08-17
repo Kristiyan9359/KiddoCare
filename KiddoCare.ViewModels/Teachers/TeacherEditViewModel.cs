@@ -8,7 +8,7 @@ public class TeacherEditViewModel
 {
     public int Id { get; set; }
 
-    [Display(Name = "Full name")]
+    [Display(Name = "Full Name")]
     [Required(ErrorMessage = "Please enter the teacher's full name.")]
     [MaxLength(TeacherFullNameMaxLength, ErrorMessage = "Full name cannot be longer than {1} characters.")]
     public string FullName { get; set; } = null!;
@@ -17,7 +17,7 @@ public class TeacherEditViewModel
     [MaxLength(TeacherPhoneNumberMaxLength, ErrorMessage = "Phone number cannot be longer than {1} characters.")]
     public string? PhoneNumber { get; set; }
 
-    [Display(Name = "Assigned group")]
+    [Display(Name = "Assigned Group")]
     [Required(ErrorMessage = "Please select a group.")]
     public int GroupId { get; set; }
 

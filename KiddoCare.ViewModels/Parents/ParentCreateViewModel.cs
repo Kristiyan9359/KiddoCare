@@ -10,7 +10,7 @@ public class ParentCreateViewModel
     [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
     public string Email { get; set; } = null!;
 
-    [Display(Name = "Full name")]
+    [Display(Name = "Full Name")]
     [Required(ErrorMessage = "Please enter the parent's full name.")]
     [MaxLength(ParentFullNameMaxLength, ErrorMessage = "Full name cannot be longer than {1} characters.")]
     public string FullName { get; set; } = null!;

@@ -7,7 +7,7 @@ public class ParentEditViewModel
 {
     public int Id { get; set; }
 
-    [Display(Name = "Full name")]
+    [Display(Name = "Full Name")]
     [Required(ErrorMessage = "Please enter the parent's full name.")]
     [MaxLength(ParentFullNameMaxLength, ErrorMessage = "Full name cannot be longer than {1} characters.")]
     public string FullName { get; set; } = null!;

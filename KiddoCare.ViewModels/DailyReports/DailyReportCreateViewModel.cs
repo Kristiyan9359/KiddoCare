@@ -11,7 +11,7 @@ public class DailyReportCreateViewModel
     [Required(ErrorMessage = "Please select a child.")]
     public int? ChildId { get; set; }
 
-    [Display(Name = "Report date")]
+    [Display(Name = "Report Date")]
     [Required(ErrorMessage = "Please select a report date.")]
     [DataType(DataType.Date)]
     public DateTime ReportDate { get; set; } = DateTime.Today;
@@ -32,7 +32,7 @@ public class DailyReportCreateViewModel
     [Range(1, 5, ErrorMessage = "Please rate the child's activities.")]
     public int ActivityRating { get; set; }
 
-    [Display(Name = "Teacher note")]
+    [Display(Name = "Teacher Note")]
     [MaxLength(DailyReportTeacherNoteMaxLength, ErrorMessage = "Teacher note cannot be longer than {1} characters.")]
     public string? TeacherNote { get; set; }
 

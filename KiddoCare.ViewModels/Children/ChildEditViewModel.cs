@@ -11,12 +11,12 @@ public class ChildEditViewModel
 {
     public int Id { get; set; }
 
-    [Display(Name = "First name")]
+    [Display(Name = "First Name")]
     [Required(ErrorMessage = "Please enter the child's first name.")]
     [MaxLength(ChildFirstNameMaxLength, ErrorMessage = "First name cannot be longer than {1} characters.")]
     public string FirstName { get; set; } = null!;
 
-    [Display(Name = "Last name")]
+    [Display(Name = "Last Name")]
     [Required(ErrorMessage = "Please enter the child's last name.")]
     [MaxLength(ChildLastNameMaxLength, ErrorMessage = "Last name cannot be longer than {1} characters.")]
     public string LastName { get; set; } = null!;
@@ -25,7 +25,7 @@ public class ChildEditViewModel
     [Required(ErrorMessage = "Please select the child's gender.")]
     public Gender Gender { get; set; }
 
-    [Display(Name = "Date of birth")]
+    [Display(Name = "Date of Birth")]
     [Required(ErrorMessage = "Please select the child's date of birth.")]
     [ChildBirthDate]
     public DateTime DateOfBirth { get; set; }

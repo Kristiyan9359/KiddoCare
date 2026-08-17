@@ -11,7 +11,7 @@ public class TeacherCreateViewModel
     [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
     public string Email { get; set; } = null!;
 
-    [Display(Name = "Full name")]
+    [Display(Name = "Full Name")]
     [Required(ErrorMessage = "Please enter the teacher's full name.")]
     [MaxLength(TeacherFullNameMaxLength, ErrorMessage = "Full name cannot be longer than {1} characters.")]
     public string FullName { get; set; } = null!;
@@ -20,7 +20,7 @@ public class TeacherCreateViewModel
     [MaxLength(TeacherPhoneNumberMaxLength, ErrorMessage = "Phone number cannot be longer than {1} characters.")]
     public string? PhoneNumber { get; set; }
 
-    [Display(Name = "Assigned group")]
+    [Display(Name = "Assigned Group")]
     [Required(ErrorMessage = "Please select a group.")]
     public int GroupId { get; set; }
 

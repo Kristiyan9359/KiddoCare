@@ -30,7 +30,7 @@
 
             <div class="mb-3">
                 <label asp-for="Type" class="form-label">@T["Type"]</label>
-                <select asp-for="Type" asp-items="Html.GetEnumSelectList<EventType>()" class="form-select"></select>
+                <select asp-for="Type" asp-items="Html.GetLocalizedEnumSelectList<EventType>(T)" class="form-select"></select>
                 <span asp-validation-for="Type" class="text-danger"></span>
             </div>
 

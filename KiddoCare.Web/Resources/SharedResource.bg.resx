@@ -1779,4 +1779,187 @@
   <data name="Request ID" xml:space="preserve">
     <value>Номер на заявка</value>
   </data>
+  <data name="Page not found" xml:space="preserve">
+    <value>Страницата не е намерена</value>
+  </data>
+  <data name="The page you are looking for does not exist or has been moved." xml:space="preserve">
+    <value>Страницата, която търсиш, не съществува или е преместена.</value>
+  </data>
+  <data name="The request could not be completed." xml:space="preserve">
+    <value>Заявката не можа да бъде изпълнена.</value>
+  </data>
+  <data name="Announcement title" xml:space="preserve">
+    <value>Заглавие на съобщение</value>
+  </data>
+  <data name="Announcement title cannot be longer than {1} characters." xml:space="preserve">
+    <value>Заглавието на съобщението не може да бъде по-дълго от {1} символа.</value>
+  </data>
+  <data name="Confirmation note cannot be longer than {1} characters." xml:space="preserve">
+    <value>Бележката за потвърждение не може да бъде по-дълга от {1} символа.</value>
+  </data>
+  <data name="Consent title" xml:space="preserve">
+    <value>Заглавие на съгласие</value>
+  </data>
+  <data name="Consent title cannot be longer than {1} characters." xml:space="preserve">
+    <value>Заглавието на съгласието не може да бъде по-дълго от {1} символа.</value>
+  </data>
+  <data name="Consent type" xml:space="preserve">
+    <value>Тип съгласие</value>
+  </data>
+  <data name="Document file" xml:space="preserve">
+    <value>Файл на документ</value>
+  </data>
+  <data name="Document title" xml:space="preserve">
+    <value>Заглавие на документ</value>
+  </data>
+  <data name="Document title cannot be longer than {1} characters." xml:space="preserve">
+    <value>Заглавието на документа не може да бъде по-дълго от {1} символа.</value>
+  </data>
+  <data name="Document type" xml:space="preserve">
+    <value>Тип документ</value>
+  </data>
+  <data name="Email address" xml:space="preserve">
+    <value>Имейл адрес</value>
+  </data>
+  <data name="Event title" xml:space="preserve">
+    <value>Заглавие на събитие</value>
+  </data>
+  <data name="Event title cannot be longer than {1} characters." xml:space="preserve">
+    <value>Заглавието на събитието не може да бъде по-дълго от {1} символа.</value>
+  </data>
+  <data name="Event type" xml:space="preserve">
+    <value>Тип събитие</value>
+  </data>
+  <data name="First name cannot be longer than {1} characters." xml:space="preserve">
+    <value>Името не може да бъде по-дълго от {1} символа.</value>
+  </data>
+  <data name="Full name cannot be longer than {1} characters." xml:space="preserve">
+    <value>Пълното име не може да бъде по-дълго от {1} символа.</value>
+  </data>
+  <data name="Group name cannot be longer than {1} characters." xml:space="preserve">
+    <value>Името на групата не може да бъде по-дълго от {1} символа.</value>
+  </data>
+  <data name="Last name cannot be longer than {1} characters." xml:space="preserve">
+    <value>Фамилията не може да бъде по-дълга от {1} символа.</value>
+  </data>
+  <data name="Location cannot be longer than {1} characters." xml:space="preserve">
+    <value>Мястото не може да бъде по-дълго от {1} символа.</value>
+  </data>
+  <data name="Message cannot be longer than {1} characters." xml:space="preserve">
+    <value>Съобщението не може да бъде по-дълго от {1} символа.</value>
+  </data>
+  <data name="Parent note cannot be longer than {1} characters." xml:space="preserve">
+    <value>Бележката от родителя не може да бъде по-дълга от {1} символа.</value>
+  </data>
+  <data name="Phone number" xml:space="preserve">
+    <value>Телефонен номер</value>
+  </data>
+  <data name="Phone number cannot be longer than {1} characters." xml:space="preserve">
+    <value>Телефонният номер не може да бъде по-дълъг от {1} символа.</value>
+  </data>
+  <data name="Please enter a consent title." xml:space="preserve">
+    <value>Въведи заглавие на съгласие.</value>
+  </data>
+  <data name="Please enter a document title." xml:space="preserve">
+    <value>Въведи заглавие на документ.</value>
+  </data>
+  <data name="Please enter a group name." xml:space="preserve">
+    <value>Въведи име на група.</value>
+  </data>
+  <data name="Please enter a valid email address." xml:space="preserve">
+    <value>Въведи валиден имейл адрес.</value>
+  </data>
+  <data name="Please enter an announcement title." xml:space="preserve">
+    <value>Въведи заглавие на съобщение.</value>
+  </data>
+  <data name="Please enter an event title." xml:space="preserve">
+    <value>Въведи заглавие на събитие.</value>
+  </data>
+  <data name="Please enter the announcement message." xml:space="preserve">
+    <value>Въведи текста на съобщението.</value>
+  </data>
+  <data name="Please enter the child's first name." xml:space="preserve">
+    <value>Въведи името на детето.</value>
+  </data>
+  <data name="Please enter the child's last name." xml:space="preserve">
+    <value>Въведи фамилията на детето.</value>
+  </data>
+  <data name="Please enter the parent's email address." xml:space="preserve">
+    <value>Въведи имейл адреса на родителя.</value>
+  </data>
+  <data name="Please enter the parent's full name." xml:space="preserve">
+    <value>Въведи пълното име на родителя.</value>
+  </data>
+  <data name="Please enter the teacher's email address." xml:space="preserve">
+    <value>Въведи имейл адреса на учителя.</value>
+  </data>
+  <data name="Please enter the teacher's full name." xml:space="preserve">
+    <value>Въведи пълното име на учителя.</value>
+  </data>
+  <data name="Please rate the child's activities." xml:space="preserve">
+    <value>Оцени активностите на детето.</value>
+  </data>
+  <data name="Please rate the child's meals." xml:space="preserve">
+    <value>Оцени храненето на детето.</value>
+  </data>
+  <data name="Please rate the child's sleep." xml:space="preserve">
+    <value>Оцени съня на детето.</value>
+  </data>
+  <data name="Please select a child." xml:space="preserve">
+    <value>Избери дете.</value>
+  </data>
+  <data name="Please select a consent type." xml:space="preserve">
+    <value>Избери тип съгласие.</value>
+  </data>
+  <data name="Please select a document type." xml:space="preserve">
+    <value>Избери тип документ.</value>
+  </data>
+  <data name="Please select a group." xml:space="preserve">
+    <value>Избери група.</value>
+  </data>
+  <data name="Please select a reason." xml:space="preserve">
+    <value>Избери причина.</value>
+  </data>
+  <data name="Please select a report date." xml:space="preserve">
+    <value>Избери дата на отчета.</value>
+  </data>
+  <data name="Please select a review decision." xml:space="preserve">
+    <value>Избери решение от прегледа.</value>
+  </data>
+  <data name="Please select an event type." xml:space="preserve">
+    <value>Избери тип събитие.</value>
+  </data>
+  <data name="Please select the child's date of birth." xml:space="preserve">
+    <value>Избери датата на раждане на детето.</value>
+  </data>
+  <data name="Please select the child's gender." xml:space="preserve">
+    <value>Избери пола на детето.</value>
+  </data>
+  <data name="Please select the child's mood." xml:space="preserve">
+    <value>Избери настроението на детето.</value>
+  </data>
+  <data name="Please select the first absence date." xml:space="preserve">
+    <value>Избери първата дата на отсъствие.</value>
+  </data>
+  <data name="Please select the last absence date." xml:space="preserve">
+    <value>Избери последната дата на отсъствие.</value>
+  </data>
+  <data name="Please select when the event starts." xml:space="preserve">
+    <value>Избери кога започва събитието.</value>
+  </data>
+  <data name="Please select your response." xml:space="preserve">
+    <value>Избери отговор.</value>
+  </data>
+  <data name="Please upload a document file." xml:space="preserve">
+    <value>Качи файл на документ.</value>
+  </data>
+  <data name="Profile photo" xml:space="preserve">
+    <value>Профилна снимка</value>
+  </data>
+  <data name="Review note cannot be longer than {1} characters." xml:space="preserve">
+    <value>Бележката от прегледа не може да бъде по-дълга от {1} символа.</value>
+  </data>
+  <data name="Teacher note cannot be longer than {1} characters." xml:space="preserve">
+    <value>Бележката от учителя не може да бъде по-дълга от {1} символа.</value>
+  </data>
 </root>

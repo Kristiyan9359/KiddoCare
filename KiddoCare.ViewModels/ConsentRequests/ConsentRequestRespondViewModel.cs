@@ -16,11 +16,11 @@ public class ConsentRequestRespondViewModel
 
     public string? Description { get; set; }
 
-    [Display(Name = "Your response")]
+    [Display(Name = "Your Response")]
     [Range(1, 2, ErrorMessage = "Please select your response.")]
     public RequestStatus Status { get; set; }
 
-    [Display(Name = "Parent note")]
+    [Display(Name = "Parent Note")]
     [MaxLength(ConsentRequestParentNoteMaxLength, ErrorMessage = "Parent note cannot be longer than {1} characters.")]
     public string? ParentNote { get; set; }
 

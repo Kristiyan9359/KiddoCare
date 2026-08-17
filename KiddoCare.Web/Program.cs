@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using KiddoCare.Services.Core;
 using KiddoCare.Services.Core.Contracts;
+using KiddoCare.Web;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
 using System.Globalization;
@@ -34,7 +35,11 @@ builder.Services.AddControllersWithViews(options =>
     options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
 })
 .AddViewLocalization()
-.AddDataAnnotationsLocalization();
+.AddDataAnnotationsLocalization(options =>
+{
+    options.DataAnnotationLocalizerProvider = (type, factory) =>
+        factory.Create(typeof(SharedResource));
+});
 
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {

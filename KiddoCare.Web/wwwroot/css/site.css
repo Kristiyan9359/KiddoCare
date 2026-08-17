@@ -705,12 +705,15 @@ textarea.form-control {
 .error-card {
     width: min(620px, 100%);
     text-align: center;
-    border: 1px solid rgba(221, 229, 239, 0.78);
+    border: 1px solid rgba(148, 163, 184, 0.26);
     border-radius: var(--kc-radius);
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(248, 250, 252, 0.78));
-    box-shadow: var(--kc-shadow);
+    background:
+        linear-gradient(145deg, rgba(15, 23, 42, 0.94), rgba(30, 41, 59, 0.86)),
+        radial-gradient(circle at top left, rgba(96, 165, 250, 0.18), transparent 34%);
+    box-shadow: 0 28px 80px rgba(2, 8, 23, 0.36);
     backdrop-filter: blur(14px);
     padding: 44px 28px;
+    color: #f8fafc;
 }
 
 .error-code {
@@ -729,6 +732,7 @@ textarea.form-control {
 
 .error-card h1 {
     margin-bottom: 10px;
+    color: #f8fafc;
 }
 
 .error-card p {
@@ -775,7 +779,7 @@ textarea.form-control {
 }
 
 .confirm-modal .modal-body {
-    color: var(--kc-muted);
+    color: #cbd5e1;
     font-weight: 500;
 }
 
@@ -1189,8 +1193,8 @@ textarea.form-control {
 .child-card-group {
     flex-shrink: 0;
     border-radius: 999px;
-    background: #eef4ff;
-    color: var(--kc-primary);
+    background: linear-gradient(135deg, rgba(96, 165, 250, 0.24), rgba(34, 211, 238, 0.18));
+    color: #93c5fd;
     padding: 5px 9px;
     font-size: 0.78rem;
     font-weight: 800;

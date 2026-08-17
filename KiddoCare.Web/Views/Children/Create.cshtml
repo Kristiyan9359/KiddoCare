@@ -32,7 +32,7 @@
             <div class="mb-3">
                 <label asp-for="Gender" class="form-label">@T["Gender"]</label>
                 <select asp-for="Gender"
-                        asp-items="Html.GetEnumSelectList<KiddoCare.Data.Models.Enums.Gender>()"
+                        asp-items="Html.GetLocalizedEnumSelectList<KiddoCare.Data.Models.Enums.Gender>(T)"
                         class="form-select">
                     <option value="">@T["Select gender..."]</option>
                 </select>

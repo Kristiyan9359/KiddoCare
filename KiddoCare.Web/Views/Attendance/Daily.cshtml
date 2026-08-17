@@ -123,7 +123,7 @@
                                 </td>
                                 <td data-label='@T["Status"]'>
                                     <select asp-for="Children[i].Status"
-                                            asp-items="Html.GetEnumSelectList<AttendanceStatus>()"
+                                            asp-items="Html.GetLocalizedEnumSelectList<AttendanceStatus>(T)"
                                             class="form-select">
                                     </select>
                                 </td>

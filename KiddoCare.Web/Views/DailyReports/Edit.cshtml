@@ -4,7 +4,7 @@
 @{
     ViewData["Title"] = T["Edit Daily Report"];
     var maxReportDate = DateTime.Today.ToString("yyyy-MM-dd");
-    var moodOptions = Html.GetEnumSelectList<ChildMood>()
+    var moodOptions = Html.GetLocalizedEnumSelectList<ChildMood>(T)
         .Where(m => m.Value != "0");
     var backUrl = Model.ReturnUrl ?? Url.Action("Details", new { id = Model.Id });
 }
