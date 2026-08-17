@@ -224,12 +224,12 @@ public class DailyReportService : IDailyReportService
             throw new InvalidOperationException("Child is required.");
         }
 
-        if (model.Mood == ChildMood.Unknown)
+        if (!model.Mood.HasValue || model.Mood == ChildMood.Unknown)
         {
             throw new InvalidOperationException("Child mood is required.");
         }
 
-        ValidateRatings(model.MealRating, model.SleepRating, model.ActivityRating);
+        var ratings = GetValidatedRatings(model.MealRating, model.SleepRating, model.ActivityRating);
 
         if (model.ReportDate.Date > DateTime.Today)
         {
@@ -262,10 +262,10 @@ public class DailyReportService : IDailyReportService
         {
             ChildId = model.ChildId.Value,
             ReportDate = model.ReportDate.Date,
-            Mood = model.Mood,
-            MealRating = model.MealRating,
-            SleepRating = model.SleepRating,
-            ActivityRating = model.ActivityRating,
+            Mood = model.Mood.Value,
+            MealRating = ratings.MealRating,
+            SleepRating = ratings.SleepRating,
+            ActivityRating = ratings.ActivityRating,
             TeacherNote = model.TeacherNote,
             CreatedByUserId = userId
         };
@@ -301,12 +301,12 @@ public class DailyReportService : IDailyReportService
 
     public async Task EditAsync(DailyReportEditViewModel model, string userId, bool isAdmin, bool isTeacher)
     {
-        if (model.Mood == ChildMood.Unknown)
+        if (!model.Mood.HasValue || model.Mood == ChildMood.Unknown)
         {
             throw new InvalidOperationException("Child mood is required.");
         }
 
-        ValidateRatings(model.MealRating, model.SleepRating, model.ActivityRating);
+        var ratings = GetValidatedRatings(model.MealRating, model.SleepRating, model.ActivityRating);
 
         if (model.ReportDate.Date > DateTime.Today)
         {
@@ -341,10 +341,10 @@ public class DailyReportService : IDailyReportService
         }
 
         dailyReport.ReportDate = model.ReportDate.Date;
-        dailyReport.Mood = model.Mood;
-        dailyReport.MealRating = model.MealRating;
-        dailyReport.SleepRating = model.SleepRating;
-        dailyReport.ActivityRating = model.ActivityRating;
+        dailyReport.Mood = model.Mood.Value;
+        dailyReport.MealRating = ratings.MealRating;
+        dailyReport.SleepRating = ratings.SleepRating;
+        dailyReport.ActivityRating = ratings.ActivityRating;
         dailyReport.TeacherNote = model.TeacherNote;
 
         await this.context.SaveChangesAsync();
@@ -418,14 +418,19 @@ public class DailyReportService : IDailyReportService
             r.CreatedByUserId == userId);
     }
 
-    private static void ValidateRatings(int mealRating, int sleepRating, int activityRating)
+    private static (int MealRating, int SleepRating, int ActivityRating) GetValidatedRatings(int? mealRating, int? sleepRating, int? activityRating)
     {
-        if (!IsValidRating(mealRating) ||
-            !IsValidRating(sleepRating) ||
-            !IsValidRating(activityRating))
+        if (!mealRating.HasValue ||
+            !sleepRating.HasValue ||
+            !activityRating.HasValue ||
+            !IsValidRating(mealRating.Value) ||
+            !IsValidRating(sleepRating.Value) ||
+            !IsValidRating(activityRating.Value))
         {
             throw new InvalidOperationException("Daily report ratings must be between 1 and 5.");
         }
+
+        return (mealRating.Value, sleepRating.Value, activityRating.Value);
     }
 
     private static bool IsValidRating(int rating)

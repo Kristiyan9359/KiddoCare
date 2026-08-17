@@ -1806,6 +1806,15 @@
   <data name="Allowed photo formats are JPG and PNG." xml:space="preserve">
     <value>Позволените формати за снимка са JPG и PNG.</value>
   </data>
+  <data name="The {0} field is required." xml:space="preserve">
+    <value>Полето {0} е задължително.</value>
+  </data>
+  <data name="The field {0} must be between {1} and {2}." xml:space="preserve">
+    <value>Полето {0} трябва да бъде между {1} и {2}.</value>
+  </data>
+  <data name="The field {0} must be a string or array type with a maximum length of '{1}'." xml:space="preserve">
+    <value>Полето {0} не може да бъде по-дълго от {1} символа.</value>
+  </data>
   <data name="Announcement title" xml:space="preserve">
     <value>Заглавие на съобщение</value>
   </data>
