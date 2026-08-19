@@ -19,16 +19,16 @@
     <title>@T[ViewData["Title"]?.ToString() ?? "KiddoCare"] - KiddoCare</title>
     <script type="importmap"></script>
     <script>
-        (() => {
-            const storedTheme = localStorage.getItem("kiddocare-theme");
-            const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-            const theme = storedTheme === "dark" || storedTheme === "light"
-                ? storedTheme
-                : prefersDark ? "dark" : "light";
+            (() => {
+                const storedTheme = localStorage.getItem("kiddocare-theme");
+                const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+                const theme = storedTheme === "dark" || storedTheme === "light"
+                    ? storedTheme
+                    : prefersDark ? "dark" : "light";
 
-            document.documentElement.dataset.theme = theme;
-            document.documentElement.dataset.bsTheme = theme;
-        })();
+                document.documentElement.dataset.theme = theme;
+                document.documentElement.dataset.bsTheme = theme;
+            })();
     </script>
     <link rel="icon" type="image/png" href="~/images/favicons/kiddocare-favicon-k.png" asp-append-version="true" />
     <link rel="shortcut icon" href="~/favicon.ico" asp-append-version="true" />
@@ -65,6 +65,10 @@
                         {
                             <li class="nav-item">
                                 <a class="nav-link" asp-controller="Dashboard" asp-action="Index">@T["Dashboard"]</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Messages" asp-action="Index">@T["Messages"]</a>
                             </li>
 
                             @if (isStaff)

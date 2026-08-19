@@ -2445,4 +2445,10 @@
   <data name="Please enter your password to confirm the email change." xml:space="preserve">
     <value>Въведете паролата си, за да потвърдите смяната на имейла.</value>
   </data>
+  <data name="Messages" xml:space="preserve">
+    <value>Съобщения</value>
+  </data>
+  <data name="Message sent successfully." xml:space="preserve">
+    <value>Съобщението беше изпратено успешно.</value>
+  </data>
 </root>
