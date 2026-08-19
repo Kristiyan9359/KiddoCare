@@ -82,6 +82,8 @@ builder.Services.AddScoped<IConsentRequestService, ConsentRequestService>();
 
 builder.Services.AddScoped<IChildDocumentService, ChildDocumentService>();
 
+builder.Services.AddScoped<IMessageService, MessageService>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

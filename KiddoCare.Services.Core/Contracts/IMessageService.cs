@@ -1,0 +1,14 @@
+﻿using KiddoCare.ViewModels.Messages;
+
+namespace KiddoCare.Services.Core.Contracts;
+
+public interface IMessageService
+{
+    Task<IEnumerable<MessageConversationViewModel>> GetConversationsAsync(string userId, bool isAdmin, bool isTeacher, bool isParent);
+
+    Task<MessageDetailsViewModel?> GetDetailsAsync(int conversationId, string userId, bool isAdmin, bool isTeacher, bool isParent);
+
+    Task<bool> CanAccessConversationAsync(int conversationId, string userId, bool isAdmin, bool isTeacher, bool isParent);
+
+    Task SendMessageAsync(SendMessageInputModel model, string senderUserId, bool isAdmin, bool isTeacher, bool isParent);
+}
