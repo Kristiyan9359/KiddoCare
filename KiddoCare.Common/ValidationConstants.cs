@@ -56,4 +56,7 @@ public static class ValidationConstants
     public const int ChildDocumentTitleMaxLength = 150;
     public const int ChildDocumentFileUrlMaxLength = 2048;
     public const int ChildDocumentReviewNoteMaxLength = 1000;
+
+    //Inbox
+    public const int ChatMessageContentMaxLength = 2000;
 }

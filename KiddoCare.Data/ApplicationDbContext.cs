@@ -30,6 +30,10 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
     public virtual DbSet<ChildDocument> ChildDocuments { get; set; } = null!;
 
+    public virtual DbSet<Conversation> Conversations { get; set; } = null!;
+
+    public virtual DbSet<ChatMessage> ChatMessages { get; set; } = null!;
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -48,5 +52,40 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
            .HasIndex(r => new { r.ChildId, r.ReportDate })
            .IsUnique()
            .HasFilter("[IsDeleted] = 0");
+
+        builder.Entity<Conversation>()
+            .HasOne(c => c.Child)
+            .WithMany()
+            .HasForeignKey(c => c.ChildId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Entity<Conversation>()
+            .HasOne(c => c.ParentUser)
+            .WithMany()
+            .HasForeignKey(c => c.ParentUserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Entity<Conversation>()
+            .HasOne(c => c.TeacherUser)
+            .WithMany()
+            .HasForeignKey(c => c.TeacherUserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Entity<Conversation>()
+            .HasIndex(c => new { c.ChildId, c.ParentUserId, c.TeacherUserId })
+            .IsUnique()
+            .HasFilter("[IsDeleted] = 0");
+
+        builder.Entity<ChatMessage>()
+            .HasOne(m => m.Conversation)
+            .WithMany(c => c.Messages)
+            .HasForeignKey(m => m.ConversationId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Entity<ChatMessage>()
+            .HasOne(m => m.SenderUser)
+            .WithMany()
+            .HasForeignKey(m => m.SenderUserId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
