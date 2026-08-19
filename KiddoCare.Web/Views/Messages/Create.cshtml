@@ -1,0 +1,51 @@
+@model KiddoCare.ViewModels.Messages.MessageCreateViewModel
+
+@{
+    ViewData["Title"] = T["New conversation"];
+}
+
+<section class="list-page-header">
+    <div>
+        <div class="page-kicker">@T["Messages"]</div>
+        <h1>@T["New conversation"]</h1>
+        <p class="page-subtitle">@T["Start a private conversation with a parent, teacher or the administration."]</p>
+    </div>
+</section>
+
+<section class="section-panel">
+    <form asp-action="Create" method="post" class="form-grid">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="mb-3">
+            <label asp-for="RecipientUserId" class="form-label">@T["Recipient"]</label>
+            <select asp-for="RecipientUserId" asp-items="Model.Recipients" class="form-select">
+                <option value="">@T["Select recipient..."]</option>
+            </select>
+            <span asp-validation-for="RecipientUserId" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ChildId" class="form-label">@T["Child"]</label>
+            <select asp-for="ChildId" asp-items="Model.Children" class="form-select">
+                <option value="">@T["No child selected"]</option>
+            </select>
+            <div class="form-text">@T["Select a child when the conversation is about a specific child."]</div>
+            <span asp-validation-for="ChildId" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Content" class="form-label">@T["Message"]</label>
+            <textarea asp-for="Content" rows="5" class="form-control" placeholder='@T["Write a message..."]'></textarea>
+            <span asp-validation-for="Content" class="text-danger"></span>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">@T["Send"]</button>
+            <a asp-action="Index" class="btn btn-secondary">@T["Cancel"]</a>
+        </div>
+    </form>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

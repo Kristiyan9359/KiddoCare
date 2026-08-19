@@ -1,31 +1,36 @@
 ﻿namespace KiddoCare.Data.Models;
 
-using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using KiddoCare.Data.Models.Enums;
+using Microsoft.AspNetCore.Identity;
 
 public class Conversation
 {
     [Key]
     public int Id { get; set; }
 
-    [Required]
+    public ConversationType Type { get; set; } = ConversationType.ParentTeacher;
+
     [ForeignKey(nameof(Child))]
-    public int ChildId { get; set; }
+    public int? ChildId { get; set; }
 
-    public Child Child { get; set; } = null!;
+    public Child? Child { get; set; }
 
-    [Required]
-    public string ParentUserId { get; set; } = null!;
+    public string? ParentUserId { get; set; }
 
     [ForeignKey(nameof(ParentUserId))]
-    public IdentityUser ParentUser { get; set; } = null!;
+    public IdentityUser? ParentUser { get; set; }
 
-    [Required]
-    public string TeacherUserId { get; set; } = null!;
+    public string? TeacherUserId { get; set; }
 
     [ForeignKey(nameof(TeacherUserId))]
-    public IdentityUser TeacherUser { get; set; } = null!;
+    public IdentityUser? TeacherUser { get; set; }
+
+    public string? AdminUserId { get; set; }
+
+    [ForeignKey(nameof(AdminUserId))]
+    public IdentityUser? AdminUser { get; set; }
 
     public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
 

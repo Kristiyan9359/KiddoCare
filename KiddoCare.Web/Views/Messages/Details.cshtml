@@ -52,8 +52,12 @@
     <section class="message-chat-panel">
         <header class="message-chat-header">
             <div>
-                <div class="message-chat-child">@Model.ChildFullName</div>
+                <div class="message-chat-child">@T[Model.ConversationType]</div>
                 <h2>@Model.OtherParticipantName</h2>
+                @if (!string.IsNullOrWhiteSpace(Model.ChildFullName))
+                {
+                    <p>@T["Child"]: @Model.ChildFullName</p>
+                }
             </div>
 
             <a asp-action="Index" class="btn btn-secondary">@T["Back"]</a>

@@ -72,7 +72,13 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.Entity<Conversation>()
-            .HasIndex(c => new { c.ChildId, c.ParentUserId, c.TeacherUserId })
+            .HasOne(c => c.AdminUser)
+            .WithMany()
+            .HasForeignKey(c => c.AdminUserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Entity<Conversation>()
+            .HasIndex(c => new { c.Type, c.ChildId, c.ParentUserId, c.TeacherUserId, c.AdminUserId })
             .IsUnique()
             .HasFilter("[IsDeleted] = 0");
 

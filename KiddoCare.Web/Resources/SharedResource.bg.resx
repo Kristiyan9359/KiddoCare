@@ -2475,4 +2475,49 @@
   <data name="Send" xml:space="preserve">
     <value>Изпрати</value>
   </data>
+  <data name="New conversation" xml:space="preserve">
+    <value>Нов разговор</value>
+  </data>
+  <data name="Start a private conversation with a parent, teacher or the administration." xml:space="preserve">
+    <value>Започнете личен разговор с родител, учител или администрацията.</value>
+  </data>
+  <data name="Recipient" xml:space="preserve">
+    <value>Получател</value>
+  </data>
+  <data name="Select recipient..." xml:space="preserve">
+    <value>Изберете получател...</value>
+  </data>
+  <data name="No child selected" xml:space="preserve">
+    <value>Няма избрано дете</value>
+  </data>
+  <data name="Select a child when the conversation is about a specific child." xml:space="preserve">
+    <value>Изберете дете, когато разговорът е за конкретно дете.</value>
+  </data>
+  <data name="Parent-teacher conversation" xml:space="preserve">
+    <value>Разговор родител-учител</value>
+  </data>
+  <data name="Administration conversation" xml:space="preserve">
+    <value>Разговор с администрацията</value>
+  </data>
+  <data name="Staff conversation" xml:space="preserve">
+    <value>Разговор с екипа</value>
+  </data>
+  <data name="Conversation" xml:space="preserve">
+    <value>Разговор</value>
+  </data>
+  <data name="Please select a recipient." xml:space="preserve">
+    <value>Изберете получател.</value>
+  </data>
+  <data name="Please enter a message." xml:space="preserve">
+    <value>Въведете съобщение.</value>
+  </data>
+  <data name="You cannot start a conversation with this recipient." xml:space="preserve">
+    <value>Не можете да започнете разговор с този получател.</value>
+  </data>
+  <data name="Selected child is not available for this conversation." xml:space="preserve">
+    <value>Избраното дете не е достъпно за този разговор.</value>
+  </data>
+  <data name="Please select a child for parent-teacher conversations." xml:space="preserve">
+    <value>Изберете дете за разговор между родител и учител.</value>
+  </data>
 </root>
