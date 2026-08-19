@@ -110,7 +110,16 @@ public class MessageService : IMessageService
             })
             .ToListAsync();
 
-        var senderIds = messages.Select(m => m.SenderUserId).Distinct().ToList();
+        var participantIds = new[] { conversation.ParentUserId, conversation.TeacherUserId, conversation.AdminUserId }
+            .Where(id => id != null)
+            .Select(id => id!);
+
+        var senderIds = messages
+            .Select(m => m.SenderUserId)
+            .Concat(participantIds)
+            .Distinct()
+            .ToList();
+
         var displayNames = await GetDisplayNamesByUserIdsAsync(senderIds);
 
         return new MessageDetailsViewModel
