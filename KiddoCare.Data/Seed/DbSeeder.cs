@@ -129,24 +129,24 @@ public static class DbSeeder
         var parentNikolovi = await EnsureParentProfileAsync(context, parentNikoloviUser.Id, "Elena Nikolova", "+359 888 200 206");
         var parentAngelovi = await EnsureParentProfileAsync(context, parentAngeloviUser.Id, "Angel Angelov", "+359 888 200 207");
 
-        var today = DateTime.Today;
-        var childMila = await EnsureChildAsync(context, "Mila", "Ivanova", Gender.Female, today.AddYears(-4).AddMonths(-2), sunshineGroup.Id, parentIvanovi.Id, DemoAvatarUrl("Mila Ivanova"));
-        var childBoris = await EnsureChildAsync(context, "Boris", "Ivanov", Gender.Male, today.AddYears(-5).AddMonths(1), sunshineGroup.Id, parentIvanovi.Id, DemoAvatarUrl("Boris Ivanov"));
-        var childElena = await EnsureChildAsync(context, "Elena", "Petrova", Gender.Female, today.AddYears(-4).AddMonths(-8), sunshineGroup.Id, parentPetrovi.Id, DemoAvatarUrl("Elena Petrova"));
-        var childViktor = await EnsureChildAsync(context, "Viktor", "Petrov", Gender.Male, today.AddYears(-3).AddMonths(-10), sunshineGroup.Id, parentPetrovi.Id, DemoAvatarUrl("Viktor Petrov"));
-        var childTeodor = await EnsureChildAsync(context, "Teodor", "Angelov", Gender.Male, today.AddYears(-5).AddMonths(2), sunshineGroup.Id, parentAngelovi.Id, DemoAvatarUrl("Teodor Angelov"));
+        var seedDate = new DateTime(2026, 8, 19);
+        var childMila = await EnsureChildAsync(context, "Mila", "Ivanova", Gender.Female, seedDate.AddYears(-4).AddMonths(-2), sunshineGroup.Id, parentIvanovi.Id, DemoAvatarUrl("Mila Ivanova"));
+        var childBoris = await EnsureChildAsync(context, "Boris", "Ivanov", Gender.Male, seedDate.AddYears(-5).AddMonths(1), sunshineGroup.Id, parentIvanovi.Id, DemoAvatarUrl("Boris Ivanov"));
+        var childElena = await EnsureChildAsync(context, "Elena", "Petrova", Gender.Female, seedDate.AddYears(-4).AddMonths(-8), sunshineGroup.Id, parentPetrovi.Id, DemoAvatarUrl("Elena Petrova"));
+        var childViktor = await EnsureChildAsync(context, "Viktor", "Petrov", Gender.Male, seedDate.AddYears(-3).AddMonths(-10), sunshineGroup.Id, parentPetrovi.Id, DemoAvatarUrl("Viktor Petrov"));
+        var childTeodor = await EnsureChildAsync(context, "Teodor", "Angelov", Gender.Male, seedDate.AddYears(-5).AddMonths(2), sunshineGroup.Id, parentAngelovi.Id, DemoAvatarUrl("Teodor Angelov"));
 
-        var childSofia = await EnsureChildAsync(context, "Sofia", "Georgieva", Gender.Female, today.AddYears(-3).AddMonths(-8), moonlightGroup.Id, parentGeorgievi.Id, DemoAvatarUrl("Sofia Georgieva"));
-        var childMartin = await EnsureChildAsync(context, "Martin", "Georgiev", Gender.Male, today.AddYears(-4).AddMonths(-5), moonlightGroup.Id, parentGeorgievi.Id, DemoAvatarUrl("Martin Georgiev"));
-        var childNia = await EnsureChildAsync(context, "Nia", "Dimitrova", Gender.Female, today.AddYears(-4).AddMonths(-1), moonlightGroup.Id, parentDimitrovi.Id, DemoAvatarUrl("Nia Dimitrova"));
-        var childKaloyan = await EnsureChildAsync(context, "Kaloyan", "Dimitrov", Gender.Male, today.AddYears(-5).AddMonths(3), moonlightGroup.Id, parentDimitrovi.Id, DemoAvatarUrl("Kaloyan Dimitrov"));
-        var childEmma = await EnsureChildAsync(context, "Emma", "Angelova", Gender.Female, today.AddYears(-3).AddMonths(-6), moonlightGroup.Id, parentAngelovi.Id, DemoAvatarUrl("Emma Angelova"));
+        var childSofia = await EnsureChildAsync(context, "Sofia", "Georgieva", Gender.Female, seedDate.AddYears(-3).AddMonths(-8), moonlightGroup.Id, parentGeorgievi.Id, DemoAvatarUrl("Sofia Georgieva"));
+        var childMartin = await EnsureChildAsync(context, "Martin", "Georgiev", Gender.Male, seedDate.AddYears(-4).AddMonths(-5), moonlightGroup.Id, parentGeorgievi.Id, DemoAvatarUrl("Martin Georgiev"));
+        var childNia = await EnsureChildAsync(context, "Nia", "Dimitrova", Gender.Female, seedDate.AddYears(-4).AddMonths(-1), moonlightGroup.Id, parentDimitrovi.Id, DemoAvatarUrl("Nia Dimitrova"));
+        var childKaloyan = await EnsureChildAsync(context, "Kaloyan", "Dimitrov", Gender.Male, seedDate.AddYears(-5).AddMonths(3), moonlightGroup.Id, parentDimitrovi.Id, DemoAvatarUrl("Kaloyan Dimitrov"));
+        var childEmma = await EnsureChildAsync(context, "Emma", "Angelova", Gender.Female, seedDate.AddYears(-3).AddMonths(-6), moonlightGroup.Id, parentAngelovi.Id, DemoAvatarUrl("Emma Angelova"));
 
-        var childAlex = await EnsureChildAsync(context, "Alex", "Stoyanov", Gender.Male, today.AddYears(-4).AddMonths(-3), starsGroup.Id, parentStoyanovi.Id, DemoAvatarUrl("Alex Stoyanov"));
-        var childRaya = await EnsureChildAsync(context, "Raya", "Stoyanova", Gender.Female, today.AddYears(-3).AddMonths(-11), starsGroup.Id, parentStoyanovi.Id, DemoAvatarUrl("Raya Stoyanova"));
-        var childYoana = await EnsureChildAsync(context, "Yoana", "Nikolova", Gender.Female, today.AddYears(-5).AddMonths(4), starsGroup.Id, parentNikolovi.Id, DemoAvatarUrl("Yoana Nikolova"));
-        var childDaniel = await EnsureChildAsync(context, "Daniel", "Nikolov", Gender.Male, today.AddYears(-4).AddMonths(-7), starsGroup.Id, parentNikolovi.Id, DemoAvatarUrl("Daniel Nikolov"));
-        var childNikola = await EnsureChildAsync(context, "Nikola", "Angelov", Gender.Male, today.AddYears(-3).AddMonths(-9), starsGroup.Id, parentAngelovi.Id, DemoAvatarUrl("Nikola Angelov"));
+        var childAlex = await EnsureChildAsync(context, "Alex", "Stoyanov", Gender.Male, seedDate.AddYears(-4).AddMonths(-3), starsGroup.Id, parentStoyanovi.Id, DemoAvatarUrl("Alex Stoyanov"));
+        var childRaya = await EnsureChildAsync(context, "Raya", "Stoyanova", Gender.Female, seedDate.AddYears(-3).AddMonths(-11), starsGroup.Id, parentStoyanovi.Id, DemoAvatarUrl("Raya Stoyanova"));
+        var childYoana = await EnsureChildAsync(context, "Yoana", "Nikolova", Gender.Female, seedDate.AddYears(-5).AddMonths(4), starsGroup.Id, parentNikolovi.Id, DemoAvatarUrl("Yoana Nikolova"));
+        var childDaniel = await EnsureChildAsync(context, "Daniel", "Nikolov", Gender.Male, seedDate.AddYears(-4).AddMonths(-7), starsGroup.Id, parentNikolovi.Id, DemoAvatarUrl("Daniel Nikolov"));
+        var childNikola = await EnsureChildAsync(context, "Nikola", "Angelov", Gender.Male, seedDate.AddYears(-3).AddMonths(-9), starsGroup.Id, parentAngelovi.Id, DemoAvatarUrl("Nikola Angelov"));
 
         await EnsureMedicalRecordAsync(context, childMila.Id, "Strawberries", null, "Dr. Elena Markova", "+359 888 300 301", "Ivan Ivanov", "+359 888 200 201", "Use the allergy plan if a reaction appears.");
         await EnsureMedicalRecordAsync(context, childSofia.Id, null, "Mild asthma", "Dr. Petar Kolev", "+359 888 300 302", "Maria Georgieva", "+359 888 200 202", "Keep inhaler instructions available during trips.");
@@ -154,47 +154,47 @@ public static class DbSeeder
         await EnsureMedicalRecordAsync(context, childRaya.Id, null, "Seasonal allergies", "Dr. Ivaylo Marinov", "+359 888 300 303", "Stoyan Stoyanov", "+359 888 200 205", "Watch for symptoms during spring outdoor play.");
         await EnsureMedicalRecordAsync(context, childDaniel.Id, "Milk protein", null, "Dr. Petar Kolev", "+359 888 300 302", "Elena Nikolova", "+359 888 200 206", "Use dairy-free meal options.");
 
-        await EnsureAttendanceRecordAsync(context, childMila.Id, today, AttendanceStatus.Present, null);
-        await EnsureAttendanceRecordAsync(context, childBoris.Id, today, AttendanceStatus.Late, "Arrived after morning circle.");
-        await EnsureAttendanceRecordAsync(context, childElena.Id, today, AttendanceStatus.Present, null);
-        await EnsureAttendanceRecordAsync(context, childViktor.Id, today, AttendanceStatus.Absent, "Parent called in the morning.");
-        await EnsureAttendanceRecordAsync(context, childTeodor.Id, today, AttendanceStatus.Present, null);
-        await EnsureAttendanceRecordAsync(context, childSofia.Id, today, AttendanceStatus.Sick, "Parent reported fever.");
-        await EnsureAttendanceRecordAsync(context, childMartin.Id, today, AttendanceStatus.Present, null);
-        await EnsureAttendanceRecordAsync(context, childNia.Id, today, AttendanceStatus.Present, null);
-        await EnsureAttendanceRecordAsync(context, childKaloyan.Id, today, AttendanceStatus.Late, "Traffic delay.");
-        await EnsureAttendanceRecordAsync(context, childEmma.Id, today, AttendanceStatus.Present, null);
-        await EnsureAttendanceRecordAsync(context, childAlex.Id, today, AttendanceStatus.Present, null);
-        await EnsureAttendanceRecordAsync(context, childRaya.Id, today, AttendanceStatus.Vacation, "Family trip.");
-        await EnsureAttendanceRecordAsync(context, childYoana.Id, today, AttendanceStatus.Present, null);
-        await EnsureAttendanceRecordAsync(context, childDaniel.Id, today, AttendanceStatus.Sick, "Doctor appointment.");
-        await EnsureAttendanceRecordAsync(context, childNikola.Id, today, AttendanceStatus.Present, null);
-        await EnsureAttendanceRecordAsync(context, childMila.Id, today.AddDays(-1), AttendanceStatus.Present, null);
-        await EnsureAttendanceRecordAsync(context, childBoris.Id, today.AddDays(-1), AttendanceStatus.Present, null);
-        await EnsureAttendanceRecordAsync(context, childSofia.Id, today.AddDays(-1), AttendanceStatus.Vacation, "Family trip.");
-        await EnsureAttendanceRecordAsync(context, childAlex.Id, today.AddDays(-1), AttendanceStatus.Late, "Arrived during breakfast.");
-        await EnsureAttendanceRecordAsync(context, childYoana.Id, today.AddDays(-1), AttendanceStatus.Present, null);
+        await EnsureAttendanceRecordAsync(context, childMila.Id, seedDate, AttendanceStatus.Present, null);
+        await EnsureAttendanceRecordAsync(context, childBoris.Id, seedDate, AttendanceStatus.Late, "Arrived after morning circle.");
+        await EnsureAttendanceRecordAsync(context, childElena.Id, seedDate, AttendanceStatus.Present, null);
+        await EnsureAttendanceRecordAsync(context, childViktor.Id, seedDate, AttendanceStatus.Absent, "Parent called in the morning.");
+        await EnsureAttendanceRecordAsync(context, childTeodor.Id, seedDate, AttendanceStatus.Present, null);
+        await EnsureAttendanceRecordAsync(context, childSofia.Id, seedDate, AttendanceStatus.Sick, "Parent reported fever.");
+        await EnsureAttendanceRecordAsync(context, childMartin.Id, seedDate, AttendanceStatus.Present, null);
+        await EnsureAttendanceRecordAsync(context, childNia.Id, seedDate, AttendanceStatus.Present, null);
+        await EnsureAttendanceRecordAsync(context, childKaloyan.Id, seedDate, AttendanceStatus.Late, "Traffic delay.");
+        await EnsureAttendanceRecordAsync(context, childEmma.Id, seedDate, AttendanceStatus.Present, null);
+        await EnsureAttendanceRecordAsync(context, childAlex.Id, seedDate, AttendanceStatus.Present, null);
+        await EnsureAttendanceRecordAsync(context, childRaya.Id, seedDate, AttendanceStatus.Vacation, "Family trip.");
+        await EnsureAttendanceRecordAsync(context, childYoana.Id, seedDate, AttendanceStatus.Present, null);
+        await EnsureAttendanceRecordAsync(context, childDaniel.Id, seedDate, AttendanceStatus.Sick, "Doctor appointment.");
+        await EnsureAttendanceRecordAsync(context, childNikola.Id, seedDate, AttendanceStatus.Present, null);
+        await EnsureAttendanceRecordAsync(context, childMila.Id, seedDate.AddDays(-1), AttendanceStatus.Present, null);
+        await EnsureAttendanceRecordAsync(context, childBoris.Id, seedDate.AddDays(-1), AttendanceStatus.Present, null);
+        await EnsureAttendanceRecordAsync(context, childSofia.Id, seedDate.AddDays(-1), AttendanceStatus.Vacation, "Family trip.");
+        await EnsureAttendanceRecordAsync(context, childAlex.Id, seedDate.AddDays(-1), AttendanceStatus.Late, "Arrived during breakfast.");
+        await EnsureAttendanceRecordAsync(context, childYoana.Id, seedDate.AddDays(-1), AttendanceStatus.Present, null);
 
-        await EnsureDailyReportAsync(context, childMila.Id, teacherSunshine.UserId, today, ChildMood.Happy, 5, 4, 5, "Mila enjoyed painting and helped clean up after lunch.");
-        await EnsureDailyReportAsync(context, childBoris.Id, teacherSunshine.UserId, today, ChildMood.Calm, 4, 5, 4, "Boris had a calm day and slept well.");
-        await EnsureDailyReportAsync(context, childElena.Id, teacherSunshine.UserId, today, ChildMood.Happy, 5, 5, 4, "Elena joined the group story time with confidence.");
-        await EnsureDailyReportAsync(context, childViktor.Id, teacherSunshine.UserId, today.AddDays(-1), ChildMood.Tired, 3, 4, 3, "Viktor preferred quiet blocks and puzzles.");
-        await EnsureDailyReportAsync(context, childTeodor.Id, teacherSunshine.UserId, today, ChildMood.Calm, 4, 4, 5, "Teodor had a focused day and loved the outdoor games.");
-        await EnsureDailyReportAsync(context, childSofia.Id, teacherMoonlight.UserId, today.AddDays(-1), ChildMood.Tired, 3, 3, 4, "Sofia preferred quiet activities yesterday.");
-        await EnsureDailyReportAsync(context, childMartin.Id, teacherMoonlight.UserId, today, ChildMood.Happy, 4, 5, 5, "Martin was very social during music time.");
-        await EnsureDailyReportAsync(context, childNia.Id, teacherMoonlight.UserId, today, ChildMood.Calm, 5, 4, 4, "Nia enjoyed sensory play and ate well.");
-        await EnsureDailyReportAsync(context, childKaloyan.Id, teacherMoonlight.UserId, today, ChildMood.Happy, 4, 4, 5, "Kaloyan was active and cheerful.");
-        await EnsureDailyReportAsync(context, childEmma.Id, teacherMoonlight.UserId, today.AddDays(-1), ChildMood.Sad, 3, 3, 3, "Emma missed home in the morning but settled after lunch.");
-        await EnsureDailyReportAsync(context, childAlex.Id, teacherStars.UserId, today, ChildMood.Happy, 5, 4, 5, "Alex built a large train track with friends.");
-        await EnsureDailyReportAsync(context, childRaya.Id, teacherStars.UserId, today.AddDays(-1), ChildMood.Calm, 4, 5, 4, "Raya had a peaceful day and slept well.");
-        await EnsureDailyReportAsync(context, childYoana.Id, teacherStars.UserId, today, ChildMood.Happy, 5, 5, 5, "Yoana participated in every activity today.");
-        await EnsureDailyReportAsync(context, childDaniel.Id, teacherStars.UserId, today.AddDays(-1), ChildMood.Tired, 3, 4, 3, "Daniel was a bit tired but enjoyed drawing.");
-        await EnsureDailyReportAsync(context, childNikola.Id, teacherStars.UserId, today, ChildMood.Calm, 4, 4, 4, "Nikola followed the routine very well.");
+        await EnsureDailyReportAsync(context, childMila.Id, teacherSunshine.UserId, seedDate, ChildMood.Happy, 5, 4, 5, "Mila enjoyed painting and helped clean up after lunch.");
+        await EnsureDailyReportAsync(context, childBoris.Id, teacherSunshine.UserId, seedDate, ChildMood.Calm, 4, 5, 4, "Boris had a calm day and slept well.");
+        await EnsureDailyReportAsync(context, childElena.Id, teacherSunshine.UserId, seedDate, ChildMood.Happy, 5, 5, 4, "Elena joined the group story time with confidence.");
+        await EnsureDailyReportAsync(context, childViktor.Id, teacherSunshine.UserId, seedDate.AddDays(-1), ChildMood.Tired, 3, 4, 3, "Viktor preferred quiet blocks and puzzles.");
+        await EnsureDailyReportAsync(context, childTeodor.Id, teacherSunshine.UserId, seedDate, ChildMood.Calm, 4, 4, 5, "Teodor had a focused day and loved the outdoor games.");
+        await EnsureDailyReportAsync(context, childSofia.Id, teacherMoonlight.UserId, seedDate.AddDays(-1), ChildMood.Tired, 3, 3, 4, "Sofia preferred quiet activities yesterday.");
+        await EnsureDailyReportAsync(context, childMartin.Id, teacherMoonlight.UserId, seedDate, ChildMood.Happy, 4, 5, 5, "Martin was very social during music time.");
+        await EnsureDailyReportAsync(context, childNia.Id, teacherMoonlight.UserId, seedDate, ChildMood.Calm, 5, 4, 4, "Nia enjoyed sensory play and ate well.");
+        await EnsureDailyReportAsync(context, childKaloyan.Id, teacherMoonlight.UserId, seedDate, ChildMood.Happy, 4, 4, 5, "Kaloyan was active and cheerful.");
+        await EnsureDailyReportAsync(context, childEmma.Id, teacherMoonlight.UserId, seedDate.AddDays(-1), ChildMood.Sad, 3, 3, 3, "Emma missed home in the morning but settled after lunch.");
+        await EnsureDailyReportAsync(context, childAlex.Id, teacherStars.UserId, seedDate, ChildMood.Happy, 5, 4, 5, "Alex built a large train track with friends.");
+        await EnsureDailyReportAsync(context, childRaya.Id, teacherStars.UserId, seedDate.AddDays(-1), ChildMood.Calm, 4, 5, 4, "Raya had a peaceful day and slept well.");
+        await EnsureDailyReportAsync(context, childYoana.Id, teacherStars.UserId, seedDate, ChildMood.Happy, 5, 5, 5, "Yoana participated in every activity today.");
+        await EnsureDailyReportAsync(context, childDaniel.Id, teacherStars.UserId, seedDate.AddDays(-1), ChildMood.Tired, 3, 4, 3, "Daniel was a bit tired but enjoyed drawing.");
+        await EnsureDailyReportAsync(context, childNikola.Id, teacherStars.UserId, seedDate, ChildMood.Calm, 4, 4, 4, "Nikola followed the routine very well.");
 
-        await EnsureAbsenceRequestAsync(context, childSofia.Id, parentGeorgievi.UserId, teacherMoonlight.UserId, today, today.AddDays(1), AbsenceReason.Sick, "Sofia will stay home until she feels better.", RequestStatus.Approved, "Confirmed by teacher.");
-        await EnsureAbsenceRequestAsync(context, childMartin.Id, parentGeorgievi.UserId, null, today.AddDays(3), today.AddDays(5), AbsenceReason.FamilyReason, "Family travel planned.", RequestStatus.Pending, null);
-        await EnsureAbsenceRequestAsync(context, childRaya.Id, parentStoyanovi.UserId, teacherStars.UserId, today, today.AddDays(2), AbsenceReason.Vacation, "Short family vacation.", RequestStatus.Approved, "Confirmed by teacher.");
-        await EnsureAbsenceRequestAsync(context, childDaniel.Id, parentNikolovi.UserId, null, today.AddDays(1), today.AddDays(1), AbsenceReason.Sick, "Medical appointment.", RequestStatus.Pending, null);
+        await EnsureAbsenceRequestAsync(context, childSofia.Id, parentGeorgievi.UserId, teacherMoonlight.UserId, seedDate, seedDate.AddDays(1), AbsenceReason.Sick, "Sofia will stay home until she feels better.", RequestStatus.Approved, "Confirmed by teacher.");
+        await EnsureAbsenceRequestAsync(context, childMartin.Id, parentGeorgievi.UserId, null, seedDate.AddDays(3), seedDate.AddDays(5), AbsenceReason.FamilyReason, "Family travel planned.", RequestStatus.Pending, null);
+        await EnsureAbsenceRequestAsync(context, childRaya.Id, parentStoyanovi.UserId, teacherStars.UserId, seedDate, seedDate.AddDays(2), AbsenceReason.Vacation, "Short family vacation.", RequestStatus.Approved, "Confirmed by teacher.");
+        await EnsureAbsenceRequestAsync(context, childDaniel.Id, parentNikolovi.UserId, null, seedDate.AddDays(1), seedDate.AddDays(1), AbsenceReason.Sick, "Medical appointment.", RequestStatus.Pending, null);
 
         await EnsureConsentRequestAsync(context, childMila.Id, teacherSunshine.UserId, parentIvanovi.UserId, "Photo permission for kindergarten gallery", ConsentRequestType.PhotoPermission, "May we include Mila in photos from group activities?", RequestStatus.Approved, "Approved by parent.");
         await EnsureConsentRequestAsync(context, childBoris.Id, teacherSunshine.UserId, null, "Field trip permission", ConsentRequestType.FieldTrip, "Permission needed for the upcoming park visit.", RequestStatus.Pending, null);
@@ -203,13 +203,13 @@ public static class DbSeeder
         await EnsureConsentRequestAsync(context, childYoana.Id, teacherStars.UserId, parentNikolovi.UserId, "Photo permission for class album", ConsentRequestType.PhotoPermission, "May we include Yoana in the class album?", RequestStatus.Approved, "Approved by parent.");
         await EnsureConsentRequestAsync(context, childEmma.Id, teacherMoonlight.UserId, parentAngelovi.UserId, "Medical assistance permission", ConsentRequestType.MedicalAssistance, "Permission for basic first aid if needed.", RequestStatus.Approved, "Approved by parent.");
 
-        await EnsureAnnouncementAsync(context, "Welcome to the new kindergarten week", "Please bring indoor shoes and a labeled water bottle.", null, true, today.AddDays(-2));
-        await EnsureAnnouncementAsync(context, "Sunshine group picnic reminder", "The Sunshine group picnic starts at 10:00. Please pack a light snack.", sunshineGroup.Id, false, today.AddDays(-1));
-        await EnsureAnnouncementAsync(context, "Moonlight music day", "Children can bring a small safe instrument for music day.", moonlightGroup.Id, false, today);
+        await EnsureAnnouncementAsync(context, "Welcome to the new kindergarten week", "Please bring indoor shoes and a labeled water bottle.", null, true, seedDate.AddDays(-2));
+        await EnsureAnnouncementAsync(context, "Sunshine group picnic reminder", "The Sunshine group picnic starts at 10:00. Please pack a light snack.", sunshineGroup.Id, false, seedDate.AddDays(-1));
+        await EnsureAnnouncementAsync(context, "Moonlight music day", "Children can bring a small safe instrument for music day.", moonlightGroup.Id, false, seedDate);
 
-        await EnsureEventAsync(context, "Parent meeting", "Monthly parent meeting with teachers.", today.AddDays(4).AddHours(17), today.AddDays(4).AddHours(18), EventType.ParentMeeting, "Main classroom", null, true);
-        await EnsureEventAsync(context, "Sunshine park trip", "Outdoor trip to the nearby park.", today.AddDays(7).AddHours(9), today.AddDays(7).AddHours(12), EventType.Trip, "City park", sunshineGroup.Id, false);
-        await EnsureEventAsync(context, "Birthday celebration", "Group birthday celebration with songs and games.", today.AddDays(10).AddHours(10), null, EventType.Birthday, "Moonlight room", moonlightGroup.Id, false);
+        await EnsureEventAsync(context, "Parent meeting", "Monthly parent meeting with teachers.", seedDate.AddDays(4).AddHours(17), seedDate.AddDays(4).AddHours(18), EventType.ParentMeeting, "Main classroom", null, true);
+        await EnsureEventAsync(context, "Sunshine park trip", "Outdoor trip to the nearby park.", seedDate.AddDays(7).AddHours(9), seedDate.AddDays(7).AddHours(12), EventType.Trip, "City park", sunshineGroup.Id, false);
+        await EnsureEventAsync(context, "Birthday celebration", "Group birthday celebration with songs and games.", seedDate.AddDays(10).AddHours(10), null, EventType.Birthday, "Moonlight room", moonlightGroup.Id, false);
 
         await context.SaveChangesAsync();
     }
@@ -317,10 +317,13 @@ public static class DbSeeder
                 !c.IsDeleted &&
                 c.FirstName == firstName &&
                 c.LastName == lastName &&
-                c.DateOfBirth.Date == dateOfBirth.Date);
+                c.GroupId == groupId &&
+                c.ParentId == parentId);
 
         if (child != null)
         {
+            child.Gender = gender;
+            child.DateOfBirth = dateOfBirth;
             child.GroupId = groupId;
             child.ParentId = parentId;
             child.PhotoUrl = photoUrl;
