@@ -1,0 +1,150 @@
+@page
+@model KiddoCare.Web.Areas.Identity.Pages.Account.Manage.IndexModel
+
+@{
+    ViewData["Title"] = T["My Profile"];
+}
+
+<section class="account-profile-page">
+    <div class="page-header account-profile-header">
+        <div>
+            <div class="page-kicker">@T["Account settings"]</div>
+            <h1>@T["My Profile"]</h1>
+            <p class="page-subtitle">@T["Keep your contact details up to date for the kindergarten team."]</p>
+        </div>
+
+        <a asp-area=""
+           asp-controller="Dashboard"
+           asp-action="Index"
+           class="btn btn-secondary">
+            @T["Back"]
+        </a>
+    </div>
+
+    <div class="account-profile-layout">
+        <aside class="account-profile-card">
+            <div>
+                <h2>@Model.Input.FullName</h2>
+                <p>@Model.Email</p>
+            </div>
+
+            <dl class="account-profile-meta">
+                <div>
+                    <dt>@T["Role"]</dt>
+                    <dd>@T[Model.RoleName]</dd>
+                </div>
+                <div>
+                    <dt>@T[Model.ProfileMetaLabel]</dt>
+                    <dd>@T[Model.ProfileMetaValue]</dd>
+                </div>
+            </dl>
+        </aside>
+
+        <div class="section-panel account-profile-form-panel">
+            <div class="section-panel-header">
+                <div>
+                    <h2>@T["Personal information"]</h2>
+                    <p class="section-panel-subtitle">@T["These details are visible only to users with the right access."]</p>
+                </div>
+            </div>
+
+            <form method="post" class="form-grid">
+                <div asp-validation-summary="ModelOnly" class="text-danger form-validation-summary"></div>
+
+                <div class="mb-3">
+                    <label asp-for="Input.FullName" class="form-label">@T["Full Name"]</label>
+                    <input asp-for="Input.FullName"
+                           class="form-control"
+                           autocomplete="name"
+                           placeholder='@T["Enter your full name"]' />
+                    <span asp-validation-for="Input.FullName" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Input.PhoneNumber" class="form-label">@T["Phone number"]</label>
+                    <input asp-for="Input.PhoneNumber"
+                           class="form-control"
+                           autocomplete="tel"
+                           placeholder='@T["Enter your phone number"]' />
+                    <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                </div>
+
+                <div class="account-profile-section-title">
+                    <h3>@T["Change login email"]</h3>
+                    <p>@T["Update the email address used when signing in to KiddoCare."]</p>
+                </div>
+
+                <div class="account-profile-readonly">
+                    <span>@T["Current login email"]</span>
+                    <strong>@Model.Email</strong>
+                    <small>@T["This is the email address you currently use to sign in."]</small>
+                </div>
+
+                <div class="mb-3 account-profile-full-row">
+                    <label asp-for="Input.NewEmail" class="form-label">@T["New email address"]</label>
+                    <input asp-for="Input.NewEmail"
+                           class="form-control"
+                           autocomplete="email"
+                           placeholder='@T["Leave empty to keep your current email"]' />
+                    <span asp-validation-for="Input.NewEmail" class="text-danger"></span>
+                    <div class="form-help">@T["Fill this only when you want to change your login email."]</div>
+                </div>
+
+                <div class="mb-3 account-profile-full-row">
+                    <label asp-for="Input.EmailChangePassword" class="form-label">@T["Confirm email change with password"]</label>
+                    <input asp-for="Input.EmailChangePassword"
+                           class="form-control"
+                           autocomplete="current-password"
+                           placeholder='@T["Enter your password to confirm this email change"]' />
+                    <span asp-validation-for="Input.EmailChangePassword" class="text-danger"></span>
+                </div>
+
+                <div class="account-profile-section-title">
+                    <h3>@T["Change account password"]</h3>
+                    <p>@T["Leave these fields empty if you want to keep your current password."]</p>
+                </div>
+
+                <div class="mb-3 account-profile-full-row">
+                    <label asp-for="Input.CurrentPassword" class="form-label">@T["Current password"]</label>
+                    <input asp-for="Input.CurrentPassword"
+                           class="form-control"
+                           autocomplete="current-password"
+                           placeholder='@T["Enter your current password"]' />
+                    <span asp-validation-for="Input.CurrentPassword" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3 account-profile-full-row">
+                    <label asp-for="Input.NewPassword" class="form-label">@T["New password"]</label>
+                    <input asp-for="Input.NewPassword"
+                           class="form-control"
+                           autocomplete="new-password"
+                           placeholder='@T["Enter a new password"]' />
+                    <span asp-validation-for="Input.NewPassword" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3 account-profile-full-row">
+                    <label asp-for="Input.ConfirmPassword" class="form-label">@T["Confirm new password"]</label>
+                    <input asp-for="Input.ConfirmPassword"
+                           class="form-control"
+                           autocomplete="new-password"
+                           placeholder='@T["Repeat the new password"]' />
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">@T["Save changes"]</button>
+                    <a asp-area=""
+                       asp-controller="Dashboard"
+                       asp-action="Index"
+                       class="btn btn-secondary">
+                        @T["Cancel"]
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

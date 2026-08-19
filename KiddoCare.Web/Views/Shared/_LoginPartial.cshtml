@@ -1,13 +1,39 @@
+@using KiddoCare.Common
+@using KiddoCare.Data
 @using Microsoft.AspNetCore.Identity
+@using Microsoft.EntityFrameworkCore
+@inject ApplicationDbContext DbContext
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
+    var currentUser = await UserManager.GetUserAsync(User);
+    var displayName = currentUser?.Email ?? User.Identity?.Name ?? string.Empty;
+
+    if (currentUser != null && User.IsInRole(RoleConstants.Parent))
+    {
+        displayName = await DbContext.ParentProfiles
+            .Where(p => p.UserId == currentUser.Id && !p.IsDeleted)
+            .Select(p => p.FullName)
+            .FirstOrDefaultAsync() ?? displayName;
+    }
+    else if (currentUser != null && User.IsInRole(RoleConstants.Teacher))
+    {
+        displayName = await DbContext.TeacherProfiles
+            .Where(t => t.UserId == currentUser.Id && !t.IsDeleted)
+            .Select(t => t.FullName)
+            .FirstOrDefaultAsync() ?? displayName;
+    }
+    else
+    {
+        displayName = User.FindFirst("FullName")?.Value ?? displayName;
+    }
+
     <li class="nav-item">
         <a class="nav-link text-dark user-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="@T["Manage"]">
-            @T["Hello"] @User.Identity?.Name!
+            @T["Hello"] @displayName
         </a>
     </li>
     <li class="nav-item">

@@ -2289,4 +2289,160 @@
   <data name="Medical record deleted successfully." xml:space="preserve">
     <value>Медицинският запис беше изтрит успешно.</value>
   </data>
+  <data name="My Profile" xml:space="preserve">
+    <value>Моят профил</value>
+  </data>
+  <data name="Account settings" xml:space="preserve">
+    <value>Настройки на акаунта</value>
+  </data>
+  <data name="Keep your contact details up to date for the kindergarten team." xml:space="preserve">
+    <value>Поддържайте контактните си данни актуални за екипа на детската градина.</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>Роля</value>
+  </data>
+  <data name="Profile linked children" xml:space="preserve">
+    <value>Свързани деца</value>
+  </data>
+  <data name="Profile assigned group" xml:space="preserve">
+    <value>Назначена група</value>
+  </data>
+  <data name="Access level" xml:space="preserve">
+    <value>Ниво на достъп</value>
+  </data>
+  <data name="No group assigned" xml:space="preserve">
+    <value>Няма назначена група</value>
+  </data>
+  <data name="System administrator" xml:space="preserve">
+    <value>Системен администратор</value>
+  </data>
+  <data name="Personal information" xml:space="preserve">
+    <value>Лична информация</value>
+  </data>
+  <data name="These details are visible only to users with the right access." xml:space="preserve">
+    <value>Тези данни са видими само за потребители с подходящ достъп.</value>
+  </data>
+  <data name="Enter your full name" xml:space="preserve">
+    <value>Въведете пълното си име</value>
+  </data>
+  <data name="Enter your phone number" xml:space="preserve">
+    <value>Въведете телефонния си номер</value>
+  </data>
+  <data name="Email is used for login and can be changed only by an administrator." xml:space="preserve">
+    <value>Email адресът се използва за вход и може да бъде променян само от администратор.</value>
+  </data>
+  <data name="Save changes" xml:space="preserve">
+    <value>Запази промените</value>
+  </data>
+  <data name="Profile updated successfully." xml:space="preserve">
+    <value>Профилът беше обновен успешно.</value>
+  </data>
+  <data name="Please enter your full name." xml:space="preserve">
+    <value>Въведете пълното си име.</value>
+  </data>
+  <data name="Please enter a valid phone number." xml:space="preserve">
+    <value>Въведете валиден телефонен номер.</value>
+  </data>
+  <data name="Enter your email address" xml:space="preserve">
+    <value>Въведете имейл адреса си</value>
+  </data>
+  <data name="Login email" xml:space="preserve">
+    <value>Имейл за вход</value>
+  </data>
+  <data name="Changing your email also changes the address you use to sign in." xml:space="preserve">
+    <value>Промяната на имейла променя и адреса, с който влизате в системата.</value>
+  </data>
+  <data name="This email address is already used by another account." xml:space="preserve">
+    <value>Този имейл адрес вече се използва от друг акаунт.</value>
+  </data>
+  <data name="Current login email" xml:space="preserve">
+    <value>Текущ имейл за вход</value>
+  </data>
+  <data name="This is the email address you currently use to sign in." xml:space="preserve">
+    <value>Това е имейл адресът, с който в момента влизате в системата.</value>
+  </data>
+  <data name="New email address" xml:space="preserve">
+    <value>Нов имейл адрес</value>
+  </data>
+  <data name="Leave empty to keep your current email" xml:space="preserve">
+    <value>Оставете празно, за да запазите текущия имейл</value>
+  </data>
+  <data name="Fill this only when you want to change your login email." xml:space="preserve">
+    <value>Попълнете това поле само ако искате да смените имейла за вход.</value>
+  </data>
+  <data name="Security changes" xml:space="preserve">
+    <value>Промени по сигурността</value>
+  </data>
+  <data name="Enter your current password to change your email or password." xml:space="preserve">
+    <value>Въведете текущата си парола, за да смените имейл или парола.</value>
+  </data>
+  <data name="Current password" xml:space="preserve">
+    <value>Текуща парола</value>
+  </data>
+  <data name="Enter your current password" xml:space="preserve">
+    <value>Въведете текущата си парола</value>
+  </data>
+  <data name="New password" xml:space="preserve">
+    <value>Нова парола</value>
+  </data>
+  <data name="Enter a new password" xml:space="preserve">
+    <value>Въведете нова парола</value>
+  </data>
+  <data name="Confirm new password" xml:space="preserve">
+    <value>Потвърдете новата парола</value>
+  </data>
+  <data name="Repeat the new password" xml:space="preserve">
+    <value>Повторете новата парола</value>
+  </data>
+  <data name="Please enter your current password." xml:space="preserve">
+    <value>Въведете текущата си парола.</value>
+  </data>
+  <data name="Please enter a new password." xml:space="preserve">
+    <value>Въведете нова парола.</value>
+  </data>
+  <data name="Please confirm your new password." xml:space="preserve">
+    <value>Потвърдете новата си парола.</value>
+  </data>
+  <data name="Incorrect password." xml:space="preserve">
+    <value>Грешна парола.</value>
+  </data>
+  <data name="Password cannot be longer than {1} characters." xml:space="preserve">
+    <value>Паролата не може да бъде по-дълга от {1} символа.</value>
+  </data>
+  <data name="The new password and confirmation password do not match." xml:space="preserve">
+    <value>Новата парола и потвърждението не съвпадат.</value>
+  </data>
+  <data name="Passwords must be at least 6 characters." xml:space="preserve">
+    <value>Паролата трябва да бъде поне 6 символа.</value>
+  </data>
+  <data name="Passwords must have at least one non alphanumeric character." xml:space="preserve">
+    <value>Паролата трябва да съдържа поне един специален символ.</value>
+  </data>
+  <data name="Passwords must have at least one digit ('0'-'9')." xml:space="preserve">
+    <value>Паролата трябва да съдържа поне една цифра.</value>
+  </data>
+  <data name="Passwords must have at least one uppercase ('A'-'Z')." xml:space="preserve">
+    <value>Паролата трябва да съдържа поне една главна буква.</value>
+  </data>
+  <data name="Change login email" xml:space="preserve">
+    <value>Промяна на имейл за вход</value>
+  </data>
+  <data name="Update the email address used when signing in to KiddoCare." xml:space="preserve">
+    <value>Променете имейл адреса, който използвате за вход в KiddoCare.</value>
+  </data>
+  <data name="Confirm email change with password" xml:space="preserve">
+    <value>Потвърдете смяната с парола</value>
+  </data>
+  <data name="Enter your password to confirm this email change" xml:space="preserve">
+    <value>Въведете паролата си, за да потвърдите смяната на имейла</value>
+  </data>
+  <data name="Change account password" xml:space="preserve">
+    <value>Промяна на парола</value>
+  </data>
+  <data name="Leave these fields empty if you want to keep your current password." xml:space="preserve">
+    <value>Оставете тези полета празни, ако искате да запазите текущата си парола.</value>
+  </data>
+  <data name="Please enter your password to confirm the email change." xml:space="preserve">
+    <value>Въведете паролата си, за да потвърдите смяната на имейла.</value>
+  </data>
 </root>
