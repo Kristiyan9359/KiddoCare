@@ -49,7 +49,7 @@
     <value>Събития</value>
   </data>
   <data name="Announcements" xml:space="preserve">
-    <value>Съобщения</value>
+    <value>Уведомления</value>
   </data>
   <data name="Admin" xml:space="preserve">
     <value>Админ</value>
@@ -181,7 +181,7 @@
     <value>Ежедневен ритъм в групата</value>
   </data>
   <data name="Attendance, reports, medical awareness, announcements and events for the assigned group." xml:space="preserve">
-    <value>Присъствия, отчети, медицинска информация, съобщения и събития за поверената група.</value>
+    <value>Присъствия, отчети, медицинска информация, уведомления и събития за поверената група.</value>
   </data>
   <data name="Child updates" xml:space="preserve">
     <value>Новини за детето</value>
@@ -202,7 +202,7 @@
     <value>Съхранявана информация</value>
   </data>
   <data name="The application stores child profiles, parent and teacher contact details, attendance records, daily reports, medical notes, absence notices, consent requests, announcements, events and uploaded child documents." xml:space="preserve">
-    <value>Приложението съхранява профили на деца, контакти на родители и учители, присъствия, дневни отчети, медицински бележки, уведомления за отсъствие, искания за съгласие, съобщения, събития и качени документи.</value>
+    <value>Приложението съхранява профили на деца, контакти на родители и учители, присъствия, дневни отчети, медицински бележки, уведомления за отсъствие, искания за съгласие, уведомления, събития и качени документи.</value>
   </data>
   <data name="Access Control" xml:space="preserve">
     <value>Контрол на достъпа</value>
@@ -316,7 +316,7 @@
     <value>Групи в детската градина</value>
   </data>
   <data name="Manage classroom groups and keep children, teachers, announcements and events organized." xml:space="preserve">
-    <value>Управлявай групите и поддържай децата, учителите, съобщенията и събитията подредени.</value>
+    <value>Управлявай групите и поддържай децата, учителите, уведомленията и събитията подредени.</value>
   </data>
   <data name="Create Group" xml:space="preserve">
     <value>Създай група</value>
@@ -445,31 +445,31 @@
     <value>Новини</value>
   </data>
   <data name="Important kindergarten updates, group messages and staff notices." xml:space="preserve">
-    <value>Важни новини от детската градина, съобщения по групи и служебни известия.</value>
+    <value>Важни новини от детската градина, уведомления по групи и служебни известия.</value>
   </data>
   <data name="Create Announcement" xml:space="preserve">
-    <value>Създай съобщение</value>
+    <value>Създай уведомление</value>
   </data>
   <data name="Announcement Records" xml:space="preserve">
-    <value>Записи за съобщения</value>
+    <value>Записи за уведомления</value>
   </data>
   <data name="{0} announcement records found." xml:space="preserve">
-    <value>Намерени съобщения: {0}.</value>
+    <value>Намерени уведомления: {0}.</value>
   </data>
   <data name="Search by title, message or group..." xml:space="preserve">
-    <value>Търси по заглавие, съобщение или група...</value>
+    <value>Търси по заглавие, текст или група...</value>
   </data>
   <data name="No announcements found" xml:space="preserve">
-    <value>Няма намерени съобщения</value>
+    <value>Няма намерени уведомления</value>
   </data>
   <data name="Try changing the search term or create an update." xml:space="preserve">
-    <value>Промени търсенето или създай ново съобщение.</value>
+    <value>Промени търсенето или създай ново уведомление.</value>
   </data>
   <data name="Are you sure you want to delete this announcement?" xml:space="preserve">
-    <value>Сигурни ли сте, че искате да изтриете това съобщение?</value>
+    <value>Сигурни ли сте, че искате да изтриете това уведомление?</value>
   </data>
   <data name="Announcements pages" xml:space="preserve">
-    <value>Страници със съобщения</value>
+    <value>Страници с уведомления</value>
   </data>
   <data name="Admin overview" xml:space="preserve">
     <value>Админ преглед</value>
@@ -532,13 +532,13 @@
     <value>Очакват преглед</value>
   </data>
   <data name="Recent Announcements" xml:space="preserve">
-    <value>Последни съобщения</value>
+    <value>Последни уведомления</value>
   </data>
   <data name="View All" xml:space="preserve">
     <value>Виж всички</value>
   </data>
   <data name="No announcements yet." xml:space="preserve">
-    <value>Все още няма съобщения.</value>
+    <value>Все още няма уведомления.</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>Заглавие</value>
@@ -1306,7 +1306,7 @@
     <value>Договор</value>
   </data>
   <data name="Add a new classroom group and use it later for children, teachers, events and announcements." xml:space="preserve">
-    <value>Добави нова група и я използвай по-късно за деца, учители, събития и съобщения.</value>
+    <value>Добави нова група и я използвай по-късно за деца, учители, събития и уведомления.</value>
   </data>
   <data name="Example: Sunshine" xml:space="preserve">
     <value>Пример: Слънчице</value>
@@ -1615,7 +1615,7 @@
     <value>Почивен ден</value>
   </data>
   <data name="Share an update with parents, teachers or a specific group." xml:space="preserve">
-    <value>Сподели новина с родители, учители или конкретна група.</value>
+    <value>Сподели уведомление с родители, учители или конкретна група.</value>
   </data>
   <data name="Example: Tomorrow is a working day" xml:space="preserve">
     <value>Пример: Утре е работен ден</value>
@@ -1624,28 +1624,28 @@
     <value>Съобщение</value>
   </data>
   <data name="Write the announcement message here." xml:space="preserve">
-    <value>Напиши съобщението тук.</value>
+    <value>Напиши текста на уведомлението тук.</value>
   </data>
   <data name="When enabled, parents can see this announcement in their dashboard." xml:space="preserve">
-    <value>Когато е включено, родителите ще виждат това съобщение в таблото си.</value>
+    <value>Когато е включено, родителите ще виждат това уведомление в таблото си.</value>
   </data>
   <data name="Edit Announcement" xml:space="preserve">
-    <value>Редактирай съобщение</value>
+    <value>Редактирай уведомление</value>
   </data>
   <data name="Update the message, audience or visibility." xml:space="preserve">
-    <value>Обнови съобщението, аудиторията или видимостта.</value>
+    <value>Обнови уведомлението, аудиторията или видимостта.</value>
   </data>
   <data name="Announcement Details" xml:space="preserve">
-    <value>Детайли за съобщение</value>
+    <value>Детайли за уведомление</value>
   </data>
   <data name="Announcement details, audience and message content." xml:space="preserve">
-    <value>Детайли, аудитория и съдържание на съобщението.</value>
+    <value>Детайли, аудитория и съдържание на уведомлението.</value>
   </data>
   <data name="Announcement Summary" xml:space="preserve">
-    <value>Обобщение на съобщението</value>
+    <value>Обобщение на уведомлението</value>
   </data>
   <data name="Where and when this update is visible." xml:space="preserve">
-    <value>Къде и кога това съобщение е видимо.</value>
+    <value>Къде и кога това уведомление е видимо.</value>
   </data>
   <data name="Published" xml:space="preserve">
     <value>Публикувано</value>
@@ -1750,13 +1750,13 @@
     <value>Виж събитие</value>
   </data>
   <data name="View announcement" xml:space="preserve">
-    <value>Виж съобщение</value>
+    <value>Виж уведомление</value>
   </data>
   <data name="View" xml:space="preserve">
     <value>Виж</value>
   </data>
   <data name="Announcement" xml:space="preserve">
-    <value>Съобщение</value>
+    <value>Уведомление</value>
   </data>
   <data name="Event" xml:space="preserve">
     <value>Събитие</value>
@@ -1846,7 +1846,7 @@
     <value>Уведомлението за отсъствие не е намерено.</value>
   </data>
   <data name="Announcement not found." xml:space="preserve">
-    <value>Съобщението не е намерено.</value>
+    <value>Уведомлението не е намерено.</value>
   </data>
   <data name="Attendance record not found." xml:space="preserve">
     <value>Записът за присъствие не е намерен.</value>
@@ -1948,10 +1948,10 @@
     <value>Този профил е заключен. Опитай отново по-късно.</value>
   </data>
   <data name="Announcement title" xml:space="preserve">
-    <value>Заглавие на съобщение</value>
+    <value>Заглавие на уведомление</value>
   </data>
   <data name="Announcement title cannot be longer than {1} characters." xml:space="preserve">
-    <value>Заглавието на съобщението не може да бъде по-дълго от {1} символа.</value>
+    <value>Заглавието на уведомлението не може да бъде по-дълго от {1} символа.</value>
   </data>
   <data name="Confirmation note cannot be longer than {1} characters." xml:space="preserve">
     <value>Бележката за потвърждение не може да бъде по-дълга от {1} символа.</value>
@@ -2029,13 +2029,13 @@
     <value>Въведи валиден имейл адрес.</value>
   </data>
   <data name="Please enter an announcement title." xml:space="preserve">
-    <value>Въведи заглавие на съобщение.</value>
+    <value>Въведи заглавие на уведомление.</value>
   </data>
   <data name="Please enter an event title." xml:space="preserve">
     <value>Въведи заглавие на събитие.</value>
   </data>
   <data name="Please enter the announcement message." xml:space="preserve">
-    <value>Въведи текста на съобщението.</value>
+    <value>Въведи текста на уведомлението.</value>
   </data>
   <data name="Please enter the child's first name." xml:space="preserve">
     <value>Въведи името на детето.</value>
@@ -2164,7 +2164,7 @@
     <value>Създадено за ежедневието в детската градина</value>
   </data>
   <data name="Teachers manage attendance, reports and classroom updates without losing the daily rhythm." xml:space="preserve">
-    <value>Учителите управляват присъствия, отчети и групови съобщения, без да се губи ритъмът на деня.</value>
+    <value>Учителите управляват присъствия, отчети и групови уведомления, без да се губи ритъмът на деня.</value>
   </data>
   <data name="Parents follow child updates, documents, consent requests and upcoming events from one place." xml:space="preserve">
     <value>Родителите следят информация за детето, документи, искания за съгласие и предстоящи събития от едно място.</value>
@@ -2230,13 +2230,16 @@
     <value>Учителят беше изтрит успешно.</value>
   </data>
   <data name="Announcement created successfully." xml:space="preserve">
-    <value>Съобщението беше създадено успешно.</value>
+    <value>Уведомлението беше създадено успешно.</value>
   </data>
   <data name="Announcement updated successfully." xml:space="preserve">
-    <value>Съобщението беше обновено успешно.</value>
+    <value>Уведомлението беше обновено успешно.</value>
   </data>
   <data name="Announcement deleted successfully." xml:space="preserve">
-    <value>Съобщението беше изтрито успешно.</value>
+    <value>Уведомлението беше изтрито успешно.</value>
+  </data>
+  <data name="Announcement message" xml:space="preserve">
+    <value>Текст на уведомлението</value>
   </data>
   <data name="Event created successfully." xml:space="preserve">
     <value>Събитието беше създадено успешно.</value>
