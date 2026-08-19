@@ -1,5 +1,6 @@
 ﻿using KiddoCare.Services.Core.Contracts;
 using KiddoCare.ViewModels.Teachers;
+using KiddoCare.Web.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
@@ -68,6 +69,8 @@ public class TeachersController : Controller
             return View(model);
         }
 
+        this.SetSuccessMessage("Teacher created successfully.");
+
         return RedirectToAction(nameof(Index));
     }
 
@@ -109,6 +112,8 @@ public class TeachersController : Controller
             return NotFound();
         }
 
+        this.SetSuccessMessage("Teacher updated successfully.");
+
         return RedirectToAction(nameof(Index));
     }
 
@@ -137,6 +142,8 @@ public class TeachersController : Controller
         {
             return NotFound();
         }
+
+        this.SetSuccessMessage("Teacher deleted successfully.");
 
         return RedirectToAction(nameof(Index));
     }

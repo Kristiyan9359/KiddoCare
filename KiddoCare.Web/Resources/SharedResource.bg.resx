@@ -2193,4 +2193,100 @@
   <data name="Hide password" xml:space="preserve">
     <value>Скрий паролата</value>
   </data>
+  <data name="Child created successfully." xml:space="preserve">
+    <value>Детето беше създадено успешно.</value>
+  </data>
+  <data name="Child updated successfully." xml:space="preserve">
+    <value>Детето беше обновено успешно.</value>
+  </data>
+  <data name="Child deleted successfully." xml:space="preserve">
+    <value>Детето беше изтрито успешно.</value>
+  </data>
+  <data name="Group created successfully." xml:space="preserve">
+    <value>Групата беше създадена успешно.</value>
+  </data>
+  <data name="Group updated successfully." xml:space="preserve">
+    <value>Групата беше обновена успешно.</value>
+  </data>
+  <data name="Group deleted successfully." xml:space="preserve">
+    <value>Групата беше изтрита успешно.</value>
+  </data>
+  <data name="Parent created successfully." xml:space="preserve">
+    <value>Родителят беше създаден успешно.</value>
+  </data>
+  <data name="Parent updated successfully." xml:space="preserve">
+    <value>Родителят беше обновен успешно.</value>
+  </data>
+  <data name="Parent deleted successfully." xml:space="preserve">
+    <value>Родителят беше изтрит успешно.</value>
+  </data>
+  <data name="Teacher created successfully." xml:space="preserve">
+    <value>Учителят беше създаден успешно.</value>
+  </data>
+  <data name="Teacher updated successfully." xml:space="preserve">
+    <value>Учителят беше обновен успешно.</value>
+  </data>
+  <data name="Teacher deleted successfully." xml:space="preserve">
+    <value>Учителят беше изтрит успешно.</value>
+  </data>
+  <data name="Announcement created successfully." xml:space="preserve">
+    <value>Съобщението беше създадено успешно.</value>
+  </data>
+  <data name="Announcement updated successfully." xml:space="preserve">
+    <value>Съобщението беше обновено успешно.</value>
+  </data>
+  <data name="Announcement deleted successfully." xml:space="preserve">
+    <value>Съобщението беше изтрито успешно.</value>
+  </data>
+  <data name="Event created successfully." xml:space="preserve">
+    <value>Събитието беше създадено успешно.</value>
+  </data>
+  <data name="Event updated successfully." xml:space="preserve">
+    <value>Събитието беше обновено успешно.</value>
+  </data>
+  <data name="Event deleted successfully." xml:space="preserve">
+    <value>Събитието беше изтрито успешно.</value>
+  </data>
+  <data name="Daily report created successfully." xml:space="preserve">
+    <value>Дневният отчет беше създаден успешно.</value>
+  </data>
+  <data name="Daily report updated successfully." xml:space="preserve">
+    <value>Дневният отчет беше обновен успешно.</value>
+  </data>
+  <data name="Daily report deleted successfully." xml:space="preserve">
+    <value>Дневният отчет беше изтрит успешно.</value>
+  </data>
+  <data name="Attendance saved successfully." xml:space="preserve">
+    <value>Присъствията бяха записани успешно.</value>
+  </data>
+  <data name="Attendance record updated successfully." xml:space="preserve">
+    <value>Записът за присъствие беше обновен успешно.</value>
+  </data>
+  <data name="Absence notice submitted successfully." xml:space="preserve">
+    <value>Уведомлението за отсъствие беше подадено успешно.</value>
+  </data>
+  <data name="Absence notice confirmed successfully." xml:space="preserve">
+    <value>Уведомлението за отсъствие беше потвърдено успешно.</value>
+  </data>
+  <data name="Consent request created successfully." xml:space="preserve">
+    <value>Искането за съгласие беше създадено успешно.</value>
+  </data>
+  <data name="Consent response saved successfully." xml:space="preserve">
+    <value>Отговорът за съгласие беше записан успешно.</value>
+  </data>
+  <data name="Child document uploaded successfully." xml:space="preserve">
+    <value>Документът на детето беше качен успешно.</value>
+  </data>
+  <data name="Child document review saved successfully." xml:space="preserve">
+    <value>Прегледът на документа беше записан успешно.</value>
+  </data>
+  <data name="Medical record created successfully." xml:space="preserve">
+    <value>Медицинският запис беше създаден успешно.</value>
+  </data>
+  <data name="Medical record updated successfully." xml:space="preserve">
+    <value>Медицинският запис беше обновен успешно.</value>
+  </data>
+  <data name="Medical record deleted successfully." xml:space="preserve">
+    <value>Медицинският запис беше изтрит успешно.</value>
+  </data>
 </root>

@@ -3,6 +3,7 @@
 using KiddoCare.Common;
 using KiddoCare.Services.Core.Contracts;
 using KiddoCare.ViewModels.Announcements;
+using KiddoCare.Web.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -111,6 +112,8 @@ public class AnnouncementsController : Controller
         await this.announcementService
             .CreateAsync(model, userId, isAdmin, isTeacher);
 
+        this.SetSuccessMessage("Announcement created successfully.");
+
         return this.RedirectToAction(nameof(Index));
     }
 
@@ -163,6 +166,8 @@ public class AnnouncementsController : Controller
         await this.announcementService
             .EditAsync(model, userId, isAdmin, isTeacher);
 
+        this.SetSuccessMessage("Announcement updated successfully.");
+
         return this.RedirectToAction(nameof(Index));
     }
 
@@ -177,6 +182,8 @@ public class AnnouncementsController : Controller
 
         await this.announcementService
             .DeleteAsync(id, userId, isAdmin, isTeacher);
+
+        this.SetSuccessMessage("Announcement deleted successfully.");
 
         return this.RedirectToAction(nameof(Index));
     }

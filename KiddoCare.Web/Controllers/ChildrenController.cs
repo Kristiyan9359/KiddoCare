@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using KiddoCare.Services.Core.Contracts;
 using KiddoCare.ViewModels.Children;
+using KiddoCare.Web.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
@@ -87,6 +88,8 @@ public class ChildrenController : Controller
             return View(model);
         }
 
+        this.SetSuccessMessage("Child created successfully.");
+
         return RedirectToAction(nameof(Index));
     }
 
@@ -166,6 +169,8 @@ public class ChildrenController : Controller
             return View(model);
         }
 
+        this.SetSuccessMessage("Child updated successfully.");
+
         return RedirectToAction(nameof(Index));
     }
 
@@ -196,6 +201,8 @@ public class ChildrenController : Controller
         {
             return NotFound();
         }
+
+        this.SetSuccessMessage("Child deleted successfully.");
 
         return RedirectToAction(nameof(Index));
     }

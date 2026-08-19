@@ -1,5 +1,6 @@
 ﻿using KiddoCare.Services.Core.Contracts;
 using KiddoCare.ViewModels.Groups;
+using KiddoCare.Web.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
@@ -43,6 +44,8 @@ public class GroupsController : Controller
 
         await groupService.CreateAsync(model);
 
+        this.SetSuccessMessage("Group created successfully.");
+
         return RedirectToAction(nameof(Index));
     }
 
@@ -75,6 +78,8 @@ public class GroupsController : Controller
         {
             return NotFound();
         }
+
+        this.SetSuccessMessage("Group updated successfully.");
 
         return RedirectToAction(nameof(Index));
     }
@@ -126,6 +131,8 @@ public class GroupsController : Controller
 
             return View(model);
         }
+
+        this.SetSuccessMessage("Group deleted successfully.");
 
         return RedirectToAction(nameof(Index));
     }

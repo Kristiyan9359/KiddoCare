@@ -1,0 +1,39 @@
+@using KiddoCare.Web.Extensions
+
+@{
+    var successMessage = TempData[ControllerNotificationExtensions.SuccessMessageKey]?.ToString();
+    var errorMessage = TempData[ControllerNotificationExtensions.ErrorMessageKey]?.ToString();
+}
+
+@if (!string.IsNullOrWhiteSpace(successMessage) || !string.IsNullOrWhiteSpace(errorMessage))
+{
+    <div class="flash-messages" data-flash-messages>
+        @if (!string.IsNullOrWhiteSpace(successMessage))
+        {
+            <div class="flash-alert flash-alert-success" role="status" data-flash-alert>
+                <span class="flash-alert-icon" aria-hidden="true">✓</span>
+                <span>@T[successMessage]</span>
+                <button type="button"
+                        class="flash-alert-close"
+                        data-flash-dismiss
+                        aria-label="@T["Close"]">
+                    ×
+                </button>
+            </div>
+        }
+
+        @if (!string.IsNullOrWhiteSpace(errorMessage))
+        {
+            <div class="flash-alert flash-alert-error" role="alert" data-flash-alert>
+                <span class="flash-alert-icon" aria-hidden="true">!</span>
+                <span>@T[errorMessage]</span>
+                <button type="button"
+                        class="flash-alert-close"
+                        data-flash-dismiss
+                        aria-label="@T["Close"]">
+                    ×
+                </button>
+            </div>
+        }
+    </div>
+}

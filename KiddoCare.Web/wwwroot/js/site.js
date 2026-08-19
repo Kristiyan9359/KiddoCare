@@ -52,6 +52,17 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    document.querySelectorAll("[data-flash-alert]").forEach((alert) => {
+        const dismissButton = alert.querySelector("[data-flash-dismiss]");
+        const closeAlert = () => {
+            alert.classList.add("is-hiding");
+            window.setTimeout(() => alert.remove(), 180);
+        };
+
+        dismissButton?.addEventListener("click", closeAlert);
+        window.setTimeout(closeAlert, 5200);
+    });
+
     const modalElement = document.getElementById("confirmActionModal");
     const messageElement = document.getElementById("confirmActionModalMessage");
     const confirmButton = document.getElementById("confirmActionModalButton");

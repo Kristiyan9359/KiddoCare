@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using KiddoCare.Services.Core.Contracts;
 using KiddoCare.ViewModels.ChildDocuments;
+using KiddoCare.Web.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
@@ -160,6 +161,8 @@ public class ChildDocumentsController : Controller
             return View(model);
         }
 
+        this.SetSuccessMessage("Child document uploaded successfully.");
+
         return RedirectToLocalOrIndex(model.ReturnUrl);
     }
 
@@ -289,6 +292,8 @@ public class ChildDocumentsController : Controller
 
             return View(reviewModel);
         }
+
+        this.SetSuccessMessage("Child document review saved successfully.");
 
         return RedirectToLocalOrIndex(model.ReturnUrl);
     }

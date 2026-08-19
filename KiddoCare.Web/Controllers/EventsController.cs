@@ -1,5 +1,6 @@
 ﻿using KiddoCare.Services.Core.Contracts;
 using KiddoCare.ViewModels.Events;
+using KiddoCare.Web.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
@@ -124,6 +125,8 @@ public class EventsController : Controller
             return View(model);
         }
 
+        this.SetSuccessMessage("Event created successfully.");
+
         return RedirectToAction(nameof(Index));
     }
 
@@ -176,6 +179,8 @@ public class EventsController : Controller
             return NotFound();
         }
 
+        this.SetSuccessMessage("Event updated successfully.");
+
         return RedirectToAction(nameof(Index));
     }
 
@@ -195,6 +200,8 @@ public class EventsController : Controller
         {
             return NotFound();
         }
+
+        this.SetSuccessMessage("Event deleted successfully.");
 
         return RedirectToAction(nameof(Index));
     }

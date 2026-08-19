@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using KiddoCare.Services.Core.Contracts;
 using KiddoCare.ViewModels.ConsentRequests;
+using KiddoCare.Web.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
@@ -107,6 +108,8 @@ public class ConsentRequestsController : Controller
             return View(model);
         }
 
+        this.SetSuccessMessage("Consent request created successfully.");
+
         return RedirectToAction(nameof(Index));
     }
 
@@ -172,6 +175,8 @@ public class ConsentRequestsController : Controller
 
             return View(respondModel);
         }
+
+        this.SetSuccessMessage("Consent response saved successfully.");
 
         return RedirectToLocalOrIndex(model.ReturnUrl);
     }

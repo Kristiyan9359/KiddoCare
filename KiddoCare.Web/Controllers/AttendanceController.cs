@@ -1,5 +1,6 @@
 ﻿using KiddoCare.Services.Core.Contracts;
 using KiddoCare.ViewModels.Attendance;
+using KiddoCare.Web.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -63,6 +64,8 @@ public class AttendanceController : Controller
             userId,
             isAdmin,
             isTeacher);
+
+        this.SetSuccessMessage("Attendance saved successfully.");
 
         return RedirectToAction(nameof(Daily), new
         {
@@ -153,6 +156,8 @@ public class AttendanceController : Controller
         {
             return Forbid();
         }
+
+        this.SetSuccessMessage("Attendance record updated successfully.");
 
         return RedirectToLocalOrHistory(model.ReturnUrl);
     }

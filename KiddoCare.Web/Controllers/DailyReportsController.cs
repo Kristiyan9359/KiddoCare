@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using KiddoCare.Services.Core.Contracts;
 using KiddoCare.ViewModels.DailyReports;
+using KiddoCare.Web.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
@@ -117,6 +118,8 @@ public class DailyReportsController : Controller
             return View(model);
         }
 
+        this.SetSuccessMessage("Daily report created successfully.");
+
         return RedirectToLocalOrIndex(model.ReturnUrl);
     }
 
@@ -184,6 +187,8 @@ public class DailyReportsController : Controller
             return View(model);
         }
 
+        this.SetSuccessMessage("Daily report updated successfully.");
+
         return RedirectToLocalOrIndex(model.ReturnUrl);
     }
 
@@ -224,6 +229,8 @@ public class DailyReportsController : Controller
         {
             return NotFound();
         }
+
+        this.SetSuccessMessage("Daily report deleted successfully.");
 
         return RedirectToLocalOrIndex(returnUrl);
     }

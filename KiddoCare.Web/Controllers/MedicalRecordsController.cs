@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using KiddoCare.Services.Core.Contracts;
 using KiddoCare.ViewModels.MedicalRecords;
+using KiddoCare.Web.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
@@ -91,6 +92,8 @@ public class MedicalRecordsController : Controller
             return View(model);
         }
 
+        this.SetSuccessMessage("Medical record created successfully.");
+
         return RedirectToLocalOrChildrenIndex(model.ReturnUrl);
     }
 
@@ -138,6 +141,8 @@ public class MedicalRecordsController : Controller
             return NotFound();
         }
 
+        this.SetSuccessMessage("Medical record updated successfully.");
+
         return RedirectToLocalOrMedicalRecordDetails(model.ReturnUrl, model.ChildId);
     }
 
@@ -178,6 +183,8 @@ public class MedicalRecordsController : Controller
         {
             return NotFound();
         }
+
+        this.SetSuccessMessage("Medical record deleted successfully.");
 
         return RedirectToLocalOrChildrenIndex(returnUrl);
     }
