@@ -211,6 +211,8 @@ public static class DbSeeder
         await EnsureEventAsync(context, "Sunshine park trip", "Outdoor trip to the nearby park.", seedDate.AddDays(7).AddHours(9), seedDate.AddDays(7).AddHours(12), EventType.Trip, "City park", sunshineGroup.Id, false);
         await EnsureEventAsync(context, "Birthday celebration", "Group birthday celebration with songs and games.", seedDate.AddDays(10).AddHours(10), null, EventType.Birthday, "Moonlight room", moonlightGroup.Id, false);
 
+        await SeedConversationsAsync(context);
+
         await context.SaveChangesAsync();
     }
 
@@ -508,5 +510,67 @@ public static class DbSeeder
             GroupId = groupId,
             IsPublic = isPublic
         });
+    }
+
+    private static async Task SeedConversationsAsync(ApplicationDbContext context)
+    {
+        var children = await context.Children
+            .Include(c => c.Parent)
+            .Include(c => c.Group)
+                .ThenInclude(g => g!.Teachers)
+            .Where(c => !c.IsDeleted &&
+                        c.Parent != null &&
+                        c.Group != null &&
+                        c.Group.Teachers.Any())
+            .Take(8)
+            .ToListAsync();
+
+        foreach (var child in children)
+        {
+            var parentUserId = child.Parent!.UserId;
+            var teacherUserId = child.Group!.Teachers.First().UserId;
+
+            if (string.IsNullOrWhiteSpace(parentUserId) ||
+                string.IsNullOrWhiteSpace(teacherUserId))
+            {
+                continue;
+            }
+
+            bool exists = await context.Conversations.AnyAsync(c =>
+                c.ChildId == child.Id &&
+                c.ParentUserId == parentUserId &&
+                c.TeacherUserId == teacherUserId);
+
+            if (exists)
+            {
+                continue;
+            }
+
+            var conversation = new Conversation
+            {
+                ChildId = child.Id,
+                ParentUserId = parentUserId,
+                TeacherUserId = teacherUserId,
+                CreatedOn = DateTime.UtcNow.AddDays(-3)
+            };
+
+            conversation.Messages.Add(new ChatMessage
+            {
+                SenderUserId = teacherUserId,
+                Content = $"Hello, this is a quick update about {child.FirstName}.",
+                SentOn = DateTime.UtcNow.AddHours(-7),
+                ReadOn = DateTime.UtcNow.AddHours(-6)
+            });
+
+            conversation.Messages.Add(new ChatMessage
+            {
+                SenderUserId = parentUserId,
+                Content = "Thank you for the update.",
+                SentOn = DateTime.UtcNow.AddHours(-4),
+                ReadOn = null
+            });
+
+            await context.Conversations.AddAsync(conversation);
+        }
     }
 }
