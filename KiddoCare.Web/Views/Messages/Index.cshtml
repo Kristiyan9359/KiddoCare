@@ -1,0 +1,60 @@
+﻿@model IEnumerable<KiddoCare.ViewModels.Messages.MessageConversationViewModel>
+
+@{
+    ViewData["Title"] = T["Messages"];
+}
+
+<section class="list-page-header">
+    <div>
+        <div class="page-kicker">@T["Messages"]</div>
+        <h1>@T["Messages"]</h1>
+        <p class="page-subtitle">@T["Your conversations with parents and kindergarten staff."]</p>
+    </div>
+</section>
+
+<section class="section-panel">
+    @if (!Model.Any())
+    {
+        <div class="empty-state compact-empty-state">
+            <h3>@T["No conversations yet"]</h3>
+            <p>@T["Conversations will appear here when messages are available."]</p>
+        </div>
+    }
+    else
+    {
+        <div class="message-conversation-list">
+            @foreach (var conversation in Model)
+            {
+                <a asp-action="Details"
+                   asp-route-id="@conversation.Id"
+                   class="message-conversation-item">
+                    <div>
+                        <div class="message-conversation-title">
+                            @conversation.OtherParticipantName
+                        </div>
+                        <div class="message-conversation-child">
+                            @T["Child"]: @conversation.ChildFullName
+                        </div>
+                        <div class="message-conversation-preview">
+                            @T[conversation.LastMessagePreview]
+                        </div>
+                    </div>
+
+                    <div class="message-conversation-meta">
+                        @if (conversation.LastMessageOn.HasValue)
+                        {
+                            <time datetime="@conversation.LastMessageOn.Value.ToString("O")">
+                                @conversation.LastMessageOn.Value.ToString("dd MMM HH:mm")
+                            </time>
+                        }
+
+                        @if (conversation.UnreadMessagesCount > 0)
+                        {
+                            <span class="message-unread-badge">@conversation.UnreadMessagesCount</span>
+                        }
+                    </div>
+                </a>
+            }
+        </div>
+    }
+</section>

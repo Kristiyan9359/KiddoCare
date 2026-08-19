@@ -2451,4 +2451,25 @@
   <data name="Message sent successfully." xml:space="preserve">
     <value>Съобщението беше изпратено успешно.</value>
   </data>
+  <data name="Your conversations with parents and kindergarten staff." xml:space="preserve">
+    <value>Вашите разговори с родители и екипа на детската градина.</value>
+  </data>
+  <data name="No conversations yet" xml:space="preserve">
+    <value>Все още няма разговори</value>
+  </data>
+  <data name="Conversations will appear here when messages are available." xml:space="preserve">
+    <value>Разговорите ще се появят тук, когато има налични съобщения.</value>
+  </data>
+  <data name="No messages yet" xml:space="preserve">
+    <value>Все още няма съобщения</value>
+  </data>
+  <data name="Start the conversation with a short message." xml:space="preserve">
+    <value>Започнете разговора с кратко съобщение.</value>
+  </data>
+  <data name="Write a message..." xml:space="preserve">
+    <value>Напишете съобщение...</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Изпрати</value>
+  </data>
 </root>
