@@ -18,7 +18,7 @@
             {
                 <a asp-action="Details"
                    asp-route-id="@conversation.Id"
-                   class="message-conversation-item @(conversation.Id == Model.ConversationId ? "active" : string.Empty)">
+                   class="message-conversation-item @(conversation.Id == Model.ConversationId ? "active" : string.Empty) @(conversation.UnreadMessagesCount > 0 ? "unread" : string.Empty)">
                     <div>
                         <div class="message-conversation-title">
                             @conversation.OtherParticipantName
@@ -75,7 +75,7 @@
             </div>
         </header>
 
-        <div class="message-thread">
+        <div id="messageThread" class="message-thread">
             @if (!Model.Messages.Any())
             {
                 <div class="empty-state compact-empty-state">
@@ -108,3 +108,17 @@
         </form>
     </section>
 </section>
+
+@section Scripts {
+    <script>
+        (() => {
+            const messageThread = document.getElementById('messageThread');
+
+            if (!messageThread) {
+                return;
+            }
+
+            messageThread.scrollTop = messageThread.scrollHeight;
+        })();
+    </script>
+}
