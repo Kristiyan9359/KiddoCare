@@ -3934,7 +3934,7 @@ textarea.form-control {
 
 .message-chat-panel {
     display: grid;
-    grid-template-rows: auto minmax(0, 1fr) auto;
+    grid-template-rows: auto minmax(280px, 430px) auto;
     min-width: 0;
     overflow: hidden;
 }
@@ -3976,8 +3976,11 @@ textarea.form-control {
     display: flex;
     flex-direction: column;
     gap: 14px;
+    max-height: 430px;
     padding: 22px;
+    scroll-behavior: smooth;
     overflow-y: auto;
+    overscroll-behavior: contain;
 }
 
 .message-bubble {
@@ -4130,7 +4133,7 @@ textarea.form-control {
     }
 
     .message-chat-panel {
-        min-height: 620px;
+        min-height: auto;
     }
 }
 
@@ -4152,6 +4155,7 @@ textarea.form-control {
     }
 
     .message-thread {
+        max-height: 360px;
         padding: 16px;
     }
 
