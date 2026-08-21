@@ -39,4 +39,6 @@ public class Conversation
     public bool IsDeleted { get; set; }
 
     public ICollection<ChatMessage> Messages { get; set; } = new HashSet<ChatMessage>();
+
+    public ICollection<ConversationDeletion> ConversationDeletions { get; set; } = new HashSet<ConversationDeletion>();
 }

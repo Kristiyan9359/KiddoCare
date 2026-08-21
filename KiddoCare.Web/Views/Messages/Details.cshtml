@@ -60,7 +60,19 @@
                 }
             </div>
 
-            <a asp-action="Index" class="btn btn-secondary">@T["Back"]</a>
+            <div class="message-chat-actions">
+                <form asp-action="DeleteConversation"
+                      asp-route-id="@Model.ConversationId"
+                      method="post">
+                    <button type="submit"
+                            class="btn btn-outline-danger"
+                            onclick="return confirm('@T["Delete this conversation only for you?"]');">
+                        @T["Delete conversation"]
+                    </button>
+                </form>
+
+                <a asp-action="Index" class="btn btn-secondary">@T["Back"]</a>
+            </div>
         </header>
 
         <div class="message-thread">

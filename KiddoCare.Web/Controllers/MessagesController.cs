@@ -148,6 +148,32 @@ public class MessagesController : Controller
         return RedirectToAction(nameof(Details), new { id = model.ConversationId });
     }
 
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConversation(int id)
+    {
+        var userId = GetCurrentUserId();
+        var isAdmin = User.IsInRole(Admin);
+        var isTeacher = User.IsInRole(Teacher);
+        var isParent = User.IsInRole(Parent);
+
+        try
+        {
+            await messageService.DeleteConversationForUserAsync(id, userId, isAdmin, isTeacher, isParent);
+            this.SetSuccessMessage("Conversation deleted successfully.");
+
+            return RedirectToAction(nameof(Index));
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return Forbid();
+        }
+        catch (InvalidOperationException)
+        {
+            return NotFound();
+        }
+    }
+
     private string GetCurrentUserId()
     {
         return User.FindFirstValue(ClaimTypes.NameIdentifier)!;

@@ -33,9 +33,9 @@ public class MessageService : IMessageService
                 c.AdminUserId,
                 ChildFullName = c.Child == null ? null : c.Child.FirstName + " " + c.Child.LastName,
                 c.CreatedOn,
-                LastMessageOn = c.Messages.Where(m => !m.IsDeleted).OrderByDescending(m => m.SentOn).Select(m => (DateTime?)m.SentOn).FirstOrDefault(),
-                LastMessagePreview = c.Messages.Where(m => !m.IsDeleted).OrderByDescending(m => m.SentOn).Select(m => m.Content).FirstOrDefault(),
-                UnreadMessagesCount = c.Messages.Count(m => !m.IsDeleted && m.SenderUserId != userId && m.ReadOn == null)
+                LastMessageOn = c.Messages.Where(m => !m.IsDeleted && !c.ConversationDeletions.Any(d => d.UserId == userId && m.SentOn <= d.DeletedOn)).OrderByDescending(m => m.SentOn).Select(m => (DateTime?)m.SentOn).FirstOrDefault(),
+                LastMessagePreview = c.Messages.Where(m => !m.IsDeleted && !c.ConversationDeletions.Any(d => d.UserId == userId && m.SentOn <= d.DeletedOn)).OrderByDescending(m => m.SentOn).Select(m => m.Content).FirstOrDefault(),
+                UnreadMessagesCount = c.Messages.Count(m => !m.IsDeleted && m.SenderUserId != userId && m.ReadOn == null && !c.ConversationDeletions.Any(d => d.UserId == userId && m.SentOn <= d.DeletedOn))
             })
             .OrderByDescending(c => c.LastMessageOn ?? c.CreatedOn)
             .ToListAsync();
@@ -79,7 +79,8 @@ public class MessageService : IMessageService
                 c.ParentUserId,
                 c.TeacherUserId,
                 c.AdminUserId,
-                ChildFullName = c.Child == null ? null : c.Child.FirstName + " " + c.Child.LastName
+                ChildFullName = c.Child == null ? null : c.Child.FirstName + " " + c.Child.LastName,
+                DeletedOn = c.ConversationDeletions.Where(d => d.UserId == userId).Select(d => (DateTime?)d.DeletedOn).FirstOrDefault()
             })
             .FirstOrDefaultAsync();
 
@@ -89,7 +90,7 @@ public class MessageService : IMessageService
         }
 
         var unreadMessages = await context.ChatMessages
-            .Where(m => m.ConversationId == conversationId && !m.IsDeleted && m.SenderUserId != userId && m.ReadOn == null)
+            .Where(m => m.ConversationId == conversationId && !m.IsDeleted && m.SenderUserId != userId && m.ReadOn == null && (conversation.DeletedOn == null || m.SentOn > conversation.DeletedOn.Value))
             .ToListAsync();
 
         foreach (var message in unreadMessages)
@@ -100,7 +101,7 @@ public class MessageService : IMessageService
         await context.SaveChangesAsync();
 
         var messages = await context.ChatMessages
-            .Where(m => m.ConversationId == conversationId && !m.IsDeleted)
+            .Where(m => m.ConversationId == conversationId && !m.IsDeleted && (conversation.DeletedOn == null || m.SentOn > conversation.DeletedOn.Value))
             .OrderBy(m => m.SentOn)
             .Select(m => new
             {
@@ -143,7 +144,10 @@ public class MessageService : IMessageService
 
     public async Task<bool> CanAccessConversationAsync(int conversationId, string userId, bool isAdmin, bool isTeacher, bool isParent)
     {
-        var query = context.Conversations.Where(c => c.Id == conversationId && !c.IsDeleted);
+        var query = context.Conversations
+            .Where(c => c.Id == conversationId &&
+                        !c.IsDeleted &&
+                        !c.ConversationDeletions.Any(d => d.UserId == userId && (c.LastMessageOn == null || c.LastMessageOn <= d.DeletedOn)));
 
         if (isAdmin)
         {
@@ -161,6 +165,51 @@ public class MessageService : IMessageService
         }
 
         return false;
+    }
+
+    public async Task DeleteConversationForUserAsync(int conversationId, string userId, bool isAdmin, bool isTeacher, bool isParent)
+    {
+        var conversation = await context.Conversations
+            .Where(c => c.Id == conversationId && !c.IsDeleted)
+            .Select(c => new
+            {
+                c.Id,
+                c.ParentUserId,
+                c.TeacherUserId,
+                c.AdminUserId
+            })
+            .FirstOrDefaultAsync();
+
+        if (conversation == null)
+        {
+            throw new InvalidOperationException("Conversation not found.");
+        }
+
+        bool isParticipant = IsConversationParticipant(conversation.ParentUserId, conversation.TeacherUserId, conversation.AdminUserId, userId, isAdmin, isTeacher, isParent);
+
+        if (!isParticipant)
+        {
+            throw new UnauthorizedAccessException();
+        }
+
+        var deletion = await context.ConversationDeletions
+            .FirstOrDefaultAsync(d => d.ConversationId == conversationId && d.UserId == userId);
+
+        if (deletion == null)
+        {
+            await context.ConversationDeletions.AddAsync(new ConversationDeletion
+            {
+                ConversationId = conversationId,
+                UserId = userId,
+                DeletedOn = DateTime.UtcNow
+            });
+        }
+        else
+        {
+            deletion.DeletedOn = DateTime.UtcNow;
+        }
+
+        await context.SaveChangesAsync();
     }
 
     public async Task SendMessageAsync(SendMessageInputModel model, string senderUserId, bool isAdmin, bool isTeacher, bool isParent)
@@ -287,7 +336,7 @@ public class MessageService : IMessageService
             .Include(c => c.TeacherUser)
             .Include(c => c.AdminUser)
             .Include(c => c.Messages)
-            .Where(c => !c.IsDeleted);
+            .Where(c => !c.IsDeleted && !c.ConversationDeletions.Any(d => d.UserId == userId && (c.LastMessageOn == null || c.LastMessageOn <= d.DeletedOn)));
 
         if (isAdmin)
         {
@@ -305,6 +354,26 @@ public class MessageService : IMessageService
         }
 
         return query.Where(c => false);
+    }
+
+    private static bool IsConversationParticipant(string? parentUserId, string? teacherUserId, string? adminUserId, string userId, bool isAdmin, bool isTeacher, bool isParent)
+    {
+        if (isAdmin)
+        {
+            return adminUserId == userId;
+        }
+
+        if (isTeacher)
+        {
+            return teacherUserId == userId;
+        }
+
+        if (isParent)
+        {
+            return parentUserId == userId;
+        }
+
+        return false;
     }
 
     private async Task<IEnumerable<SelectListItem>> GetRecipientItemsAsync(string userId, bool isAdmin, bool isTeacher, bool isParent)

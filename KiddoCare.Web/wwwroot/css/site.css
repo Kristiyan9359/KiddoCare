@@ -3912,6 +3912,16 @@ textarea.form-control {
     text-transform: uppercase;
 }
 
+.message-chat-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.message-chat-actions form {
+    margin: 0;
+}
+
 .message-thread {
     display: flex;
     flex-direction: column;
@@ -4066,6 +4076,12 @@ textarea.form-control {
 
     .message-chat-header .btn,
     .message-compose .btn {
+        width: 100%;
+    }
+
+    .message-chat-actions {
+        align-items: stretch;
+        flex-direction: column;
         width: 100%;
     }
 

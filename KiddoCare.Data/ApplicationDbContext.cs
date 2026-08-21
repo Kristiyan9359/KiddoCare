@@ -34,6 +34,8 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
     public virtual DbSet<ChatMessage> ChatMessages { get; set; } = null!;
 
+    public virtual DbSet<ConversationDeletion> ConversationDeletions { get; set; } = null!;
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -93,5 +95,21 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             .WithMany()
             .HasForeignKey(m => m.SenderUserId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Entity<ConversationDeletion>()
+            .HasOne(d => d.Conversation)
+            .WithMany(c => c.ConversationDeletions)
+            .HasForeignKey(d => d.ConversationId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Entity<ConversationDeletion>()
+            .HasOne(d => d.User)
+            .WithMany()
+            .HasForeignKey(d => d.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Entity<ConversationDeletion>()
+            .HasIndex(d => new { d.ConversationId, d.UserId })
+            .IsUnique();
     }
 }
