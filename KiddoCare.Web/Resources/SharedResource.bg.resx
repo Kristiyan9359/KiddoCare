@@ -2499,6 +2499,12 @@
   <data name="Administration conversation" xml:space="preserve">
     <value>Разговор с администрацията</value>
   </data>
+  <data name="Parent conversation" xml:space="preserve">
+    <value>Разговор с родител</value>
+  </data>
+  <data name="Teacher conversation" xml:space="preserve">
+    <value>Разговор с учител</value>
+  </data>
   <data name="Staff conversation" xml:space="preserve">
     <value>Разговор с екипа</value>
   </data>

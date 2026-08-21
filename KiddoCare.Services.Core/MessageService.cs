@@ -53,7 +53,7 @@ public class MessageService : IMessageService
         {
             Id = c.Id,
             ChildFullName = c.ChildFullName,
-            ConversationType = GetConversationTypeLabel(c.Type),
+            ConversationType = GetConversationTypeLabel(c.Type, isAdmin),
             OtherParticipantName = GetOtherParticipantName(c.ParentUserId, c.TeacherUserId, c.AdminUserId, userId, displayNames),
             LastMessagePreview = CreatePreview(c.LastMessagePreview),
             LastMessageOn = c.LastMessageOn,
@@ -127,7 +127,7 @@ public class MessageService : IMessageService
         {
             ConversationId = conversation.Id,
             ChildFullName = conversation.ChildFullName,
-            ConversationType = GetConversationTypeLabel(conversation.Type),
+            ConversationType = GetConversationTypeLabel(conversation.Type, isAdmin),
             OtherParticipantName = GetOtherParticipantName(conversation.ParentUserId, conversation.TeacherUserId, conversation.AdminUserId, userId, displayNames),
             Conversations = await GetConversationsAsync(userId, isAdmin, isTeacher, isParent),
             Messages = messages.Select(m => new MessageItemViewModel
@@ -670,13 +670,13 @@ public class MessageService : IMessageService
             : displayNames.GetValueOrDefault(otherUserId, "Unknown user");
     }
 
-    private static string GetConversationTypeLabel(ConversationType type)
+    private static string GetConversationTypeLabel(ConversationType type, bool isAdmin)
     {
         return type switch
         {
             ConversationType.ParentTeacher => "Parent-teacher conversation",
-            ConversationType.ParentAdmin => "Administration conversation",
-            ConversationType.TeacherAdmin => "Staff conversation",
+            ConversationType.ParentAdmin => isAdmin ? "Parent conversation" : "Administration conversation",
+            ConversationType.TeacherAdmin => isAdmin ? "Teacher conversation" : "Administration conversation",
             _ => "Conversation"
         };
     }
