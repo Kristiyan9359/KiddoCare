@@ -31,7 +31,6 @@ public class MessageService : IMessageService
                 c.ParentUserId,
                 c.TeacherUserId,
                 c.AdminUserId,
-                ChildFullName = c.Child == null ? null : c.Child.FirstName + " " + c.Child.LastName,
                 c.CreatedOn,
                 LastMessageOn = c.Messages.Where(m => !m.IsDeleted && !c.ConversationDeletions.Any(d => d.UserId == userId && m.SentOn <= d.DeletedOn)).OrderByDescending(m => m.SentOn).Select(m => (DateTime?)m.SentOn).FirstOrDefault(),
                 LastMessagePreview = c.Messages.Where(m => !m.IsDeleted && !c.ConversationDeletions.Any(d => d.UserId == userId && m.SentOn <= d.DeletedOn)).OrderByDescending(m => m.SentOn).Select(m => m.Content).FirstOrDefault(),
@@ -52,7 +51,6 @@ public class MessageService : IMessageService
         return conversations.Select(c => new MessageConversationViewModel
         {
             Id = c.Id,
-            ChildFullName = c.ChildFullName,
             ConversationType = GetConversationTypeLabel(c.Type, isAdmin),
             OtherParticipantName = GetOtherParticipantName(c.ParentUserId, c.TeacherUserId, c.AdminUserId, userId, displayNames),
             LastMessagePreview = CreatePreview(c.LastMessagePreview),
@@ -111,7 +109,6 @@ public class MessageService : IMessageService
                 c.ParentUserId,
                 c.TeacherUserId,
                 c.AdminUserId,
-                ChildFullName = c.Child == null ? null : c.Child.FirstName + " " + c.Child.LastName,
                 DeletedOn = c.ConversationDeletions.Where(d => d.UserId == userId).Select(d => (DateTime?)d.DeletedOn).FirstOrDefault()
             })
             .FirstOrDefaultAsync();
@@ -159,7 +156,6 @@ public class MessageService : IMessageService
         return new MessageDetailsViewModel
         {
             ConversationId = conversation.Id,
-            ChildFullName = conversation.ChildFullName,
             ConversationType = GetConversationTypeLabel(conversation.Type, isAdmin),
             OtherParticipantName = GetOtherParticipantName(conversation.ParentUserId, conversation.TeacherUserId, conversation.AdminUserId, userId, displayNames),
             Conversations = await GetConversationsAsync(userId, isAdmin, isTeacher, isParent),
@@ -273,8 +269,7 @@ public class MessageService : IMessageService
     {
         return new MessageCreateViewModel
         {
-            Recipients = await GetRecipientItemsAsync(userId, isAdmin, isTeacher, isParent),
-            Children = new List<SelectListItem>()
+            Recipients = await GetRecipientItemsAsync(userId, isAdmin, isTeacher, isParent)
         };
     }
 
@@ -285,7 +280,7 @@ public class MessageService : IMessageService
         bool recipientIsTeacher = await context.TeacherProfiles.AnyAsync(t => t.UserId == recipientUserId && !t.IsDeleted);
         bool recipientIsParent = await context.ParentProfiles.AnyAsync(p => p.UserId == recipientUserId && !p.IsDeleted);
 
-        var conversation = await BuildConversationAsync(model.ChildId, senderUserId, recipientUserId, isAdmin, isTeacher, isParent, recipientIsAdmin, recipientIsTeacher, recipientIsParent);
+        var conversation = BuildConversation(senderUserId, recipientUserId, isAdmin, isTeacher, isParent, recipientIsAdmin, recipientIsTeacher, recipientIsParent);
         var existingConversation = await FindExistingConversationAsync(conversation);
         var sentOn = DateTime.UtcNow;
 
@@ -320,50 +315,9 @@ public class MessageService : IMessageService
         return existingConversation.Id;
     }
 
-    public async Task<IEnumerable<SelectListItem>> GetAvailableChildrenAsync(string userId, string recipientUserId, bool isAdmin, bool isTeacher, bool isParent)
-    {
-        bool recipientIsAdmin = await IsUserInRoleAsync(recipientUserId, Admin);
-        bool recipientIsTeacher = await context.TeacherProfiles.AnyAsync(t => t.UserId == recipientUserId && !t.IsDeleted);
-        bool recipientIsParent = await context.ParentProfiles.AnyAsync(p => p.UserId == recipientUserId && !p.IsDeleted);
-
-        if (isAdmin && recipientIsParent)
-        {
-            return await GetChildrenForParentAsync(recipientUserId);
-        }
-
-        if (isAdmin && recipientIsTeacher)
-        {
-            return await GetChildrenForTeacherAsync(recipientUserId);
-        }
-
-        if (isTeacher && recipientIsParent)
-        {
-            return await GetChildrenForParentAndTeacherAsync(recipientUserId, userId);
-        }
-
-        if (isTeacher && recipientIsAdmin)
-        {
-            return await GetChildrenForTeacherAsync(userId);
-        }
-
-        if (isParent && recipientIsTeacher)
-        {
-            return await GetChildrenForParentAndTeacherAsync(userId, recipientUserId);
-        }
-
-        if (isParent && recipientIsAdmin)
-        {
-            return await GetChildrenForParentAsync(userId);
-        }
-
-        return new List<SelectListItem>();
-    }
-
     private IQueryable<Conversation> GetAccessibleConversations(string userId, bool isAdmin, bool isTeacher, bool isParent)
     {
         var query = context.Conversations
-            .Include(c => c.Child)
-                .ThenInclude(c => c!.Group)
             .Include(c => c.ParentUser)
             .Include(c => c.TeacherUser)
             .Include(c => c.AdminUser)
@@ -479,88 +433,13 @@ public class MessageService : IMessageService
         return isAdmin ? items : items.OrderBy(i => i.Text).ToList();
     }
 
-    private async Task<IEnumerable<SelectListItem>> GetChildItemsAsync(string userId, bool isAdmin, bool isTeacher, bool isParent)
-    {
-        var query = context.Children
-            .Include(c => c.Group)
-            .Include(c => c.Parent)
-            .Where(c => !c.IsDeleted);
-
-        if (isTeacher)
-        {
-            var groupIds = await context.TeacherProfiles
-                .Where(t => t.UserId == userId && !t.IsDeleted)
-                .Select(t => t.GroupId)
-                .ToListAsync();
-
-            query = query.Where(c => groupIds.Contains(c.GroupId));
-        }
-        else if (isParent)
-        {
-            query = query.Where(c => c.Parent != null && c.Parent.UserId == userId);
-        }
-        else if (!isAdmin)
-        {
-            query = query.Where(c => false);
-        }
-
-        return await query
-            .OrderBy(c => c.FirstName)
-            .ThenBy(c => c.LastName)
-            .Select(c => new SelectListItem(c.FirstName + " " + c.LastName + " - " + c.Group!.Name, c.Id.ToString()))
-            .ToListAsync();
-    }
-
-    private async Task<IEnumerable<SelectListItem>> GetChildrenForParentAsync(string parentUserId)
-    {
-        return await context.Children
-            .Include(c => c.Group)
-            .Where(c => !c.IsDeleted && c.Parent != null && c.Parent.UserId == parentUserId)
-            .OrderBy(c => c.FirstName)
-            .ThenBy(c => c.LastName)
-            .Select(c => new SelectListItem(c.FirstName + " " + c.LastName + " - " + c.Group!.Name, c.Id.ToString()))
-            .ToListAsync();
-    }
-
-    private async Task<IEnumerable<SelectListItem>> GetChildrenForTeacherAsync(string teacherUserId)
-    {
-        var groupIds = await context.TeacherProfiles
-            .Where(t => t.UserId == teacherUserId && !t.IsDeleted)
-            .Select(t => t.GroupId)
-            .ToListAsync();
-
-        return await context.Children
-            .Include(c => c.Group)
-            .Where(c => !c.IsDeleted && groupIds.Contains(c.GroupId))
-            .OrderBy(c => c.FirstName)
-            .ThenBy(c => c.LastName)
-            .Select(c => new SelectListItem(c.FirstName + " " + c.LastName + " - " + c.Group!.Name, c.Id.ToString()))
-            .ToListAsync();
-    }
-
-    private async Task<IEnumerable<SelectListItem>> GetChildrenForParentAndTeacherAsync(string parentUserId, string teacherUserId)
-    {
-        return await context.Children
-            .Include(c => c.Group)
-            .Where(c => !c.IsDeleted &&
-                        c.Parent != null &&
-                        c.Parent.UserId == parentUserId &&
-                        c.Group != null &&
-                        c.Group.Teachers.Any(t => !t.IsDeleted && t.UserId == teacherUserId))
-            .OrderBy(c => c.FirstName)
-            .ThenBy(c => c.LastName)
-            .Select(c => new SelectListItem(c.FirstName + " " + c.LastName + " - " + c.Group!.Name, c.Id.ToString()))
-            .ToListAsync();
-    }
-
-    private async Task<Conversation> BuildConversationAsync(int? childId, string senderUserId, string recipientUserId, bool isAdmin, bool isTeacher, bool isParent, bool recipientIsAdmin, bool recipientIsTeacher, bool recipientIsParent)
+    private static Conversation BuildConversation(string senderUserId, string recipientUserId, bool isAdmin, bool isTeacher, bool isParent, bool recipientIsAdmin, bool recipientIsTeacher, bool recipientIsParent)
     {
         if (isAdmin && recipientIsParent)
         {
             return new Conversation
             {
                 Type = ConversationType.ParentAdmin,
-                ChildId = await ValidateOptionalParentChildAsync(childId, recipientUserId),
                 ParentUserId = recipientUserId,
                 AdminUserId = senderUserId
             };
@@ -571,7 +450,6 @@ public class MessageService : IMessageService
             return new Conversation
             {
                 Type = ConversationType.TeacherAdmin,
-                ChildId = await ValidateOptionalTeacherChildAsync(childId, recipientUserId),
                 TeacherUserId = recipientUserId,
                 AdminUserId = senderUserId
             };
@@ -582,7 +460,6 @@ public class MessageService : IMessageService
             return new Conversation
             {
                 Type = ConversationType.TeacherAdmin,
-                ChildId = await ValidateOptionalTeacherChildAsync(childId, senderUserId),
                 TeacherUserId = senderUserId,
                 AdminUserId = recipientUserId
             };
@@ -593,7 +470,6 @@ public class MessageService : IMessageService
             return new Conversation
             {
                 Type = ConversationType.ParentTeacher,
-                ChildId = await ValidateOptionalParentTeacherChildAsync(childId, recipientUserId, senderUserId),
                 ParentUserId = recipientUserId,
                 TeacherUserId = senderUserId
             };
@@ -604,7 +480,6 @@ public class MessageService : IMessageService
             return new Conversation
             {
                 Type = ConversationType.ParentAdmin,
-                ChildId = await ValidateOptionalParentChildAsync(childId, senderUserId),
                 ParentUserId = senderUserId,
                 AdminUserId = recipientUserId
             };
@@ -615,75 +490,12 @@ public class MessageService : IMessageService
             return new Conversation
             {
                 Type = ConversationType.ParentTeacher,
-                ChildId = await ValidateOptionalParentTeacherChildAsync(childId, senderUserId, recipientUserId),
                 ParentUserId = senderUserId,
                 TeacherUserId = recipientUserId
             };
         }
 
         throw new InvalidOperationException("You cannot start a conversation with this recipient.");
-    }
-
-    private async Task<int?> ValidateOptionalParentChildAsync(int? childId, string parentUserId)
-    {
-        if (childId == null)
-        {
-            return null;
-        }
-
-        bool canUseChild = await context.Children
-            .AnyAsync(c => !c.IsDeleted && c.Id == childId.Value && c.Parent != null && c.Parent.UserId == parentUserId);
-
-        if (!canUseChild)
-        {
-            throw new InvalidOperationException("Selected child is not available for this conversation.");
-        }
-
-        return childId.Value;
-    }
-
-    private async Task<int?> ValidateOptionalTeacherChildAsync(int? childId, string teacherUserId)
-    {
-        if (childId == null)
-        {
-            return null;
-        }
-
-        bool canUseChild = await context.Children
-            .AnyAsync(c => !c.IsDeleted &&
-                           c.Id == childId.Value &&
-                           c.Group != null &&
-                           c.Group.Teachers.Any(t => !t.IsDeleted && t.UserId == teacherUserId));
-
-        if (!canUseChild)
-        {
-            throw new InvalidOperationException("Selected child is not available for this conversation.");
-        }
-
-        return childId.Value;
-    }
-
-    private async Task<int?> ValidateOptionalParentTeacherChildAsync(int? childId, string parentUserId, string teacherUserId)
-    {
-        if (childId == null)
-        {
-            return null;
-        }
-
-        bool canUseChild = await context.Children
-            .AnyAsync(c => !c.IsDeleted &&
-                           c.Id == childId.Value &&
-                           c.Parent != null &&
-                           c.Parent.UserId == parentUserId &&
-                           c.Group != null &&
-                           c.Group.Teachers.Any(t => !t.IsDeleted && t.UserId == teacherUserId));
-
-        if (!canUseChild)
-        {
-            throw new InvalidOperationException("Selected child is not available for this conversation.");
-        }
-
-        return childId.Value;
     }
 
     private async Task<Conversation?> FindExistingConversationAsync(Conversation conversation)

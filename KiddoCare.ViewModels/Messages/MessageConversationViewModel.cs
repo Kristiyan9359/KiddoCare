@@ -4,8 +4,6 @@ public class MessageConversationViewModel
 {
     public int Id { get; set; }
 
-    public string? ChildFullName { get; set; }
-
     public string ConversationType { get; set; } = null!;
 
     public string OtherParticipantName { get; set; } = null!;

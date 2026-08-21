@@ -35,12 +35,6 @@
                             @conversation.OtherParticipantName
                         </div>
                         <div class="message-conversation-child">@T[conversation.ConversationType]</div>
-                        @if (!string.IsNullOrWhiteSpace(conversation.ChildFullName))
-                        {
-                            <div class="message-conversation-child">
-                                @T["Child"]: @conversation.ChildFullName
-                            </div>
-                        }
                         <div class="message-conversation-preview">
                             @T[conversation.LastMessagePreview]
                         </div>

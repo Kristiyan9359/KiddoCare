@@ -23,9 +23,6 @@
                         <div class="message-conversation-title">
                             @conversation.OtherParticipantName
                         </div>
-                        <div class="message-conversation-child">
-                            @conversation.ChildFullName
-                        </div>
                         <div class="message-conversation-preview">
                             @T[conversation.LastMessagePreview]
                         </div>
@@ -54,10 +51,6 @@
             <div>
                 <div class="message-chat-child">@T[Model.ConversationType]</div>
                 <h2>@Model.OtherParticipantName</h2>
-                @if (!string.IsNullOrWhiteSpace(Model.ChildFullName))
-                {
-                    <p>@T["Child"]: @Model.ChildFullName</p>
-                }
             </div>
 
             <div class="message-chat-actions">
