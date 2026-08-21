@@ -688,13 +688,15 @@ public class MessageService : IMessageService
 
     private async Task<Conversation?> FindExistingConversationAsync(Conversation conversation)
     {
-        return await context.Conversations.FirstOrDefaultAsync(c =>
-            !c.IsDeleted &&
-            c.Type == conversation.Type &&
-            c.ChildId == conversation.ChildId &&
-            c.ParentUserId == conversation.ParentUserId &&
-            c.TeacherUserId == conversation.TeacherUserId &&
-            c.AdminUserId == conversation.AdminUserId);
+        return await context.Conversations
+            .OrderByDescending(c => c.LastMessageOn)
+            .ThenByDescending(c => c.Id)
+            .FirstOrDefaultAsync(c =>
+                !c.IsDeleted &&
+                c.Type == conversation.Type &&
+                c.ParentUserId == conversation.ParentUserId &&
+                c.TeacherUserId == conversation.TeacherUserId &&
+                c.AdminUserId == conversation.AdminUserId);
     }
 
     private async Task<bool> IsUserInRoleAsync(string userId, string role)
