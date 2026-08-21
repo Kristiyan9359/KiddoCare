@@ -1,7 +1,15 @@
-﻿@model KiddoCare.ViewModels.Messages.MessageDetailsViewModel
+@using System.Security.Claims
+@using System.Text.Json
+@model KiddoCare.ViewModels.Messages.MessageDetailsViewModel
 
 @{
     ViewData["Title"] = T["Messages"];
+
+    var liveMessageConfig = new
+    {
+        conversationId = Model.ConversationId,
+        currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier)
+    };
 }
 
 <section class="message-shell">
@@ -103,15 +111,81 @@
 </section>
 
 @section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.7/signalr.min.js"
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"></script>
+
     <script>
         (() => {
             const messageThread = document.getElementById('messageThread');
+            const config = @Html.Raw(JsonSerializer.Serialize(liveMessageConfig));
 
             if (!messageThread) {
                 return;
             }
 
-            messageThread.scrollTop = messageThread.scrollHeight;
+            const scrollToBottom = () => {
+                messageThread.scrollTop = messageThread.scrollHeight;
+            };
+
+            const formatMessageTime = (value) => {
+                const sentOn = new Date(value);
+
+                return new Intl.DateTimeFormat(document.documentElement.lang || undefined, {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                }).format(sentOn);
+            };
+
+            const appendMessage = (message) => {
+                if (Number(message.conversationId) !== Number(config.conversationId)) {
+                    return;
+                }
+
+                const emptyState = messageThread.querySelector('.empty-state');
+
+                if (emptyState) {
+                    emptyState.remove();
+                }
+
+                const article = document.createElement('article');
+                article.className = `message-bubble ${message.senderUserId === config.currentUserId ? 'mine' : 'theirs'}`;
+
+                const author = document.createElement('div');
+                author.className = 'message-bubble-author';
+                author.textContent = message.senderName;
+
+                const content = document.createElement('p');
+                content.textContent = message.content;
+
+                const time = document.createElement('time');
+                time.dateTime = new Date(message.sentOn).toISOString();
+                time.textContent = formatMessageTime(message.sentOn);
+
+                article.append(author, content, time);
+                messageThread.appendChild(article);
+                scrollToBottom();
+            };
+
+            scrollToBottom();
+
+            if (!window.signalR) {
+                return;
+            }
+
+            const connection = new signalR.HubConnectionBuilder()
+                .withUrl('/messageHub')
+                .withAutomaticReconnect()
+                .build();
+
+            connection.on('ReceiveMessage', appendMessage);
+
+            connection.start()
+                .then(() => connection.invoke('JoinConversation', config.conversationId))
+                .catch(() => {});
         })();
     </script>
 }

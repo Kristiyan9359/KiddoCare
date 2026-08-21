@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using KiddoCare.Services.Core;
 using KiddoCare.Services.Core.Contracts;
 using KiddoCare.Web;
+using KiddoCare.Web.Hubs;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
 using System.Globalization;
@@ -29,6 +30,8 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 builder.Services.AddLocalization();
+
+builder.Services.AddSignalR();
 
 builder.Services.AddControllersWithViews(options =>
 {
@@ -113,6 +116,8 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
+
+app.MapHub<MessageHub>("/messageHub");
 
 app.MapRazorPages()
    .WithStaticAssets();

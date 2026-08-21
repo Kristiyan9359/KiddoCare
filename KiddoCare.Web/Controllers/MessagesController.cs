@@ -4,8 +4,10 @@ using System.Security.Claims;
 using KiddoCare.Services.Core.Contracts;
 using KiddoCare.ViewModels.Messages;
 using KiddoCare.Web.Extensions;
+using KiddoCare.Web.Hubs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Localization;
 using static KiddoCare.Common.RoleConstants;
 
@@ -14,11 +16,13 @@ public class MessagesController : Controller
 {
     private readonly IMessageService messageService;
     private readonly IStringLocalizer<SharedResource> localizer;
+    private readonly IHubContext<MessageHub> messageHubContext;
 
-    public MessagesController(IMessageService messageService, IStringLocalizer<SharedResource> localizer)
+    public MessagesController(IMessageService messageService, IStringLocalizer<SharedResource> localizer, IHubContext<MessageHub> messageHubContext)
     {
         this.messageService = messageService;
         this.localizer = localizer;
+        this.messageHubContext = messageHubContext;
     }
 
     public async Task<IActionResult> Index()
@@ -114,6 +118,17 @@ public class MessagesController : Controller
         try
         {
             await messageService.SendMessageAsync(model, userId, isAdmin, isTeacher, isParent);
+            await messageHubContext.Clients
+                .Group(MessageHub.GetConversationGroupName(model.ConversationId))
+                .SendAsync("ReceiveMessage", new
+                {
+                    ConversationId = model.ConversationId,
+                    SenderUserId = userId,
+                    SenderName = GetCurrentUserDisplayName(),
+                    Content = model.Content.Trim(),
+                    SentOn = DateTime.UtcNow
+                });
+
             this.SetSuccessMessage("Message sent successfully.");
         }
         catch (UnauthorizedAccessException)
@@ -153,5 +168,10 @@ public class MessagesController : Controller
     private string GetCurrentUserId()
     {
         return User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+    }
+
+    private string GetCurrentUserDisplayName()
+    {
+        return User.FindFirstValue("FullName") ?? User.Identity?.Name ?? "Unknown user";
     }
 }
