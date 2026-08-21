@@ -2481,8 +2481,8 @@
   <data name="Delete conversation" xml:space="preserve">
     <value>Изтрий разговора</value>
   </data>
-  <data name="Delete this conversation only for you?" xml:space="preserve">
-    <value>Да изтрия ли този разговор само за вас?</value>
+  <data name="Delete the conversation?" xml:space="preserve">
+    <value>Изтриване на разговора?</value>
   </data>
   <data name="New conversation" xml:space="preserve">
     <value>Нов разговор</value>
