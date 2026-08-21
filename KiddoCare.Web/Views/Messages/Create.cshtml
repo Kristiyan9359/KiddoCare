@@ -1,7 +1,17 @@
+@using System.Text.Json
 @model KiddoCare.ViewModels.Messages.MessageCreateViewModel
 
 @{
     ViewData["Title"] = T["New conversation"];
+
+    var labels = new
+    {
+        selectRecipientFirst = T["Select recipient first"].Value,
+        selectChildOptional = T["Select child..."].Value,
+        noChildren = T["No available children for this recipient."].Value,
+        helpDefault = T["Select a recipient first to see available children."].Value,
+        helpLoaded = T["Choose a child if the conversation is about a specific child."].Value
+    };
 }
 
 <section class="list-page-header">
@@ -18,18 +28,20 @@
 
         <div class="mb-3">
             <label asp-for="RecipientUserId" class="form-label">@T["Recipient"]</label>
-            <select asp-for="RecipientUserId" asp-items="Model.Recipients" class="form-select">
+            <select asp-for="RecipientUserId" asp-items="Model.Recipients" class="form-select" id="recipientSelect">
                 <option value="">@T["Select recipient..."]</option>
             </select>
             <span asp-validation-for="RecipientUserId" class="text-danger"></span>
         </div>
 
-        <div class="mb-3">
+        <div class="mb-3" id="childSelectWrapper">
             <label asp-for="ChildId" class="form-label">@T["Child"]</label>
-            <select asp-for="ChildId" asp-items="Model.Children" class="form-select">
-                <option value="">@T["No child selected"]</option>
+            <select asp-for="ChildId" class="form-select" id="childSelect" disabled>
+                <option value="">@T["Select recipient first"]</option>
             </select>
-            <div class="form-text">@T["Select a child when the conversation is about a specific child."]</div>
+            <div class="form-text" id="childSelectHelp">
+                @T["Select a recipient first to see available children."]
+            </div>
             <span asp-validation-for="ChildId" class="text-danger"></span>
         </div>
 
@@ -48,4 +60,58 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        const recipientSelect = document.getElementById('recipientSelect');
+        const childSelect = document.getElementById('childSelect');
+        const childSelectHelp = document.getElementById('childSelectHelp');
+
+        const labels = @Html.Raw(JsonSerializer.Serialize(labels));
+
+        function resetChildren(message, helpText) {
+            childSelect.innerHTML = '';
+            childSelect.appendChild(new Option(message, ''));
+            childSelect.value = '';
+            childSelect.disabled = true;
+            childSelectHelp.textContent = helpText;
+        }
+
+        async function loadAvailableChildren() {
+            const recipientUserId = recipientSelect.value;
+
+            if (!recipientUserId) {
+                resetChildren(labels.selectRecipientFirst, labels.helpDefault);
+                return;
+            }
+
+            resetChildren(labels.selectRecipientFirst, labels.helpDefault);
+
+            const response = await fetch(`/Messages/AvailableChildren?recipientUserId=${encodeURIComponent(recipientUserId)}`);
+
+            if (!response.ok) {
+                resetChildren(labels.noChildren, labels.noChildren);
+                return;
+            }
+
+            const children = await response.json();
+
+            childSelect.innerHTML = '';
+
+            if (!children.length) {
+                resetChildren(labels.noChildren, labels.noChildren);
+                return;
+            }
+
+            childSelect.appendChild(new Option(labels.selectChildOptional, ''));
+
+            for (const child of children) {
+                childSelect.appendChild(new Option(child.text, child.value));
+            }
+
+            childSelect.disabled = false;
+            childSelectHelp.textContent = labels.helpLoaded;
+        }
+
+        recipientSelect.addEventListener('change', loadAvailableChildren);
+    </script>
 }

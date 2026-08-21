@@ -2520,4 +2520,16 @@
   <data name="Please select a child for parent-teacher conversations." xml:space="preserve">
     <value>Изберете дете за разговор между родител и учител.</value>
   </data>
+  <data name="Select recipient first" xml:space="preserve">
+    <value>Първо изберете получател</value>
+  </data>
+  <data name="Select a recipient first to see available children." xml:space="preserve">
+    <value>Първо изберете получател, за да видите достъпните деца.</value>
+  </data>
+  <data name="No available children for this recipient." xml:space="preserve">
+    <value>Няма достъпни деца за този получател.</value>
+  </data>
+  <data name="Choose a child if the conversation is about a specific child." xml:space="preserve">
+    <value>Изберете дете, ако разговорът е за конкретно дете.</value>
+  </data>
 </root>

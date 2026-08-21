@@ -1,4 +1,5 @@
-﻿using KiddoCare.ViewModels.Messages;
+using KiddoCare.ViewModels.Messages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace KiddoCare.Services.Core.Contracts;
 
@@ -15,4 +16,6 @@ public interface IMessageService
     Task<MessageCreateViewModel> GetCreateModelAsync(string userId, bool isAdmin, bool isTeacher, bool isParent);
 
     Task<int> CreateConversationAsync(MessageCreateViewModel model, string senderUserId, bool isAdmin, bool isTeacher, bool isParent);
+
+    Task<IEnumerable<SelectListItem>> GetAvailableChildrenAsync(string userId, string recipientUserId, bool isAdmin, bool isTeacher, bool isParent);
 }

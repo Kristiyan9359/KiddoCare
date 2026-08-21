@@ -63,6 +63,28 @@ public class MessagesController : Controller
         return View(model);
     }
 
+    [HttpGet]
+    public async Task<IActionResult> AvailableChildren(string recipientUserId)
+    {
+        if (string.IsNullOrWhiteSpace(recipientUserId))
+        {
+            return Json(Array.Empty<object>());
+        }
+
+        var userId = GetCurrentUserId();
+        var isAdmin = User.IsInRole(Admin);
+        var isTeacher = User.IsInRole(Teacher);
+        var isParent = User.IsInRole(Parent);
+
+        var children = await messageService.GetAvailableChildrenAsync(userId, recipientUserId, isAdmin, isTeacher, isParent);
+
+        return Json(children.Select(c => new
+        {
+            value = c.Value,
+            text = c.Text
+        }));
+    }
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(MessageCreateViewModel model)
