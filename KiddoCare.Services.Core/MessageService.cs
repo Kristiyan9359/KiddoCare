@@ -593,7 +593,7 @@ public class MessageService : IMessageService
             return new Conversation
             {
                 Type = ConversationType.ParentTeacher,
-                ChildId = await ValidateParentTeacherChildAsync(childId, recipientUserId, senderUserId),
+                ChildId = await ValidateOptionalParentTeacherChildAsync(childId, recipientUserId, senderUserId),
                 ParentUserId = recipientUserId,
                 TeacherUserId = senderUserId
             };
@@ -615,7 +615,7 @@ public class MessageService : IMessageService
             return new Conversation
             {
                 Type = ConversationType.ParentTeacher,
-                ChildId = await ValidateParentTeacherChildAsync(childId, senderUserId, recipientUserId),
+                ChildId = await ValidateOptionalParentTeacherChildAsync(childId, senderUserId, recipientUserId),
                 ParentUserId = senderUserId,
                 TeacherUserId = recipientUserId
             };
@@ -663,11 +663,11 @@ public class MessageService : IMessageService
         return childId.Value;
     }
 
-    private async Task<int> ValidateParentTeacherChildAsync(int? childId, string parentUserId, string teacherUserId)
+    private async Task<int?> ValidateOptionalParentTeacherChildAsync(int? childId, string parentUserId, string teacherUserId)
     {
         if (childId == null)
         {
-            throw new InvalidOperationException("Please select a child for parent-teacher conversations.");
+            return null;
         }
 
         bool canUseChild = await context.Children
