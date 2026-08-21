@@ -63,6 +63,30 @@ document.addEventListener("DOMContentLoaded", () => {
         window.setTimeout(closeAlert, 5200);
     });
 
+    const unreadMessagesBadge = document.getElementById("messagesUnreadBadge");
+
+    const setUnreadMessagesCount = (count) => {
+        if (!(unreadMessagesBadge instanceof HTMLElement)) {
+            return;
+        }
+
+        const unreadCount = Number(count) || 0;
+        unreadMessagesBadge.textContent = unreadCount > 99 ? "99+" : unreadCount.toString();
+        unreadMessagesBadge.classList.toggle("d-none", unreadCount === 0);
+    };
+
+    if (unreadMessagesBadge instanceof HTMLElement && window.signalR) {
+        const messageConnection = new signalR.HubConnectionBuilder()
+            .withUrl("/messageHub")
+            .withAutomaticReconnect()
+            .build();
+
+        messageConnection.on("UnreadMessagesCountUpdated", setUnreadMessagesCount);
+
+        window.kiddoCareMessageConnection = messageConnection;
+        window.kiddoCareMessageConnectionStarted = messageConnection.start().catch(() => {});
+    }
+
     const modalElement = document.getElementById("confirmActionModal");
     const messageElement = document.getElementById("confirmActionModalMessage");
     const confirmButton = document.getElementById("confirmActionModalButton");

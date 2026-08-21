@@ -87,6 +87,7 @@ public class MessagesController : Controller
         try
         {
             var conversationId = await messageService.CreateConversationAsync(model, userId, isAdmin, isTeacher, isParent);
+            await NotifyMessageClientsAsync(conversationId, userId, GetCurrentUserDisplayName(), model.Content.Trim());
             this.SetSuccessMessage("Message sent successfully.");
 
             return RedirectToAction(nameof(Details), new { id = conversationId });
@@ -118,17 +119,7 @@ public class MessagesController : Controller
         try
         {
             await messageService.SendMessageAsync(model, userId, isAdmin, isTeacher, isParent);
-            await messageHubContext.Clients
-                .Group(MessageHub.GetConversationGroupName(model.ConversationId))
-                .SendAsync("ReceiveMessage", new
-                {
-                    ConversationId = model.ConversationId,
-                    SenderUserId = userId,
-                    SenderName = GetCurrentUserDisplayName(),
-                    Content = model.Content.Trim(),
-                    SentOn = DateTime.UtcNow
-                });
-
+            await NotifyMessageClientsAsync(model.ConversationId, userId, GetCurrentUserDisplayName(), model.Content.Trim());
             this.SetSuccessMessage("Message sent successfully.");
         }
         catch (UnauthorizedAccessException)
@@ -173,5 +164,32 @@ public class MessagesController : Controller
     private string GetCurrentUserDisplayName()
     {
         return User.FindFirstValue("FullName") ?? User.Identity?.Name ?? "Unknown user";
+    }
+
+    private async Task NotifyMessageClientsAsync(int conversationId, string senderUserId, string senderName, string content)
+    {
+        var sentOn = DateTime.UtcNow;
+
+        await messageHubContext.Clients
+            .Group(MessageHub.GetConversationGroupName(conversationId))
+            .SendAsync("ReceiveMessage", new
+            {
+                ConversationId = conversationId,
+                SenderUserId = senderUserId,
+                SenderName = senderName,
+                Content = content,
+                SentOn = sentOn
+            });
+
+        var participantUserIds = await messageService.GetConversationParticipantUserIdsAsync(conversationId);
+
+        foreach (var participantUserId in participantUserIds.Where(id => id != senderUserId))
+        {
+            var unreadMessagesCount = await messageService.GetUnreadMessagesCountAsync(participantUserId);
+
+            await messageHubContext.Clients
+                .Group(MessageHub.GetUserGroupName(participantUserId))
+                .SendAsync("UnreadMessagesCountUpdated", unreadMessagesCount);
+        }
     }
 }

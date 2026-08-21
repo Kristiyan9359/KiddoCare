@@ -111,10 +111,6 @@
 </section>
 
 @section Scripts {
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.7/signalr.min.js"
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer"></script>
-
     <script>
         (() => {
             const messageThread = document.getElementById('messageThread');
@@ -168,22 +164,27 @@
                 article.append(author, content, time);
                 messageThread.appendChild(article);
                 scrollToBottom();
+
+                if (message.senderUserId !== config.currentUserId &&
+                    window.kiddoCareMessageConnection) {
+                    window.kiddoCareMessageConnection
+                        .invoke('MarkConversationAsRead', config.conversationId)
+                        .catch(() => {});
+                }
             };
 
             scrollToBottom();
 
-            if (!window.signalR) {
+            const connection = window.kiddoCareMessageConnection;
+            const connectionStarted = window.kiddoCareMessageConnectionStarted;
+
+            if (!connection || !connectionStarted) {
                 return;
             }
 
-            const connection = new signalR.HubConnectionBuilder()
-                .withUrl('/messageHub')
-                .withAutomaticReconnect()
-                .build();
-
             connection.on('ReceiveMessage', appendMessage);
 
-            connection.start()
+            connectionStarted
                 .then(() => connection.invoke('JoinConversation', config.conversationId))
                 .catch(() => {});
         })();

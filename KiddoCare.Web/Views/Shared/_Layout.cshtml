@@ -81,14 +81,16 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link nav-link-with-badge" asp-controller="Messages" asp-action="Index">
+                                <a id="messagesNavLink"
+                                   class="nav-link nav-link-with-badge"
+                                   asp-controller="Messages"
+                                   asp-action="Index">
                                     <span>@T["Messages"]</span>
-                                    @if (unreadMessagesCount > 0)
-                                    {
-                                        <span class="nav-unread-badge" aria-label="@T["Unread messages"]">
-                                            @(unreadMessagesCount > 99 ? "99+" : unreadMessagesCount)
-                                        </span>
-                                    }
+                                    <span id="messagesUnreadBadge"
+                                          class="nav-unread-badge @(unreadMessagesCount == 0 ? "d-none" : string.Empty)"
+                                          aria-label="@T["Unread messages"]">
+                                        @(unreadMessagesCount > 99 ? "99+" : unreadMessagesCount)
+                                    </span>
                                 </a>
                             </li>
 
@@ -289,6 +291,12 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @if (isAuthenticated)
+    {
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.7/signalr.min.js"
+                crossorigin="anonymous"
+                referrerpolicy="no-referrer"></script>
+    }
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

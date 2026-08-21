@@ -91,6 +91,15 @@ public class MessageService : IMessageService
             .CountAsync();
     }
 
+    public async Task<int> GetUnreadMessagesCountAsync(string userId)
+    {
+        var isAdmin = await IsUserInRoleAsync(userId, Admin);
+        var isTeacher = await context.TeacherProfiles.AnyAsync(t => t.UserId == userId && !t.IsDeleted);
+        var isParent = await context.ParentProfiles.AnyAsync(p => p.UserId == userId && !p.IsDeleted);
+
+        return await GetUnreadMessagesCountAsync(userId, isAdmin, isTeacher, isParent);
+    }
+
     public async Task<MessageDetailsViewModel?> GetDetailsAsync(int conversationId, string userId, bool isAdmin, bool isTeacher, bool isParent)
     {
         bool canAccess = await CanAccessConversationAsync(conversationId, userId, isAdmin, isTeacher, isParent);
@@ -193,6 +202,60 @@ public class MessageService : IMessageService
         }
 
         return false;
+    }
+
+    public async Task<IEnumerable<string>> GetConversationParticipantUserIdsAsync(int conversationId)
+    {
+        var conversation = await context.Conversations
+            .Where(c => c.Id == conversationId && !c.IsDeleted)
+            .Select(c => new
+            {
+                c.ParentUserId,
+                c.TeacherUserId,
+                c.AdminUserId
+            })
+            .FirstOrDefaultAsync();
+
+        if (conversation == null)
+        {
+            return new List<string>();
+        }
+
+        return new[] { conversation.ParentUserId, conversation.TeacherUserId, conversation.AdminUserId }
+            .Where(id => !string.IsNullOrWhiteSpace(id))
+            .Select(id => id!)
+            .Distinct()
+            .ToList();
+    }
+
+    public async Task MarkConversationAsReadAsync(int conversationId, string userId, bool isAdmin, bool isTeacher, bool isParent)
+    {
+        var canAccess = await CanAccessConversationAsync(conversationId, userId, isAdmin, isTeacher, isParent);
+
+        if (!canAccess)
+        {
+            throw new UnauthorizedAccessException();
+        }
+
+        var deletedOn = await context.ConversationDeletions
+            .Where(d => d.ConversationId == conversationId && d.UserId == userId)
+            .Select(d => (DateTime?)d.DeletedOn)
+            .FirstOrDefaultAsync();
+
+        var unreadMessages = await context.ChatMessages
+            .Where(m => m.ConversationId == conversationId &&
+                        !m.IsDeleted &&
+                        m.SenderUserId != userId &&
+                        m.ReadOn == null &&
+                        (deletedOn == null || m.SentOn > deletedOn.Value))
+            .ToListAsync();
+
+        foreach (var message in unreadMessages)
+        {
+            message.ReadOn = DateTime.UtcNow;
+        }
+
+        await context.SaveChangesAsync();
     }
 
     public async Task DeleteConversationForUserAsync(int conversationId, string userId, bool isAdmin, bool isTeacher, bool isParent)
