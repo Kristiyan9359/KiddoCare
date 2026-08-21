@@ -61,6 +61,38 @@ public class MessageService : IMessageService
         });
     }
 
+    public async Task<int> GetUnreadMessagesCountAsync(string userId, bool isAdmin, bool isTeacher, bool isParent)
+    {
+        var query = context.Conversations
+            .Where(c => !c.IsDeleted &&
+                        !c.ConversationDeletions.Any(d => d.UserId == userId && (c.LastMessageOn == null || c.LastMessageOn <= d.DeletedOn)));
+
+        if (isAdmin)
+        {
+            query = query.Where(c => c.AdminUserId == userId);
+        }
+        else if (isTeacher)
+        {
+            query = query.Where(c => c.TeacherUserId == userId);
+        }
+        else if (isParent)
+        {
+            query = query.Where(c => c.ParentUserId == userId);
+        }
+        else
+        {
+            query = query.Where(c => false);
+        }
+
+        return await query
+            .SelectMany(c => c.Messages
+                .Where(m => !m.IsDeleted &&
+                            m.SenderUserId != userId &&
+                            m.ReadOn == null &&
+                            !c.ConversationDeletions.Any(d => d.UserId == userId && m.SentOn <= d.DeletedOn)))
+            .CountAsync();
+    }
+
     public async Task<MessageDetailsViewModel?> GetDetailsAsync(int conversationId, string userId, bool isAdmin, bool isTeacher, bool isParent)
     {
         bool canAccess = await CanAccessConversationAsync(conversationId, userId, isAdmin, isTeacher, isParent);

@@ -1,5 +1,7 @@
 @using static KiddoCare.Common.RoleConstants
 @using System.Globalization
+@using System.Security.Claims
+@inject KiddoCare.Services.Core.Contracts.IMessageService MessageService
 
 @{
     bool isAuthenticated = User.Identity?.IsAuthenticated == true;
@@ -9,6 +11,17 @@
     bool isStaff = isAdmin || isTeacher;
     string currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
     string returnUrl = string.Concat(Context.Request.PathBase, Context.Request.Path, Context.Request.QueryString);
+    int unreadMessagesCount = 0;
+
+    if (isAuthenticated)
+    {
+        string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (!string.IsNullOrWhiteSpace(userId))
+        {
+            unreadMessagesCount = await MessageService.GetUnreadMessagesCountAsync(userId, isAdmin, isTeacher, isParent);
+        }
+    }
 }
 
 <!DOCTYPE html>
@@ -68,7 +81,15 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="Messages" asp-action="Index">@T["Messages"]</a>
+                                <a class="nav-link nav-link-with-badge" asp-controller="Messages" asp-action="Index">
+                                    <span>@T["Messages"]</span>
+                                    @if (unreadMessagesCount > 0)
+                                    {
+                                        <span class="nav-unread-badge" aria-label="@T["Unread messages"]">
+                                            @(unreadMessagesCount > 99 ? "99+" : unreadMessagesCount)
+                                        </span>
+                                    }
+                                </a>
                             </li>
 
                             @if (isStaff)

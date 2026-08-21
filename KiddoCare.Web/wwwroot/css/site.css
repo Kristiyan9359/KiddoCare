@@ -126,6 +126,27 @@ body.app-shell {
         color: var(--kc-primary) !important;
     }
 
+.nav-link-with-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.nav-unread-badge {
+    display: inline-grid;
+    place-items: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 7px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #ef4444, #f97316);
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 900;
+    line-height: 1;
+    box-shadow: 0 8px 18px rgba(239, 68, 68, 0.28);
+}
+
 .app-main {
     background: rgba(255, 255, 255, 0.94);
     border: 1px solid var(--kc-border);

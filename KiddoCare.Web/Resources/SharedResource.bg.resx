@@ -2451,6 +2451,9 @@
   <data name="Messages" xml:space="preserve">
     <value>Съобщения</value>
   </data>
+  <data name="Unread messages" xml:space="preserve">
+    <value>Непрочетени съобщения</value>
+  </data>
   <data name="Message sent successfully." xml:space="preserve">
     <value>Съобщението беше изпратено успешно.</value>
   </data>
