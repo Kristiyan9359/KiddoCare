@@ -407,6 +407,17 @@ public class MessageService : IMessageService
                 .Distinct()
                 .ToListAsync();
 
+            var parents = await context.ParentProfiles
+                .Where(p => !p.IsDeleted && parentIds.Contains(p.UserId))
+                .OrderBy(p => p.FullName)
+                .Select(p => new { p.UserId, p.FullName })
+                .ToListAsync();
+
+            foreach (var parent in parents)
+            {
+                labels[parent.UserId] = $"{parent.FullName} ({GetRoleDisplayName(Parent)})";
+            }
+
             recipientIds.AddRange(adminIds);
             recipientIds.AddRange(parentIds);
         }
@@ -419,12 +430,32 @@ public class MessageService : IMessageService
                 .Distinct()
                 .ToListAsync();
 
+            var teachers = await context.TeacherProfiles
+                .Where(t => !t.IsDeleted && teacherIds.Contains(t.UserId))
+                .OrderBy(t => t.FullName)
+                .Select(t => new { t.UserId, t.FullName })
+                .ToListAsync();
+
+            foreach (var teacher in teachers)
+            {
+                labels[teacher.UserId] = $"{teacher.FullName} ({GetRoleDisplayName(Teacher)})";
+            }
+
             recipientIds.AddRange(adminIds);
             recipientIds.AddRange(teacherIds);
         }
 
         recipientIds = recipientIds.Where(id => id != userId).Distinct().ToList();
         var displayNames = await GetDisplayNamesByUserIdsAsync(recipientIds);
+
+        var adminRecipientIds = (await GetRoleUserIdsAsync(Admin))
+            .Where(id => recipientIds.Contains(id) && displayNames.ContainsKey(id))
+            .ToList();
+
+        foreach (var adminId in adminRecipientIds)
+        {
+            labels[adminId] = $"{displayNames[adminId]} ({GetRoleDisplayName(Admin)})";
+        }
 
         var items = recipientIds
             .Select(id => new SelectListItem(labels.GetValueOrDefault(id, displayNames.GetValueOrDefault(id, "Unknown user")), id))
@@ -602,6 +633,7 @@ public class MessageService : IMessageService
 
         return role switch
         {
+            Admin => isBulgarian ? "Директор" : "Director",
             Teacher => isBulgarian ? "Учител" : "Teacher",
             Parent => isBulgarian ? "Родител" : "Parent",
             _ => role
