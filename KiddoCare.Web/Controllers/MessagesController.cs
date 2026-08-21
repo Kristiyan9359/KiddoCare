@@ -185,11 +185,11 @@ public class MessagesController : Controller
 
         foreach (var participantUserId in participantUserIds.Where(id => id != senderUserId))
         {
-            var unreadMessagesCount = await messageService.GetUnreadMessagesCountAsync(participantUserId);
+            var unreadConversationsCount = await messageService.GetUnreadConversationsCountAsync(participantUserId);
 
             await messageHubContext.Clients
                 .Group(MessageHub.GetUserGroupName(participantUserId))
-                .SendAsync("UnreadMessagesCountUpdated", unreadMessagesCount);
+                .SendAsync("UnreadConversationsCountUpdated", unreadConversationsCount);
         }
     }
 }

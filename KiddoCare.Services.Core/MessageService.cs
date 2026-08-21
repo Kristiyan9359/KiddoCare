@@ -100,6 +100,45 @@ public class MessageService : IMessageService
         return await GetUnreadMessagesCountAsync(userId, isAdmin, isTeacher, isParent);
     }
 
+    public async Task<int> GetUnreadConversationsCountAsync(string userId, bool isAdmin, bool isTeacher, bool isParent)
+    {
+        var query = context.Conversations
+            .Where(c => !c.IsDeleted &&
+                        !c.ConversationDeletions.Any(d => d.UserId == userId && (c.LastMessageOn == null || c.LastMessageOn <= d.DeletedOn)));
+
+        if (isAdmin)
+        {
+            query = query.Where(c => c.AdminUserId == userId);
+        }
+        else if (isTeacher)
+        {
+            query = query.Where(c => c.TeacherUserId == userId);
+        }
+        else if (isParent)
+        {
+            query = query.Where(c => c.ParentUserId == userId);
+        }
+        else
+        {
+            query = query.Where(c => false);
+        }
+
+        return await query.CountAsync(c => c.Messages.Any(m =>
+            !m.IsDeleted &&
+            m.SenderUserId != userId &&
+            m.ReadOn == null &&
+            !c.ConversationDeletions.Any(d => d.UserId == userId && m.SentOn <= d.DeletedOn)));
+    }
+
+    public async Task<int> GetUnreadConversationsCountAsync(string userId)
+    {
+        var isAdmin = await IsUserInRoleAsync(userId, Admin);
+        var isTeacher = await context.TeacherProfiles.AnyAsync(t => t.UserId == userId && !t.IsDeleted);
+        var isParent = await context.ParentProfiles.AnyAsync(p => p.UserId == userId && !p.IsDeleted);
+
+        return await GetUnreadConversationsCountAsync(userId, isAdmin, isTeacher, isParent);
+    }
+
     public async Task<MessageDetailsViewModel?> GetDetailsAsync(int conversationId, string userId, bool isAdmin, bool isTeacher, bool isParent)
     {
         bool canAccess = await CanAccessConversationAsync(conversationId, userId, isAdmin, isTeacher, isParent);

@@ -2451,8 +2451,8 @@
   <data name="Messages" xml:space="preserve">
     <value>Съобщения</value>
   </data>
-  <data name="Unread messages" xml:space="preserve">
-    <value>Непрочетени съобщения</value>
+  <data name="Unread conversations" xml:space="preserve">
+    <value>Непрочетени разговори</value>
   </data>
   <data name="Message sent successfully." xml:space="preserve">
     <value>Съобщението беше изпратено успешно.</value>
@@ -2499,12 +2499,6 @@
   <data name="Select recipient..." xml:space="preserve">
     <value>Изберете получател...</value>
   </data>
-  <data name="No child selected" xml:space="preserve">
-    <value>Няма избрано дете</value>
-  </data>
-  <data name="Select a child when the conversation is about a specific child." xml:space="preserve">
-    <value>Изберете дете, когато разговорът е за конкретно дете.</value>
-  </data>
   <data name="Parent-teacher conversation" xml:space="preserve">
     <value>Разговор родител-учител</value>
   </data>
@@ -2531,23 +2525,5 @@
   </data>
   <data name="You cannot start a conversation with this recipient." xml:space="preserve">
     <value>Не можете да започнете разговор с този получател.</value>
-  </data>
-  <data name="Selected child is not available for this conversation." xml:space="preserve">
-    <value>Избраното дете не е достъпно за този разговор.</value>
-  </data>
-  <data name="Please select a child for parent-teacher conversations." xml:space="preserve">
-    <value>Изберете дете за разговор между родител и учител.</value>
-  </data>
-  <data name="Select recipient first" xml:space="preserve">
-    <value>Първо изберете получател</value>
-  </data>
-  <data name="Select a recipient first to see available children." xml:space="preserve">
-    <value>Първо изберете получател, за да видите достъпните деца.</value>
-  </data>
-  <data name="No available children for this recipient." xml:space="preserve">
-    <value>Няма достъпни деца за този получател.</value>
-  </data>
-  <data name="Choose a child if the conversation is about a specific child." xml:space="preserve">
-    <value>Изберете дете, ако разговорът е за конкретно дете.</value>
   </data>
 </root>

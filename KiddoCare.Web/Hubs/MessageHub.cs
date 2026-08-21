@@ -52,11 +52,11 @@ public class MessageHub : Hub
 
         await messageService.MarkConversationAsReadAsync(conversationId, userId, isAdmin, isTeacher, isParent);
 
-        var unreadMessagesCount = await messageService.GetUnreadMessagesCountAsync(userId, isAdmin, isTeacher, isParent);
+        var unreadConversationsCount = await messageService.GetUnreadConversationsCountAsync(userId, isAdmin, isTeacher, isParent);
 
         await Clients
             .Group(GetUserGroupName(userId))
-            .SendAsync("UnreadMessagesCountUpdated", unreadMessagesCount);
+            .SendAsync("UnreadConversationsCountUpdated", unreadConversationsCount);
     }
 
     private string GetCurrentUserId()

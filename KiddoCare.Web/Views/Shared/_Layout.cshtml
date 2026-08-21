@@ -11,7 +11,7 @@
     bool isStaff = isAdmin || isTeacher;
     string currentCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
     string returnUrl = string.Concat(Context.Request.PathBase, Context.Request.Path, Context.Request.QueryString);
-    int unreadMessagesCount = 0;
+    int unreadConversationsCount = 0;
 
     if (isAuthenticated)
     {
@@ -19,7 +19,7 @@
 
         if (!string.IsNullOrWhiteSpace(userId))
         {
-            unreadMessagesCount = await MessageService.GetUnreadMessagesCountAsync(userId, isAdmin, isTeacher, isParent);
+            unreadConversationsCount = await MessageService.GetUnreadConversationsCountAsync(userId, isAdmin, isTeacher, isParent);
         }
     }
 }
@@ -87,9 +87,9 @@
                                    asp-action="Index">
                                     <span>@T["Messages"]</span>
                                     <span id="messagesUnreadBadge"
-                                          class="nav-unread-badge @(unreadMessagesCount == 0 ? "d-none" : string.Empty)"
-                                          aria-label="@T["Unread messages"]">
-                                        @(unreadMessagesCount > 99 ? "99+" : unreadMessagesCount)
+                                          class="nav-unread-badge @(unreadConversationsCount == 0 ? "d-none" : string.Empty)"
+                                          aria-label="@T["Unread conversations"]">
+                                        @(unreadConversationsCount > 99 ? "99+" : unreadConversationsCount)
                                     </span>
                                 </a>
                             </li>

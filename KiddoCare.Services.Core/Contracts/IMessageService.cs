@@ -6,6 +6,10 @@ public interface IMessageService
 {
     Task<IEnumerable<MessageConversationViewModel>> GetConversationsAsync(string userId, bool isAdmin, bool isTeacher, bool isParent);
 
+    Task<int> GetUnreadConversationsCountAsync(string userId);
+
+    Task<int> GetUnreadConversationsCountAsync(string userId, bool isAdmin, bool isTeacher, bool isParent);
+
     Task<int> GetUnreadMessagesCountAsync(string userId);
 
     Task<int> GetUnreadMessagesCountAsync(string userId, bool isAdmin, bool isTeacher, bool isParent);

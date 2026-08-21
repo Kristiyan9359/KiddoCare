@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const unreadMessagesBadge = document.getElementById("messagesUnreadBadge");
 
-    const setUnreadMessagesCount = (count) => {
+    const setUnreadConversationsCount = (count) => {
         if (!(unreadMessagesBadge instanceof HTMLElement)) {
             return;
         }
@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
             .withAutomaticReconnect()
             .build();
 
-        messageConnection.on("UnreadMessagesCountUpdated", setUnreadMessagesCount);
+        messageConnection.on("UnreadConversationsCountUpdated", setUnreadConversationsCount);
 
         window.kiddoCareMessageConnection = messageConnection;
         window.kiddoCareMessageConnectionStarted = messageConnection.start().catch(() => {});
