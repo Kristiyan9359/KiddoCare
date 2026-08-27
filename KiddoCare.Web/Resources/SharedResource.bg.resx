@@ -1797,6 +1797,12 @@
   <data name="Request ID" xml:space="preserve">
     <value>Номер на заявка</value>
   </data>
+  <data name="File too large" xml:space="preserve">
+    <value>Файлът е прекалено голям</value>
+  </data>
+  <data name="The uploaded file is too large. Please choose a smaller file and try again." xml:space="preserve">
+    <value>Каченият файл е прекалено голям. Избери по-малък файл и опитай отново.</value>
+  </data>
   <data name="Page not found" xml:space="preserve">
     <value>Страницата не е намерена</value>
   </data>

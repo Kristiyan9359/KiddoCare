@@ -70,6 +70,7 @@ namespace KiddoCare.Controllers
             ViewBag.StatusCode = code;
             ViewBag.Title = code switch
             {
+                413 => this.localizer["File too large"],
                 404 => this.localizer["Page not found"],
                 403 => this.localizer["Access Denied"],
                 _ => this.localizer["Something went wrong"]
@@ -77,6 +78,7 @@ namespace KiddoCare.Controllers
 
             ViewBag.Message = code switch
             {
+                413 => this.localizer["The uploaded file is too large. Please choose a smaller file and try again."],
                 404 => this.localizer["The page you are looking for does not exist or has been moved."],
                 403 => this.localizer["You do not have permission to access this page."],
                 _ => this.localizer["The request could not be completed."]

@@ -135,6 +135,21 @@ public class ControllerAccessTests
 
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
+
+    [Fact]
+    public async Task HandleStatusCode_ShouldReturnFriendlyPayloadTooLargePage()
+    {
+        await using var factory = new KiddoCareWebApplicationFactory();
+        await factory.SeedAsync();
+        var client = factory.CreateClient();
+
+        var response = await client.GetAsync("/Home/HandleStatusCode?code=413");
+        var content = await response.Content.ReadAsStringAsync();
+
+        Assert.Equal(HttpStatusCode.RequestEntityTooLarge, response.StatusCode);
+        Assert.Contains("File too large", content);
+        Assert.Contains("The uploaded file is too large.", content);
+    }
 }
 
 public static class ControllerAccessTestExtensions
