@@ -7,6 +7,8 @@ using KiddoCare.Services.Core;
 using KiddoCare.Services.Core.Contracts;
 using KiddoCare.Web;
 using KiddoCare.Web.Hubs;
+using KiddoCare.Web.Services;
+using KiddoCare.Web.Services.Contracts;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
 using System.Globalization;
@@ -86,6 +88,8 @@ builder.Services.AddScoped<IConsentRequestService, ConsentRequestService>();
 builder.Services.AddScoped<IChildDocumentService, ChildDocumentService>();
 
 builder.Services.AddScoped<IMessageService, MessageService>();
+
+builder.Services.AddScoped<IFileStorageService, LocalFileStorageService>();
 
 var app = builder.Build();
 

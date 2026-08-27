@@ -2,6 +2,7 @@
 using KiddoCare.Services.Core.Contracts;
 using KiddoCare.ViewModels.ChildDocuments;
 using KiddoCare.Web.Extensions;
+using KiddoCare.Web.Services.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
@@ -12,31 +13,14 @@ namespace KiddoCare.Web.Controllers;
 [Authorize]
 public class ChildDocumentsController : Controller
 {
-    private const long MaxFileSize = 5 * 1024 * 1024;
-
-    private static readonly HashSet<string> AllowedFileExtensions = new(StringComparer.OrdinalIgnoreCase)
-    {
-        ".pdf",
-        ".jpg",
-        ".jpeg",
-        ".png"
-    };
-
-    private static readonly HashSet<string> AllowedFileContentTypes = new(StringComparer.OrdinalIgnoreCase)
-    {
-        "application/pdf",
-        "image/jpeg",
-        "image/png"
-    };
-
     private readonly IChildDocumentService childDocumentService;
-    private readonly IWebHostEnvironment webHostEnvironment;
+    private readonly IFileStorageService fileStorageService;
     private readonly IStringLocalizer<SharedResource> localizer;
 
-    public ChildDocumentsController(IChildDocumentService childDocumentService, IWebHostEnvironment webHostEnvironment, IStringLocalizer<SharedResource> localizer)
+    public ChildDocumentsController(IChildDocumentService childDocumentService, IFileStorageService fileStorageService, IStringLocalizer<SharedResource> localizer)
     {
         this.childDocumentService = childDocumentService;
-        this.webHostEnvironment = webHostEnvironment;
+        this.fileStorageService = fileStorageService;
         this.localizer = localizer;
     }
 
@@ -98,26 +82,14 @@ public class ChildDocumentsController : Controller
             return NotFound();
         }
 
-        var uploadsFolder = Path.GetFullPath(Path.Combine(
-            webHostEnvironment.ContentRootPath,
-            "App_Data",
-            "uploads",
-            "child-documents"));
-        var uploadsFolderPrefix = uploadsFolder + Path.DirectorySeparatorChar;
+        var storedFile = fileStorageService.GetChildDocument(model.FileUrl, model.Title);
 
-        var filePath = Path.GetFullPath(Path.Combine(
-            webHostEnvironment.ContentRootPath,
-            model.FileUrl.TrimStart('/').Replace('/', Path.DirectorySeparatorChar)));
-
-        if (!filePath.StartsWith(uploadsFolderPrefix, StringComparison.OrdinalIgnoreCase) ||
-            !System.IO.File.Exists(filePath))
+        if (storedFile == null)
         {
             return NotFound();
         }
 
-        var fileName = $"{model.Title}{Path.GetExtension(filePath)}";
-
-        return PhysicalFile(filePath, GetContentType(filePath), fileName);
+        return PhysicalFile(storedFile.FilePath!, storedFile.ContentType, storedFile.DownloadName);
     }
 
     [Authorize(Roles = $"{Admin},{Parent}")]
@@ -153,7 +125,7 @@ public class ChildDocumentsController : Controller
 
         try
         {
-            model.FileUrl = await SaveDocumentFileAsync(model.File);
+            model.FileUrl = await fileStorageService.SaveChildDocumentAsync(model.File);
 
             await childDocumentService.CreateAsync(model, userId, isAdmin, isTeacher);
         }
@@ -171,61 +143,6 @@ public class ChildDocumentsController : Controller
         this.SetSuccessMessage("Child document uploaded successfully.");
 
         return RedirectToLocalOrIndex(model.ReturnUrl);
-    }
-
-    private async Task<string> SaveDocumentFileAsync(IFormFile file)
-    {
-        if (file.Length == 0)
-        {
-            throw new InvalidOperationException(this.localizer["Document file is required."]);
-        }
-
-        if (file.Length > MaxFileSize)
-        {
-            throw new InvalidOperationException(this.localizer["Document file cannot be larger than 5 MB."]);
-        }
-
-        var extension = Path.GetExtension(file.FileName);
-
-        if (!AllowedFileExtensions.Contains(extension))
-        {
-            throw new InvalidOperationException(this.localizer["Allowed document formats are PDF, JPG and PNG."]);
-        }
-
-        if (!AllowedFileContentTypes.Contains(file.ContentType))
-        {
-            throw new InvalidOperationException(this.localizer["Uploaded document content type is not supported."]);
-        }
-
-        var uploadsFolder = Path.Combine(
-            webHostEnvironment.ContentRootPath,
-            "App_Data",
-            "uploads",
-            "child-documents");
-
-        Directory.CreateDirectory(uploadsFolder);
-
-        var fileName = $"{Guid.NewGuid()}{extension}";
-        var filePath = Path.Combine(uploadsFolder, fileName);
-
-        await using var stream = new FileStream(filePath, FileMode.Create);
-        await file.CopyToAsync(stream);
-
-        return $"/App_Data/uploads/child-documents/{fileName}";
-    }
-
-    private static string GetContentType(string filePath)
-    {
-        var extension = Path.GetExtension(filePath).ToLowerInvariant();
-
-        return extension switch
-        {
-            ".pdf" => "application/pdf",
-            ".jpg" => "image/jpeg",
-            ".jpeg" => "image/jpeg",
-            ".png" => "image/png",
-            _ => "application/octet-stream"
-        };
     }
 
     private string? GetSafeReturnUrl(string? returnUrl)

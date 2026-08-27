@@ -2,6 +2,7 @@
 using KiddoCare.Services.Core.Contracts;
 using KiddoCare.ViewModels.Children;
 using KiddoCare.Web.Extensions;
+using KiddoCare.Web.Services.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
@@ -12,29 +13,14 @@ namespace KiddoCare.Web.Controllers;
 [Authorize]
 public class ChildrenController : Controller
 {
-    private const long MaxPhotoSize = 5 * 1024 * 1024;
-
-    private static readonly HashSet<string> AllowedPhotoExtensions = new(StringComparer.OrdinalIgnoreCase)
-    {
-        ".jpg",
-        ".jpeg",
-        ".png"
-    };
-
-    private static readonly HashSet<string> AllowedPhotoContentTypes = new(StringComparer.OrdinalIgnoreCase)
-    {
-        "image/jpeg",
-        "image/png"
-    };
-
     private readonly IChildService childService;
-    private readonly IWebHostEnvironment webHostEnvironment;
+    private readonly IFileStorageService fileStorageService;
     private readonly IStringLocalizer<SharedResource> localizer;
 
-    public ChildrenController(IChildService childService, IWebHostEnvironment webHostEnvironment, IStringLocalizer<SharedResource> localizer)
+    public ChildrenController(IChildService childService, IFileStorageService fileStorageService, IStringLocalizer<SharedResource> localizer)
     {
         this.childService = childService;
-        this.webHostEnvironment = webHostEnvironment;
+        this.fileStorageService = fileStorageService;
         this.localizer = localizer;
     }
 
@@ -78,7 +64,7 @@ public class ChildrenController : Controller
         {
             if (model.Photo != null)
             {
-                model.PhotoUrl = await SavePhotoAsync(model.Photo);
+                model.PhotoUrl = await fileStorageService.SaveChildPhotoAsync(model.Photo);
             }
 
             await childService.CreateAsync(model);
@@ -140,7 +126,7 @@ public class ChildrenController : Controller
 
             if (model.Photo != null)
             {
-                uploadedPhotoUrl = await SavePhotoAsync(model.Photo);
+                uploadedPhotoUrl = await fileStorageService.SaveChildPhotoAsync(model.Photo);
                 model.PhotoUrl = uploadedPhotoUrl;
             }
             else if (model.RemovePhoto)
@@ -152,12 +138,12 @@ public class ChildrenController : Controller
 
             if (model.Photo != null || model.RemovePhoto)
             {
-                DeletePhotoFile(previousPhotoUrl);
+                fileStorageService.DeleteChildPhoto(previousPhotoUrl);
             }
         }
         catch (InvalidOperationException ex)
         {
-            DeletePhotoFile(uploadedPhotoUrl);
+            fileStorageService.DeleteChildPhoto(uploadedPhotoUrl);
 
             ModelState.AddModelError(string.Empty, this.localizer[ex.Message]);
 
@@ -234,30 +220,19 @@ public class ChildrenController : Controller
             return NotFound();
         }
 
-        if (Uri.TryCreate(model.PhotoUrl, UriKind.Absolute, out var photoUri) &&
-            (photoUri.Scheme == Uri.UriSchemeHttp || photoUri.Scheme == Uri.UriSchemeHttps))
-        {
-            return Redirect(model.PhotoUrl);
-        }
+        var storedFile = fileStorageService.GetChildPhoto(model.PhotoUrl);
 
-        var uploadsFolder = Path.GetFullPath(Path.Combine(
-            webHostEnvironment.ContentRootPath,
-            "App_Data",
-            "uploads",
-            "child-photos"));
-        var uploadsFolderPrefix = uploadsFolder + Path.DirectorySeparatorChar;
-
-        var filePath = Path.GetFullPath(Path.Combine(
-            webHostEnvironment.ContentRootPath,
-            model.PhotoUrl.TrimStart('/').Replace('/', Path.DirectorySeparatorChar)));
-
-        if (!filePath.StartsWith(uploadsFolderPrefix, StringComparison.OrdinalIgnoreCase) ||
-            !System.IO.File.Exists(filePath))
+        if (storedFile == null)
         {
             return NotFound();
         }
 
-        return PhysicalFile(filePath, GetPhotoContentType(filePath));
+        if (storedFile.IsRemoteFile)
+        {
+            return Redirect(storedFile.RedirectUrl!);
+        }
+
+        return PhysicalFile(storedFile.FilePath!, storedFile.ContentType);
     }
 
     [HttpGet]
@@ -291,93 +266,6 @@ public class ChildrenController : Controller
         return !string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl)
             ? returnUrl
             : null;
-    }
-
-    private async Task<string> SavePhotoAsync(IFormFile photo)
-    {
-        if (photo.Length == 0)
-        {
-            throw new InvalidOperationException(this.localizer["Photo file is required."]);
-        }
-
-        if (photo.Length > MaxPhotoSize)
-        {
-            throw new InvalidOperationException(this.localizer["Photo file cannot be larger than 5 MB."]);
-        }
-
-        var extension = Path.GetExtension(photo.FileName);
-
-        if (!AllowedPhotoExtensions.Contains(extension))
-        {
-            throw new InvalidOperationException(this.localizer["Allowed photo formats are JPG and PNG."]);
-        }
-
-        if (!AllowedPhotoContentTypes.Contains(photo.ContentType))
-        {
-            throw new InvalidOperationException(this.localizer["Uploaded photo content type is not supported."]);
-        }
-
-        var uploadsFolder = Path.Combine(
-            webHostEnvironment.ContentRootPath,
-            "App_Data",
-            "uploads",
-            "child-photos");
-
-        Directory.CreateDirectory(uploadsFolder);
-
-        var fileName = $"{Guid.NewGuid()}{extension}";
-        var filePath = Path.Combine(uploadsFolder, fileName);
-
-        await using var stream = new FileStream(filePath, FileMode.Create);
-        await photo.CopyToAsync(stream);
-
-        return $"/App_Data/uploads/child-photos/{fileName}";
-    }
-
-    private void DeletePhotoFile(string? photoUrl)
-    {
-        if (string.IsNullOrWhiteSpace(photoUrl))
-        {
-            return;
-        }
-
-        if (Uri.TryCreate(photoUrl, UriKind.Absolute, out var photoUri) &&
-            (photoUri.Scheme == Uri.UriSchemeHttp || photoUri.Scheme == Uri.UriSchemeHttps))
-        {
-            return;
-        }
-
-        var uploadsFolder = Path.GetFullPath(Path.Combine(
-            webHostEnvironment.ContentRootPath,
-            "App_Data",
-            "uploads",
-            "child-photos"));
-        var uploadsFolderPrefix = uploadsFolder + Path.DirectorySeparatorChar;
-
-        var filePath = Path.GetFullPath(Path.Combine(
-            webHostEnvironment.ContentRootPath,
-            photoUrl.TrimStart('/').Replace('/', Path.DirectorySeparatorChar)));
-
-        if (!filePath.StartsWith(uploadsFolderPrefix, StringComparison.OrdinalIgnoreCase) ||
-            !System.IO.File.Exists(filePath))
-        {
-            return;
-        }
-
-        System.IO.File.Delete(filePath);
-    }
-
-    private static string GetPhotoContentType(string filePath)
-    {
-        var extension = Path.GetExtension(filePath).ToLowerInvariant();
-
-        return extension switch
-        {
-            ".jpg" => "image/jpeg",
-            ".jpeg" => "image/jpeg",
-            ".png" => "image/png",
-            _ => "application/octet-stream"
-        };
     }
 
     [HttpGet]
