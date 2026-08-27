@@ -250,6 +250,11 @@ public static class DbSeeder
 
         if (group != null)
         {
+            group.Description = description;
+            group.IsDeleted = false;
+
+            await context.SaveChangesAsync();
+
             return group;
         }
 
@@ -267,10 +272,27 @@ public static class DbSeeder
 
     private static async Task<TeacherProfile> EnsureTeacherProfileAsync(ApplicationDbContext context, string userId, string fullName, string phoneNumber, int groupId)
     {
-        var profile = await context.TeacherProfiles.FirstOrDefaultAsync(t => t.UserId == userId);
+        var profiles = await context.TeacherProfiles
+            .Where(t => t.UserId == userId)
+            .OrderBy(t => t.IsDeleted)
+            .ThenBy(t => t.Id)
+            .ToListAsync();
+        var profile = profiles.FirstOrDefault();
 
         if (profile != null)
         {
+            profile.FullName = fullName;
+            profile.PhoneNumber = phoneNumber;
+            profile.GroupId = groupId;
+            profile.IsDeleted = false;
+
+            foreach (var duplicateProfile in profiles.Skip(1))
+            {
+                duplicateProfile.IsDeleted = true;
+            }
+
+            await context.SaveChangesAsync();
+
             return profile;
         }
 
@@ -290,10 +312,30 @@ public static class DbSeeder
 
     private static async Task<ParentProfile> EnsureParentProfileAsync(ApplicationDbContext context, string userId, string fullName, string phoneNumber)
     {
-        var profile = await context.ParentProfiles.FirstOrDefaultAsync(p => p.UserId == userId);
+        var profiles = await context.ParentProfiles
+            .Where(p => p.UserId == userId)
+            .OrderBy(p => p.IsDeleted)
+            .ThenBy(p => p.Id)
+            .ToListAsync();
+        var profile = profiles.FirstOrDefault();
 
         if (profile != null)
         {
+            profile.FullName = fullName;
+            profile.PhoneNumber = phoneNumber;
+            profile.IsDeleted = false;
+
+            foreach (var duplicateProfile in profiles.Skip(1))
+            {
+                await context.Children
+                    .Where(c => c.ParentId == duplicateProfile.Id)
+                    .ExecuteUpdateAsync(setters => setters.SetProperty(c => c.ParentId, profile.Id));
+
+                duplicateProfile.IsDeleted = true;
+            }
+
+            await context.SaveChangesAsync();
+
             return profile;
         }
 
@@ -312,13 +354,15 @@ public static class DbSeeder
 
     private static async Task<Child> EnsureChildAsync(ApplicationDbContext context, string firstName, string lastName, Gender gender, DateTime dateOfBirth, int groupId, int parentId, string photoUrl)
     {
-        var child = await context.Children
-            .FirstOrDefaultAsync(c =>
-                !c.IsDeleted &&
+        var children = await context.Children
+            .Where(c =>
                 c.FirstName == firstName &&
                 c.LastName == lastName &&
-                c.GroupId == groupId &&
-                c.ParentId == parentId);
+                c.DateOfBirth.Date == dateOfBirth.Date)
+            .OrderBy(c => c.IsDeleted)
+            .ThenBy(c => c.Id)
+            .ToListAsync();
+        var child = children.FirstOrDefault();
 
         if (child != null)
         {
@@ -327,6 +371,12 @@ public static class DbSeeder
             child.GroupId = groupId;
             child.ParentId = parentId;
             child.PhotoUrl = photoUrl;
+            child.IsDeleted = false;
+
+            foreach (var duplicateChild in children.Skip(1))
+            {
+                duplicateChild.IsDeleted = true;
+            }
 
             await context.SaveChangesAsync();
 
