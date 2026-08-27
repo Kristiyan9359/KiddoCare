@@ -86,6 +86,23 @@ public class LocalFileStorageServiceTests : IDisposable
     }
 
     [Fact]
+    public async Task SaveChildDocumentAsync_ShouldThrowWhenFileExceedsConfiguredSize()
+    {
+        var service = new LocalFileStorageService(
+            new TestWebHostEnvironment(contentRootPath),
+            Options.Create(new FileStorageOptions
+            {
+                MaxDocumentSizeInMb = 1
+            }));
+        var document = CreateFormFile("document.pdf", "application/pdf", (1 * 1024 * 1024) + 1);
+
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() =>
+            service.SaveChildDocumentAsync(document));
+
+        Assert.Contains("Document file cannot be larger", exception.Message);
+    }
+
+    [Fact]
     public void GetChildPhoto_ShouldReturnStoredFileWhenPathIsSafe()
     {
         var photoUrl = CreateStoredFile("child-photos", "child.png");
@@ -161,9 +178,9 @@ public class LocalFileStorageServiceTests : IDisposable
         }
     }
 
-    private static IFormFile CreateFormFile(string fileName, string contentType)
+    private static IFormFile CreateFormFile(string fileName, string contentType, int sizeInBytes = 9)
     {
-        var stream = new MemoryStream("test file"u8.ToArray());
+        var stream = new MemoryStream(new byte[sizeInBytes]);
 
         return new FormFile(stream, 0, stream.Length, "file", fileName)
         {

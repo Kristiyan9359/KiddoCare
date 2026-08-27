@@ -6,6 +6,8 @@ public class FileStorageOptions
 
     public int MaxDocumentSizeInMb { get; set; } = 5;
 
+    public int MaxUploadRequestSizeInMb { get; set; } = 10;
+
     public string ChildPhotosFolder { get; set; } = "child-photos";
 
     public string ChildDocumentsFolder { get; set; } = "child-documents";
@@ -41,4 +43,6 @@ public class FileStorageOptions
     public long MaxPhotoSizeInBytes => MaxPhotoSizeInMb * 1024L * 1024L;
 
     public long MaxDocumentSizeInBytes => MaxDocumentSizeInMb * 1024L * 1024L;
+
+    public long MaxUploadRequestSizeInBytes => MaxUploadRequestSizeInMb * 1024L * 1024L;
 }

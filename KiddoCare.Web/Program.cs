@@ -10,13 +10,22 @@ using KiddoCare.Web.Hubs;
 using KiddoCare.Web.Services;
 using KiddoCare.Web.Services.Contracts;
 using KiddoCare.Web.Services.Options;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
 using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
+var fileStorageOptions = builder.Configuration
+    .GetSection("FileStorage")
+    .Get<FileStorageOptions>() ?? new FileStorageOptions();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.Limits.MaxRequestBodySize = fileStorageOptions.MaxUploadRequestSizeInBytes;
+});
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
@@ -62,6 +71,11 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 
 builder.Services.Configure<FileStorageOptions>(
     builder.Configuration.GetSection("FileStorage"));
+
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = fileStorageOptions.MaxUploadRequestSizeInBytes;
+});
 
 builder.Services.AddScoped<IGroupService, GroupService>();
 
