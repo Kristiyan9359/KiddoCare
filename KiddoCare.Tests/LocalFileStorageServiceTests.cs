@@ -1,7 +1,9 @@
 using KiddoCare.Web.Services;
+using KiddoCare.Web.Services.Options;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Options;
 
 namespace KiddoCare.Tests;
 
@@ -15,7 +17,9 @@ public class LocalFileStorageServiceTests : IDisposable
         contentRootPath = Path.Combine(Path.GetTempPath(), "KiddoCareStorageTests", Guid.NewGuid().ToString());
         Directory.CreateDirectory(contentRootPath);
 
-        fileStorageService = new LocalFileStorageService(new TestWebHostEnvironment(contentRootPath));
+        fileStorageService = new LocalFileStorageService(
+            new TestWebHostEnvironment(contentRootPath),
+            Options.Create(new FileStorageOptions()));
     }
 
     [Fact]
@@ -39,6 +43,23 @@ public class LocalFileStorageServiceTests : IDisposable
             fileStorageService.SaveChildPhotoAsync(photo));
 
         Assert.Equal("Uploaded photo content type is not supported.", exception.Message);
+    }
+
+    [Fact]
+    public async Task SaveChildPhotoAsync_ShouldUseConfiguredPhotoFolder()
+    {
+        var service = new LocalFileStorageService(
+            new TestWebHostEnvironment(contentRootPath),
+            Options.Create(new FileStorageOptions
+            {
+                ChildPhotosFolder = "profile-images"
+            }));
+        var photo = CreateFormFile("child.png", "image/png");
+
+        var photoUrl = await service.SaveChildPhotoAsync(photo);
+
+        Assert.StartsWith("/App_Data/uploads/profile-images/", photoUrl);
+        Assert.True(File.Exists(GetPhysicalPath(photoUrl)));
     }
 
     [Fact]

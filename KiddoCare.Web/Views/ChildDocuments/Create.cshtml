@@ -56,7 +56,7 @@
             </div>
 
             <div class="flex-grow-1">
-                <input asp-for="File" type="file" class="form-control" />
+                <input asp-for="File" type="file" class="form-control" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" />
                 <span asp-validation-for="File" class="text-danger"></span>
             </div>
         </div>

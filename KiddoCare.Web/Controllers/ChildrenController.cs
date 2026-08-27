@@ -66,7 +66,20 @@ public class ChildrenController : Controller
             {
                 model.PhotoUrl = await fileStorageService.SaveChildPhotoAsync(model.Photo);
             }
+        }
+        catch (InvalidOperationException ex)
+        {
+            ModelState.AddModelError(nameof(ChildCreateViewModel.Photo), this.localizer[ex.Message]);
 
+            var createModel = await childService.GetCreateModelAsync();
+            model.Groups = createModel.Groups;
+            model.Parents = createModel.Parents;
+
+            return View(model);
+        }
+
+        try
+        {
             await childService.CreateAsync(model);
         }
         catch (InvalidOperationException ex)
@@ -119,11 +132,10 @@ public class ChildrenController : Controller
         }
 
         string? uploadedPhotoUrl = null;
+        var previousPhotoUrl = model.PhotoUrl;
 
         try
         {
-            var previousPhotoUrl = model.PhotoUrl;
-
             if (model.Photo != null)
             {
                 uploadedPhotoUrl = await fileStorageService.SaveChildPhotoAsync(model.Photo);
@@ -133,7 +145,29 @@ public class ChildrenController : Controller
             {
                 model.PhotoUrl = null;
             }
+        }
+        catch (InvalidOperationException ex)
+        {
+            fileStorageService.DeleteChildPhoto(uploadedPhotoUrl);
 
+            ModelState.AddModelError(nameof(ChildEditViewModel.Photo), this.localizer[ex.Message]);
+
+            var editModel = await childService.GetForEditAsync(model.Id);
+
+            if (editModel == null)
+            {
+                return NotFound();
+            }
+
+            model.PhotoUrl = editModel.PhotoUrl;
+            model.Groups = editModel.Groups;
+            model.Parents = editModel.Parents;
+
+            return View(model);
+        }
+
+        try
+        {
             await childService.EditAsync(model);
 
             if (model.Photo != null || model.RemovePhoto)

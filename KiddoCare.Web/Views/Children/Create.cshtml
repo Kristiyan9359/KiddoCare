@@ -16,6 +16,8 @@
 
 <section class="section-panel">
     <form asp-action="Create" method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
         <div class="form-grid">
             <div class="mb-3">
                 <label asp-for="FirstName" class="form-label">@T["First Name"]</label>
@@ -71,7 +73,7 @@
                 <label asp-for="Photo" class="form-label">@T["Photo"]</label>
                 <p class="form-help">@T["Upload a clear child profile photo. JPG and PNG files work best."]</p>
             </div>
-            <input asp-for="Photo" type="file" class="form-control" />
+            <input asp-for="Photo" type="file" class="form-control" accept=".jpg,.jpeg,.png,image/jpeg,image/png" />
             <span asp-validation-for="Photo" class="text-danger"></span>
         </div>
 

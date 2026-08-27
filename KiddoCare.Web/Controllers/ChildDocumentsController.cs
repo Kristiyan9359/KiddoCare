@@ -126,7 +126,20 @@ public class ChildDocumentsController : Controller
         try
         {
             model.FileUrl = await fileStorageService.SaveChildDocumentAsync(model.File);
+        }
+        catch (InvalidOperationException ex)
+        {
+            ModelState.AddModelError(nameof(ChildDocumentCreateViewModel.File), this.localizer[ex.Message]);
 
+            var createModel = await childDocumentService.GetCreateModelAsync(userId, isAdmin, isTeacher);
+            model.Children = createModel.Children;
+            model.ReturnUrl = GetSafeReturnUrl(model.ReturnUrl);
+
+            return View(model);
+        }
+
+        try
+        {
             await childDocumentService.CreateAsync(model, userId, isAdmin, isTeacher);
         }
         catch (InvalidOperationException ex)

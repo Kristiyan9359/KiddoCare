@@ -2,78 +2,48 @@ namespace KiddoCare.Web.Services;
 
 using KiddoCare.Web.Services.Contracts;
 using KiddoCare.Web.Services.Models;
+using KiddoCare.Web.Services.Options;
+using Microsoft.Extensions.Options;
 
 public class LocalFileStorageService : IFileStorageService
 {
-    private const long MaxPhotoSize = 5 * 1024 * 1024;
-    private const long MaxDocumentSize = 5 * 1024 * 1024;
-
-    private const string ChildPhotosFolder = "child-photos";
-    private const string ChildDocumentsFolder = "child-documents";
-
-    private static readonly HashSet<string> AllowedPhotoExtensions = new(StringComparer.OrdinalIgnoreCase)
-    {
-        ".jpg",
-        ".jpeg",
-        ".png"
-    };
-
-    private static readonly HashSet<string> AllowedPhotoContentTypes = new(StringComparer.OrdinalIgnoreCase)
-    {
-        "image/jpeg",
-        "image/png"
-    };
-
-    private static readonly HashSet<string> AllowedDocumentExtensions = new(StringComparer.OrdinalIgnoreCase)
-    {
-        ".pdf",
-        ".jpg",
-        ".jpeg",
-        ".png"
-    };
-
-    private static readonly HashSet<string> AllowedDocumentContentTypes = new(StringComparer.OrdinalIgnoreCase)
-    {
-        "application/pdf",
-        "image/jpeg",
-        "image/png"
-    };
-
     private readonly IWebHostEnvironment webHostEnvironment;
+    private readonly FileStorageOptions fileStorageOptions;
 
-    public LocalFileStorageService(IWebHostEnvironment webHostEnvironment)
+    public LocalFileStorageService(IWebHostEnvironment webHostEnvironment, IOptions<FileStorageOptions> fileStorageOptions)
     {
         this.webHostEnvironment = webHostEnvironment;
+        this.fileStorageOptions = fileStorageOptions.Value;
     }
 
     public async Task<string> SaveChildPhotoAsync(IFormFile photo)
     {
         ValidateUploadedFile(
             photo,
-            MaxPhotoSize,
-            AllowedPhotoExtensions,
-            AllowedPhotoContentTypes,
+            fileStorageOptions.MaxPhotoSizeInBytes,
+            fileStorageOptions.AllowedPhotoExtensions,
+            fileStorageOptions.AllowedPhotoContentTypes,
             "Photo file is required.",
             "Photo file cannot be larger than 5 MB.",
             "Allowed photo formats are JPG and PNG.",
             "Uploaded photo content type is not supported.");
 
-        return await SaveFileAsync(photo, ChildPhotosFolder);
+        return await SaveFileAsync(photo, fileStorageOptions.ChildPhotosFolder);
     }
 
     public async Task<string> SaveChildDocumentAsync(IFormFile file)
     {
         ValidateUploadedFile(
             file,
-            MaxDocumentSize,
-            AllowedDocumentExtensions,
-            AllowedDocumentContentTypes,
+            fileStorageOptions.MaxDocumentSizeInBytes,
+            fileStorageOptions.AllowedDocumentExtensions,
+            fileStorageOptions.AllowedDocumentContentTypes,
             "Document file is required.",
             "Document file cannot be larger than 5 MB.",
             "Allowed document formats are PDF, JPG and PNG.",
             "Uploaded document content type is not supported.");
 
-        return await SaveFileAsync(file, ChildDocumentsFolder);
+        return await SaveFileAsync(file, fileStorageOptions.ChildDocumentsFolder);
     }
 
     public StoredFileResult? GetChildPhoto(string? photoUrl)
@@ -92,7 +62,7 @@ public class LocalFileStorageService : IFileStorageService
             };
         }
 
-        var filePath = GetStoredFilePath(photoUrl, ChildPhotosFolder);
+        var filePath = GetStoredFilePath(photoUrl, fileStorageOptions.ChildPhotosFolder);
 
         if (filePath == null)
         {
@@ -113,7 +83,7 @@ public class LocalFileStorageService : IFileStorageService
             return null;
         }
 
-        var filePath = GetStoredFilePath(fileUrl, ChildDocumentsFolder);
+        var filePath = GetStoredFilePath(fileUrl, fileStorageOptions.ChildDocumentsFolder);
 
         if (filePath == null)
         {
@@ -135,7 +105,7 @@ public class LocalFileStorageService : IFileStorageService
             return;
         }
 
-        var filePath = GetStoredFilePath(photoUrl, ChildPhotosFolder);
+        var filePath = GetStoredFilePath(photoUrl, fileStorageOptions.ChildPhotosFolder);
 
         if (filePath == null)
         {
@@ -189,8 +159,8 @@ public class LocalFileStorageService : IFileStorageService
     private static void ValidateUploadedFile(
         IFormFile file,
         long maxFileSize,
-        HashSet<string> allowedExtensions,
-        HashSet<string> allowedContentTypes,
+        IEnumerable<string> allowedExtensions,
+        IEnumerable<string> allowedContentTypes,
         string requiredMessage,
         string maxSizeMessage,
         string invalidExtensionMessage,
@@ -208,12 +178,12 @@ public class LocalFileStorageService : IFileStorageService
 
         var extension = Path.GetExtension(file.FileName);
 
-        if (!allowedExtensions.Contains(extension))
+        if (!allowedExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase))
         {
             throw new InvalidOperationException(invalidExtensionMessage);
         }
 
-        if (!allowedContentTypes.Contains(file.ContentType))
+        if (!allowedContentTypes.Contains(file.ContentType, StringComparer.OrdinalIgnoreCase))
         {
             throw new InvalidOperationException(invalidContentTypeMessage);
         }

@@ -9,6 +9,7 @@ using KiddoCare.Web;
 using KiddoCare.Web.Hubs;
 using KiddoCare.Web.Services;
 using KiddoCare.Web.Services.Contracts;
+using KiddoCare.Web.Services.Options;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
 using System.Globalization;
@@ -58,6 +59,9 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     options.SupportedCultures = supportedCultures;
     options.SupportedUICultures = supportedCultures;
 });
+
+builder.Services.Configure<FileStorageOptions>(
+    builder.Configuration.GetSection("FileStorage"));
 
 builder.Services.AddScoped<IGroupService, GroupService>();
 

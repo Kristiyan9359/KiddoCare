@@ -20,6 +20,7 @@
         <input asp-for="Id" type="hidden" />
         <input asp-for="PhotoUrl" type="hidden" />
         <input asp-for="RemovePhoto" type="hidden" value="false" data-remove-photo-input />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <div class="form-grid">
             <div class="mb-3">
@@ -94,7 +95,7 @@
                 <p class="form-help photo-removed-note" hidden data-photo-removed-note>
                     @T["The current photo will be removed after you save."]
                 </p>
-                <input asp-for="Photo" type="file" class="form-control" />
+                <input asp-for="Photo" type="file" class="form-control" accept=".jpg,.jpeg,.png,image/jpeg,image/png" />
                 <span asp-validation-for="Photo" class="text-danger"></span>
             </div>
         </div>
