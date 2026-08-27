@@ -125,6 +125,15 @@ app.UseHttpsRedirection();
 
 app.UseStatusCodePagesWithReExecute("/Home/HandleStatusCode", "?code={0}");
 
+app.Use(async (context, next) =>
+{
+    context.Response.Headers["X-Content-Type-Options"] = "nosniff";
+    context.Response.Headers["X-Frame-Options"] = "DENY";
+    context.Response.Headers["Referrer-Policy"] = "strict-origin-when-cross-origin";
+
+    await next();
+});
+
 var localizationOptions = app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value;
 app.UseRequestLocalization(localizationOptions);
 
