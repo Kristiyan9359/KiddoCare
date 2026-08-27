@@ -21,6 +21,12 @@ public class ChildrenController : Controller
         ".png"
     };
 
+    private static readonly HashSet<string> AllowedPhotoContentTypes = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "image/jpeg",
+        "image/png"
+    };
+
     private readonly IChildService childService;
     private readonly IWebHostEnvironment webHostEnvironment;
     private readonly IStringLocalizer<SharedResource> localizer;
@@ -304,6 +310,11 @@ public class ChildrenController : Controller
         if (!AllowedPhotoExtensions.Contains(extension))
         {
             throw new InvalidOperationException(this.localizer["Allowed photo formats are JPG and PNG."]);
+        }
+
+        if (!AllowedPhotoContentTypes.Contains(photo.ContentType))
+        {
+            throw new InvalidOperationException(this.localizer["Uploaded photo content type is not supported."]);
         }
 
         var uploadsFolder = Path.Combine(

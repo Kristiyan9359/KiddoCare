@@ -22,6 +22,13 @@ public class ChildDocumentsController : Controller
         ".png"
     };
 
+    private static readonly HashSet<string> AllowedFileContentTypes = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "application/pdf",
+        "image/jpeg",
+        "image/png"
+    };
+
     private readonly IChildDocumentService childDocumentService;
     private readonly IWebHostEnvironment webHostEnvironment;
     private readonly IStringLocalizer<SharedResource> localizer;
@@ -183,6 +190,11 @@ public class ChildDocumentsController : Controller
         if (!AllowedFileExtensions.Contains(extension))
         {
             throw new InvalidOperationException(this.localizer["Allowed document formats are PDF, JPG and PNG."]);
+        }
+
+        if (!AllowedFileContentTypes.Contains(file.ContentType))
+        {
+            throw new InvalidOperationException(this.localizer["Uploaded document content type is not supported."]);
         }
 
         var uploadsFolder = Path.Combine(

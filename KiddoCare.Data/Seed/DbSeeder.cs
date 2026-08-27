@@ -40,16 +40,16 @@ public static class DbSeeder
         const string adminEmail = "admin@kiddocare.com";
         var adminPassword = configuration[UserPasswordConfigurationKeys.AdminPassword];
 
-        if (string.IsNullOrWhiteSpace(adminPassword))
-        {
-            throw new InvalidOperationException(
-                $"Admin password is not configured. Set '{UserPasswordConfigurationKeys.AdminPassword}' in user secrets.");
-        }
-
         var adminUser = await userManager.FindByEmailAsync(adminEmail);
 
         if (adminUser == null)
         {
+            if (string.IsNullOrWhiteSpace(adminPassword))
+            {
+                throw new InvalidOperationException(
+                    $"Admin password is not configured. Set '{UserPasswordConfigurationKeys.AdminPassword}' in user secrets.");
+            }
+
             adminUser = new IdentityUser
             {
                 UserName = adminEmail,
