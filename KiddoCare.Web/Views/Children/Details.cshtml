@@ -180,7 +180,7 @@
     }
     else
     {
-        <table class="table table-striped mb-0">
+        <table class="table table-striped mb-0 mobile-card-table">
             <thead>
                 <tr>
                     <th>@T["Period"]</th>
@@ -193,13 +193,13 @@
                 @foreach (var request in Model.RecentAbsenceRequests)
                 {
                     <tr>
-                        <td>
+                        <td data-label='@T["Period"]'>
                             @request.StartDate.ToString("dd MMM yyyy")
                             -
                             @request.EndDate.ToString("dd MMM yyyy")
                         </td>
-                        <td>@T[request.Reason.ToString()]</td>
-                        <td>
+                        <td data-label='@T["Reason"]'>@T[request.Reason.ToString()]</td>
+                        <td data-label='@T["Status"]'>
                             @if (request.Status == RequestStatus.Pending)
                             {
                                 <span class="badge bg-warning text-dark">@T["Pending"]</span>
@@ -209,14 +209,16 @@
                                 <span class="badge bg-success">@T["Confirmed"]</span>
                             }
                         </td>
-                        <td class="text-end">
-                            <a asp-controller="AbsenceRequests"
-                               asp-action="Details"
-                               asp-route-id="@request.Id"
-                               asp-route-returnUrl="@currentUrl"
-                               class="btn btn-sm btn-outline-secondary">
-                                @T["Details"]
-                            </a>
+                        <td class="text-end" data-label='@T["Actions"]'>
+                            <div class="action-buttons">
+                                <a asp-controller="AbsenceRequests"
+                                   asp-action="Details"
+                                   asp-route-id="@request.Id"
+                                   asp-route-returnUrl="@currentUrl"
+                                   class="btn btn-sm btn-outline-secondary">
+                                    @T["Details"]
+                                </a>
+                            </div>
                         </td>
                     </tr>
                 }
@@ -236,7 +238,7 @@
     }
     else
     {
-        <table class="table table-striped mb-0">
+        <table class="table table-striped mb-0 mobile-card-table">
             <thead>
                 <tr>
                     <th>@T["Title"]</th>
@@ -250,9 +252,9 @@
                 @foreach (var request in Model.RecentConsentRequests)
                 {
                     <tr>
-                        <td>@request.Title</td>
-                        <td>@T[request.Type.ToString()]</td>
-                        <td>
+                        <td data-label='@T["Title"]'>@request.Title</td>
+                        <td data-label='@T["Type"]'>@T[request.Type.ToString()]</td>
+                        <td data-label='@T["Status"]'>
                             @if (request.Status == RequestStatus.Pending)
                             {
                                 <span class="badge bg-warning text-dark">@T["Pending"]</span>
@@ -263,18 +265,20 @@
                             }
                             else if (request.Status == RequestStatus.Rejected)
                             {
-                                <span class="badge bg-danger">@T["Rejected"]</span>
+                                <span class="badge bg-danger">@T["Declined"]</span>
                             }
                         </td>
-                        <td>@request.CreatedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
-                        <td class="text-end">
-                            <a asp-controller="ConsentRequests"
-                               asp-action="Details"
-                               asp-route-id="@request.Id"
-                               asp-route-returnUrl="@currentUrl"
-                               class="btn btn-sm btn-outline-secondary">
-                                @T["Details"]
-                            </a>
+                        <td data-label='@T["Created On"]'>@request.CreatedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
+                        <td class="text-end" data-label='@T["Actions"]'>
+                            <div class="action-buttons">
+                                <a asp-controller="ConsentRequests"
+                                   asp-action="Details"
+                                   asp-route-id="@request.Id"
+                                   asp-route-returnUrl="@currentUrl"
+                                   class="btn btn-sm btn-outline-secondary">
+                                    @T["Details"]
+                                </a>
+                            </div>
                         </td>
                     </tr>
                 }
@@ -294,7 +298,7 @@
     }
     else
     {
-        <table class="table table-striped mb-0">
+        <table class="table table-striped mb-0 mobile-card-table">
             <thead>
                 <tr>
                     <th>@T["Title"]</th>
@@ -308,9 +312,9 @@
                 @foreach (var document in Model.RecentDocuments)
                 {
                     <tr>
-                        <td>@document.Title</td>
-                        <td>@T[document.Type.ToString()]</td>
-                        <td>
+                        <td data-label='@T["Title"]'>@document.Title</td>
+                        <td data-label='@T["Type"]'>@T[document.Type.ToString()]</td>
+                        <td data-label='@T["Status"]'>
                             @if (document.Status == RequestStatus.Pending)
                             {
                                 <span class="badge bg-warning text-dark">@T["Pending"]</span>
@@ -321,18 +325,20 @@
                             }
                             else if (document.Status == RequestStatus.Rejected)
                             {
-                                <span class="badge bg-danger">@T["Rejected"]</span>
+                                <span class="badge bg-danger">@T["Declined"]</span>
                             }
                         </td>
-                        <td>@document.UploadedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
-                        <td class="text-end">
-                            <a asp-controller="ChildDocuments"
-                               asp-action="Details"
-                               asp-route-id="@document.Id"
-                               asp-route-returnUrl="@currentUrl"
-                               class="btn btn-sm btn-outline-secondary">
-                                @T["Details"]
-                            </a>
+                        <td data-label='@T["Uploaded On"]'>@document.UploadedOn.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</td>
+                        <td class="text-end" data-label='@T["Actions"]'>
+                            <div class="action-buttons">
+                                <a asp-controller="ChildDocuments"
+                                   asp-action="Details"
+                                   asp-route-id="@document.Id"
+                                   asp-route-returnUrl="@currentUrl"
+                                   class="btn btn-sm btn-outline-secondary">
+                                    @T["Details"]
+                                </a>
+                            </div>
                         </td>
                     </tr>
                 }

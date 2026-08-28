@@ -66,7 +66,7 @@
         else
         {
             <div class="table-responsive">
-                <table class="table table-striped align-middle mb-0">
+                <table class="table table-striped align-middle mb-0 mobile-card-table">
                     <thead>
                         <tr>
                             <th>@T["Child"]</th>
@@ -77,15 +77,17 @@
                         @foreach (var child in Model.Children)
                         {
                             <tr>
-                                <td><div class="fw-bold">@child.FullName</div></td>
-                                <td class="text-end">
-                                    <a asp-controller="Children"
-                                       asp-action="Details"
-                                       asp-route-id="@child.Id"
-                                       asp-route-returnUrl="@Context.Request.Path"
-                                       class="btn btn-sm btn-outline-secondary">
-                                        @T["View Child"]
-                                    </a>
+                                <td data-label='@T["Child"]'><div class="fw-bold">@child.FullName</div></td>
+                                <td class="text-end" data-label='@T["Actions"]'>
+                                    <div class="action-buttons">
+                                        <a asp-controller="Children"
+                                           asp-action="Details"
+                                           asp-route-id="@child.Id"
+                                           asp-route-returnUrl="@Context.Request.Path"
+                                           class="btn btn-sm btn-outline-secondary">
+                                            @T["View Child"]
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                         }

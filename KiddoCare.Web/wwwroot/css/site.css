@@ -234,11 +234,17 @@ h2 {
 }
 
 @media (max-width: 767px) {
+    .table-responsive:has(.mobile-card-table) {
+        overflow: visible;
+    }
+
     .mobile-card-table {
         display: table;
         overflow: visible;
         border-collapse: separate;
         border-spacing: 0 12px;
+        background: transparent;
+        box-shadow: none;
     }
 
         .mobile-card-table thead {
