@@ -4427,3 +4427,185 @@ textarea.form-control {
         grid-template-columns: 1fr;
     }
 }
+
+@media (max-width: 767px) {
+    .app-main {
+        padding: 18px 14px;
+    }
+
+    .page-header,
+    .list-page-header {
+        display: grid;
+        gap: 14px;
+        margin-bottom: 18px;
+    }
+
+    .page-title,
+    .list-page-header h1 {
+        font-size: 2.15rem;
+        line-height: 1.08;
+        overflow-wrap: anywhere;
+    }
+
+    .page-subtitle,
+    .list-page-subtitle {
+        font-size: 0.98rem;
+    }
+
+    .page-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+        width: 100%;
+        margin-top: 0;
+    }
+
+    .page-actions .btn,
+    .section-panel-header .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .metric-grid,
+    .metric-grid.metric-grid-three,
+    .activity-summary-grid {
+        gap: 10px;
+    }
+
+    .metric-card,
+    .activity-summary-card {
+        min-height: 96px;
+        padding: 14px;
+    }
+
+    .metric-value {
+        font-size: 1.75rem;
+    }
+
+    .section-panel {
+        margin-top: 18px;
+        padding: 14px;
+    }
+
+    .section-panel-header {
+        display: grid;
+        gap: 12px;
+        align-items: start;
+    }
+
+    .records-toolbar {
+        width: 100%;
+        align-items: stretch;
+    }
+
+    .records-page-size {
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .records-page-size .form-select {
+        min-width: 92px;
+    }
+
+    .filter-bar {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .filter-bar .form-control,
+    .filter-bar .form-select,
+    .filter-bar .btn {
+        width: 100%;
+    }
+
+    .action-buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        width: 100%;
+    }
+
+    .action-buttons .btn,
+    .action-buttons form,
+    .action-buttons form .btn {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .form-action-row {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .mobile-card-table tbody td {
+        min-width: 0;
+        white-space: normal;
+        word-break: break-word;
+    }
+
+    .mobile-card-table tbody td::before {
+        line-height: 1.25;
+        white-space: normal;
+    }
+
+    .attendance-pager {
+        justify-content: center;
+        flex-wrap: wrap;
+        overflow-x: visible;
+    }
+
+    .attendance-page-numbers {
+        order: -1;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .message-shell {
+        gap: 14px;
+    }
+
+    .message-sidebar-header,
+    .message-chat-header {
+        padding: 18px;
+    }
+
+    .message-sidebar .message-conversation-list {
+        max-height: 320px;
+    }
+}
+
+@media (max-width: 480px) {
+    .app-main {
+        padding: 16px 12px;
+    }
+
+    .page-title,
+    .list-page-header h1 {
+        font-size: 1.95rem;
+    }
+
+    .page-kicker {
+        font-size: 0.72rem;
+    }
+
+    .action-buttons {
+        grid-template-columns: 1fr;
+    }
+
+    .metric-card,
+    .activity-summary-card {
+        min-height: 90px;
+    }
+
+    .attendance-page-link,
+    .attendance-page-number {
+        min-height: 40px;
+    }
+
+    .attendance-page-number {
+        width: 40px;
+    }
+
+    .message-bubble {
+        max-width: 100%;
+    }
+}
