@@ -2103,17 +2103,46 @@ textarea.form-control {
     min-height: 56vh;
     display: grid;
     place-items: center;
+    padding: 20px 0;
 }
 
 .delete-card {
+    position: relative;
     width: min(620px, 100%);
-    padding: 34px;
-    border: 1px solid rgba(220, 38, 38, 0.2);
+    padding: 38px 34px 34px;
+    border: 1px solid rgba(225, 29, 72, 0.24);
     border-radius: var(--kc-radius);
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(254, 242, 242, 0.78));
-    box-shadow: var(--kc-shadow);
+    background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(255, 241, 242, 0.86)),
+        rgba(255, 255, 255, 0.92);
+    box-shadow: 0 24px 54px rgba(127, 29, 29, 0.12);
     text-align: center;
+    overflow: hidden;
 }
+
+    .delete-card::before {
+        content: "!";
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 46px;
+        height: 46px;
+        margin-bottom: 16px;
+        border-radius: 999px;
+        color: #ffffff;
+        background: linear-gradient(135deg, #e11d48, #be123c);
+        box-shadow: 0 14px 28px rgba(225, 29, 72, 0.28);
+        font-size: 1.5rem;
+        font-weight: 900;
+    }
+
+    .delete-card::after {
+        content: "";
+        position: absolute;
+        inset: 0 0 auto;
+        height: 4px;
+        background: linear-gradient(90deg, #e11d48, #f97316);
+    }
 
 .delete-kicker {
     margin-bottom: 8px;
@@ -2125,6 +2154,7 @@ textarea.form-control {
 
 .delete-card h1 {
     margin-bottom: 10px;
+    font-size: clamp(2rem, 4vw, 3rem);
 }
 
 .delete-card p {
@@ -2136,7 +2166,13 @@ textarea.form-control {
 .delete-info-list {
     max-width: 460px;
     margin: 0 auto;
+    padding: 18px;
+    border-style: solid;
     text-align: left;
+}
+
+.delete-card .form-action-row {
+    margin-top: 24px;
 }
 
 @media (max-width: 991px) {
@@ -3097,6 +3133,28 @@ textarea.form-control {
     background:
         linear-gradient(145deg, rgba(8, 17, 31, 0.84), rgba(15, 23, 42, 0.64)),
         linear-gradient(315deg, rgba(96, 165, 250, 0.16), transparent 52%);
+}
+
+:root[data-theme="dark"] .delete-card {
+    border-color: rgba(251, 113, 133, 0.36);
+    background:
+        linear-gradient(145deg, rgba(76, 29, 43, 0.42), rgba(15, 23, 42, 0.92)),
+        var(--kc-card-bg);
+    box-shadow: 0 28px 62px rgba(0, 0, 0, 0.34);
+}
+
+:root[data-theme="dark"] .delete-card::before {
+    color: #ffffff;
+    background: linear-gradient(135deg, #e11d48, #fb7185);
+    box-shadow: 0 16px 32px rgba(225, 29, 72, 0.3);
+}
+
+:root[data-theme="dark"] .delete-card::after {
+    background: linear-gradient(90deg, #fb7185, #f97316);
+}
+
+:root[data-theme="dark"] .delete-kicker {
+    color: #fda4af;
 }
 
 :root[data-theme="dark"] .home-access-pill {
