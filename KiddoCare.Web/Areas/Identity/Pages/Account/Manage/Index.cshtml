@@ -2,15 +2,15 @@
 @model KiddoCare.Web.Areas.Identity.Pages.Account.Manage.IndexModel
 
 @{
-    ViewData["Title"] = T["My Profile"];
+    ViewData["Title"] = T["My account"];
 }
 
 <section class="account-profile-page">
     <div class="page-header account-profile-header">
         <div>
             <div class="page-kicker">@T["Account settings"]</div>
-            <h1>@T["My Profile"]</h1>
-            <p class="page-subtitle">@T["Keep your contact details up to date for the kindergarten team."]</p>
+            <h1>@T["My account"]</h1>
+            <p class="page-subtitle">@T["Manage your profile, login email and password from one clean place."]</p>
         </div>
 
         <a asp-area=""
@@ -43,7 +43,7 @@
         <div class="section-panel account-profile-form-panel">
             <div class="section-panel-header">
                 <div>
-                    <h2>@T["Personal information"]</h2>
+                    <h2>@T["Profile details"]</h2>
                     <p class="section-panel-subtitle">@T["These details are visible only to users with the right access."]</p>
                 </div>
             </div>
@@ -52,7 +52,7 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger form-validation-summary"></div>
 
                 <div class="mb-3">
-                    <label asp-for="Input.FullName" class="form-label">@T["Full Name"]</label>
+                    <label asp-for="Input.FullName" class="form-label">@T["Visible profile name"]</label>
                     <input asp-for="Input.FullName"
                            class="form-control"
                            autocomplete="name"
@@ -61,7 +61,7 @@
                 </div>
 
                 <div class="mb-3">
-                    <label asp-for="Input.PhoneNumber" class="form-label">@T["Phone number"]</label>
+                    <label asp-for="Input.PhoneNumber" class="form-label">@T["Contact phone"]</label>
                     <input asp-for="Input.PhoneNumber"
                            class="form-control"
                            autocomplete="tel"
@@ -92,10 +92,25 @@
 
                 <div class="mb-3 account-profile-full-row">
                     <label asp-for="Input.EmailChangePassword" class="form-label">@T["Confirm email change with password"]</label>
-                    <input asp-for="Input.EmailChangePassword"
-                           class="form-control"
-                           autocomplete="current-password"
-                           placeholder='@T["Enter your password to confirm this email change"]' />
+                    <div class="account-password-field">
+                        <input asp-for="Input.EmailChangePassword"
+                               id="email-change-password"
+                               class="form-control"
+                               autocomplete="current-password"
+                               placeholder='@T["Enter your password to confirm this email change"]' />
+                        <button type="button"
+                                class="auth-password-toggle"
+                                aria-controls="email-change-password"
+                                aria-label="@T["Show password"]"
+                                data-show-label="@T["Show password"]"
+                                data-hide-label="@T["Hide password"]">
+                            <svg class="auth-password-eye" aria-hidden="true" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path class="auth-password-eye-slash" d="M4 4l16 16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+                            </svg>
+                        </button>
+                    </div>
                     <span asp-validation-for="Input.EmailChangePassword" class="text-danger"></span>
                 </div>
 
@@ -106,32 +121,77 @@
 
                 <div class="mb-3 account-profile-full-row">
                     <label asp-for="Input.CurrentPassword" class="form-label">@T["Current password"]</label>
-                    <input asp-for="Input.CurrentPassword"
-                           class="form-control"
-                           autocomplete="current-password"
-                           placeholder='@T["Enter your current password"]' />
+                    <div class="account-password-field">
+                        <input asp-for="Input.CurrentPassword"
+                               id="current-password"
+                               class="form-control"
+                               autocomplete="current-password"
+                               placeholder='@T["Enter your current password"]' />
+                        <button type="button"
+                                class="auth-password-toggle"
+                                aria-controls="current-password"
+                                aria-label="@T["Show password"]"
+                                data-show-label="@T["Show password"]"
+                                data-hide-label="@T["Hide password"]">
+                            <svg class="auth-password-eye" aria-hidden="true" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path class="auth-password-eye-slash" d="M4 4l16 16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+                            </svg>
+                        </button>
+                    </div>
                     <span asp-validation-for="Input.CurrentPassword" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3 account-profile-full-row">
                     <label asp-for="Input.NewPassword" class="form-label">@T["New password"]</label>
-                    <input asp-for="Input.NewPassword"
-                           class="form-control"
-                           autocomplete="new-password"
-                           placeholder='@T["Enter a new password"]' />
+                    <div class="account-password-field">
+                        <input asp-for="Input.NewPassword"
+                               id="new-password"
+                               class="form-control"
+                               autocomplete="new-password"
+                               placeholder='@T["Enter a new password"]' />
+                        <button type="button"
+                                class="auth-password-toggle"
+                                aria-controls="new-password"
+                                aria-label="@T["Show password"]"
+                                data-show-label="@T["Show password"]"
+                                data-hide-label="@T["Hide password"]">
+                            <svg class="auth-password-eye" aria-hidden="true" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path class="auth-password-eye-slash" d="M4 4l16 16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+                            </svg>
+                        </button>
+                    </div>
                     <span asp-validation-for="Input.NewPassword" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3 account-profile-full-row">
                     <label asp-for="Input.ConfirmPassword" class="form-label">@T["Confirm new password"]</label>
-                    <input asp-for="Input.ConfirmPassword"
-                           class="form-control"
-                           autocomplete="new-password"
-                           placeholder='@T["Repeat the new password"]' />
+                    <div class="account-password-field">
+                        <input asp-for="Input.ConfirmPassword"
+                               id="confirm-password"
+                               class="form-control"
+                               autocomplete="new-password"
+                               placeholder='@T["Repeat the new password"]' />
+                        <button type="button"
+                                class="auth-password-toggle"
+                                aria-controls="confirm-password"
+                                aria-label="@T["Show password"]"
+                                data-show-label="@T["Show password"]"
+                                data-hide-label="@T["Hide password"]">
+                            <svg class="auth-password-eye" aria-hidden="true" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path class="auth-password-eye-slash" d="M4 4l16 16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+                            </svg>
+                        </button>
+                    </div>
                     <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                 </div>
 
-                <div class="form-actions">
+                <div class="form-action-row">
                     <button type="submit" class="btn btn-primary">@T["Save changes"]</button>
                     <a asp-area=""
                        asp-controller="Dashboard"
@@ -147,4 +207,25 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        (() => {
+            document.querySelectorAll(".account-password-field .auth-password-toggle").forEach((toggleButton) => {
+                const passwordInput = document.getElementById(toggleButton.getAttribute("aria-controls"));
+
+                if (!passwordInput) {
+                    return;
+                }
+
+                toggleButton.addEventListener("click", () => {
+                    const shouldShowPassword = passwordInput.type === "password";
+
+                    passwordInput.type = shouldShowPassword ? "text" : "password";
+                    toggleButton.classList.toggle("is-visible", shouldShowPassword);
+                    toggleButton.setAttribute(
+                        "aria-label",
+                        shouldShowPassword ? toggleButton.dataset.hideLabel : toggleButton.dataset.showLabel);
+                });
+            });
+        })();
+    </script>
 }

@@ -2307,8 +2307,14 @@
   <data name="My Profile" xml:space="preserve">
     <value>Моят профил</value>
   </data>
+  <data name="My account" xml:space="preserve">
+    <value>Моят акаунт</value>
+  </data>
   <data name="Account settings" xml:space="preserve">
     <value>Настройки на акаунта</value>
+  </data>
+  <data name="Manage your profile, login email and password from one clean place." xml:space="preserve">
+    <value>Управлявайте профила, имейла за вход и паролата си от едно ясно място.</value>
   </data>
   <data name="Keep your contact details up to date for the kindergarten team." xml:space="preserve">
     <value>Поддържайте контактните си данни актуални за екипа на детската градина.</value>
@@ -2334,8 +2340,17 @@
   <data name="Personal information" xml:space="preserve">
     <value>Лична информация</value>
   </data>
+  <data name="Profile details" xml:space="preserve">
+    <value>Данни за профила</value>
+  </data>
   <data name="These details are visible only to users with the right access." xml:space="preserve">
     <value>Тези данни са видими само за потребители с подходящ достъп.</value>
+  </data>
+  <data name="Visible profile name" xml:space="preserve">
+    <value>Име в профила</value>
+  </data>
+  <data name="Contact phone" xml:space="preserve">
+    <value>Телефон за контакт</value>
   </data>
   <data name="Enter your full name" xml:space="preserve">
     <value>Въведете пълното си име</value>

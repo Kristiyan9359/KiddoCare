@@ -2375,6 +2375,10 @@ textarea.form-control {
     grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.account-profile-form-panel .section-panel-header {
+    margin-bottom: 18px;
+}
+
 .form-validation-summary {
     grid-column: 1 / -1;
 }
@@ -2432,8 +2436,27 @@ textarea.form-control {
     grid-column: 1 / -1;
 }
 
-.account-profile-form-panel .form-actions {
+.account-profile-form-panel .form-action-row {
     grid-column: 1 / -1;
+}
+
+.account-password-field {
+    position: relative;
+}
+
+.account-password-field .form-control {
+    padding-right: 58px;
+}
+
+.account-password-field .auth-password-toggle {
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+}
+
+.account-password-field .auth-password-toggle:hover,
+.account-password-field .auth-password-toggle:focus {
+    transform: translateY(-50%);
 }
 
 :root[data-theme="dark"] .account-profile-card,
@@ -2478,6 +2501,10 @@ textarea.form-control {
 
     .account-profile-form-panel .form-grid {
         grid-template-columns: 1fr;
+    }
+
+    .account-profile-card {
+        padding: 18px;
     }
 }
 
