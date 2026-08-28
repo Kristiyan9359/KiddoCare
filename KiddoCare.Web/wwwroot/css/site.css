@@ -1011,13 +1011,44 @@ textarea.form-control {
 }
 
 .empty-state {
+    position: relative;
     margin: 0;
-    padding: 18px;
-    border: 1px dashed rgba(104, 115, 134, 0.35);
+    padding: 20px;
+    border: 1px solid rgba(148, 163, 184, 0.28);
     border-radius: var(--kc-radius);
-    background: rgba(248, 250, 252, 0.72);
+    background:
+        linear-gradient(135deg, rgba(239, 246, 255, 0.82), rgba(248, 250, 252, 0.9)),
+        rgba(255, 255, 255, 0.76);
     color: var(--kc-muted);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
+    overflow: hidden;
 }
+
+    .empty-state::before {
+        content: "";
+        position: absolute;
+        inset: 0 auto 0 0;
+        width: 4px;
+        background: linear-gradient(180deg, var(--kc-primary), #14b8a6);
+        opacity: 0.82;
+    }
+
+    .empty-state h2,
+    .empty-state h3 {
+        margin: 0 0 8px;
+        color: var(--kc-text);
+        font-weight: 900;
+    }
+
+    .empty-state p {
+        margin: 0;
+        max-width: 680px;
+        color: var(--kc-muted);
+    }
+
+    .empty-state .btn {
+        margin-top: 16px;
+    }
 
 .flash-messages {
     position: sticky;
@@ -2341,7 +2372,7 @@ textarea.form-control {
 }
 
 .compact-empty-state {
-    padding: 28px;
+    padding: 26px 28px;
     text-align: left;
 }
 
@@ -3108,8 +3139,21 @@ textarea.form-control {
 :root[data-theme="dark"] .info-list,
 :root[data-theme="dark"] .detail-list {
     border-color: var(--kc-border);
-    background: rgba(15, 23, 42, 0.52);
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.72), rgba(30, 41, 59, 0.56));
     color: var(--kc-muted);
+}
+
+:root[data-theme="dark"] .empty-state {
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 14px 30px rgba(0, 0, 0, 0.18);
+}
+
+:root[data-theme="dark"] .empty-state h2,
+:root[data-theme="dark"] .empty-state h3 {
+    color: var(--kc-text);
+}
+
+:root[data-theme="dark"] .empty-state p {
+    color: #b8c4d6;
 }
 
 :root[data-theme="dark"] .child-card-photo,
