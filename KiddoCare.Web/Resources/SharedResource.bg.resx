@@ -66,6 +66,9 @@
   <data name="Privacy" xml:space="preserve">
     <value>Поверителност</value>
   </data>
+  <data name="Built with care by Kristiyan Kamboshev. All rights reserved." xml:space="preserve">
+    <value>Създадено с внимание от Кристиян Камбошев. Всички права запазени.</value>
+  </data>
   <data name="Toggle navigation" xml:space="preserve">
     <value>Отвори навигацията</value>
   </data>
@@ -197,6 +200,57 @@
   </data>
   <data name="KiddoCare handles child, parent and kindergarten information with clear role-based access and careful file storage." xml:space="preserve">
     <value>KiddoCare обработва информация за деца, родители и детската градина с ясен достъп според ролята и внимателно съхранение на файловете.</value>
+  </data>
+  <data name="KiddoCare is built as a closed kindergarten system where child information, parent communication and uploaded files are protected through clear access rules." xml:space="preserve">
+    <value>KiddoCare е създадено като затворена система за детска градина, в която информацията за децата, комуникацията с родителите и качените файлове се пазят чрез ясни правила за достъп.</value>
+  </data>
+  <data name="Data protection focus" xml:space="preserve">
+    <value>Фокус върху защитата</value>
+  </data>
+  <data name="Private by design" xml:space="preserve">
+    <value>Поверително по замисъл</value>
+  </data>
+  <data name="Only approved users can access the platform, and every role sees only the information needed for their work." xml:space="preserve">
+    <value>Само одобрени потребители имат достъп до платформата, а всяка роля вижда само информацията, нужна за нейната работа.</value>
+  </data>
+  <data name="Child information" xml:space="preserve">
+    <value>Информация за детето</value>
+  </data>
+  <data name="Child profiles include basic details, group assignment, parent link, attendance, daily reports, medical notes and activity history." xml:space="preserve">
+    <value>Профилите на децата включват основни данни, група, връзка с родител, присъствия, дневни отчети, медицински бележки и история на активността.</value>
+  </data>
+  <data name="Parent and teacher profiles store contact details so the kindergarten team can communicate quickly and responsibly." xml:space="preserve">
+    <value>Профилите на родители и учители съхраняват контакти, за да може екипът на детската градина да комуникира бързо и отговорно.</value>
+  </data>
+  <data name="Photos and documents" xml:space="preserve">
+    <value>Снимки и документи</value>
+  </data>
+  <data name="Uploaded photos and child documents are handled as private application files." xml:space="preserve">
+    <value>Качените снимки и документи на деца се обработват като поверителни файлове на приложението.</value>
+  </data>
+  <data name="Communication" xml:space="preserve">
+    <value>Комуникация</value>
+  </data>
+  <data name="Messages, announcements, consent requests and absence notices are shown only to users who are part of the relevant conversation or group." xml:space="preserve">
+    <value>Съобщенията, уведомленията, исканията за съгласие и бележките за отсъствие се показват само на потребители, които участват в съответния разговор или група.</value>
+  </data>
+  <data name="Who can access what" xml:space="preserve">
+    <value>Кой до какво има достъп</value>
+  </data>
+  <data name="KiddoCare separates information by role, group and linked child profile." xml:space="preserve">
+    <value>KiddoCare разделя информацията според роля, група и свързан профил на дете.</value>
+  </data>
+  <data name="Administrator" xml:space="preserve">
+    <value>Администратор</value>
+  </data>
+  <data name="Manages groups, children, staff, parents, events, announcements, documents and application settings." xml:space="preserve">
+    <value>Управлява групи, деца, екип, родители, събития, уведомления, документи и настройки на приложението.</value>
+  </data>
+  <data name="Works with children, reports, attendance and parent communication for the assigned kindergarten group." xml:space="preserve">
+    <value>Работи с деца, отчети, присъствия и комуникация с родители за поверената група.</value>
+  </data>
+  <data name="Views information connected to their own children and communicates with teachers or the kindergarten administration." xml:space="preserve">
+    <value>Вижда информация, свързана със собствените деца, и комуникира с учители или администрацията на детската градина.</value>
   </data>
   <data name="Information Stored" xml:space="preserve">
     <value>Съхранявана информация</value>

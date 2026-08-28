@@ -2,40 +2,72 @@
     ViewData["Title"] = T["Privacy"];
 }
 
-<div class="page-header">
-    <div>
-        <div class="page-kicker">@T["Privacy and data care"]</div>
-        <h1 class="page-title">@T["Privacy Policy"]</h1>
-        <p class="page-subtitle">
-            @T["KiddoCare handles child, parent and kindergarten information with clear role-based access and careful file storage."]
-        </p>
+<section class="privacy-page">
+    <div class="page-header privacy-hero">
+        <div>
+            <div class="page-kicker">@T["Privacy and data care"]</div>
+            <h1 class="page-title">@T["Privacy Policy"]</h1>
+            <p class="page-subtitle">
+                @T["KiddoCare is built as a closed kindergarten system where child information, parent communication and uploaded files are protected through clear access rules."]
+            </p>
+        </div>
+
+        <div class="privacy-hero-card">
+            <span>@T["Data protection focus"]</span>
+            <strong>@T["Private by design"]</strong>
+            <p>@T["Only approved users can access the platform, and every role sees only the information needed for their work."]</p>
+        </div>
     </div>
-</div>
 
-<section class="section-panel privacy-panel">
-    <h2>@T["Information Stored"]</h2>
-    <p>
-        @T["The application stores child profiles, parent and teacher contact details, attendance records, daily reports, medical notes, absence notices, consent requests, announcements, events and uploaded child documents."]
-    </p>
-</section>
+    <div class="privacy-card-grid">
+        <article class="privacy-card">
+            <div class="privacy-card-marker">01</div>
+            <h2>@T["Child information"]</h2>
+            <p>@T["Child profiles include basic details, group assignment, parent link, attendance, daily reports, medical notes and activity history."]</p>
+        </article>
 
-<section class="section-panel privacy-panel">
-    <h2>@T["Access Control"]</h2>
-    <p>
-        @T["Access is role-based. Administrators manage kindergarten data, teachers work with their assigned group, and parents can view information connected to their own children."]
-    </p>
-</section>
+        <article class="privacy-card">
+            <div class="privacy-card-marker">02</div>
+            <h2>@T["Family contacts"]</h2>
+            <p>@T["Parent and teacher profiles store contact details so the kindergarten team can communicate quickly and responsibly."]</p>
+        </article>
 
-<section class="section-panel privacy-panel">
-    <h2>@T["Uploaded Files"]</h2>
-    <p>
-        @T["Uploaded photos and documents are stored outside the public Git repository. Local development files are kept under protected application storage and should be moved to a dedicated cloud storage provider before production deployment."]
-    </p>
-</section>
+        <article class="privacy-card">
+            <div class="privacy-card-marker">03</div>
+            <h2>@T["Photos and documents"]</h2>
+            <p>@T["Uploaded photos and child documents are handled as private application files."]</p>
+        </article>
 
-<section class="section-panel privacy-panel">
-    <h2>@T["Demo Data"]</h2>
-    <p>
-        @T["Development demo data is fictional and exists only to test the application workflow. Real child photos, personal documents and production passwords should never be committed to source control."]
-    </p>
+        <article class="privacy-card">
+            <div class="privacy-card-marker">04</div>
+            <h2>@T["Communication"]</h2>
+            <p>@T["Messages, announcements, consent requests and absence notices are shown only to users who are part of the relevant conversation or group."]</p>
+        </article>
+    </div>
+
+    <section class="section-panel privacy-access-panel">
+        <div class="section-panel-header">
+            <div>
+                <h2>@T["Who can access what"]</h2>
+                <p class="section-panel-subtitle">@T["KiddoCare separates information by role, group and linked child profile."]</p>
+            </div>
+        </div>
+
+        <div class="privacy-access-grid">
+            <div class="privacy-access-item">
+                <span>@T["Administrator"]</span>
+                <p>@T["Manages groups, children, staff, parents, events, announcements, documents and application settings."]</p>
+            </div>
+
+            <div class="privacy-access-item">
+                <span>@T["Teacher"]</span>
+                <p>@T["Works with children, reports, attendance and parent communication for the assigned kindergarten group."]</p>
+            </div>
+
+            <div class="privacy-access-item">
+                <span>@T["Parent"]</span>
+                <p>@T["Views information connected to their own children and communicates with teachers or the kindergarten administration."]</p>
+            </div>
+        </div>
+    </section>
 </section>

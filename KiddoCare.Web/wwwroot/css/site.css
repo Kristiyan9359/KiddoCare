@@ -85,6 +85,8 @@ body {
 }
 
 body.app-shell {
+    display: flex;
+    flex-direction: column;
     background:
         linear-gradient(135deg, rgba(244, 247, 251, 0.96) 0%, rgba(238, 247, 243, 0.88) 48%, rgba(247, 244, 237, 0.96) 100%),
         url("/images/home/kindergarten-hero.png") center center / cover no-repeat fixed;
@@ -104,6 +106,16 @@ body.app-shell {
         background-size: 72px 72px;
         z-index: -1;
     }
+
+.app-header,
+.footer {
+    flex-shrink: 0;
+}
+
+.app-content {
+    flex: 1 0 auto;
+    width: 100%;
+}
 
 .app-navbar {
     background: rgba(255, 255, 255, 0.96);
@@ -586,6 +598,19 @@ textarea.form-control {
 .footer {
     background: transparent;
     padding: 18px 0;
+}
+
+.footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+.footer-inner a {
+    font-weight: 800;
 }
 
 @media (max-width: 767px) {
@@ -1509,6 +1534,144 @@ textarea.form-control {
 .privacy-panel h2 {
     margin-bottom: 10px;
     font-size: 1.15rem;
+}
+
+.privacy-page {
+    display: grid;
+    gap: 22px;
+}
+
+.privacy-hero {
+    align-items: stretch;
+}
+
+.privacy-hero-card {
+    display: grid;
+    align-content: center;
+    min-width: 320px;
+    max-width: 420px;
+    padding: 22px;
+    border: 1px solid rgba(96, 165, 250, 0.26);
+    border-radius: var(--kc-radius);
+    background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(239, 246, 255, 0.78)),
+        linear-gradient(315deg, rgba(20, 184, 166, 0.12), transparent 52%);
+    box-shadow: var(--kc-shadow);
+    backdrop-filter: blur(16px);
+}
+
+.privacy-hero-card span,
+.privacy-access-item span {
+    color: var(--kc-primary);
+    font-size: 0.78rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.privacy-hero-card strong {
+    display: block;
+    margin: 8px 0 10px;
+    color: var(--kc-text);
+    font-size: 1.55rem;
+    font-weight: 900;
+}
+
+.privacy-hero-card p {
+    margin: 0;
+    color: var(--kc-muted);
+    line-height: 1.65;
+}
+
+.privacy-card-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.privacy-card {
+    position: relative;
+    min-height: 240px;
+    overflow: hidden;
+    padding: 22px;
+    border: 1px solid rgba(221, 229, 239, 0.78);
+    border-radius: var(--kc-radius);
+    background: var(--kc-card-bg);
+    box-shadow: var(--kc-shadow);
+    backdrop-filter: blur(16px);
+}
+
+.privacy-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 4px;
+    background: linear-gradient(90deg, var(--kc-primary), #14b8a6);
+}
+
+.privacy-card-marker {
+    display: inline-grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    margin-bottom: 18px;
+    border-radius: 999px;
+    background: rgba(96, 165, 250, 0.14);
+    color: var(--kc-primary);
+    font-weight: 900;
+}
+
+.privacy-card h2 {
+    margin: 0 0 10px;
+    color: var(--kc-text);
+    font-size: 1.2rem;
+    font-weight: 900;
+}
+
+.privacy-card p,
+.privacy-access-item p {
+    margin: 0;
+    color: var(--kc-muted);
+    line-height: 1.65;
+}
+
+.privacy-access-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.privacy-access-item {
+    padding: 18px;
+    border: 1px solid rgba(148, 163, 184, 0.24);
+    border-radius: var(--kc-radius);
+    background: rgba(255, 255, 255, 0.58);
+}
+
+.privacy-access-item p {
+    margin-top: 8px;
+}
+
+@media (max-width: 1199px) {
+    .privacy-card-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 767px) {
+    .privacy-hero-card {
+        min-width: 0;
+        max-width: none;
+    }
+
+    .privacy-card-grid,
+    .privacy-access-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .privacy-card {
+        min-height: 0;
+        padding: 18px;
+    }
 }
 
 .child-card-grid {
@@ -3143,6 +3306,9 @@ textarea.form-control {
 :root[data-theme="dark"] .delete-card,
 :root[data-theme="dark"] .content-list-item,
 :root[data-theme="dark"] .activity-card,
+:root[data-theme="dark"] .privacy-hero-card,
+:root[data-theme="dark"] .privacy-card,
+:root[data-theme="dark"] .privacy-access-item,
 :root[data-theme="dark"] .search-suggestions {
     border-color: var(--kc-border);
     background: var(--kc-card-bg);

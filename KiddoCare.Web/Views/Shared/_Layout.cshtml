@@ -237,7 +237,7 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container app-content">
         <main role="main" class="pb-3">
             <partial name="_FlashMessages" />
             @RenderBody()
@@ -245,8 +245,10 @@
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - KiddoCare - <a asp-area="" asp-controller="Home" asp-action="Privacy">@T["Privacy"]</a>
+        <div class="container footer-inner">
+            <span>&copy; 2026 KiddoCare.</span>
+            <span>@T["Built with care by Kristiyan Kamboshev. All rights reserved."]</span>
+            <a asp-area="" asp-controller="Home" asp-action="Privacy">@T["Privacy"]</a>
         </div>
     </footer>
 
