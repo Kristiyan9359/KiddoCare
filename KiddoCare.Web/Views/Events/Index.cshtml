@@ -24,7 +24,11 @@
 
         @if (canCreate)
         {
-            <a asp-action="Create" class="btn btn-primary">@T["Create Event"]</a>
+            <a asp-action="Create"
+               asp-route-returnUrl="@currentUrl"
+               class="btn btn-primary">
+                @T["Create Event"]
+            </a>
         }
     </div>
 </div>
@@ -96,7 +100,11 @@
 
             @if (canCreate)
             {
-                <a asp-action="Create" class="btn btn-primary">@T["Create Event"]</a>
+                <a asp-action="Create"
+                   asp-route-returnUrl="@currentUrl"
+                   class="btn btn-primary">
+                    @T["Create Event"]
+                </a>
             }
         </section>
     }
@@ -136,12 +144,14 @@
                         {
                             <a asp-action="Edit"
                                asp-route-id="@eventItem.Id"
+                               asp-route-returnUrl="@currentUrl"
                                class="btn btn-sm btn-outline-primary">
                                 @T["Edit"]
                             </a>
 
                             <form asp-action="Delete"
                                   asp-route-id="@eventItem.Id"
+                                  asp-route-returnUrl="@currentUrl"
                                   method="post">
                                 <button type="submit"
                                         class="btn btn-sm btn-outline-danger"

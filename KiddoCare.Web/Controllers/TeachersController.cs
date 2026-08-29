@@ -21,15 +21,16 @@ public class TeachersController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index(string? searchTerm, int page = 1, int pageSize = 15)
+    public async Task<IActionResult> Index(string? searchTerm, string? returnUrl, int page = 1, int pageSize = 15)
     {
         var model = await teacherService.GetAllAsync(searchTerm, page, pageSize);
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
 
         return View(model);
     }
 
     [HttpGet]
-    public async Task<IActionResult> Details(int id)
+    public async Task<IActionResult> Details(int id, string? returnUrl)
     {
         var model = await teacherService.GetDetailsAsync(id);
 
@@ -38,13 +39,16 @@ public class TeachersController : Controller
             return NotFound();
         }
 
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
+
         return View(model);
     }
 
     [HttpGet]
-    public async Task<IActionResult> Create()
+    public async Task<IActionResult> Create(string? returnUrl)
     {
         var model = await teacherService.GetCreateModelAsync();
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
 
         return View(model);
     }
@@ -55,6 +59,7 @@ public class TeachersController : Controller
         if (!ModelState.IsValid)
         {
             model.Groups = (await teacherService.GetCreateModelAsync()).Groups;
+            model.ReturnUrl = GetSafeReturnUrl(model.ReturnUrl);
             return View(model);
         }
 
@@ -66,16 +71,17 @@ public class TeachersController : Controller
         {
             ModelState.AddModelError(string.Empty, this.localizer[ex.Message]);
             model.Groups = (await teacherService.GetCreateModelAsync()).Groups;
+            model.ReturnUrl = GetSafeReturnUrl(model.ReturnUrl);
             return View(model);
         }
 
         this.SetSuccessMessage("Teacher created successfully.");
 
-        return RedirectToAction(nameof(Index));
+        return RedirectToLocalOrIndex(model.ReturnUrl);
     }
 
     [HttpGet]
-    public async Task<IActionResult> Edit(int id)
+    public async Task<IActionResult> Edit(int id, string? returnUrl)
     {
         var model = await teacherService.GetForEditAsync(id);
 
@@ -83,6 +89,8 @@ public class TeachersController : Controller
         {
             return NotFound();
         }
+
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
 
         return View(model);
     }
@@ -100,6 +108,7 @@ public class TeachersController : Controller
             }
 
             model.Groups = editModel.Groups;
+            model.ReturnUrl = GetSafeReturnUrl(model.ReturnUrl);
             return View(model);
         }
 
@@ -114,11 +123,11 @@ public class TeachersController : Controller
 
         this.SetSuccessMessage("Teacher updated successfully.");
 
-        return RedirectToAction(nameof(Index));
+        return RedirectToLocalOrIndex(model.ReturnUrl);
     }
 
     [HttpGet]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(int id, string? returnUrl)
     {
         var model = await teacherService.GetForDeleteAsync(id);
 
@@ -127,12 +136,14 @@ public class TeachersController : Controller
             return NotFound();
         }
 
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
+
         return View(model);
     }
 
     [HttpPost]
     [ActionName("Delete")]
-    public async Task<IActionResult> DeleteConfirmed(int id)
+    public async Task<IActionResult> DeleteConfirmed(int id, string? returnUrl)
     {
         try
         {
@@ -145,7 +156,7 @@ public class TeachersController : Controller
 
         this.SetSuccessMessage("Teacher deleted successfully.");
 
-        return RedirectToAction(nameof(Index));
+        return RedirectToLocalOrIndex(returnUrl);
     }
 
     [HttpGet]
@@ -154,5 +165,21 @@ public class TeachersController : Controller
         var suggestions = await teacherService.GetSearchSuggestionsAsync(term);
 
         return Json(suggestions);
+    }
+
+    private string? GetSafeReturnUrl(string? returnUrl)
+    {
+        return !string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl)
+            ? returnUrl
+            : null;
+    }
+
+    private IActionResult RedirectToLocalOrIndex(string? returnUrl)
+    {
+        var safeReturnUrl = GetSafeReturnUrl(returnUrl);
+
+        return safeReturnUrl != null
+            ? LocalRedirect(safeReturnUrl)
+            : RedirectToAction(nameof(Index));
     }
 }

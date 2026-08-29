@@ -15,4 +15,6 @@ public class ParentEditViewModel
     [Display(Name = "Phone number")]
     [MaxLength(ParentPhoneNumberMaxLength, ErrorMessage = "Phone number cannot be longer than {1} characters.")]
     public string? PhoneNumber { get; set; }
+
+    public string? ReturnUrl { get; set; }
 }

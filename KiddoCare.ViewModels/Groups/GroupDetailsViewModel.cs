@@ -8,5 +8,7 @@ public class GroupDetailsViewModel
 
     public string? Description { get; set; }
 
+    public string? ReturnUrl { get; set; }
+
     public IEnumerable<GroupChildViewModel> Children { get; set; } = new List<GroupChildViewModel>();
 }

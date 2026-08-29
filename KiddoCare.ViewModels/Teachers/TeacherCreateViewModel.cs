@@ -24,5 +24,7 @@ public class TeacherCreateViewModel
     [Required(ErrorMessage = "Please select a group.")]
     public int GroupId { get; set; }
 
+    public string? ReturnUrl { get; set; }
+
     public IEnumerable<SelectListItem> Groups { get; set; } = new List<SelectListItem>();
 }

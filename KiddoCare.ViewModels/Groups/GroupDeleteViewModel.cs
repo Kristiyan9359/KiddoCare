@@ -7,4 +7,6 @@ public class GroupDeleteViewModel
     public string Name { get; set; } = null!;
 
     public int ChildrenCount { get; set; }
+
+    public string? ReturnUrl { get; set; }
 }

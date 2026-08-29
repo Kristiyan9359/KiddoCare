@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = T["Group Details"];
+    var currentUrl = Context.Request.Path + Context.Request.QueryString;
+    var backUrl = Model.ReturnUrl ?? Url.Action("Index");
 }
 
 <div class="page-header">
@@ -14,8 +16,13 @@
     </div>
 
     <div class="page-actions">
-        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">@T["Edit"]</a>
-        <a asp-action="Index" class="btn btn-secondary">@T["Back"]</a>
+        <a asp-action="Edit"
+           asp-route-id="@Model.Id"
+           asp-route-returnUrl="@currentUrl"
+           class="btn btn-primary">
+            @T["Edit"]
+        </a>
+        <a href="@backUrl" class="btn btn-secondary">@T["Back"]</a>
     </div>
 </div>
 
@@ -83,7 +90,7 @@
                                         <a asp-controller="Children"
                                            asp-action="Details"
                                            asp-route-id="@child.Id"
-                                           asp-route-returnUrl="@Context.Request.Path"
+                                           asp-route-returnUrl="@currentUrl"
                                            class="btn btn-sm btn-outline-secondary">
                                             @T["View Child"]
                                         </a>

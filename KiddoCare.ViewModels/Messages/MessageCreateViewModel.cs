@@ -13,5 +13,7 @@ public class MessageCreateViewModel
     [StringLength(ChatMessageContentMaxLength, ErrorMessage = "Message cannot be longer than {1} characters.")]
     public string Content { get; set; } = null!;
 
+    public string? ReturnUrl { get; set; }
+
     public IEnumerable<SelectListItem> Recipients { get; set; } = new List<SelectListItem>();
 }

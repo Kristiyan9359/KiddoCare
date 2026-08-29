@@ -8,6 +8,8 @@ public class MessageDetailsViewModel
 
     public string OtherParticipantName { get; set; } = null!;
 
+    public string? ReturnUrl { get; set; }
+
     public IEnumerable<MessageConversationViewModel> Conversations { get; set; } = new List<MessageConversationViewModel>();
 
     public IEnumerable<MessageItemViewModel> Messages { get; set; } = new List<MessageItemViewModel>();

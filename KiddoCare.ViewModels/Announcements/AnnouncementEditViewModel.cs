@@ -24,5 +24,7 @@ public class AnnouncementEditViewModel
     [Display(Name = "Visible to parents")]
     public bool IsPublic { get; set; }
 
+    public string? ReturnUrl { get; set; }
+
     public IEnumerable<SelectListItem> Groups { get; set; } = new List<SelectListItem>();
 }

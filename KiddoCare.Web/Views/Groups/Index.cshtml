@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = T["Groups"];
+    var currentUrl = Context.Request.Path + Context.Request.QueryString;
 }
 
 <div class="list-page-header">
@@ -13,7 +14,18 @@
         </p>
     </div>
 
-    <a asp-action="Create" class="btn btn-primary">@T["Create Group"]</a>
+    <div class="page-actions">
+        @if (!string.IsNullOrWhiteSpace(Model.ReturnUrl))
+        {
+            <a href="@Model.ReturnUrl" class="btn btn-secondary">@T["Back"]</a>
+        }
+
+        <a asp-action="Create"
+           asp-route-returnUrl="@currentUrl"
+           class="btn btn-primary">
+            @T["Create Group"]
+        </a>
+    </div>
 </div>
 
 <section id="groups-list" class="section-panel">
@@ -47,6 +59,7 @@
     <form id="groupsFilterForm" asp-action="Index" method="get" class="filter-form mb-3">
         <input type="hidden" name="page" value="1" />
         <input asp-for="PageSize" type="hidden" id="groupsPageSizeHidden" />
+        <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
 
         <div class="form-grid align-items-end">
             <div class="mb-3 search-suggest-wrapper">
@@ -65,7 +78,11 @@
 
             <div class="mb-3">
                 <button type="submit" class="btn btn-primary">@T["Search"]</button>
-                <a asp-action="Index" class="btn btn-secondary">@T["Clear"]</a>
+                <a asp-action="Index"
+                   asp-route-returnUrl="@Model.ReturnUrl"
+                   class="btn btn-secondary">
+                    @T["Clear"]
+                </a>
             </div>
         </div>
     </form>
@@ -75,7 +92,11 @@
         <section class="empty-state compact-empty-state">
             <h2>@T["No groups found"]</h2>
             <p>@T["Try changing the search term or create a new group."]</p>
-            <a asp-action="Create" class="btn btn-primary">@T["Create Group"]</a>
+            <a asp-action="Create"
+               asp-route-returnUrl="@currentUrl"
+               class="btn btn-primary">
+                @T["Create Group"]
+            </a>
         </section>
     }
     else
@@ -110,18 +131,21 @@
                                 <div class="action-buttons">
                                     <a asp-action="Details"
                                        asp-route-id="@group.Id"
+                                       asp-route-returnUrl="@currentUrl"
                                        class="btn btn-sm btn-outline-secondary">
                                         @T["Details"]
                                     </a>
 
                                     <a asp-action="Edit"
                                        asp-route-id="@group.Id"
+                                       asp-route-returnUrl="@currentUrl"
                                        class="btn btn-sm btn-outline-primary">
                                         @T["Edit"]
                                     </a>
 
                                     <a asp-action="Delete"
                                        asp-route-id="@group.Id"
+                                       asp-route-returnUrl="@currentUrl"
                                        class="btn btn-sm btn-outline-danger">
                                         @T["Delete"]
                                     </a>
@@ -139,6 +163,7 @@
                 <a class="attendance-page-link @(Model.HasPreviousPage ? string.Empty : "disabled")"
                    asp-action="Index"
                    asp-route-searchTerm="@Model.SearchTerm"
+                   asp-route-returnUrl="@Model.ReturnUrl"
                    asp-route-page="@(Model.Page - 1)"
                    asp-route-pageSize="@Model.PageSize"
                    asp-fragment="groups-list">
@@ -151,6 +176,7 @@
                         <a class="attendance-page-number @(pageNumber == Model.Page ? "active" : string.Empty)"
                            asp-action="Index"
                            asp-route-searchTerm="@Model.SearchTerm"
+                           asp-route-returnUrl="@Model.ReturnUrl"
                            asp-route-page="@pageNumber"
                            asp-route-pageSize="@Model.PageSize"
                            asp-fragment="groups-list">
@@ -162,6 +188,7 @@
                 <a class="attendance-page-link @(Model.HasNextPage ? string.Empty : "disabled")"
                    asp-action="Index"
                    asp-route-searchTerm="@Model.SearchTerm"
+                   asp-route-returnUrl="@Model.ReturnUrl"
                    asp-route-page="@(Model.Page + 1)"
                    asp-route-pageSize="@Model.PageSize"
                    asp-fragment="groups-list">

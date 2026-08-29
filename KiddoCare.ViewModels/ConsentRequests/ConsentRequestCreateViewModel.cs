@@ -24,5 +24,7 @@ public class ConsentRequestCreateViewModel
     [Required(ErrorMessage = "Please select a consent type.")]
     public ConsentRequestType Type { get; set; }
 
+    public string? ReturnUrl { get; set; }
+
     public IEnumerable<SelectListItem> Children { get; set; } = new List<SelectListItem>();
 }

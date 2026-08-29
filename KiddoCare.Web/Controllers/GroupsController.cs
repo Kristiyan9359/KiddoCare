@@ -21,17 +21,21 @@ public class GroupsController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index(string? searchTerm, int page = 1, int pageSize = 15)
+    public async Task<IActionResult> Index(string? searchTerm, string? returnUrl, int page = 1, int pageSize = 15)
     {
         var model = await groupService.GetAllAsync(searchTerm, page, pageSize);
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
 
         return View(model);
     }
 
     [HttpGet]
-    public IActionResult Create()
+    public IActionResult Create(string? returnUrl)
     {
-        return View();
+        return View(new GroupCreateViewModel
+        {
+            ReturnUrl = GetSafeReturnUrl(returnUrl)
+        });
     }
 
     [HttpPost]
@@ -39,6 +43,7 @@ public class GroupsController : Controller
     {
         if (!ModelState.IsValid)
         {
+            model.ReturnUrl = GetSafeReturnUrl(model.ReturnUrl);
             return View(model);
         }
 
@@ -46,11 +51,11 @@ public class GroupsController : Controller
 
         this.SetSuccessMessage("Group created successfully.");
 
-        return RedirectToAction(nameof(Index));
+        return RedirectToLocalOrIndex(model.ReturnUrl);
     }
 
     [HttpGet]
-    public async Task<IActionResult> Edit(int id)
+    public async Task<IActionResult> Edit(int id, string? returnUrl)
     {
         var model = await groupService.GetForEditAsync(id);
 
@@ -58,6 +63,8 @@ public class GroupsController : Controller
         {
             return NotFound();
         }
+
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
 
         return View(model);
     }
@@ -67,6 +74,7 @@ public class GroupsController : Controller
     {
         if (!ModelState.IsValid)
         {
+            model.ReturnUrl = GetSafeReturnUrl(model.ReturnUrl);
             return View(model);
         }
 
@@ -81,11 +89,11 @@ public class GroupsController : Controller
 
         this.SetSuccessMessage("Group updated successfully.");
 
-        return RedirectToAction(nameof(Index));
+        return RedirectToLocalOrIndex(model.ReturnUrl);
     }
 
     [HttpGet]
-    public async Task<IActionResult> Details(int id)
+    public async Task<IActionResult> Details(int id, string? returnUrl)
     {
         var model = await groupService.GetDetailsAsync(id);
 
@@ -94,11 +102,13 @@ public class GroupsController : Controller
             return NotFound();
         }
 
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
+
         return View(model);
     }
 
     [HttpGet]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(int id, string? returnUrl)
     {
         var model = await groupService.GetForDeleteAsync(id);
 
@@ -107,12 +117,14 @@ public class GroupsController : Controller
             return NotFound();
         }
 
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
+
         return View(model);
     }
 
     [HttpPost]
     [ActionName("Delete")]
-    public async Task<IActionResult> DeleteConfirmed(int id)
+    public async Task<IActionResult> DeleteConfirmed(int id, string? returnUrl)
     {
         try
         {
@@ -129,12 +141,14 @@ public class GroupsController : Controller
                 return NotFound();
             }
 
+            model.ReturnUrl = GetSafeReturnUrl(returnUrl);
+
             return View(model);
         }
 
         this.SetSuccessMessage("Group deleted successfully.");
 
-        return RedirectToAction(nameof(Index));
+        return RedirectToLocalOrIndex(returnUrl);
     }
 
     [HttpGet]
@@ -143,5 +157,21 @@ public class GroupsController : Controller
         var suggestions = await groupService.GetSearchSuggestionsAsync(term);
 
         return Json(suggestions);
+    }
+
+    private string? GetSafeReturnUrl(string? returnUrl)
+    {
+        return !string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl)
+            ? returnUrl
+            : null;
+    }
+
+    private IActionResult RedirectToLocalOrIndex(string? returnUrl)
+    {
+        var safeReturnUrl = GetSafeReturnUrl(returnUrl);
+
+        return safeReturnUrl != null
+            ? LocalRedirect(safeReturnUrl)
+            : RedirectToAction(nameof(Index));
     }
 }

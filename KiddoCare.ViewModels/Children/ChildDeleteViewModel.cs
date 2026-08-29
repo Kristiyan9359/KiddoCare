@@ -9,4 +9,6 @@ public class ChildDeleteViewModel
     public string GroupName { get; set; } = null!;
 
     public DateTime DateOfBirth { get; set; }
+
+    public string? ReturnUrl { get; set; }
 }

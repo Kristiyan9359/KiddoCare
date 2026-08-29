@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = T["Messages"];
+    var currentUrl = Context.Request.Path + Context.Request.QueryString;
 }
 
 <section class="list-page-header">
@@ -11,7 +12,11 @@
         <p class="page-subtitle">@T["Your conversations with parents and kindergarten staff."]</p>
     </div>
 
-    <a asp-action="Create" class="btn btn-primary">@T["New conversation"]</a>
+    <a asp-action="Create"
+       asp-route-returnUrl="@currentUrl"
+       class="btn btn-primary">
+        @T["New conversation"]
+    </a>
 </section>
 
 <section class="section-panel">
@@ -29,6 +34,7 @@
             {
                 <a asp-action="Details"
                    asp-route-id="@conversation.Id"
+                   asp-route-returnUrl="@currentUrl"
                    class="message-conversation-item @(conversation.UnreadMessagesCount > 0 ? "unread" : string.Empty)">
                     <div>
                         <div class="message-conversation-title">

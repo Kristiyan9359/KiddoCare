@@ -10,5 +10,7 @@ public class ParentDetailsViewModel
 
     public string? PhoneNumber { get; set; }
 
+    public string? ReturnUrl { get; set; }
+
     public IEnumerable<ParentChildViewModel> Children { get; set; } = new List<ParentChildViewModel>();
 }

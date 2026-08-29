@@ -25,7 +25,11 @@
 
         @if (canCreate)
         {
-            <a asp-action="Create" class="btn btn-primary">@T["Create Consent Request"]</a>
+            <a asp-action="Create"
+               asp-route-returnUrl="@currentUrl"
+               class="btn btn-primary">
+                @T["Create Consent Request"]
+            </a>
         }
     </div>
 </div>
@@ -142,7 +146,11 @@
 
             @if (canCreate)
             {
-                <a asp-action="Create" class="btn btn-primary">@T["Create Consent Request"]</a>
+                <a asp-action="Create"
+                   asp-route-returnUrl="@currentUrl"
+                   class="btn btn-primary">
+                    @T["Create Consent Request"]
+                </a>
             }
         </section>
     }

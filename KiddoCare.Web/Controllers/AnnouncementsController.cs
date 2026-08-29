@@ -75,7 +75,7 @@ public class AnnouncementsController : Controller
 
     [Authorize(Roles = $"{RoleConstants.Admin},{RoleConstants.Teacher}")]
     [HttpGet]
-    public async Task<IActionResult> Create()
+    public async Task<IActionResult> Create(string? returnUrl)
     {
         string userId = this.GetUserId();
         bool isAdmin = this.User.IsInRole(RoleConstants.Admin);
@@ -83,6 +83,7 @@ public class AnnouncementsController : Controller
 
         AnnouncementCreateViewModel model = await this.announcementService
             .GetCreateModelAsync(userId, isAdmin, isTeacher);
+        model.ReturnUrl = this.GetSafeReturnUrl(returnUrl);
 
         return this.View(model);
     }
@@ -105,6 +106,7 @@ public class AnnouncementsController : Controller
             formModel.Content = model.Content;
             formModel.GroupId = model.GroupId;
             formModel.IsPublic = model.IsPublic;
+            formModel.ReturnUrl = this.GetSafeReturnUrl(model.ReturnUrl);
 
             return this.View(formModel);
         }
@@ -114,12 +116,12 @@ public class AnnouncementsController : Controller
 
         this.SetSuccessMessage("Announcement created successfully.");
 
-        return this.RedirectToAction(nameof(Index));
+        return this.RedirectToLocalOrIndex(model.ReturnUrl);
     }
 
     [Authorize(Roles = $"{RoleConstants.Admin},{RoleConstants.Teacher}")]
     [HttpGet]
-    public async Task<IActionResult> Edit(int id)
+    public async Task<IActionResult> Edit(int id, string? returnUrl)
     {
         string userId = this.GetUserId();
         bool isAdmin = this.User.IsInRole(RoleConstants.Admin);
@@ -132,6 +134,8 @@ public class AnnouncementsController : Controller
         {
             return this.NotFound();
         }
+
+        model.ReturnUrl = this.GetSafeReturnUrl(returnUrl);
 
         return this.View(model);
     }
@@ -159,6 +163,7 @@ public class AnnouncementsController : Controller
             formModel.Content = model.Content;
             formModel.GroupId = model.GroupId;
             formModel.IsPublic = model.IsPublic;
+            formModel.ReturnUrl = this.GetSafeReturnUrl(model.ReturnUrl);
 
             return this.View(formModel);
         }
@@ -168,13 +173,13 @@ public class AnnouncementsController : Controller
 
         this.SetSuccessMessage("Announcement updated successfully.");
 
-        return this.RedirectToAction(nameof(Index));
+        return this.RedirectToLocalOrIndex(model.ReturnUrl);
     }
 
     [Authorize(Roles = $"{RoleConstants.Admin},{RoleConstants.Teacher}")]
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(int id, string? returnUrl)
     {
         string userId = this.GetUserId();
         bool isAdmin = this.User.IsInRole(RoleConstants.Admin);
@@ -185,7 +190,7 @@ public class AnnouncementsController : Controller
 
         this.SetSuccessMessage("Announcement deleted successfully.");
 
-        return this.RedirectToAction(nameof(Index));
+        return this.RedirectToLocalOrIndex(returnUrl);
     }
 
     private string GetUserId()
@@ -198,5 +203,14 @@ public class AnnouncementsController : Controller
         return !string.IsNullOrWhiteSpace(returnUrl) && this.Url.IsLocalUrl(returnUrl)
             ? returnUrl
             : null;
+    }
+
+    private IActionResult RedirectToLocalOrIndex(string? returnUrl)
+    {
+        string? safeReturnUrl = this.GetSafeReturnUrl(returnUrl);
+
+        return safeReturnUrl != null
+            ? this.LocalRedirect(safeReturnUrl)
+            : this.RedirectToAction(nameof(Index));
     }
 }

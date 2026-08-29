@@ -40,9 +40,10 @@ public class ChildrenController : Controller
 
     [Authorize(Roles = Admin)]
     [HttpGet]
-    public async Task<IActionResult> Create()
+    public async Task<IActionResult> Create(string? returnUrl)
     {
         var model = await childService.GetCreateModelAsync();
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
 
         return View(model);
     }
@@ -56,6 +57,7 @@ public class ChildrenController : Controller
             var createModel = await childService.GetCreateModelAsync();
             model.Groups = createModel.Groups;
             model.Parents = createModel.Parents;
+            model.ReturnUrl = GetSafeReturnUrl(model.ReturnUrl);
 
             return View(model);
         }
@@ -74,6 +76,7 @@ public class ChildrenController : Controller
             var createModel = await childService.GetCreateModelAsync();
             model.Groups = createModel.Groups;
             model.Parents = createModel.Parents;
+            model.ReturnUrl = GetSafeReturnUrl(model.ReturnUrl);
 
             return View(model);
         }
@@ -89,18 +92,19 @@ public class ChildrenController : Controller
             var createModel = await childService.GetCreateModelAsync();
             model.Groups = createModel.Groups;
             model.Parents = createModel.Parents;
+            model.ReturnUrl = GetSafeReturnUrl(model.ReturnUrl);
 
             return View(model);
         }
 
         this.SetSuccessMessage("Child created successfully.");
 
-        return RedirectToAction(nameof(Index));
+        return RedirectToLocalOrIndex(model.ReturnUrl);
     }
 
     [Authorize(Roles = Admin)]
     [HttpGet]
-    public async Task<IActionResult> Edit(int id)
+    public async Task<IActionResult> Edit(int id, string? returnUrl)
     {
         var model = await childService.GetForEditAsync(id);
 
@@ -108,6 +112,8 @@ public class ChildrenController : Controller
         {
             return NotFound();
         }
+
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
 
         return View(model);
     }
@@ -127,6 +133,7 @@ public class ChildrenController : Controller
 
             model.Groups = editModel.Groups;
             model.Parents = editModel.Parents;
+            model.ReturnUrl = GetSafeReturnUrl(model.ReturnUrl);
 
             return View(model);
         }
@@ -162,6 +169,7 @@ public class ChildrenController : Controller
             model.PhotoUrl = editModel.PhotoUrl;
             model.Groups = editModel.Groups;
             model.Parents = editModel.Parents;
+            model.ReturnUrl = GetSafeReturnUrl(model.ReturnUrl);
 
             return View(model);
         }
@@ -191,18 +199,19 @@ public class ChildrenController : Controller
             model.PhotoUrl = editModel.PhotoUrl;
             model.Groups = editModel.Groups;
             model.Parents = editModel.Parents;
+            model.ReturnUrl = GetSafeReturnUrl(model.ReturnUrl);
 
             return View(model);
         }
 
         this.SetSuccessMessage("Child updated successfully.");
 
-        return RedirectToAction(nameof(Index));
+        return RedirectToLocalOrIndex(model.ReturnUrl);
     }
 
     [Authorize(Roles = Admin)]
     [HttpGet]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(int id, string? returnUrl)
     {
         var model = await childService.GetForDeleteAsync(id);
 
@@ -211,13 +220,15 @@ public class ChildrenController : Controller
             return NotFound();
         }
 
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
+
         return View(model);
     }
 
     [Authorize(Roles = Admin)]
     [HttpPost]
     [ActionName("Delete")]
-    public async Task<IActionResult> DeleteConfirmed(int id)
+    public async Task<IActionResult> DeleteConfirmed(int id, string? returnUrl)
     {
         try
         {
@@ -230,7 +241,7 @@ public class ChildrenController : Controller
 
         this.SetSuccessMessage("Child deleted successfully.");
 
-        return RedirectToAction(nameof(Index));
+        return RedirectToLocalOrIndex(returnUrl);
     }
 
     [HttpGet]
@@ -300,6 +311,15 @@ public class ChildrenController : Controller
         return !string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl)
             ? returnUrl
             : null;
+    }
+
+    private IActionResult RedirectToLocalOrIndex(string? returnUrl)
+    {
+        var safeReturnUrl = GetSafeReturnUrl(returnUrl);
+
+        return safeReturnUrl != null
+            ? LocalRedirect(safeReturnUrl)
+            : RedirectToAction(nameof(Index));
     }
 
     [HttpGet]

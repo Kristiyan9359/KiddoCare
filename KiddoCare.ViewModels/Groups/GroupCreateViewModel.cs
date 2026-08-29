@@ -13,4 +13,6 @@ public class GroupCreateViewModel
     [Display(Name = "Description")]
     [MaxLength(KindergartenGroupDescriptionMaxLength, ErrorMessage = "Description cannot be longer than {1} characters.")]
     public string? Description { get; set; }
+
+    public string? ReturnUrl { get; set; }
 }

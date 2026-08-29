@@ -67,13 +67,14 @@ public class ConsentRequestsController : Controller
 
     [Authorize(Roles = $"{Admin},{Teacher}")]
     [HttpGet]
-    public async Task<IActionResult> Create()
+    public async Task<IActionResult> Create(string? returnUrl)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
         var isAdmin = User.IsInRole(Admin);
         var isTeacher = User.IsInRole(Teacher);
 
         var model = await consentRequestService.GetCreateModelAsync(userId, isAdmin, isTeacher);
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
 
         return View(model);
     }
@@ -90,6 +91,7 @@ public class ConsentRequestsController : Controller
         {
             var createModel = await consentRequestService.GetCreateModelAsync(userId, isAdmin, isTeacher);
             model.Children = createModel.Children;
+            model.ReturnUrl = GetSafeReturnUrl(model.ReturnUrl);
 
             return View(model);
         }
@@ -104,13 +106,14 @@ public class ConsentRequestsController : Controller
 
             var createModel = await consentRequestService.GetCreateModelAsync(userId, isAdmin, isTeacher);
             model.Children = createModel.Children;
+            model.ReturnUrl = GetSafeReturnUrl(model.ReturnUrl);
 
             return View(model);
         }
 
         this.SetSuccessMessage("Consent request created successfully.");
 
-        return RedirectToAction(nameof(Index));
+        return RedirectToLocalOrIndex(model.ReturnUrl);
     }
 
     [HttpGet]

@@ -48,5 +48,7 @@ public class ChildEditViewModel
     [Display(Name = "Parent")]
     public int? ParentId { get; set; }
 
+    public string? ReturnUrl { get; set; }
+
     public IEnumerable<SelectListItem> Parents { get; set; } = new List<SelectListItem>();
 }

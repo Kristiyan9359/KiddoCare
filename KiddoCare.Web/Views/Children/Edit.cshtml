@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = T["Edit Child"];
     var fullName = $"{Model.FirstName} {Model.LastName}";
+    var backUrl = Model.ReturnUrl ?? Url.Action("Index");
 }
 
 <div class="page-header">
@@ -20,6 +21,7 @@
         <input asp-for="Id" type="hidden" />
         <input asp-for="PhotoUrl" type="hidden" />
         <input asp-for="RemovePhoto" type="hidden" value="false" data-remove-photo-input />
+        <input asp-for="ReturnUrl" type="hidden" />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <div class="form-grid">
@@ -102,7 +104,7 @@
 
         <div class="form-action-row">
             <button type="submit" class="btn btn-primary">@T["Save"]</button>
-            <a asp-action="Index" class="btn btn-secondary">@T["Cancel"]</a>
+            <a href="@backUrl" class="btn btn-secondary">@T["Cancel"]</a>
         </div>
     </form>
 </section>

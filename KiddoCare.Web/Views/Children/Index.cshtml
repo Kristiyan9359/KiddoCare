@@ -24,7 +24,11 @@
 
         @if (isAdmin)
         {
-            <a asp-action="Create" class="btn btn-primary">@T["Add Child"]</a>
+            <a asp-action="Create"
+               asp-route-returnUrl="@currentUrl"
+               class="btn btn-primary">
+                @T["Add Child"]
+            </a>
         }
     </div>
 </div>
@@ -199,12 +203,14 @@
                                 {
                                     <a asp-action="Edit"
                                        asp-route-id="@child.Id"
+                                       asp-route-returnUrl="@currentUrl"
                                        class="btn btn-sm btn-outline-primary">
                                         @T["Edit"]
                                     </a>
 
                                     <a asp-action="Delete"
                                        asp-route-id="@child.Id"
+                                       asp-route-returnUrl="@currentUrl"
                                        class="btn btn-sm btn-outline-danger">
                                         @T["Delete"]
                                     </a>

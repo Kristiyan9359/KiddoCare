@@ -37,7 +37,7 @@ public class MessagesController : Controller
         return View(conversations);
     }
 
-    public async Task<IActionResult> Details(int id)
+    public async Task<IActionResult> Details(int id, string? returnUrl)
     {
         var userId = GetCurrentUserId();
         var isAdmin = User.IsInRole(Admin);
@@ -51,11 +51,13 @@ public class MessagesController : Controller
             return NotFound();
         }
 
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
+
         return View(model);
     }
 
     [HttpGet]
-    public async Task<IActionResult> Create()
+    public async Task<IActionResult> Create(string? returnUrl)
     {
         var userId = GetCurrentUserId();
         var isAdmin = User.IsInRole(Admin);
@@ -63,6 +65,7 @@ public class MessagesController : Controller
         var isParent = User.IsInRole(Parent);
 
         var model = await messageService.GetCreateModelAsync(userId, isAdmin, isTeacher, isParent);
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
 
         return View(model);
     }
@@ -80,6 +83,7 @@ public class MessagesController : Controller
         {
             var createModel = await messageService.GetCreateModelAsync(userId, isAdmin, isTeacher, isParent);
             model.Recipients = createModel.Recipients;
+            model.ReturnUrl = GetSafeReturnUrl(model.ReturnUrl);
 
             return View(model);
         }
@@ -90,12 +94,13 @@ public class MessagesController : Controller
             await NotifyMessageClientsAsync(conversationId, userId, GetCurrentUserDisplayName(), model.Content.Trim());
             this.SetSuccessMessage("Message sent successfully.");
 
-            return RedirectToAction(nameof(Details), new { id = conversationId });
+            return RedirectToAction(nameof(Details), new { id = conversationId, returnUrl = model.ReturnUrl });
         }
         catch (InvalidOperationException ex)
         {
             var createModel = await messageService.GetCreateModelAsync(userId, isAdmin, isTeacher, isParent);
             model.Recipients = createModel.Recipients;
+            model.ReturnUrl = GetSafeReturnUrl(model.ReturnUrl);
             ModelState.AddModelError(string.Empty, this.localizer[ex.Message]);
 
             return View(model);
@@ -132,7 +137,7 @@ public class MessagesController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConversation(int id)
+    public async Task<IActionResult> DeleteConversation(int id, string? returnUrl)
     {
         var userId = GetCurrentUserId();
         var isAdmin = User.IsInRole(Admin);
@@ -144,7 +149,7 @@ public class MessagesController : Controller
             await messageService.DeleteConversationForUserAsync(id, userId, isAdmin, isTeacher, isParent);
             this.SetSuccessMessage("Conversation deleted successfully.");
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToLocalOrIndex(returnUrl);
         }
         catch (UnauthorizedAccessException)
         {
@@ -164,6 +169,22 @@ public class MessagesController : Controller
     private string GetCurrentUserDisplayName()
     {
         return User.FindFirstValue("FullName") ?? User.Identity?.Name ?? "Unknown user";
+    }
+
+    private string? GetSafeReturnUrl(string? returnUrl)
+    {
+        return !string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl)
+            ? returnUrl
+            : null;
+    }
+
+    private IActionResult RedirectToLocalOrIndex(string? returnUrl)
+    {
+        var safeReturnUrl = GetSafeReturnUrl(returnUrl);
+
+        return safeReturnUrl != null
+            ? LocalRedirect(safeReturnUrl)
+            : RedirectToAction(nameof(Index));
     }
 
     private async Task NotifyMessageClientsAsync(int conversationId, string senderUserId, string senderName, string content)

@@ -84,13 +84,14 @@ public class EventsController : Controller
 
     [Authorize(Roles = $"{Admin},{Teacher}")]
     [HttpGet]
-    public async Task<IActionResult> Create()
+    public async Task<IActionResult> Create(string? returnUrl)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
         var isAdmin = User.IsInRole(Admin);
         var isTeacher = User.IsInRole(Teacher);
 
         var model = await eventService.GetCreateModelAsync(userId, isAdmin, isTeacher);
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
 
         return View(model);
     }
@@ -107,6 +108,7 @@ public class EventsController : Controller
         {
             var createModel = await eventService.GetCreateModelAsync(userId, isAdmin, isTeacher);
             model.Groups = createModel.Groups;
+            model.ReturnUrl = GetSafeReturnUrl(model.ReturnUrl);
 
             return View(model);
         }
@@ -121,18 +123,19 @@ public class EventsController : Controller
 
             var createModel = await eventService.GetCreateModelAsync(userId, isAdmin, isTeacher);
             model.Groups = createModel.Groups;
+            model.ReturnUrl = GetSafeReturnUrl(model.ReturnUrl);
 
             return View(model);
         }
 
         this.SetSuccessMessage("Event created successfully.");
 
-        return RedirectToAction(nameof(Index));
+        return RedirectToLocalOrIndex(model.ReturnUrl);
     }
 
     [Authorize(Roles = $"{Admin},{Teacher}")]
     [HttpGet]
-    public async Task<IActionResult> Edit(int id)
+    public async Task<IActionResult> Edit(int id, string? returnUrl)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
         var isAdmin = User.IsInRole(Admin);
@@ -144,6 +147,8 @@ public class EventsController : Controller
         {
             return NotFound();
         }
+
+        model.ReturnUrl = GetSafeReturnUrl(returnUrl);
 
         return View(model);
     }
@@ -166,6 +171,7 @@ public class EventsController : Controller
             }
 
             model.Groups = editModel.Groups;
+            model.ReturnUrl = GetSafeReturnUrl(model.ReturnUrl);
 
             return View(model);
         }
@@ -181,12 +187,12 @@ public class EventsController : Controller
 
         this.SetSuccessMessage("Event updated successfully.");
 
-        return RedirectToAction(nameof(Index));
+        return RedirectToLocalOrIndex(model.ReturnUrl);
     }
 
     [Authorize(Roles = $"{Admin},{Teacher}")]
     [HttpPost]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(int id, string? returnUrl)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
         var isAdmin = User.IsInRole(Admin);
@@ -203,7 +209,7 @@ public class EventsController : Controller
 
         this.SetSuccessMessage("Event deleted successfully.");
 
-        return RedirectToAction(nameof(Index));
+        return RedirectToLocalOrIndex(returnUrl);
     }
 
     private string? GetSafeReturnUrl(string? returnUrl)
@@ -211,5 +217,14 @@ public class EventsController : Controller
         return !string.IsNullOrWhiteSpace(returnUrl) && Url.IsLocalUrl(returnUrl)
             ? returnUrl
             : null;
+    }
+
+    private IActionResult RedirectToLocalOrIndex(string? returnUrl)
+    {
+        var safeReturnUrl = GetSafeReturnUrl(returnUrl);
+
+        return safeReturnUrl != null
+            ? LocalRedirect(safeReturnUrl)
+            : RedirectToAction(nameof(Index));
     }
 }

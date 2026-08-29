@@ -9,4 +9,6 @@ public class ParentDeleteViewModel
     public string Email { get; set; } = null!;
 
     public int ChildrenCount { get; set; }
+
+    public string? ReturnUrl { get; set; }
 }

@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = T["Edit Parent"];
+    var backUrl = Model.ReturnUrl ?? Url.Action("Index");
 }
 
 <div class="page-header">
@@ -17,6 +18,7 @@
 <section class="section-panel">
     <form asp-action="Edit" method="post">
         <input asp-for="Id" type="hidden" />
+        <input asp-for="ReturnUrl" type="hidden" />
 
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -36,7 +38,7 @@
 
         <div class="form-action-row">
             <button type="submit" class="btn btn-primary">@T["Save"]</button>
-            <a asp-action="Index" class="btn btn-secondary">@T["Cancel"]</a>
+            <a href="@backUrl" class="btn btn-secondary">@T["Cancel"]</a>
         </div>
     </form>
 </section>

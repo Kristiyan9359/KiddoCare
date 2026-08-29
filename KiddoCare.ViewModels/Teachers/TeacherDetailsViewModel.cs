@@ -11,4 +11,6 @@ public class TeacherDetailsViewModel
     public string? PhoneNumber { get; set; }
 
     public string GroupName { get; set; } = null!;
+
+    public string? ReturnUrl { get; set; }
 }

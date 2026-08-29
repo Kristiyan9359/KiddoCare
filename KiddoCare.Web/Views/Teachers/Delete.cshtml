@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = T["Delete Teacher"];
+    var backUrl = Model.ReturnUrl ?? Url.Action("Index");
 }
 
 <section class="delete-page">
@@ -31,9 +32,10 @@
 
         <form asp-action="Delete" method="post" class="form-action-row justify-content-center">
             <input asp-for="Id" type="hidden" />
+            <input asp-for="ReturnUrl" type="hidden" />
 
             <button type="submit" class="btn btn-danger">@T["Delete"]</button>
-            <a asp-action="Index" class="btn btn-secondary">@T["Cancel"]</a>
+            <a href="@backUrl" class="btn btn-secondary">@T["Cancel"]</a>
         </form>
     </div>
 </section>

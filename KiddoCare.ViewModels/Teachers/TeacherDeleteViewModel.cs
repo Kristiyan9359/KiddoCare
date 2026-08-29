@@ -9,4 +9,6 @@ public class TeacherDeleteViewModel
     public string Email { get; set; } = null!;
 
     public string GroupName { get; set; } = null!;
+
+    public string? ReturnUrl { get; set; }
 }

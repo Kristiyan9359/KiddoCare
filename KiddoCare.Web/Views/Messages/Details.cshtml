@@ -4,6 +4,7 @@
 
 @{
     ViewData["Title"] = T["Messages"];
+    var backUrl = Model.ReturnUrl ?? Url.Action("Index");
 
     var liveMessageConfig = new
     {
@@ -26,6 +27,7 @@
             {
                 <a asp-action="Details"
                    asp-route-id="@conversation.Id"
+                   asp-route-returnUrl="@Model.ReturnUrl"
                    class="message-conversation-item @(conversation.Id == Model.ConversationId ? "active" : string.Empty) @(conversation.UnreadMessagesCount > 0 ? "unread" : string.Empty)">
                     <div>
                         <div class="message-conversation-title">
@@ -64,6 +66,7 @@
             <div class="message-chat-actions">
                 <form asp-action="DeleteConversation"
                       asp-route-id="@Model.ConversationId"
+                      asp-route-returnUrl="@Model.ReturnUrl"
                       method="post">
                     <button type="submit"
                             class="btn btn-outline-danger"
@@ -72,7 +75,7 @@
                     </button>
                 </form>
 
-                <a asp-action="Index" class="btn btn-secondary">@T["Back"]</a>
+                <a href="@backUrl" class="btn btn-secondary">@T["Back"]</a>
             </div>
         </header>
 
