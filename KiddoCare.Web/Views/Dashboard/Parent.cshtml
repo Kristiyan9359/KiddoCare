@@ -218,7 +218,7 @@
                     <tr>
                         <td data-label='@T["Child"]'>@request.ChildFullName</td>
                         <td data-label='@T["Title"]'>@request.Title</td>
-                        <td data-label='@T["Type"]'>@request.Type</td>
+                        <td data-label='@T["Type"]'>@T[request.Type.ToString()]</td>
                         <td data-label='@T["Status"]'>
                             @if (request.Status == RequestStatus.Pending)
                             {
@@ -295,7 +295,7 @@
                     <tr>
                         <td data-label='@T["Child"]'>@document.ChildFullName</td>
                         <td data-label='@T["Title"]'>@document.Title</td>
-                        <td data-label='@T["Type"]'>@document.Type</td>
+                        <td data-label='@T["Type"]'>@T[document.Type.ToString()]</td>
                         <td data-label='@T["Status"]'>
                             @if (document.Status == RequestStatus.Pending)
                             {
@@ -364,7 +364,7 @@
                             -
                             @request.EndDate.ToString("dd MMM yyyy")
                         </td>
-                        <td data-label='@T["Reason"]'>@request.Reason</td>
+                        <td data-label='@T["Reason"]'>@T[request.Reason.ToString()]</td>
                         <td data-label='@T["Status"]'>
                             @if (request.Status == RequestStatus.Pending)
                             {
@@ -477,7 +477,7 @@
                             </a>
                         </td>
                         <td data-label='@T["Date"]'>@eventItem.StartDateTime.ToString("dd MMM yyyy HH:mm")</td>
-                        <td data-label='@T["Type"]'>@eventItem.Type</td>
+                        <td data-label='@T["Type"]'>@T[eventItem.Type.ToString()]</td>
                         <td data-label='@T["Location"]'>@eventItem.Location</td>
                         <td data-label='@T["Group"]'>@eventItem.GroupName</td>
                     </tr>

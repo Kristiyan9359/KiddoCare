@@ -165,7 +165,7 @@
                                 <strong>@child.FullName</strong>
                             </td>
                             <td data-label='@T["Date of Birth"]'>@child.DateOfBirth.ToString("dd MMM yyyy")</td>
-                            <td data-label='@T["Gender"]'>@child.Gender</td>
+                            <td data-label='@T["Gender"]'>@T[child.Gender.ToString()]</td>
                             <td data-label='@T["Group"]'>@child.GroupName</td>
                             <td data-label='@T["Medical"]'>
                                 @if (child.HasMedicalRecord)

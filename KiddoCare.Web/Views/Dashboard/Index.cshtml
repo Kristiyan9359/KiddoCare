@@ -197,7 +197,7 @@
                         <td data-label='@T["Child"]'>@document.ChildFullName</td>
                         <td data-label='@T["Group"]'>@document.GroupName</td>
                         <td data-label='@T["Title"]'>@document.Title</td>
-                        <td data-label='@T["Type"]'>@document.Type</td>
+                        <td data-label='@T["Type"]'>@T[document.Type.ToString()]</td>
                         <td data-label='@T["Status"]'>
                             @if (document.Status == RequestStatus.Pending)
                             {
@@ -264,7 +264,7 @@
                             </a>
                         </td>
                         <td data-label='@T["Date"]'>@eventItem.StartDateTime.ToString("dd MMM yyyy HH:mm")</td>
-                        <td data-label='@T["Type"]'>@eventItem.Type</td>
+                        <td data-label='@T["Type"]'>@T[eventItem.Type.ToString()]</td>
                         <td data-label='@T["Location"]'>@eventItem.Location</td>
                         <td data-label='@T["Group"]'>@eventItem.GroupName</td>
                     </tr>
