@@ -2652,4 +2652,22 @@
   <data name="You cannot start a conversation with this recipient." xml:space="preserve">
     <value>Не можете да започнете разговор с този получател.</value>
   </data>
+  <data name="Signed in as" xml:space="preserve">
+    <value>Влязъл като</value>
+  </data>
+  <data name="Account overview" xml:space="preserve">
+    <value>Преглед на акаунта</value>
+  </data>
+  <data name="Editable" xml:space="preserve">
+    <value>Редактира се</value>
+  </data>
+  <data name="Protected" xml:space="preserve">
+    <value>Защитено</value>
+  </data>
+  <data name="Your role controls which records and conversations you can access." xml:space="preserve">
+    <value>Вашата роля определя до кои записи и разговори имате достъп.</value>
+  </data>
+  <data name="Update the name and phone number shown to the kindergarten team." xml:space="preserve">
+    <value>Обновете името и телефонния номер, които екипът на детската градина вижда.</value>
+  </data>
 </root>

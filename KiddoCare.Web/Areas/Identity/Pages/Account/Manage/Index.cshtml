@@ -23,7 +23,8 @@
 
     <div class="account-profile-layout">
         <aside class="account-profile-card">
-            <div>
+            <div class="account-profile-summary">
+                <span class="account-profile-label">@T["Signed in as"]</span>
                 <h2>@Model.Input.FullName</h2>
                 <p>@Model.Email</p>
             </div>
@@ -38,6 +39,25 @@
                     <dd>@T[Model.ProfileMetaValue]</dd>
                 </div>
             </dl>
+
+            <div class="account-profile-status-list" aria-label="@T["Account overview"]">
+                <div>
+                    <span>@T["Contact details"]</span>
+                    <strong>@T["Editable"]</strong>
+                </div>
+                <div>
+                    <span>@T["Login email"]</span>
+                    <strong>@T["Protected"]</strong>
+                </div>
+                <div>
+                    <span>@T["Password"]</span>
+                    <strong>@T["Protected"]</strong>
+                </div>
+            </div>
+
+            <p class="account-profile-note">
+                @T["Your role controls which records and conversations you can access."]
+            </p>
         </aside>
 
         <div class="section-panel account-profile-form-panel">
@@ -50,6 +70,11 @@
 
             <form method="post" class="form-grid">
                 <div asp-validation-summary="ModelOnly" class="text-danger form-validation-summary"></div>
+
+                <div class="account-profile-section-title account-profile-section-title-first">
+                    <h3>@T["Contact details"]</h3>
+                    <p>@T["Update the name and phone number shown to the kindergarten team."]</p>
+                </div>
 
                 <div class="mb-3">
                     <label asp-for="Input.FullName" class="form-label">@T["Visible profile name"]</label>
