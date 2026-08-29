@@ -4269,21 +4269,6 @@ textarea.form-control {
     left: 130%;
 }
 
-.auth-help {
-    margin-top: 22px;
-    text-align: center;
-    font-weight: 800;
-}
-
-.auth-help a {
-    color: var(--kc-primary);
-    text-decoration: none;
-}
-
-.auth-help a:hover {
-    text-decoration: underline;
-}
-
 .auth-access-note {
     margin: 18px 0 0;
     color: var(--kc-muted);

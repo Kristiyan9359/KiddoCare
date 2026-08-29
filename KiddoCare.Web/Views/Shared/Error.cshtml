@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = T["Error"];
+    bool isAuthenticated = User.Identity?.IsAuthenticated == true;
 }
 
 <section class="error-page">
@@ -18,7 +19,14 @@
         }
 
         <div class="error-actions">
-            <a asp-controller="Dashboard" asp-action="Index" class="btn btn-primary">@T["Go to Dashboard"]</a>
+            @if (isAuthenticated)
+            {
+                <a asp-controller="Dashboard" asp-action="Index" class="btn btn-primary">@T["Go to Dashboard"]</a>
+            }
+            else
+            {
+                <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-primary">@T["Login"]</a>
+            }
             <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">@T["Home"]</a>
         </div>
     </div>
