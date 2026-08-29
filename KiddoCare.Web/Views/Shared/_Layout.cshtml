@@ -252,6 +252,24 @@
         </div>
     </footer>
 
+    <section class="cookie-banner"
+             data-cookie-banner
+             aria-label="@T["Cookie notice"]"
+             hidden>
+        <div>
+            <strong>@T["Essential cookies"]</strong>
+            <p>@T["KiddoCare uses essential cookies for login, security and language preferences. We do not use advertising or tracking cookies."]</p>
+        </div>
+        <div class="cookie-banner-actions">
+            <a asp-area="" asp-controller="Home" asp-action="Privacy" class="btn btn-outline-secondary">
+                @T["Learn more"]
+            </a>
+            <button type="button" class="btn btn-primary" data-cookie-accept>
+                @T["Accept cookies"]
+            </button>
+        </div>
+    </section>
+
     <div class="modal fade confirm-modal"
          id="confirmActionModal"
          tabindex="-1"

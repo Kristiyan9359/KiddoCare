@@ -32,6 +32,27 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    const cookieBanner = document.querySelector("[data-cookie-banner]");
+    const cookieAcceptButton = document.querySelector("[data-cookie-accept]");
+    const cookieConsentKey = "kiddocare-essential-cookies-accepted";
+
+    if (cookieBanner instanceof HTMLElement &&
+        localStorage.getItem(cookieConsentKey) !== "true") {
+        cookieBanner.hidden = false;
+    }
+
+    if (cookieBanner instanceof HTMLElement &&
+        cookieAcceptButton instanceof HTMLButtonElement) {
+        cookieAcceptButton.addEventListener("click", () => {
+            localStorage.setItem(cookieConsentKey, "true");
+            cookieBanner.classList.add("is-hiding");
+            window.setTimeout(() => {
+                cookieBanner.hidden = true;
+                cookieBanner.classList.remove("is-hiding");
+            }, 180);
+        });
+    }
+
     document.querySelectorAll("[data-remove-photo-button]").forEach((button) => {
         button.addEventListener("click", () => {
             const form = button.closest("form");

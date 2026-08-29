@@ -234,6 +234,51 @@
   <data name="Messages, announcements, consent requests and absence notices are shown only to users who are part of the relevant conversation or group." xml:space="preserve">
     <value>Съобщенията, уведомленията, исканията за съгласие и бележките за отсъствие се показват само на потребители, които участват в съответния разговор или група.</value>
   </data>
+  <data name="Cookies" xml:space="preserve">
+    <value>Бисквитки</value>
+  </data>
+  <data name="Cookie notice" xml:space="preserve">
+    <value>Известие за бисквитки</value>
+  </data>
+  <data name="Essential cookies" xml:space="preserve">
+    <value>Необходими бисквитки</value>
+  </data>
+  <data name="Essential cookies only" xml:space="preserve">
+    <value>Само необходими бисквитки</value>
+  </data>
+  <data name="KiddoCare uses only essential cookies required for login sessions, security protection and language preferences." xml:space="preserve">
+    <value>KiddoCare използва само необходими бисквитки за вход в системата, защита и езикови предпочитания.</value>
+  </data>
+  <data name="KiddoCare uses essential cookies for login, security and language preferences. We do not use advertising or tracking cookies." xml:space="preserve">
+    <value>KiddoCare използва необходими бисквитки за вход, сигурност и езикови предпочитания. Не използваме рекламни или проследяващи бисквитки.</value>
+  </data>
+  <data name="Login session" xml:space="preserve">
+    <value>Сесия за вход</value>
+  </data>
+  <data name="Keeps approved users signed in while they use the application." xml:space="preserve">
+    <value>Поддържа одобрените потребители вписани, докато използват приложението.</value>
+  </data>
+  <data name="Security" xml:space="preserve">
+    <value>Сигурност</value>
+  </data>
+  <data name="Helps protect forms and account actions from unauthorized requests." xml:space="preserve">
+    <value>Помага за защитата на формите и действията по акаунта от неоторизирани заявки.</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Език</value>
+  </data>
+  <data name="Remembers the selected interface language between visits." xml:space="preserve">
+    <value>Запомня избрания език на интерфейса между посещенията.</value>
+  </data>
+  <data name="KiddoCare does not use advertising or tracking cookies." xml:space="preserve">
+    <value>KiddoCare не използва рекламни или проследяващи бисквитки.</value>
+  </data>
+  <data name="Learn more" xml:space="preserve">
+    <value>Научи повече</value>
+  </data>
+  <data name="Accept cookies" xml:space="preserve">
+    <value>Приемам бисквитките</value>
+  </data>
   <data name="Who can access what" xml:space="preserve">
     <value>Кой до какво има достъп</value>
   </data>

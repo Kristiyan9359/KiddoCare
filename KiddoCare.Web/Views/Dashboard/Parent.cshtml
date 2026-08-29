@@ -81,7 +81,7 @@
 
                         <div class="child-card-meta">
                             <span>@T["Date of Birth"]: @child.DateOfBirth.ToString("dd MMM yyyy")</span>
-                            <span>@T["Gender"]: @child.Gender</span>
+                            <span>@T["Gender"]: @T[child.Gender.ToString()]</span>
                         </div>
 
                         @if (child.LastDailyReportDate.HasValue)
